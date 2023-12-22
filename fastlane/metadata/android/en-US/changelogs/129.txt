@@ -1,2 +1,0 @@
- * Replaced the PDF Viewer with a different one
- * Added some stability and translation improvements

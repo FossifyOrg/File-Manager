@@ -1,6 +1,6 @@
 # Simple File Manager
 
-<img alt="Logo" src="graphics/icon.png" width="120" />
+<img alt="Logo" src="graphics/icon.webp" width="120" />
 
 Simple File Manager is a super quick & professional file and folder manager for Android devices. Use Simple File Manager to easily compress, transfer & convert media files with a few clicks. It has all of the major file manager & folder management features, including customizing the home folder and selecting favorite folders for quick access. 
 

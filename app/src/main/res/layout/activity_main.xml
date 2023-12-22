@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.simplemobiletools.commons.views.MySearchMenu
+    <org.fossify.commons.views.MySearchMenu
         android:id="@+id/main_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize">
 
-        <com.simplemobiletools.commons.views.MyViewPager
+        <org.fossify.commons.views.MyViewPager
             android:id="@+id/main_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

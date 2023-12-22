@@ -33,7 +33,7 @@
             android:layout_height="match_parent"
             android:fillViewport="true">
 
-            <com.simplemobiletools.filemanager.pro.views.GestureEditText
+            <org.fossify.filemanager.views.GestureEditText
                 android:id="@+id/read_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -1,3 +1,0 @@
- * Show a top loading bar while loading files
- * Adding a Get Simple Phone button into the About section
- * Added some translation and UX improvements

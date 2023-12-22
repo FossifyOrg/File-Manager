@@ -1,2 +1,0 @@
- * Added SD card to storage analysis
- * Added some UI, translation and stability improvements

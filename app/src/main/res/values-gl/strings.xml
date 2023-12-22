@@ -55,6 +55,6 @@
     <string name="press_back_twice">Require premer Atrás dúas veces para saír da aplicación</string>
     <!--
         Non atopou todas as cadeas que debería traducir? Existen algunhas máis en
-        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
     -->
 </resources>

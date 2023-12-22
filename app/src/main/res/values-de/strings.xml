@@ -55,6 +55,6 @@
     <string name="press_back_twice">Zweimaliges Drücken von Zurück ist erforderlich, um die Anwendung zu verlassen</string>
     <!--
         Haven't found some strings? There's more at
-        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
     -->
 </resources>

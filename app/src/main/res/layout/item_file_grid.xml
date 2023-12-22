@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/normal_margin">
 
-        <com.simplemobiletools.commons.views.MySquareImageView
+        <org.fossify.commons.views.MySquareImageView
             android:id="@+id/item_icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

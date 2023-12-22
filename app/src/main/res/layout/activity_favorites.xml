@@ -23,16 +23,16 @@
         android:fillViewport="true"
         android:scrollbars="none">
 
-        <com.simplemobiletools.commons.views.MyRecyclerView
+        <org.fossify.commons.views.MyRecyclerView
             android:id="@+id/manage_favorites_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager"
+            app:layoutManager="org.fossify.commons.views.MyLinearLayoutManager"
             tools:itemCount="4"
             tools:listitem="@layout/item_manage_favorite" />
 
-        <com.simplemobiletools.commons.views.MyTextView
+        <org.fossify.commons.views.MyTextView
             android:id="@+id/manage_favorites_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
             android:textStyle="italic"
             android:visibility="gone" />
 
-        <com.simplemobiletools.commons.views.MyTextView
+        <org.fossify.commons.views.MyTextView
             android:id="@+id/manage_favorites_placeholder_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

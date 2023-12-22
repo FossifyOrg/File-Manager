@@ -1,4 +1,4 @@
 -dontnote android.net.http.*
 -dontnote org.apache.http.**
--keep class com.simplemobiletools.** { *; }
--dontwarn com.simplemobiletools.**
+-keep class org.fossify.** { *; }
+-dontwarn org.fossify.**
