@@ -93,7 +93,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.simple.tools.commons)
+    implementation(libs.fossify.commons)
     implementation(libs.androidx.documentfile)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidpdfviewer)
