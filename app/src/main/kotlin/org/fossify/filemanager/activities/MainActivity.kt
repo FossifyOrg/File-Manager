@@ -791,15 +791,6 @@ class MainActivity : SimpleActivity() {
 
     private fun checkWhatsNewDialog() {
         arrayListOf<Release>().apply {
-            add(Release(26, R.string.release_26))
-            add(Release(28, R.string.release_28))
-            add(Release(29, R.string.release_29))
-            add(Release(34, R.string.release_34))
-            add(Release(35, R.string.release_35))
-            add(Release(37, R.string.release_37))
-            add(Release(71, R.string.release_71))
-            add(Release(75, R.string.release_75))
-            add(Release(96, R.string.release_96))
             checkWhatsNew(this, BuildConfig.VERSION_CODE)
         }
     }

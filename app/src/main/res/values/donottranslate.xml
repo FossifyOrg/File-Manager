@@ -1,28 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="package_name">org.fossify.filemanager</string>
-
-    <!-- Release notes -->
-    <string name="release_96">Allow toggling between list and grid view</string>
-    <string name="release_75">
-        Allow customizing the bottom navigation bar color\n
-        Allow toggling between the old renaming by append/prepend and the new pattern
-    </string>
-    <string name="release_71">Made Search recursive, searching in subfolders too</string>
-    <string name="release_37">
-        Added a toggle for keeping last-modified value at file copy/move/rename\n
-        Added new actionmenu items "Set As", "Open With" and "Copy path to clipboard"
-    </string>
-    <string name="release_35">
-        Added zip file de/compressing\n
-        Improved root folder handling for rooted devices, if enabled
-    </string>
-    <string name="release_34">Allow password protecting hidden item visibility</string>
-    <string name="release_29">Added a couple ways of sorting</string>
-    <string name="release_28">
-        Added a Home Folder button\n
-        Added Favorites for easy access
-    </string>
-    <string name="release_26">Added color customization</string>
-
 </resources>
