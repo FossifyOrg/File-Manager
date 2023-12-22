@@ -1,5 +1,0 @@
- * Allow opening password protected .pdf files
- * Added support for creating password protected zips
- * Remember last used copy destination at folder picker
- * Reverted to the previous PDF viewer with vulnerability fixed
- * Added some UI, translation and stability improvements

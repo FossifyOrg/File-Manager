@@ -1,2 +1,0 @@
- * Added handling for Create Document intent
- * Added some translation, stability and UX improvements
