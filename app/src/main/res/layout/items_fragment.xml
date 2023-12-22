@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.simplemobiletools.filemanager.pro.fragments.ItemsFragment xmlns:android="http://schemas.android.com/apk/res/android"
+<org.fossify.filemanager.fragments.ItemsFragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/items_fragment"
@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.simplemobiletools.commons.views.Breadcrumbs
+            <org.fossify.commons.views.Breadcrumbs
                 android:id="@+id/breadcrumbs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 app:showDelay="250"
                 tools:visibility="visible" />
 
-            <com.simplemobiletools.commons.views.MyTextView
+            <org.fossify.commons.views.MyTextView
                 android:id="@+id/items_placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
                 android:textStyle="italic"
                 android:visibility="gone" />
 
-            <com.simplemobiletools.commons.views.MyTextView
+            <org.fossify.commons.views.MyTextView
                 android:id="@+id/items_placeholder_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,20 +80,20 @@
                     android:layout_height="wrap_content"
                     app:supportSwipeToRefresh="true">
 
-                    <com.simplemobiletools.commons.views.MyRecyclerView
+                    <org.fossify.commons.views.MyRecyclerView
                         android:id="@+id/items_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clipToPadding="false"
                         android:layoutAnimation="@anim/layout_animation"
                         android:scrollbars="none"
-                        app:layoutManager="com.simplemobiletools.commons.views.MyGridLayoutManager" />
+                        app:layoutManager="org.fossify.commons.views.MyGridLayoutManager" />
 
                 </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         </RelativeLayout>
 
-        <com.simplemobiletools.commons.views.MyFloatingActionButton
+        <org.fossify.commons.views.MyFloatingActionButton
             android:id="@+id/items_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,4 +102,4 @@
             android:src="@drawable/ic_plus_vector" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</com.simplemobiletools.filemanager.pro.fragments.ItemsFragment>
+</org.fossify.filemanager.fragments.ItemsFragment>

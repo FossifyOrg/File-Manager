@@ -12,12 +12,12 @@
         android:required="false" />
 
     <queries>
-        <package android:name="com.simplemobiletools.filemanager.debug" />
-        <package android:name="com.simplemobiletools.filemanager" />
+        <package android:name="org.fossify.filemanager.debug" />
+        <package android:name="org.fossify.filemanager" />
     </queries>
 
     <application
-        android:name=".App"
+        android:name="org.fossify.filemanager.App"
         android:allowBackup="true"
         android:appCategory="productivity"
         android:icon="@mipmap/ic_launcher"
@@ -115,7 +115,7 @@
         </activity>
 
         <activity
-            android:name=".activities.DecompressActivity"
+            android:name="org.fossify.filemanager.activities.DecompressActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/decompress">
@@ -160,14 +160,14 @@
             android:parentActivityName=".activities.MainActivity" />
 
         <activity
-            android:name="com.simplemobiletools.commons.activities.AboutActivity"
+            android:name="org.fossify.commons.activities.AboutActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/about"
             android:parentActivityName=".activities.MainActivity" />
 
         <activity
-            android:name="com.simplemobiletools.commons.activities.CustomizationActivity"
+            android:name="org.fossify.commons.activities.CustomizationActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/customize_colors"

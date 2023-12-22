@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.simplemobiletools.filemanager.pro.fragments.StorageFragment xmlns:android="http://schemas.android.com/apk/res/android"
+<org.fossify.filemanager.fragments.StorageFragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/storage_fragment"
@@ -38,7 +38,7 @@
             app:showDelay="250"
             tools:visibility="visible" />
 
-        <com.simplemobiletools.commons.views.MyTextView
+        <org.fossify.commons.views.MyTextView
             android:id="@+id/search_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
             android:textStyle="italic"
             android:visibility="gone" />
 
-        <com.simplemobiletools.commons.views.MyTextView
+        <org.fossify.commons.views.MyTextView
             android:id="@+id/search_placeholder_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
             android:textStyle="italic"
             android:visibility="gone" />
 
-        <com.simplemobiletools.commons.views.MyRecyclerView
+        <org.fossify.commons.views.MyRecyclerView
             android:id="@+id/search_results_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -78,7 +78,7 @@
             android:layoutAnimation="@anim/layout_animation"
             android:paddingTop="@dimen/small_margin"
             android:scrollbars="none"
-            app:layoutManager="com.simplemobiletools.commons.views.MyGridLayoutManager" />
+            app:layoutManager="org.fossify.commons.views.MyGridLayoutManager" />
 
     </RelativeLayout>
-</com.simplemobiletools.filemanager.pro.fragments.StorageFragment>
+</org.fossify.filemanager.fragments.StorageFragment>
