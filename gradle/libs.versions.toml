@@ -5,7 +5,7 @@ kotlin = "1.9.0"
 androidx-swiperefreshlayout = "1.1.0"
 androidx-documentfile = "1.0.1"
 #Fossify
-commons = "8d12b39e48"
+commons = "cbf79568d3"
 #Other
 autofittextview = "0.2.1"
 gestureviews = "2.5.2"
