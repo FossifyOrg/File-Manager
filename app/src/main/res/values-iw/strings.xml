@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">מנהל קבצים פשוט</string>
     <string name="app_launcher_name">מנהל קבצים</string>
     <string name="press_back_again">לחץ שוב אחורה כדי לצאת</string>
     <string name="go_to_home_folder">עבור לתיקיית הבית</string>

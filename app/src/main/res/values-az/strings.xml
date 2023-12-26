@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Sadə Fayl Meneceri</string>
     <string name="app_launcher_name">Fayl Meneceri</string>
     <string name="press_back_again">Çıxmaq üçün birdə basın</string>
     <string name="go_to_home_folder">Əsas qovluğa qayıt</string>

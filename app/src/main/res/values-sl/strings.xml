@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Enostaven upravitelj datotek</string>
     <string name="app_launcher_name">Upravitelj datotek</string>
     <string name="press_back_again">Za izhod ponovno pritisnite Nazaj</string>
     <string name="go_to_home_folder">Pojdi v domačo mapo</string>

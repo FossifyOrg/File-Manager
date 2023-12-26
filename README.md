@@ -1,4 +1,4 @@
-# Simple File Manager
+# Fossify File Manager
 
 <img alt="Logo" src="graphics/icon.webp" width="120" />
 

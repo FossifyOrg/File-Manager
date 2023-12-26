@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gestionnaire de fichiers simple</string>
     <string name="app_launcher_name">Gestionnaire de fichiers</string>
     <string name="press_back_again">Appuyer à nouveau sur le bouton retour pour quitter</string>
     <string name="go_to_home_folder">Aller au dossier par défaut</string>

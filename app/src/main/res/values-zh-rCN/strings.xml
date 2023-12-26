@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">简单文件管理器</string>
     <string name="app_launcher_name">文件管理器</string>
     <string name="press_back_again">再次点击返回以退出</string>
     <string name="go_to_home_folder">前往主文件夹</string>

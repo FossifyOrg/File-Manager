@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gestor de archivos sencillo</string>
     <string name="app_launcher_name">Administrador de archivos</string>
     <string name="press_back_again">Presione atrás de nuevo para salir</string>
     <string name="go_to_home_folder">Ir a carpeta principal</string>

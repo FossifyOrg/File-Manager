@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Jednoduchý správce souborů</string>
     <string name="app_launcher_name">Správce souborů</string>
     <string name="press_back_again">Stiskněte znovu zpět pro ukončení</string>
     <string name="go_to_home_folder">Přejít do domovské složky</string>

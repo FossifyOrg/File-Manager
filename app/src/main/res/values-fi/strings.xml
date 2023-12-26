@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Yksinkertainen tiedostonhallinta</string>
     <string name="app_launcher_name">Tiedostonhallinta</string>
     <string name="press_back_again">Paina takaisin-painiketta uudelleen lopettaaksesi</string>
     <string name="go_to_home_folder">Mene kotikansioon</string>

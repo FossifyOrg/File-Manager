@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Lihtne failihaldur</string>
     <string name="app_launcher_name">Failihaldur</string>
     <string name="press_back_again">Väljumiseks vajuta tagasi-nuppu teist korda</string>
     <string name="go_to_home_folder">Ava kodukaust</string>

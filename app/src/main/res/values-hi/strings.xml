@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">सरल फ़ाइल प्रबंधक</string>
     <string name="app_launcher_name">फ़ाइल प्रबंधक</string>
     <string name="press_back_again">फिर से बाहर निकलने के लिए प्रेस करें</string>
     <string name="go_to_home_folder">घर फ़ोल्डर में जाओ</string>
