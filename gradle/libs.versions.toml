@@ -1,6 +1,6 @@
 [versions]
 #jetbrains
-kotlin = "1.9.0"
+kotlin = "1.9.10"
 #AndroidX
 androidx-swiperefreshlayout = "1.1.0"
 androidx-documentfile = "1.0.1"
