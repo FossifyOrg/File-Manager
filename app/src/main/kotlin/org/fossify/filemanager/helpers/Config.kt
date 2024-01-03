@@ -107,7 +107,7 @@ class Config(context: Context) : BaseConfig(context) {
 
     private fun getDefaultFileColumnCount(): Int {
         val isPortrait = context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-        return if (isPortrait) 3 else 5
+        return if (isPortrait) 4 else 8
     }
 
     var displayFilenames: Boolean

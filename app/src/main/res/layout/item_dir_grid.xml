@@ -21,10 +21,11 @@
 
         <ImageView
             android:id="@+id/item_icon"
-            android:layout_width="@dimen/grid_view_icon_size"
-            android:layout_height="@dimen/grid_view_icon_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:adjustViewBounds="true"
+            android:padding="@dimen/small_margin"
             android:src="@drawable/ic_folder_vector" />
 
         <TextView
