@@ -12,7 +12,6 @@
     <string name="rooted_device_only">Dies kann nur auf gerooteten Geräten durchgeführt werden</string>
     <string name="recents">Neueste</string>
     <string name="show_recents">Neueste anzeigen</string>
-    <string name="pdf_viewer">PDF-Betrachter</string>
     <string name="invert_colors">Farben invertieren</string>
     <!-- Open as -->
     <string name="open_as">Öffnen als</string>

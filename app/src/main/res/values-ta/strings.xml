@@ -12,7 +12,6 @@
     <string name="rooted_device_only">இந்த செயல்பாடு ரூட் செய்யப்பட்ட சாதனங்களில் மட்டுமே இயங்குகிறது</string>
     <string name="recents">சமீபத்தியவை</string>
     <string name="show_recents">சமீபத்தியவற்றைக் காட்டு</string>
-    <string name="pdf_viewer">PDF Viewer</string>
     <string name="invert_colors">Invert colors</string>
     <!-- Open as -->
     <string name="open_as">இவ்வாறு திற</string>

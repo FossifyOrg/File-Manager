@@ -93,7 +93,6 @@ dependencies {
     implementation(libs.fossify.commons)
     implementation(libs.androidx.documentfile)
     implementation(libs.androidx.swiperefreshlayout)
-    implementation(libs.androidpdfviewer)
     implementation(libs.roottools)
     implementation(libs.rootshell)
     implementation(libs.gestureviews)

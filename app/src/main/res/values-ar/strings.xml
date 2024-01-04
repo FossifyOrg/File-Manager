@@ -12,7 +12,6 @@
     <string name="rooted_device_only">تعمل هذه العملية فقط على الأجهزة المتجذرة</string>
     <string name="recents">الأحدث</string>
     <string name="show_recents">إظهار الأحدث</string>
-    <string name="pdf_viewer">عارض PDF</string>
     <string name="invert_colors">عكس الألوان</string>
     <!-- Open as -->
     <string name="open_as">Open as</string>

@@ -12,7 +12,6 @@
     <string name="rooted_device_only">Åtgärden fungerar bara på rotade enheter</string>
     <string name="recents">Nyss</string>
     <string name="show_recents">Visa nyligen</string>
-    <string name="pdf_viewer">PDF-läsare</string>
     <string name="invert_colors">Invertera färger</string>
     <!-- Open as -->
     <string name="open_as">Öppna som</string>

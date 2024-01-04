@@ -12,7 +12,6 @@
     <string name="rooted_device_only">Esta operación solo funciona en dispositivos rooteados</string>
     <string name="recents">Recientes</string>
     <string name="show_recents">Mostrar recientes</string>
-    <string name="pdf_viewer">Lector PDF</string>
     <string name="invert_colors">Invertir colores</string>
     <!-- Open as -->
     <string name="open_as">Abrir como</string>

@@ -12,7 +12,6 @@
     <string name="rooted_device_only">Tato operace funguje pouze u rootnutých zařízení</string>
     <string name="recents">Nedávné</string>
     <string name="show_recents">Ukázat nedávné</string>
-    <string name="pdf_viewer">Prohlížeč PDF</string>
     <string name="invert_colors">Invertovat barvy</string>
     <!-- Open as -->
     <string name="open_as">Otevřít jako</string>

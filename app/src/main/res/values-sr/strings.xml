@@ -12,7 +12,6 @@
     <string name="rooted_device_only">Ова операција ради само на роот-ованим уређајима</string>
     <string name="recents">Недавно</string>
     <string name="show_recents">Прикажи најновије</string>
-    <string name="pdf_viewer">ПДФ прегледник</string>
     <string name="invert_colors">Обрните боје</string>
     <!-- Open as -->
     <string name="open_as">Отворите као</string>

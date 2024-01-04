@@ -12,7 +12,6 @@
     <string name="rooted_device_only">この操作はルート化された端末でのみ機能します</string>
     <string name="recents">最近</string>
     <string name="show_recents">最近を表示</string>
-    <string name="pdf_viewer">PDFビューア</string>
     <string name="invert_colors">色を反転</string>
     <!-- Open as -->
     <string name="open_as">ファイル形式を指定して開く</string>

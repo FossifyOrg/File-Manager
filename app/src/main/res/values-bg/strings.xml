@@ -12,7 +12,6 @@
     <string name="rooted_device_only">Тази операция работи само на root устройства</string>
     <string name="recents">Скорошни</string>
     <string name="show_recents">Показване на скорошни</string>
-    <string name="pdf_viewer">PDF Визуализатор</string>
     <string name="invert_colors">Обръщане на цветове</string>
     <!-- Open as -->
     <string name="open_as">Отвори като</string>

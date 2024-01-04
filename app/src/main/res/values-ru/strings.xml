@@ -12,7 +12,6 @@
     <string name="rooted_device_only">Это работает только на устройствах с root-доступом</string>
     <string name="recents">Недавнее</string>
     <string name="show_recents">Показывать недавнее</string>
-    <string name="pdf_viewer">PDF-просмотрщик</string>
     <string name="invert_colors">Инвертировать цвета</string>
     <!-- Open as -->
     <string name="open_as">Открыть как…</string>

@@ -12,7 +12,6 @@
     <string name="rooted_device_only">Αυτό το χαρακτηριστικό λειτουργεί μόνο σε συσκευές με πρόσβαση στον ριζικό κατάλογο.</string>
     <string name="recents">Πρόσφατα</string>
     <string name="show_recents">Εμφάνιση προσφάτων</string>
-    <string name="pdf_viewer">Προβολή PDF</string>
     <string name="invert_colors">Αντιστροφή χρωμάτων</string>
 
     <!-- Open as -->

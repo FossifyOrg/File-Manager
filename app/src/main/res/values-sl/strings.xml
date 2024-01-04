@@ -12,7 +12,6 @@
     <string name="rooted_device_only">Ta operacija deluje samo v rootanih napravah</string>
     <string name="recents">Nedavno</string>
     <string name="show_recents">Prikaži nedavne</string>
-    <string name="pdf_viewer">Pregledovalnik PDF</string>
     <string name="invert_colors">Obrni barve</string>
     <!-- Open as -->
     <string name="open_as">Odpri kot</string>

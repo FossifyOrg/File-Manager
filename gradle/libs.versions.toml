@@ -5,11 +5,10 @@ kotlin = "1.9.10"
 androidx-swiperefreshlayout = "1.1.0"
 androidx-documentfile = "1.0.1"
 #Fossify
-commons = "cbf79568d3"
+commons = "efbd2adfa6"
 #Other
 autofittextview = "0.2.1"
 gestureviews = "2.5.2"
-androidpdfviewer = "e6a533125b"
 rootshell = "1.6"
 roottools = "df729dcb13"
 zip4j = "2.11.5"
@@ -32,7 +31,6 @@ androidx-documentfile = { module = "androidx.documentfile:documentfile", version
 #Fossify
 fossify-commons = { module = "org.fossify:commons", version.ref = "commons" }
 #Other
-androidpdfviewer = { module = "com.github.tibbi:AndroidPdfViewer", version.ref = "androidpdfviewer" }
 autofittextview = { module = "me.grantland:autofittextview", version.ref = "autofittextview" }
 gestureviews = { module = "com.alexvasilkov:gesture-views", version.ref = "gestureviews" }
 rootshell = { module = "com.github.Stericson:RootShell", version.ref = "rootshell" }

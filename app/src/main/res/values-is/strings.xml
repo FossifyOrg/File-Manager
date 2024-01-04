@@ -12,7 +12,6 @@
     <string name="rooted_device_only">Þessi aðgerð virkar aðeins á tækjum með aðgang að rót</string>
     <string name="recents">Nýleg</string>
     <string name="show_recents">Sýna nýleg</string>
-    <string name="pdf_viewer">PDF áhorfandi</string>
     <string name="invert_colors">Snúa litum við</string>
     <!-- Open as -->
     <string name="open_as">Opna sem</string>

@@ -12,7 +12,6 @@
     <string name="rooted_device_only">该选项仅在 root 后的设备上工作</string>
     <string name="recents">最近</string>
     <string name="show_recents">显示最近</string>
-    <string name="pdf_viewer">PDF 查看器</string>
     <string name="invert_colors">恢复颜色</string>
     <!-- Open as -->
     <string name="open_as">打开为</string>

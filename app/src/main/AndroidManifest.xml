@@ -101,20 +101,6 @@
         </activity>
 
         <activity
-            android:name=".activities.PDFViewerActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="true"
-            android:label="@string/pdf_viewer"
-            android:theme="@style/TranslucentTheme">
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="application/pdf" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name="org.fossify.filemanager.activities.DecompressActivity"
             android:configChanges="orientation"
             android:exported="true"
