@@ -1,1 +1,0 @@
-Práctico xestor de fixeiros para buscar ou organizalos ficheiros e cartafoles

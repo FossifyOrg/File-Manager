@@ -1,1 +1,0 @@
-Pratico gestore di file per cercare o organizzare facilmente file e cartelle

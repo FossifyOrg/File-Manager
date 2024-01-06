@@ -1,1 +1,0 @@
-Gestor de documentos, ficheiros, arquivos duplicados e de armazenamento interno.

@@ -1,1 +1,0 @@
-En enkel filbehandling for å bla gjennom og redigere filer og kataloger.

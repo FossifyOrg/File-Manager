@@ -1,1 +1,1 @@
-Handy file explorer for easily searching or organizing your files and folders
+Handy, lightweight, open-source file explorer with essential features.
