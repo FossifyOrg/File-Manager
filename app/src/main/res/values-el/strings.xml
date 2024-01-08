@@ -13,16 +13,12 @@
     <string name="recents">Πρόσφατα</string>
     <string name="show_recents">Εμφάνιση προσφάτων</string>
     <string name="invert_colors">Αντιστροφή χρωμάτων</string>
-
-    <!-- Open as -->
     <string name="open_as">Άνοιγμα ως</string>
     <string name="text_file">Αρχείο Κειμένου</string>
     <string name="image_file">Αρχείο Εικόνας</string>
     <string name="audio_file">Αρχείο Ήχου</string>
     <string name="video_file">Αρχείο Βίντεο</string>
     <string name="other_file">Άλλος τύπος</string>
-
-    <!-- Compression -->
     <string name="compress">Συμπίεση</string>
     <string name="compress_pro">Συμπίεση (Pro)</string>
     <string name="decompress">Αποσυμπίεση</string>
@@ -33,16 +29,10 @@
     <string name="decompression_successful">Η Αποσυμπίεση ολοκληρώθηκε</string>
     <string name="compressing_failed">Σφάλμα Συμπίεσης</string>
     <string name="decompressing_failed">Σφάλμα Αποσυμπίεσης</string>
-
-    <!-- Favorites -->
     <string name="manage_favorites">Διαχείριση Αγαπημένων</string>
     <string name="go_to_favorite">Μετάβαση στα Αγαπημένα</string>
     <string name="favorites_activity_placeholder">Μπορείτε να προσθέσετε φακέλους που χρησιμοποιούνται συχνά στα Αγαπημένα για εύκολη πρόσβαση από οπουδήποτε.</string>
-
-    <!-- File Editor -->
     <string name="file_editor">Επεξεργαστής αρχείων</string>
-
-    <!-- Storage analysis -->
     <string name="storage_analysis">Ανάλυση Αποθήκευσης</string>
     <string name="images">Εικόνες</string>
     <string name="videos">Βίντεο</string>
@@ -53,12 +43,6 @@
     <string name="others">Άλλα</string>
     <string name="storage_free">ελεύθερα</string>
     <string name="total_storage">Σύνολο: %s</string>
-
-    <!-- Settings -->
     <string name="enable_root_access">Ενεργοποιήστε την πρόσβαση ριζικού καταλόγου</string>
     <string name="press_back_twice">Απαιτείται διπλό πάτημα του πλήκτρου \"Πίσω\" για κλείσιμο εφαρμογής</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

@@ -13,14 +13,12 @@
     <string name="recents">Nedávné</string>
     <string name="show_recents">Ukázat nedávné</string>
     <string name="invert_colors">Invertovat barvy</string>
-    <!-- Open as -->
     <string name="open_as">Otevřít jako</string>
     <string name="text_file">Textový soubor</string>
     <string name="image_file">Obrázkový soubor</string>
     <string name="audio_file">Zvukový soubor</string>
     <string name="video_file">Video soubor</string>
     <string name="other_file">Jiný soubor</string>
-    <!-- Compression -->
     <string name="compress">Komprimovat</string>
     <string name="compress_pro">Komprimovat (Pro)</string>
     <string name="decompress">Rozbalit</string>
@@ -31,13 +29,10 @@
     <string name="decompression_successful">Rozbalení bylo úspěšné</string>
     <string name="compressing_failed">Komprimace selhala</string>
     <string name="decompressing_failed">Rozbalení selhalo</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Spravovat oblíbené</string>
     <string name="go_to_favorite">Přejít na oblíbené</string>
     <string name="favorites_activity_placeholder">Přidejte často používané složky mezi oblíbené pro jednoduchý přístup odkudkoli.</string>
-    <!-- File Editor -->
     <string name="file_editor">Editor souborů</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Analýza úložiště</string>
     <string name="images">Obrázky</string>
     <string name="videos">Videa</string>
@@ -48,11 +43,6 @@
     <string name="others">Ostatní</string>
     <string name="storage_free">volné</string>
     <string name="total_storage">Úložiště celkem: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Povolit přístup jako root</string>
     <string name="press_back_twice">Pro opuštění aplikace vyžadovat stisknutí Zpět dvakrát</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

@@ -13,14 +13,12 @@
     <string name="recents">Viimati kasutatud</string>
     <string name="show_recents">Näita viimatikasutatud faile</string>
     <string name="invert_colors">Pööra värvid tagurpidi</string>
-    <!-- Open as -->
     <string name="open_as">Ava kui</string>
     <string name="text_file">tekstifailina</string>
     <string name="image_file">pildifailina</string>
     <string name="audio_file">helifailina</string>
     <string name="video_file">videofailina</string>
     <string name="other_file">muu failina</string>
-    <!-- Compression -->
     <string name="compress">Paki kokku</string>
     <string name="compress_pro">Paki kokku (Pro)</string>
     <string name="decompress">Paki lahti</string>
@@ -31,13 +29,10 @@
     <string name="decompression_successful">Lahtipakitud</string>
     <string name="compressing_failed">Lahtipakkimine ei õnnestunud</string>
     <string name="decompressing_failed">Kokkupakkimine ei õnnestunud</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Halda lemmikuid</string>
     <string name="go_to_favorite">Ava mõni lemmikutest</string>
     <string name="favorites_activity_placeholder">Selleks, et alati oleks mugav ligipääs, lisa enamkasutatud kaustad lemmikuteks.</string>
-    <!-- File Editor -->
     <string name="file_editor">Failiredaktor</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Andmekandja analüüs</string>
     <string name="images">Pildid</string>
     <string name="videos">Videod</string>
@@ -48,11 +43,6 @@
     <string name="others">Muud failid</string>
     <string name="storage_free">vaba</string>
     <string name="total_storage">Kogu salvestusruum: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Luba ligipääs juurkasutajale</string>
     <string name="press_back_twice">Rakendusest väljumiseks eelda kahte Tagasi-nupu vajutust</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

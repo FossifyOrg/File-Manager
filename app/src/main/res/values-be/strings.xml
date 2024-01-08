@@ -13,14 +13,12 @@
     <string name="recents">Апошнія</string>
     <string name="show_recents">Паказаць апошнія</string>
     <string name="invert_colors">Інвертаваць колеры</string>
-    <!-- Open as -->
     <string name="open_as">Адкрыць як</string>
     <string name="text_file">Тэкст</string>
     <string name="image_file">Выява</string>
     <string name="audio_file">Аўдыё</string>
     <string name="video_file">Відэа</string>
     <string name="other_file">Іншае</string>
-    <!-- Compression -->
     <string name="compress">Сціснуць</string>
     <string name="compress_pro">Сціснуць (Pro)</string>
     <string name="decompress">Распакаваць</string>
@@ -31,13 +29,10 @@
     <string name="decompression_successful">Распакаванне паспяхова выканана</string>
     <string name="compressing_failed">Не атрымалася сціснуць</string>
     <string name="decompressing_failed">Не атрымалася распакаваць</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Кіраванне абранымі</string>
     <string name="go_to_favorite">Перайсці да абранага</string>
     <string name="favorites_activity_placeholder">Вы можаце дадаць часта выкарыстоўваюцца папкі ў абранае для лёгкага доступу з любога месца.</string>
-    <!-- File Editor -->
     <string name="file_editor">Рэдактар файлаў</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Аналіз сховішча</string>
     <string name="images">Выявы</string>
     <string name="videos">Відэа</string>
@@ -48,11 +43,6 @@
     <string name="others">Іншае</string>
     <string name="storage_free">бясплатна</string>
     <string name="total_storage">Агульная памяць: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Уключыць каранёвы доступ</string>
     <string name="press_back_twice">Патрабуецца двойчы націснуць \"Назад\", каб выйсці з праграмы</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

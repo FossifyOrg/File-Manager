@@ -13,14 +13,12 @@
     <string name="recents">Недавнее</string>
     <string name="show_recents">Показывать недавнее</string>
     <string name="invert_colors">Инвертировать цвета</string>
-    <!-- Open as -->
     <string name="open_as">Открыть как…</string>
     <string name="text_file">Текст</string>
     <string name="image_file">Изображение</string>
     <string name="audio_file">Звуковой файл</string>
     <string name="video_file">Видео</string>
     <string name="other_file">Другое</string>
-    <!-- Compression -->
     <string name="compress">Сжать</string>
     <string name="compress_pro">Сжать (Pro)</string>
     <string name="decompress">Извлечь</string>
@@ -31,13 +29,10 @@
     <string name="decompression_successful">Извлечение успешно</string>
     <string name="compressing_failed">Не удалось сжать</string>
     <string name="decompressing_failed">Не удалось извлечь</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Настроить избранное</string>
     <string name="go_to_favorite">Открыть избранное</string>
     <string name="favorites_activity_placeholder">Вы можете добавить часто используемые папки в избранное для быстрого доступа к ним.</string>
-    <!-- File Editor -->
     <string name="file_editor">Редактор файлов</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Анализ хранилища</string>
     <string name="images">Изображения</string>
     <string name="videos">Видео</string>
@@ -48,11 +43,6 @@
     <string name="others">Другое</string>
     <string name="storage_free">свободно</string>
     <string name="total_storage">Полный объём: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Включить root-доступ</string>
     <string name="press_back_twice">Двойное нажатие кнопки «Назад» для выхода из приложения</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

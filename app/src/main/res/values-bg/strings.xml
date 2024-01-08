@@ -13,14 +13,12 @@
     <string name="recents">Скорошни</string>
     <string name="show_recents">Показване на скорошни</string>
     <string name="invert_colors">Обръщане на цветове</string>
-    <!-- Open as -->
     <string name="open_as">Отвори като</string>
     <string name="text_file">Текстов файл</string>
     <string name="image_file">Снимка</string>
     <string name="audio_file">Аудио файл</string>
     <string name="video_file">Видео файл</string>
     <string name="other_file">Друг тип файл</string>
-    <!-- Compression -->
     <string name="compress">Компресиране</string>
     <string name="compress_pro">Компресиране (Pro)</string>
     <string name="decompress">Декомпресиране</string>
@@ -31,28 +29,16 @@
     <string name="decompression_successful">Декомпресирането е успешно</string>
     <string name="compressing_failed">Неуспешно компресиране</string>
     <string name="decompressing_failed">Неуспешно декомпресиране</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Управление на любими</string>
     <string name="go_to_favorite">Към любими</string>
     <string name="favorites_activity_placeholder">Можете да добавяте често използвани папки към любими за лесен достъп от всякъде.</string>
-    <!-- File Editor -->
     <string name="file_editor">Файлов редактор</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Анализ на съхранението</string>
     <string name="images">Изображения</string>
     <string name="videos">Видеа</string>
-    <string name="audio">Audio</string>
-    <string name="documents">Documents</string>
-    <string name="downloads">Downloads</string>
     <string name="archives">Архиви</string>
     <string name="others">Други</string>
-    <string name="storage_free">free</string>
     <string name="total_storage">Общо място за съхранение: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Активиране на root достъп</string>
     <string name="press_back_twice">Натискане два пъти Назад за излизане от приложението</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

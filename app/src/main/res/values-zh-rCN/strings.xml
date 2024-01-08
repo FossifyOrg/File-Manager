@@ -13,14 +13,12 @@
     <string name="recents">最近</string>
     <string name="show_recents">显示最近</string>
     <string name="invert_colors">恢复颜色</string>
-    <!-- Open as -->
     <string name="open_as">打开为</string>
     <string name="text_file">文本文件</string>
     <string name="image_file">图像文件</string>
     <string name="audio_file">音频文件</string>
     <string name="video_file">视频文件</string>
     <string name="other_file">其他文件</string>
-    <!-- Compression -->
     <string name="compress">压缩</string>
     <string name="compress_pro">压缩 (Pro)</string>
     <string name="decompress">解压缩</string>
@@ -31,13 +29,10 @@
     <string name="decompression_successful">解压缩成功</string>
     <string name="compressing_failed">压缩失败</string>
     <string name="decompressing_failed">解压缩失败</string>
-    <!-- Favorites -->
     <string name="manage_favorites">管理收藏</string>
     <string name="go_to_favorite">前往收藏</string>
     <string name="favorites_activity_placeholder">您可以将经常访问的文件夹添加至收藏便于从任意位置快速访问。</string>
-    <!-- File Editor -->
     <string name="file_editor">文件编辑器</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">存储分析</string>
     <string name="images">图片</string>
     <string name="videos">视频</string>
@@ -48,11 +43,6 @@
     <string name="others">其他</string>
     <string name="storage_free">空闲</string>
     <string name="total_storage">总存储: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">启用 root 访问</string>
     <string name="press_back_twice">需要按两次返回键才能离开应用程序</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

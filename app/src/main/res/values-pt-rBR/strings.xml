@@ -13,16 +13,12 @@
     <string name="recents">Recentes</string>
     <string name="show_recents">Mostrar recentes</string>
     <string name="invert_colors">Inverter cores</string>
-    
-    <!-- Open as -->
     <string name="open_as">Abrir como</string>
     <string name="text_file">Arquivo de Texto</string>
     <string name="image_file">Arquivo de Imagem</string>
     <string name="audio_file">Arquivo de Áudio</string>
     <string name="video_file">Arquivo de Vídeo</string>
     <string name="other_file">Outro arquivo</string>
-    
-    <!-- Compression -->
     <string name="compress">Compactar</string>
     <string name="compress_pro">Compactar (Pro)</string>
     <string name="decompress">Descompactar</string>
@@ -33,32 +29,17 @@
     <string name="decompression_successful">Descompactado com sucesso</string>
     <string name="compressing_failed">A compactação falhou</string>
     <string name="decompressing_failed">A descompactação falhou</string>
-    
-    <!-- Favorites -->
     <string name="manage_favorites">Gerenciar favoritos</string>
     <string name="go_to_favorite">Ir para favorito</string>
     <string name="favorites_activity_placeholder">Você pode adicionar pastas usadas com frequência aos favoritos para ter um acesso mais rápido.</string>
-    
-    <!-- File Editor -->
     <string name="file_editor">Editor de Arquivos</string>
-    
-    <!-- Storage analysis -->
     <string name="storage_analysis">Análise do armazenamento</string>
     <string name="images">Imagens</string>
     <string name="videos">Vídeos</string>
-    <string name="audio">Audio</string>
-    <string name="documents">Documents</string>
-    <string name="downloads">Downloads</string>
     <string name="archives">Arquivos</string>
     <string name="others">Outros</string>
     <string name="storage_free">Livre</string>
     <string name="total_storage">Armazenamento total: %s</string>
-
-    <!-- Settings -->
     <string name="enable_root_access">Ativar o acesso ao root</string>
     <string name="press_back_twice">Pressione o botão "voltar" duas vezes para sair do app</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

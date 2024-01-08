@@ -12,15 +12,12 @@
     <string name="rooted_device_only">Denne handlingen fungerer bare på rootede enheter.</string>
     <string name="recents">Nylige</string>
     <string name="show_recents">Vis nylige</string>
-    <string name="invert_colors">Invert colors</string>
-    <!-- Open as -->
     <string name="open_as">Åpne som</string>
     <string name="text_file">Tekstfil</string>
     <string name="image_file">Bildefil</string>
     <string name="audio_file">Lydfil</string>
     <string name="video_file">Videofil</string>
     <string name="other_file">Annen fil</string>
-    <!-- Compression -->
     <string name="compress">Komprimer</string>
     <string name="compress_pro">Komprimer (Pro)</string>
     <string name="decompress">Dekomprimer</string>
@@ -31,28 +28,17 @@
     <string name="decompression_successful">Dekomprimering vellykket</string>
     <string name="compressing_failed">Komprimering mislyktes</string>
     <string name="decompressing_failed">Dekomprimering mislyktes</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Håndter favoritter</string>
     <string name="go_to_favorite">Gå til favoritt</string>
     <string name="favorites_activity_placeholder">Du kan legge til ofte brukte mapper i favoritter, for enkel tilgang fra hvor som helst.</string>
-    <!-- File Editor -->
     <string name="file_editor">Filredigerer</string>
-    <!-- Storage analysis -->
-    <string name="storage_analysis">Storage analysis</string>
     <string name="images">Bilder</string>
     <string name="videos">Videoer</string>
     <string name="audio">Lyd</string>
     <string name="documents">Dokumenter</string>
     <string name="downloads">Nedlastinger</string>
     <string name="archives">Arkiver</string>
-    <string name="others">Others</string>
     <string name="storage_free">ledig</string>
     <string name="total_storage">Total lagring: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Aktiver root-tilgang</string>
-    <string name="press_back_twice">Require pressing Back twice to leave the app</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

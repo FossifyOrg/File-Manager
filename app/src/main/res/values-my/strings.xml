@@ -13,16 +13,12 @@
     <string name="recents">လတ်တ​လော</string>
     <string name="show_recents">လတ်တ​လောဖိုင်များကိုပြပါ</string>
     <string name="invert_colors">အ​ရောင်​ပြောင်းပြန်</string>
-
-    <!-- Open as -->
     <string name="open_as">ဖွင့်ရန်</string>
     <string name="text_file">စာဖိုင်</string>
     <string name="image_file">ရုပ်ပုံဖိုင်</string>
     <string name="audio_file">အသံဖိုင်</string>
     <string name="video_file">ဗီဒီယိုဖိုင်</string>
     <string name="other_file">အခြားဖိုင်</string>
-
-    <!-- Compression -->
     <string name="compress">ချုံ့မယ်</string>
     <string name="compress_pro">ချုံ့မယ်(ပရို)</string>
     <string name="decompress">ဖြည်မယ်</string>
@@ -33,16 +29,10 @@
     <string name="decompression_successful">အောင်မြင်စွာ ဖြည်ပြီး</string>
     <string name="compressing_failed">ဖိုင်ချုံခြင်းမ​အောင်မြင်ပါ</string>
     <string name="decompressing_failed">ဖိုင်ဖြည်ခြင်းမ​အောင်မြင်ပါ</string>
-
-    <!-- Favorites -->
     <string name="manage_favorites">အကြိုက်ဆုံးများကိုစီမံရန်</string>
     <string name="go_to_favorite">အကြိုက်ဆုံးများ</string>
     <string name="favorites_activity_placeholder">မင်းမကြာခဏအသုံးပြုတယ့် ဖိုဒါ​တွေကို အကြိုက်ဆုံး အဖြစ်သတ်မှတ်ထားခြင်းဖြင့် အလွယ်တကူမှတ်သားနိုင်ပါတယ်</string>
-
-    <!-- File Editor -->
     <string name="file_editor">ဖိုင်အယ်ဒီတာ</string>
-
-    <!-- Storage analysis -->
     <string name="storage_analysis">သို​လှောင်ခန်းနှင့်ခွဲခြမ်းစိတ်ဖြာမှု</string>
     <string name="images">ရုပ်ပုံများ</string>
     <string name="videos">ဗီဒီယိုများ</string>
@@ -53,12 +43,6 @@
     <string name="others">အခြားဖိုင်များ</string>
     <string name="storage_free">ကျန်ရှိသည်</string>
     <string name="total_storage">စုစု​ပေါင်း: %s</string>
-
-    <!-- Settings -->
     <string name="enable_root_access">ရုခွင့်ပြုချက်​ပေးမယ်</string>
     <string name="press_back_twice">ဒီအက်ပ်မှထွက်ရန် နှစ်ခါနှိပ်ပါ</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

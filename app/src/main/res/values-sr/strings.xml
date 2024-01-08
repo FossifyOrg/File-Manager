@@ -13,14 +13,12 @@
     <string name="recents">Недавно</string>
     <string name="show_recents">Прикажи најновије</string>
     <string name="invert_colors">Обрните боје</string>
-    <!-- Open as -->
     <string name="open_as">Отворите као</string>
     <string name="text_file">Текстуални фајл</string>
     <string name="image_file">Сликовне датотеке</string>
     <string name="audio_file">Аудио фајл</string>
     <string name="video_file">Видео фајл</string>
     <string name="other_file">Други фајл</string>
-    <!-- Compression -->
     <string name="compress">Стиснитите</string>
     <string name="compress_pro">Стисни (Про)</string>
     <string name="decompress">Декомпресирајте</string>
@@ -31,13 +29,10 @@
     <string name="decompression_successful">Декомпресија успела</string>
     <string name="compressing_failed">Компресовање није успело</string>
     <string name="decompressing_failed">Декомпресија није успела</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Управљајте омиљеним</string>
     <string name="go_to_favorite">Иди на фаворите</string>
     <string name="favorites_activity_placeholder">Често коришћене фасцикле можете да додате у фаворите за лак приступ са било ког места.</string>
-    <!-- File Editor -->
     <string name="file_editor">Уређивач датотека</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Анализа складиштења</string>
     <string name="images">Слике</string>
     <string name="videos">Видео снимци</string>
@@ -48,7 +43,6 @@
     <string name="others">Други</string>
     <string name="storage_free">бесплатно</string>
     <string name="total_storage">Укупно складиште: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Омогућите роот приступ</string>
     <string name="press_back_twice">Захтевајте да двапут притиснете Назад да бисте напустили апликацију</string>
 </resources>

@@ -10,19 +10,12 @@
     <string name="select_audio_file">Dewisa ffeil sain</string>
     <string name="search_folder">Chwilio\'r ffolder</string>
     <string name="rooted_device_only">Dyw\'r weithred hon ond yn gweithio ar ddyfeisiau wedi\'u gwreddio</string>
-    <string name="recents">Recents</string>
-    <string name="show_recents">Show recents</string>
-    <string name="invert_colors">Invert colors</string>
-
-    <!-- Open as -->
     <string name="open_as">Agor fel</string>
     <string name="text_file">Ffeil testun</string>
     <string name="image_file">Ffeil delwedd</string>
     <string name="audio_file">Ffeil sain</string>
     <string name="video_file">Ffeil fideo</string>
     <string name="other_file">Ffeil arall</string>
-
-    <!-- Compression -->
     <string name="compress">Cywasgu</string>
     <string name="compress_pro">Cywasgu (Pro)</string>
     <string name="decompress">Datgywasgu</string>
@@ -33,32 +26,9 @@
     <string name="decompression_successful">Datgywasgwyd yn llwyddiannus</string>
     <string name="compressing_failed">Methodd y cywasgu</string>
     <string name="decompressing_failed">Methodd y datgywasgu</string>
-
-    <!-- Favorites -->
     <string name="manage_favorites">Rheoli ffefrynnau</string>
     <string name="go_to_favorite">Mynd at ffefryn</string>
     <string name="favorites_activity_placeholder">Gellir ychwanegu ffolder a ddefnyddir yn aml at y ffefrynnau i gael atyn nhw\'n hawdd o unrhyw fan.</string>
-
-    <!-- File Editor -->
     <string name="file_editor">Golygydd Ffeiliau</string>
-
-    <!-- Storage analysis -->
-    <string name="storage_analysis">Storage analysis</string>
-    <string name="images">Images</string>
-    <string name="videos">Videos</string>
-    <string name="audio">Audio</string>
-    <string name="documents">Documents</string>
-    <string name="downloads">Downloads</string>
-    <string name="archives">Archives</string>
-    <string name="others">Others</string>
-    <string name="storage_free">free</string>
-    <string name="total_storage">Total storage: %s</string>
-
-    <!-- Settings -->
     <string name="enable_root_access">Galluogi mynediad craidd</string>
-    <string name="press_back_twice">Require pressing Back twice to leave the app</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

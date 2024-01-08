@@ -13,14 +13,6 @@
     <string name="recents">الأحدث</string>
     <string name="show_recents">إظهار الأحدث</string>
     <string name="invert_colors">عكس الألوان</string>
-    <!-- Open as -->
-    <string name="open_as">Open as</string>
-    <string name="text_file">Text file</string>
-    <string name="image_file">Image file</string>
-    <string name="audio_file">Audio file</string>
-    <string name="video_file">Video file</string>
-    <string name="other_file">Other file</string>
-    <!-- Compression -->
     <string name="compress">ضغط</string>
     <string name="compress_pro">ضغط (Pro)</string>
     <string name="decompress">فك الضغط</string>
@@ -31,28 +23,16 @@
     <string name="decompression_successful">نجح التفكيك</string>
     <string name="compressing_failed">أخفق الضغط</string>
     <string name="decompressing_failed">أخفق إلغاء الضغط</string>
-    <!-- Favorites -->
     <string name="manage_favorites">إدارة المفضلة</string>
     <string name="go_to_favorite">الذهاب الى المفضلة</string>
     <string name="favorites_activity_placeholder">يمكنك إضافة المجلدات المستخدمة بشكل متكرر إلى المفضلة لسهولة الوصول إليها من أي مكان.</string>
-    <!-- File Editor -->
     <string name="file_editor">محرر الملفات</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">تحليل التخزين</string>
     <string name="images">الصور</string>
     <string name="videos">الفيديوهات</string>
-    <string name="audio">Audio</string>
-    <string name="documents">Documents</string>
-    <string name="downloads">Downloads</string>
     <string name="archives">الأرشيف</string>
     <string name="others">الاخرين</string>
-    <string name="storage_free">free</string>
     <string name="total_storage">إجمالي مساحة التخزين: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">تفعيل الدخول الى مسار الروت</string>
     <string name="press_back_twice">تتطلب الضغط على رجوع مرتين لمغادرة التطبيق</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

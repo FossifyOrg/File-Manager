@@ -9,20 +9,6 @@
     <string name="path_copied">클립보드에 복사됨</string>
     <string name="select_audio_file">오디도 파일을 선택하세요.</string>
     <string name="search_folder">폴더 및 파일검색</string>
-    <string name="rooted_device_only">This operation works only on rooted devices</string>
-    <string name="recents">Recents</string>
-    <string name="show_recents">Show recents</string>
-    <string name="invert_colors">Invert colors</string>
-
-    <!-- Open as -->
-    <string name="open_as">Open as</string>
-    <string name="text_file">Text file</string>
-    <string name="image_file">Image file</string>
-    <string name="audio_file">Audio file</string>
-    <string name="video_file">Video file</string>
-    <string name="other_file">Other file</string>
-
-    <!-- Compression -->
     <string name="compress">압축</string>
     <string name="compress_pro">압축 (Pro)</string>
     <string name="decompress">압축 해제</string>
@@ -33,32 +19,9 @@
     <string name="decompression_successful">압축 해제 성공</string>
     <string name="compressing_failed">압축 실패</string>
     <string name="decompressing_failed">압축해제 실패</string>
-
-    <!-- Favorites -->
     <string name="manage_favorites">즐겨찾기 관리</string>
     <string name="go_to_favorite">즐겨찾기 이동</string>
     <string name="favorites_activity_placeholder">자주 사용하는 폴더를 즐겨찾기에 추가하여 어디서나 쉽게 접근 할 수 있습니다.</string>
-
-    <!-- File Editor -->
     <string name="file_editor">텍스트 편집기</string>
-
-    <!-- Storage analysis -->
-    <string name="storage_analysis">Storage analysis</string>
-    <string name="images">Images</string>
-    <string name="videos">Videos</string>
-    <string name="audio">Audio</string>
-    <string name="documents">Documents</string>
-    <string name="downloads">Downloads</string>
-    <string name="archives">Archives</string>
-    <string name="others">Others</string>
-    <string name="storage_free">free</string>
-    <string name="total_storage">Total storage: %s</string>
-
-    <!-- Settings -->
     <string name="enable_root_access">루트 접근 활성화</string>
-    <string name="press_back_twice">Require pressing Back twice to leave the app</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

@@ -13,14 +13,12 @@
     <string name="recents">Nedavni</string>
     <string name="show_recents">Pokaži nedavne</string>
     <string name="invert_colors">Invertiraj boje</string>
-    <!-- Open as -->
     <string name="open_as">Otvori kao</string>
     <string name="text_file">Tekstualna datoteka</string>
     <string name="image_file">Slikovna datoteka</string>
     <string name="audio_file">Audio datoteka</string>
     <string name="video_file">Video datoteka</string>
     <string name="other_file">Ostala datoteka</string>
-    <!-- Compression -->
     <string name="compress">Komprimiraj</string>
     <string name="compress_pro">Komprimiraj (Pro)</string>
     <string name="decompress">Dekomprimiraj</string>
@@ -31,28 +29,19 @@
     <string name="decompression_successful">Dekomprimiranje uspješno</string>
     <string name="compressing_failed">Komprimiranje neuspješno</string>
     <string name="decompressing_failed">Dekomprimiranje neuspješno</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Upravljaj favoritima</string>
     <string name="go_to_favorite">Idi na favorite</string>
     <string name="favorites_activity_placeholder">Možeš dodavati često korištene mape u favorite za jednostavan pristup s bilo kojeg mjesta.</string>
-    <!-- File Editor -->
     <string name="file_editor">Uređivač datoteka</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Analiza spremišta</string>
     <string name="images">Slike</string>
     <string name="videos">Video</string>
-    <string name="audio">Audio</string>
     <string name="documents">Dokumenti</string>
     <string name="downloads">Preuzimanja</string>
     <string name="archives">Arhive</string>
     <string name="others">Ostali</string>
     <string name="storage_free">slobodno</string>
     <string name="total_storage">Ukupna memorija: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Aktiviraj administratorski pristup</string>
     <string name="press_back_twice">Zahtijevaj pritiskanje gumba „Natrag” dvaput za napuštanje aplikacije</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>
