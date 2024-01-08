@@ -12,15 +12,12 @@
     <string name="rooted_device_only">இந்த செயல்பாடு ரூட் செய்யப்பட்ட சாதனங்களில் மட்டுமே இயங்குகிறது</string>
     <string name="recents">சமீபத்தியவை</string>
     <string name="show_recents">சமீபத்தியவற்றைக் காட்டு</string>
-    <string name="invert_colors">Invert colors</string>
-    <!-- Open as -->
     <string name="open_as">இவ்வாறு திற</string>
     <string name="text_file">உரை கோப்பு</string>
     <string name="image_file">படக் கோப்பு</string>
     <string name="audio_file">ஒலி கோப்பு</string>
     <string name="video_file">காணொளி கோப்பு</string>
     <string name="other_file">பிற கோப்பு</string>
-    <!-- Compression -->
     <string name="compress">சுருக்கு</string>
     <string name="compress_pro">சுருக்கு (Pro)</string>
     <string name="decompress">சுருக்குநீக்கு</string>
@@ -31,13 +28,10 @@
     <string name="decompression_successful">சுருக்குநீக்கம் வெற்றி</string>
     <string name="compressing_failed">சுருக்கம் தோல்வி</string>
     <string name="decompressing_failed">சுருக்குநீக்கம் தோல்வி</string>
-    <!-- Favorites -->
     <string name="manage_favorites">அபிமானவையை நிர்வகி</string>
     <string name="go_to_favorite">அபிமானதிற்குச் செல்</string>
     <string name="favorites_activity_placeholder">எங்கிருந்தும் எளிதாக அணுகுவதற்கு அபிமானவைக்கு அடிக்கடி பயன்படுத்தப்படும் அடைவுகளை நீங்கள் சேர்க்கலாம்.</string>
-    <!-- File Editor -->
     <string name="file_editor">கோப்பு திருத்தி</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">சேமிப்பிட பகுப்பாய்வு</string>
     <string name="images">படங்கள்</string>
     <string name="videos">காணொளிகள்</string>
@@ -48,11 +42,6 @@
     <string name="others">மற்றவை</string>
     <string name="storage_free">மீதம்</string>
     <string name="total_storage">மொத்த சேமிப்பிடம்: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">ரூட் அணுகலை இயக்கு</string>
     <string name="press_back_twice">செயலியை வெளியேற இரண்டு முறை பின் அழுத்த கோரு</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

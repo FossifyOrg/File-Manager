@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_launcher_name">File Manager</string>
     <string name="press_back_again">Tekan sekali lagi untuk keluar</string>
     <string name="go_to_home_folder">Buka folder beranda</string>
     <string name="set_as_home_folder">Setel sebagai folder beranda</string>
@@ -13,14 +12,12 @@
     <string name="recents">Terkini</string>
     <string name="show_recents">Tampilkan terkini</string>
     <string name="invert_colors">Invers warna</string>
-    <!-- Open as -->
     <string name="open_as">Buka sebagai</string>
     <string name="text_file">Berkas teks</string>
     <string name="image_file">Berkas gambar</string>
     <string name="audio_file">Berkas audio</string>
     <string name="video_file">Berkas video</string>
     <string name="other_file">Berkas lainnya</string>
-    <!-- Compression -->
     <string name="compress">Kompres</string>
     <string name="compress_pro">Kompres (Pro)</string>
     <string name="decompress">Dekompres</string>
@@ -31,28 +28,16 @@
     <string name="decompression_successful">Berhasil dekompresi</string>
     <string name="compressing_failed">Gagal mengompres</string>
     <string name="decompressing_failed">Gagal dekompresi</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Kelola favorit</string>
     <string name="go_to_favorite">Buka favorit</string>
     <string name="favorites_activity_placeholder">Anda bisa menambahkan folder yang sering digunakan ke favorit untuk kemudahan akses dari mana saja.</string>
-    <!-- File Editor -->
     <string name="file_editor">Penyunting Berkas</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Analisis penyimpanan</string>
     <string name="images">Gambar</string>
     <string name="videos">Video</string>
-    <string name="audio">Audio</string>
-    <string name="documents">Documents</string>
-    <string name="downloads">Downloads</string>
     <string name="archives">Arsip</string>
     <string name="others">Lainnya</string>
-    <string name="storage_free">free</string>
     <string name="total_storage">Total penyimpanan: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Aktifkan akses root</string>
     <string name="press_back_twice">Wajib tekan tombol kembali dua kali untuk keluar aplikasi</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

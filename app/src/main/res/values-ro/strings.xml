@@ -13,14 +13,12 @@
     <string name="recents">Recente</string>
     <string name="show_recents">Afișați recentele</string>
     <string name="invert_colors">Inversați culorile</string>
-    <!-- Open as -->
     <string name="open_as">Deschide ca</string>
     <string name="text_file">Fișier text</string>
     <string name="image_file">Fișier imagine</string>
     <string name="audio_file">Fişier audio</string>
     <string name="video_file">Fişier video</string>
     <string name="other_file">Alt fișier</string>
-    <!-- Compression -->
     <string name="compress">Comprimare</string>
     <string name="compress_pro">Comprimare (Pro)</string>
     <string name="decompress">Decomprimare</string>
@@ -31,28 +29,19 @@
     <string name="decompression_successful">Decomprimare reușită</string>
     <string name="compressing_failed">Comprimarea a eșuat</string>
     <string name="decompressing_failed">Decomprimarea a eșuat</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Gestionați favoritele</string>
     <string name="go_to_favorite">Mergeți la favorite</string>
     <string name="favorites_activity_placeholder">Puteți adăuga dosarele utilizate frecvent la favorite pentru a le accesa ușor de oriunde.</string>
-    <!-- File Editor -->
     <string name="file_editor">Editor de fișiere</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Analiza stocării</string>
     <string name="images">Imagini</string>
     <string name="videos">Videoclipuri</string>
-    <string name="audio">Audio</string>
     <string name="documents">Documente</string>
     <string name="downloads">Descărcări</string>
     <string name="archives">Arhive</string>
     <string name="others">Altele</string>
     <string name="storage_free">liber</string>
     <string name="total_storage">Spaţiu de stocare total: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Activați accesul root</string>
     <string name="press_back_twice">Trebuie să apăsați de două ori butonul Înapoi pentru a părăsi aplicația</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

@@ -13,14 +13,12 @@
     <string name="recents">Son dosyalar</string>
     <string name="show_recents">Son dosyaları göster</string>
     <string name="invert_colors">Renkleri ters çevir</string>
-    <!-- Open as -->
     <string name="open_as">Farklı aç</string>
     <string name="text_file">Metin dosyası</string>
     <string name="image_file">Resim dosyası</string>
     <string name="audio_file">Ses dosyası</string>
     <string name="video_file">Video dosyası</string>
     <string name="other_file">Diğer dosya</string>
-    <!-- Compression -->
     <string name="compress">Sıkıştır</string>
     <string name="compress_pro">Sıkıştır (Pro)</string>
     <string name="decompress">Çöz</string>
@@ -31,13 +29,10 @@
     <string name="decompression_successful">Çözme başarılı</string>
     <string name="compressing_failed">Sıkıştırma başarısız</string>
     <string name="decompressing_failed">Çözme başarısız</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Favorileri yönet</string>
     <string name="go_to_favorite">Favoriye git</string>
     <string name="favorites_activity_placeholder">Sık kullanılan klasörleri her yerden kolay erişmek için favorilere ekleyebilirsiniz.</string>
-    <!-- File Editor -->
     <string name="file_editor">Dosya Düzenleyici</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Depolama analizi</string>
     <string name="images">Resimler</string>
     <string name="videos">Videolar</string>
@@ -48,11 +43,6 @@
     <string name="others">Diğerleri</string>
     <string name="storage_free">boş</string>
     <string name="total_storage">Toplam depolama: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Root erişimini etkinleştir</string>
     <string name="press_back_twice">Uygulamadan çıkmak için Geri tuşuna iki kez basmayı gerektir</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

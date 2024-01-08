@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_launcher_name">Dosieradministrilo</string>
-    <string name="press_back_again">Press back again to exit</string>
-    <string name="go_to_home_folder">Go to home folder</string>
-    <string name="set_as_home_folder">Set as home folder</string>
-    <string name="home_folder_updated">Home folder updated</string>
-    <string name="copy_path">Copy path to clipboard</string>
-    <string name="path_copied">Path copied</string>
-    <string name="select_audio_file">Please select an audio file</string>
-    <string name="search_folder">Search folder</string>
-    <string name="rooted_device_only">This operation works only on rooted devices</string>
-    <string name="recents">Recents</string>
-    <string name="show_recents">Show recents</string>
-    <string name="invert_colors">Invert colors</string>
-    <!-- Open as -->
     <string name="open_as">Malfermi kiel</string>
     <string name="text_file">Teksta dosiero</string>
     <string name="image_file">Bilda dosiero</string>
@@ -31,28 +18,11 @@
     <string name="decompression_successful">Maldensigo sukcesis</string>
     <string name="compressing_failed">Densigo malsukcesis</string>
     <string name="decompressing_failed">Maldensigo malsukcesis</string>
-    <!-- Favorites -->
-    <string name="manage_favorites">Manage favorites</string>
-    <string name="go_to_favorite">Go to favorite</string>
-    <string name="favorites_activity_placeholder">You can add frequently used folders to favorites for easy access from anywhere.</string>
-    <!-- File Editor -->
     <string name="file_editor">Dosierredaktilo</string>
-    <!-- Storage analysis -->
-    <string name="storage_analysis">Storage analysis</string>
     <string name="images">Bildoj</string>
     <string name="videos">Filmoj</string>
     <string name="audio">Sonoj</string>
     <string name="documents">Dokumentoj</string>
     <string name="downloads">Elŝutoj</string>
-    <string name="archives">Archives</string>
     <string name="others">Aliaj</string>
-    <string name="storage_free">free</string>
-    <string name="total_storage">Total storage: %s</string>
-    <!-- Settings -->
-    <string name="enable_root_access">Enable root access</string>
-    <string name="press_back_twice">Require pressing Back twice to leave the app</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

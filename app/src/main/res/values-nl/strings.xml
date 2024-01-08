@@ -12,15 +12,12 @@
     <string name="rooted_device_only">Deze bewerking is alleen mogelijk op een geroot apparaat</string>
     <string name="recents">Recent geopend</string>
     <string name="show_recents">Recente items tonen</string>
-    <string name="invert_colors">Invert colors</string>
-    <!-- Open as -->
     <string name="open_as">Openen als</string>
     <string name="text_file">Tekst</string>
     <string name="image_file">Afbeelding</string>
     <string name="audio_file">Geluid</string>
     <string name="video_file">Video</string>
     <string name="other_file">Overig</string>
-    <!-- Compression -->
     <string name="compress">Inpakken</string>
     <string name="compress_pro">Inpakken (Pro)</string>
     <string name="decompress">Uitpakken</string>
@@ -31,28 +28,18 @@
     <string name="decompression_successful">Uitpakken voltooid</string>
     <string name="compressing_failed">Fout bij inpakken</string>
     <string name="decompressing_failed">Fout bij uitpakken</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Favorieten beheren</string>
     <string name="go_to_favorite">Naar favoriet gaan</string>
     <string name="favorites_activity_placeholder">Voeg vaak gebruikte mappen toe aan de favorieten voor snelle toegang vanuit ieder scherm.</string>
-    <!-- File Editor -->
     <string name="file_editor">Bewerken</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Opslaganalyse</string>
     <string name="images">Afbeeldingen</string>
     <string name="videos">Video</string>
-    <string name="audio">Audio</string>
     <string name="documents">Documenten</string>
-    <string name="downloads">Downloads</string>
     <string name="archives">Archieven</string>
     <string name="others">Overig</string>
     <string name="storage_free">vrij</string>
     <string name="total_storage">Totale opslag: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Root-toegang inschakelen</string>
     <string name="press_back_twice">Twee keer op de terugknop drukken om af te sluiten</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

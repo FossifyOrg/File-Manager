@@ -13,14 +13,12 @@
     <string name="recents">Viimeaikaiset</string>
     <string name="show_recents">Näytä viimeaikaiset</string>
     <string name="invert_colors">Käänteiset värit</string>
-    <!-- Open as -->
     <string name="open_as">Avaa nimellä</string>
     <string name="text_file">Tekstitiedostona</string>
     <string name="image_file">Kuvatiedostona</string>
     <string name="audio_file">Äänitiedostona</string>
     <string name="video_file">Videotiedostona</string>
     <string name="other_file">Jonakin muuna tiedostona</string>
-    <!-- Compression -->
     <string name="compress">Pakkaa</string>
     <string name="compress_pro">Pakkaa (Pro)</string>
     <string name="decompress">Pura</string>
@@ -31,28 +29,19 @@
     <string name="decompression_successful">Purkaminen valmis</string>
     <string name="compressing_failed">Pakkaaminen epäonnistui</string>
     <string name="decompressing_failed">Purkaminen epäonnistui</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Hallitse suosikkeja</string>
     <string name="go_to_favorite">Mene suosikkiin</string>
     <string name="favorites_activity_placeholder">Voit lisätä usein käyttämiäsi kansiota suosikeiksi, jolloin niiden käyttö on helppoa mistä vain.</string>
-    <!-- File Editor -->
     <string name="file_editor">Tiedostoeditori</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Tallennustilan analyysi</string>
     <string name="images">Kuvat</string>
     <string name="videos">Videot</string>
-    <string name="audio">Audio</string>
     <string name="documents">Dokumentit</string>
     <string name="downloads">Lataukset</string>
     <string name="archives">Arkistot</string>
     <string name="others">Muut</string>
     <string name="storage_free">ilmainen</string>
     <string name="total_storage">Tallennustila: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Ota käyttöön root-ominaisuudet</string>
     <string name="press_back_twice">Ota käyttöön sovelluksesta poistuminen kahdella takaisin-painikkeen painalluksella</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

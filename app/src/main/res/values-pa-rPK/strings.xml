@@ -13,14 +13,12 @@
     <string name="recents">حالیہ</string>
     <string name="show_recents">حالیہ ویکھو</string>
     <string name="invert_colors">رنگ اُلٹاؤ</string>
-    <!-- Open as -->
     <string name="open_as">چوݨ نال کھُلھو</string>
     <string name="text_file">لکھت دی فائل</string>
     <string name="image_file">تصویر دی فائل</string>
     <string name="audio_file">آڈیو دی فائل</string>
     <string name="video_file">ویڈیو دی فائل</string>
     <string name="other_file">ہور فائل</string>
-    <!-- Compression -->
     <string name="compress">زیپ کرو</string>
     <string name="compress_pro">کمپریس (فیز ورژن)</string>
     <string name="decompress">اݨزیپ کرو</string>
@@ -31,13 +29,10 @@
     <string name="decompression_successful">اݨزیپ کیتیاں گیاں</string>
     <string name="compressing_failed">زیپ کر نہیں سکدیاں</string>
     <string name="decompressing_failed">زیپ کر نہیں سکدیاں</string>
-    <!-- Favorites -->
     <string name="manage_favorites">منپسند دیاں چوݨاں</string>
     <string name="go_to_favorite">منپسند نوں جاؤ</string>
     <string name="favorites_activity_placeholder">منپسنداں وچ تسیں فولڈر پا سکدے، سادی پہنچ اے</string>
-    <!-- File Editor -->
     <string name="file_editor">فائل سودھݨ والا</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">سٹوریج دی جاݨکاری</string>
     <string name="images">تصویراں</string>
     <string name="videos">ویڈیو</string>
@@ -48,7 +43,6 @@
     <string name="others">ہور</string>
     <string name="storage_free">اُپلبدھ</string>
     <string name="total_storage">‫ساری سٹوریج:؜ %s‬</string>
-    <!-- Settings -->
     <string name="enable_root_access">روٹ دی پہنچ چالو کرو</string>
     <string name="press_back_twice">بند کرن لئی دو وار پچھلے دباؤݨ دی لوڑ اے</string>
 </resources>

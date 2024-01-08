@@ -13,14 +13,12 @@
     <string name="recents">最近</string>
     <string name="show_recents">最近を表示</string>
     <string name="invert_colors">色を反転</string>
-    <!-- Open as -->
     <string name="open_as">ファイル形式を指定して開く</string>
     <string name="text_file">テキストファイル</string>
     <string name="image_file">画像ファイル</string>
     <string name="audio_file">音声ファイル</string>
     <string name="video_file">動画ファイル</string>
     <string name="other_file">その他のファイル</string>
-    <!-- Compression -->
     <string name="compress">圧縮</string>
     <string name="compress_pro">圧縮 (Pro)</string>
     <string name="decompress">解凍</string>
@@ -31,13 +29,10 @@
     <string name="decompression_successful">正常に解凍しました</string>
     <string name="compressing_failed">圧縮できませんでした</string>
     <string name="decompressing_failed">解凍できませんでした</string>
-    <!-- Favorites -->
     <string name="manage_favorites">お気に入りを管理</string>
     <string name="go_to_favorite">お気に入りを開く</string>
     <string name="favorites_activity_placeholder">よく使うフォルダをお気に入りに追加すると、どこからでも簡単にアクセスできます。</string>
-    <!-- File Editor -->
     <string name="file_editor">ファイル エディター</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">ストレージ解析</string>
     <string name="images">画像</string>
     <string name="videos">動画</string>
@@ -48,11 +43,6 @@
     <string name="others">その他</string>
     <string name="storage_free">空き</string>
     <string name="total_storage">合計ストレージ: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">ルートアクセスを有効にする</string>
     <string name="press_back_twice">戻るボタンを2回押してアプリを閉じる</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

@@ -13,14 +13,12 @@
     <string name="recents">Recentes</string>
     <string name="show_recents">Amosar recentes</string>
     <string name="invert_colors">Inverte as cores</string>
-    <!-- Open as -->
     <string name="open_as">Abrir como</string>
     <string name="text_file">Texto</string>
     <string name="image_file">Imaxe</string>
     <string name="audio_file">Audio</string>
     <string name="video_file">Vídeo</string>
     <string name="other_file">Outro tipo de ficheiro</string>
-    <!-- Compression -->
     <string name="compress">Comprimir</string>
     <string name="compress_pro">Comprimir (Pro)</string>
     <string name="decompress">Descomprimir</string>
@@ -31,24 +29,17 @@
     <string name="decompression_successful">Descompresión terminada</string>
     <string name="compressing_failed">Erro ao comprimir</string>
     <string name="decompressing_failed">Erro ao descomprimir</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Xestionar favoritos</string>
     <string name="go_to_favorite">Ir a favorito</string>
     <string name="favorites_activity_placeholder">Pode adiccionar cartafoles como favoritos para un acesso mais rápido.</string>
-    <!-- File Editor -->
     <string name="file_editor">Editor de ficheiros</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Análise do almacenamento</string>
     <string name="images">Imaxes</string>
     <string name="videos">Vídeos</string>
-    <string name="audio">Audio</string>
-    <string name="documents">Documents</string>
-    <string name="downloads">Downloads</string>
     <string name="archives">Arquivos</string>
     <string name="others">Outros</string>
     <string name="storage_free">ceibe</string>
     <string name="total_storage">Almacenamento total: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Activar acceso root</string>
     <string name="press_back_twice">Require premer Atrás dúas veces para saír da aplicación</string>
     <!--

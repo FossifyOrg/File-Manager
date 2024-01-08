@@ -12,15 +12,12 @@
     <string name="rooted_device_only">Denne funktion virker kun på rootede enheder</string>
     <string name="recents">Seneste</string>
     <string name="show_recents">Vis seneste</string>
-    <string name="invert_colors">Invert colors</string>
-    <!-- Open as -->
     <string name="open_as">Åbn som</string>
     <string name="text_file">Tekstfil</string>
     <string name="image_file">Billedfil</string>
     <string name="audio_file">Lydfil</string>
     <string name="video_file">Videofil</string>
     <string name="other_file">Anden fil</string>
-    <!-- Compression -->
     <string name="compress">Komprimer</string>
     <string name="compress_pro">Komprimer (Pro)</string>
     <string name="decompress">Dekomprimer</string>
@@ -31,28 +28,19 @@
     <string name="decompression_successful">Dekomprimeret</string>
     <string name="compressing_failed">Komprimering mislykkedes</string>
     <string name="decompressing_failed">Dekomprimering mislykkedes</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Håndter favoritter</string>
     <string name="go_to_favorite">Gå til favorit</string>
     <string name="favorites_activity_placeholder">Du kan tilføje ofte benyttede mapper til favoritter, så du hurtigt kan finde dem igen.</string>
-    <!-- File Editor -->
     <string name="file_editor">Fileditor</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Lagersanalyse</string>
     <string name="images">Billeder</string>
     <string name="videos">Videoer</string>
     <string name="audio">Lyd</string>
     <string name="documents">Dokumenter</string>
-    <string name="downloads">Downloads</string>
     <string name="archives">Arkiver</string>
     <string name="others">Andre</string>
     <string name="storage_free">fri</string>
     <string name="total_storage">Samlet lagerplads: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Aktiver root-adgang</string>
     <string name="press_back_twice">Kræv to tryk på tilbage for at forlade appen</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

@@ -13,14 +13,12 @@
     <string name="recents">Nýleg</string>
     <string name="show_recents">Sýna nýleg</string>
     <string name="invert_colors">Snúa litum við</string>
-    <!-- Open as -->
     <string name="open_as">Opna sem</string>
     <string name="text_file">Textaskrá</string>
     <string name="image_file">Myndskrá</string>
     <string name="audio_file">Hljóðskrá</string>
     <string name="video_file">Myndbandsskrá</string>
     <string name="other_file">Annað</string>
-    <!-- Compression -->
     <string name="compress">Þjappa</string>
     <string name="compress_pro">Þjappa (Pro)</string>
     <string name="decompress">Afþjappa</string>
@@ -31,13 +29,10 @@
     <string name="decompression_successful">Afþjöppun tókst</string>
     <string name="compressing_failed">Þjöppun mistókst</string>
     <string name="decompressing_failed">Afþjöppun mistókst</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Stjórna eftirlæti</string>
     <string name="go_to_favorite">Fara í eftirlæti</string>
     <string name="favorites_activity_placeholder">Þú getur sett möppur í eftirlæti til að auðvelda aðgang hvaðan sem er.</string>
-    <!-- File Editor -->
     <string name="file_editor">Skráaritill</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Geymslugreining</string>
     <string name="images">Myndir</string>
     <string name="videos">Myndbönd</string>
@@ -48,7 +43,6 @@
     <string name="others">Annað</string>
     <string name="storage_free">laust</string>
     <string name="total_storage">Samtals geymslupláss: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Virkja aðgang að rót</string>
     <string name="press_back_twice">Krefjast þess að ýta tvisvar á „til baka“ til að loka forriti</string>
 </resources>

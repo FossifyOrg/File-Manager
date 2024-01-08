@@ -13,14 +13,12 @@
     <string name="recents">Nedavno</string>
     <string name="show_recents">Prikaži nedavne</string>
     <string name="invert_colors">Obrni barve</string>
-    <!-- Open as -->
     <string name="open_as">Odpri kot</string>
     <string name="text_file">Datoteka z besedilom</string>
     <string name="image_file">Slikovna datoteka</string>
     <string name="audio_file">Zvokovna datoteka</string>
     <string name="video_file">Video datoteka</string>
     <string name="other_file">Druga datoteka</string>
-    <!-- Compression -->
     <string name="compress">Stisni</string>
     <string name="compress_pro">Stisni (Pro)</string>
     <string name="decompress">Razširi</string>
@@ -31,13 +29,10 @@
     <string name="decompression_successful">Razširjanje uspešno</string>
     <string name="compressing_failed">Stiskanje ni uspelo</string>
     <string name="decompressing_failed">Razširjanje ni uspelo</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Upravljanje priljubljenih</string>
     <string name="go_to_favorite">Pojdi med priljubljene</string>
     <string name="favorites_activity_placeholder">Pogosto uporabljene mape lahko dodate med priljubljene in do njih enostavno dostopate od kjer koli.</string>
-    <!-- File Editor -->
     <string name="file_editor">Urejevalnik datotek</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Analiza shranjevanja</string>
     <string name="images">Slike</string>
     <string name="videos">Video</string>
@@ -48,7 +43,6 @@
     <string name="others">Ostali</string>
     <string name="storage_free">prosto</string>
     <string name="total_storage">Skupno prostora za shranjevanje: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Omogoči root (korenski) dostop</string>
     <string name="press_back_twice">Dvakratni pritisk nazaj za izhod iz aplikacije</string>
 </resources>

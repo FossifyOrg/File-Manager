@@ -13,14 +13,12 @@
     <string name="recents">Neueste</string>
     <string name="show_recents">Neueste anzeigen</string>
     <string name="invert_colors">Farben invertieren</string>
-    <!-- Open as -->
     <string name="open_as">Öffnen als</string>
     <string name="text_file">Textdatei</string>
     <string name="image_file">Bilddatei</string>
     <string name="audio_file">Audiodatei</string>
     <string name="video_file">Videodatei</string>
     <string name="other_file">Anderer Dateityp</string>
-    <!-- Compression -->
     <string name="compress">Komprimieren</string>
     <string name="compress_pro">Komprimieren (Pro)</string>
     <string name="decompress">Entpacken</string>
@@ -31,28 +29,16 @@
     <string name="decompression_successful">Entpacken erfolgreich</string>
     <string name="compressing_failed">Komprimieren fehlgeschlagen</string>
     <string name="decompressing_failed">Entpacken fehlgeschlagen</string>
-    <!-- Favorites -->
     <string name="manage_favorites">Favoriten verwalten</string>
     <string name="go_to_favorite">Zu Favoriten wechseln</string>
     <string name="favorites_activity_placeholder">Du kannst häufig benutzte Ordner für einen einfacheren Zugriff zu den Favoriten hinzufügen.</string>
-    <!-- File Editor -->
     <string name="file_editor">Dateieditor</string>
-    <!-- Storage analysis -->
     <string name="storage_analysis">Speicheranalyse</string>
     <string name="images">Bilder</string>
-    <string name="videos">Videos</string>
-    <string name="audio">Audio</string>
-    <string name="documents">Documents</string>
-    <string name="downloads">Downloads</string>
     <string name="archives">Archiv</string>
     <string name="others">Andere</string>
     <string name="storage_free">frei</string>
     <string name="total_storage">Gesamter Speicherplatz: %s</string>
-    <!-- Settings -->
     <string name="enable_root_access">Root-Zugriff erlauben</string>
     <string name="press_back_twice">Zweimaliges Drücken von Zurück ist erforderlich, um die App zu verlassen</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>
