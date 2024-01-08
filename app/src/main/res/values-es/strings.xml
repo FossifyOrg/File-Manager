@@ -44,5 +44,4 @@
     <string name="total_storage">Almacenamiento total: %s</string>
     <string name="enable_root_access">Activar acceso root</string>
     <string name="press_back_twice">Se requiere presionar el botón atras dos veces para salir de la app</string>
-    <string name="audio">Audio</string>
-</resources>
+    </resources>
