@@ -7,7 +7,6 @@
     <string name="audio_file">Sondosiero</string>
     <string name="video_file">Filma dosiero</string>
     <string name="other_file">Alia dosiero</string>
-    <!-- Compression -->    
     <string name="compress">Densigi</string>
     <string name="compress_pro">Densigi (Pro)</string>
     <string name="decompress">Maldensigi</string>

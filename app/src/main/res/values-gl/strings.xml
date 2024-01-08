@@ -16,7 +16,6 @@
     <string name="open_as">Abrir como</string>
     <string name="text_file">Texto</string>
     <string name="image_file">Imaxe</string>
-    <string name="audio_file">Audio</string>
     <string name="video_file">Vídeo</string>
     <string name="other_file">Outro tipo de ficheiro</string>
     <string name="compress">Comprimir</string>
@@ -42,8 +41,4 @@
     <string name="total_storage">Almacenamento total: %s</string>
     <string name="enable_root_access">Activar acceso root</string>
     <string name="press_back_twice">Require premer Atrás dúas veces para saír da aplicación</string>
-    <!--
-        Non atopou todas as cadeas que debería traducir? Existen algunhas máis en
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>

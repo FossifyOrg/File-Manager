@@ -45,8 +45,4 @@
     <string name="total_storage">Armazenamento total: %s</string>
     <string name="enable_root_access">Conceder acesso root</string>
     <string name="press_back_twice">Premir duas vezes a tecla Back para sair da aplicação</string>
-    <!--
-        Não encontrou todas as cadeias a traduzir? Existem mais algumas em
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
 </resources>
