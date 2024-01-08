@@ -41,4 +41,8 @@
     <string name="total_storage">Gesamter Speicherplatz: %s</string>
     <string name="enable_root_access">Root-Zugriff erlauben</string>
     <string name="press_back_twice">Zweimaliges Drücken von Zurück ist erforderlich, um die App zu verlassen</string>
+    <string name="videos">Videos</string>
+    <string name="documents">Dokumente</string>
+    <string name="audio">Audio</string>
+    <string name="downloads">Downloads</string>
 </resources>
