@@ -28,15 +28,12 @@ Tired of file managers that slow you down and invade your privacy? Unlock a ligh
 
 Ditch the bloated, privacy-invading file managers and experience true freedom with Fossify File Manager. Download now and take back control of your digital life!
 
-Explore more apps by Fossify: https://www.fossify.org
+➡️ Explore more Fossify apps: https://www.fossify.org<br>
+➡️ Open-Source Code: https://www.github.com/FossifyOrg<br>
+➡️ Join the community on Reddit: https://www.reddit.com/r/Fossify<br>
+➡️ Connect on Telegram: https://t.me/Fossify
 
-Source Code: https://www.github.com/FossifyOrg
-
-Join the community on Reddit: https://www.reddit.com/r/Fossify
-
-Connect on Telegram: https://t.me/Fossify
-
-<div style="display:flex;">
+<div align="center">
 <img alt="App image" src="fastlane/metadata/android/en-US/images/phoneScreenshots/1_en-US.png" width="30%">
 <img alt="App image" src="fastlane/metadata/android/en-US/images/phoneScreenshots/3_en-US.png" width="30%">
 <img alt="App image" src="fastlane/metadata/android/en-US/images/phoneScreenshots/4_en-US.png" width="30%">
