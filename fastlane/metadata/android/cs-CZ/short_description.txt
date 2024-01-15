@@ -1,0 +1,1 @@
+Praktický, jednoduchý, open-source správce souborů s nezbytnými funkcemi.
