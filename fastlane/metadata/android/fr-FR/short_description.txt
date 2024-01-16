@@ -1,0 +1,1 @@
+Explorateur de fichiers commode, léger, open-source, aux fonctions essentielles.
