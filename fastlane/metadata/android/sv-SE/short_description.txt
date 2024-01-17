@@ -1,0 +1,1 @@
+Praktisk, liten filhanterare med öppen källkod med de viktigaste funktionerna.
