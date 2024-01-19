@@ -41,4 +41,5 @@
     <string name="total_storage">Stockage total : %s</string>
     <string name="enable_root_access">Activer les droits root</string>
     <string name="press_back_twice">Obligation d\'appuyer deux fois sur la touche Retour pour quitter l\'application</string>
+    <string name="audio">Audio</string>
 </resources>
