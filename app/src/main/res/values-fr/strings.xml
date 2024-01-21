@@ -42,4 +42,7 @@
     <string name="enable_root_access">Activer les droits root</string>
     <string name="press_back_twice">Obligation d\'appuyer deux fois sur la touche Retour pour quitter l\'application</string>
     <string name="audio">Audio</string>
+    <string name="images">Images</string>
+    <string name="documents">Documents</string>
+    <string name="archives">Archives</string>
 </resources>
