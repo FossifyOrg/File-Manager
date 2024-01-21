@@ -44,4 +44,5 @@
     <string name="total_storage">Memoria totale: %s</string>
     <string name="enable_root_access">Abilita accesso root</string>
     <string name="press_back_twice">Richiedi di premere Indietro due volte per uscire dall\'app</string>
+    <string name="audio">Audio</string>
 </resources>
