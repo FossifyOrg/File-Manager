@@ -43,4 +43,6 @@
     <string name="enable_root_access">Root-toegang inschakelen</string>
     <string name="press_back_twice">Twee keer op de terugknop drukken om af te sluiten</string>
     <string name="audio">Geluid</string>
+    <string name="downloads">Downloads</string>
+    <string name="invert_colors">Kleuren omdraaien</string>
 </resources>
