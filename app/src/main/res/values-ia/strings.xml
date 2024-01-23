@@ -1,2 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_launcher_name">Gestor de files</string>
+    <string name="go_to_home_folder">Vader al dossier de initio</string>
+    <string name="set_as_home_folder">Definir como dossier de initio</string>
+    <string name="recents">Recente</string>
+    <string name="show_recents">Monstrar le recentes</string>
+    <string name="open_as">Aperir como</string>
+    <string name="image_file">File de imagine</string>
+    <string name="audio_file">File de audio</string>
+    <string name="video_file">File de video</string>
+    <string name="other_file">Altere files</string>
+    <string name="file_editor">Editor de files</string>
+    <string name="audio">Audio</string>
+    <string name="images">Imagines</string>
+    <string name="videos">Videos</string>
+    <string name="downloads">Discargamentos</string>
+    <string name="archives">Files</string>
+    <string name="others">Alteres</string>
+    <string name="storage_free">libere</string>
+    <string name="enable_root_access">Activar le accesso root</string>
+</resources>
