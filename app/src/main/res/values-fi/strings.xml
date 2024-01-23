@@ -44,4 +44,5 @@
     <string name="total_storage">Tallennustila: %s</string>
     <string name="enable_root_access">Ota käyttöön root-ominaisuudet</string>
     <string name="press_back_twice">Ota käyttöön sovelluksesta poistuminen kahdella takaisin-painikkeen painalluksella</string>
+    <string name="audio">Ääni</string>
 </resources>
