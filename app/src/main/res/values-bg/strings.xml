@@ -35,10 +35,14 @@
     <string name="file_editor">Файлов редактор</string>
     <string name="storage_analysis">Анализ на съхранението</string>
     <string name="images">Изображения</string>
-    <string name="videos">Видеа</string>
+    <string name="videos">Видеоклипове</string>
     <string name="archives">Архиви</string>
     <string name="others">Други</string>
     <string name="total_storage">Общо място за съхранение: %s</string>
     <string name="enable_root_access">Активиране на root достъп</string>
     <string name="press_back_twice">Натискане два пъти Назад за излизане от приложението</string>
+    <string name="downloads">Изтегляния</string>
+    <string name="storage_free">свободно</string>
+    <string name="documents">Документи</string>
+    <string name="audio">Аудиофайлове</string>
 </resources>
