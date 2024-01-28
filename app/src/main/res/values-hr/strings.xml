@@ -35,7 +35,7 @@
     <string name="file_editor">Uređivač datoteka</string>
     <string name="storage_analysis">Analiza spremišta</string>
     <string name="images">Slike</string>
-    <string name="videos">Video</string>
+    <string name="videos">Videa</string>
     <string name="documents">Dokumenti</string>
     <string name="downloads">Preuzimanja</string>
     <string name="archives">Arhive</string>
@@ -44,4 +44,5 @@
     <string name="total_storage">Ukupna memorija: %s</string>
     <string name="enable_root_access">Aktiviraj administratorski pristup</string>
     <string name="press_back_twice">Zahtijevaj pritiskanje gumba „Natrag” dvaput za napuštanje aplikacije</string>
+    <string name="audio">Audio</string>
 </resources>

@@ -1,0 +1,1 @@
+Praktičan, jednostavan pretraživač datoteka otvorenog koda s bitnim funkcijama.
