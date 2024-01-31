@@ -12,6 +12,7 @@
     <string name="rooted_device_only">Denne funktion virker kun på rootede enheder</string>
     <string name="recents">Seneste</string>
     <string name="show_recents">Vis seneste</string>
+    <string name="invert_colors">Inverter farver</string>
     <string name="open_as">Åbn som</string>
     <string name="text_file">Tekstfil</string>
     <string name="image_file">Billedfil</string>
@@ -37,6 +38,7 @@
     <string name="videos">Videoer</string>
     <string name="audio">Lyd</string>
     <string name="documents">Dokumenter</string>
+    <string name="downloads">Downloads</string>
     <string name="archives">Arkiver</string>
     <string name="others">Andre</string>
     <string name="storage_free">fri</string>
