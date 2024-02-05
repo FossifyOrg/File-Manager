@@ -21,8 +21,8 @@
     <string name="compress">संपीड़न</string>
     <string name="decompress">अवसाद</string>
     <string name="compress_as">इस रूप में संपीड़न</string>
-    <string name="compressing">संपीड़न हो रहा है</string>
-    <string name="decompressing">अवसाद हो रहा है</string>
+    <string name="compressing">संपीड़न…</string>
+    <string name="decompressing">विसंपीड़न…</string>
     <string name="compression_successful">संपीड़न सफल</string>
     <string name="decompression_successful">अवसाद सफल</string>
     <string name="compressing_failed">संपीड़न विफल</string>
@@ -32,4 +32,16 @@
     <string name="favorites_activity_placeholder">आप कहीं से भी आसानी से पहुंच के लिए पसंदीदा में अक्सर इस्तेमाल किए जाने वाले फ़ोल्डर जोड़ सकते हैं।</string>
     <string name="file_editor">फ़ाइल संपादक</string>
     <string name="enable_root_access">रूट एक्सेस</string>
+    <string name="invert_colors">रंगों को उलटा करें</string>
+    <string name="storage_analysis">भंडारण विश्लेषण</string>
+    <string name="images">छवियाँ</string>
+    <string name="videos">वीडियो</string>
+    <string name="archives">अभिलेखागार</string>
+    <string name="others">अन्य</string>
+    <string name="storage_free">मुक्त</string>
+    <string name="total_storage">कुल भंडारण: %s</string>
+    <string name="audio">ऑडियो</string>
+    <string name="documents">दस्तावेजों</string>
+    <string name="downloads">डाउनलोड्स</string>
+    <string name="press_back_twice">ऐप छोड़ने के लिए बैक को दो बार दबाने की आवश्यकता है</string>
 </resources>
