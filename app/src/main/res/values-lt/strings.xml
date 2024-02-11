@@ -13,7 +13,6 @@
     <string name="video_file">Vaizdo įrašo failas</string>
     <string name="other_file">Kitas failas</string>
     <string name="compress">Glaudinti</string>
-    <string name="compress_pro">Glaudinti (Pro)</string>
     <string name="decompress">Išskleisti</string>
     <string name="compress_as">Glaudinti kaip</string>
     <string name="compressing">Glaudinama…</string>
