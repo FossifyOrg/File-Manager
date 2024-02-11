@@ -20,7 +20,6 @@
     <string name="video_file">ဗီဒီယိုဖိုင်</string>
     <string name="other_file">အခြားဖိုင်</string>
     <string name="compress">ချုံ့မယ်</string>
-    <string name="compress_pro">ချုံ့မယ်(ပရို)</string>
     <string name="decompress">ဖြည်မယ်</string>
     <string name="compress_as">ဖိုင်ကိုဘယ်လိုချုံ့မလဲ</string>
     <string name="compressing">ဖိုင်ကိုချုံ့​နေသည်…</string>
