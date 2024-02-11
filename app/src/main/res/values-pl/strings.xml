@@ -20,7 +20,6 @@
     <string name="video_file">Plik wideo</string>
     <string name="other_file">Inny plik</string>
     <string name="compress">Spakuj</string>
-    <string name="compress_pro">Spakuj (Pro)</string>
     <string name="decompress">Rozpakuj</string>
     <string name="compress_as">Spakuj jako</string>
     <string name="compressing">Pakowanie…</string>
