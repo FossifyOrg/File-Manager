@@ -19,7 +19,6 @@
     <string name="video_file">Video</string>
     <string name="other_file">Overig</string>
     <string name="compress">Inpakken</string>
-    <string name="compress_pro">Inpakken (Pro)</string>
     <string name="decompress">Uitpakken</string>
     <string name="compress_as">Inpakken als</string>
     <string name="compressing">Inpakken…</string>
