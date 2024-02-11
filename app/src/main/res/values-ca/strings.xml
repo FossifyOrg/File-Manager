@@ -19,7 +19,6 @@
     <string name="video_file">Fitxer de vídeo</string>
     <string name="other_file">Altres fitxers</string>
     <string name="compress">Comprimeix</string>
-    <string name="compress_pro">Comprimeix (Pro)</string>
     <string name="decompress">Descomprimeix</string>
     <string name="compress_as">Comprimeix com a</string>
     <string name="compressing">S\'està comprimint…</string>
