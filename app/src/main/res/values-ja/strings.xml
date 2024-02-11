@@ -20,7 +20,6 @@
     <string name="video_file">動画ファイル</string>
     <string name="other_file">その他のファイル</string>
     <string name="compress">圧縮</string>
-    <string name="compress_pro">圧縮 (Pro)</string>
     <string name="decompress">解凍</string>
     <string name="compress_as">形式を指定して圧縮</string>
     <string name="compressing">圧縮しています…</string>
