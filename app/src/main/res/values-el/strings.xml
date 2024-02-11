@@ -20,7 +20,6 @@
     <string name="video_file">Αρχείο Βίντεο</string>
     <string name="other_file">Άλλος τύπος</string>
     <string name="compress">Συμπίεση</string>
-    <string name="compress_pro">Συμπίεση (Pro)</string>
     <string name="decompress">Αποσυμπίεση</string>
     <string name="compress_as">Συμπίεση ως</string>
     <string name="compressing">Συμπιέζεται…</string>
