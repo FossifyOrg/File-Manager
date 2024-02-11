@@ -20,7 +20,6 @@
     <string name="video_file">视频文件</string>
     <string name="other_file">其他文件</string>
     <string name="compress">压缩</string>
-    <string name="compress_pro">压缩 (Pro)</string>
     <string name="decompress">解压缩</string>
     <string name="compress_as">压缩为</string>
     <string name="compressing">压缩中…</string>
