@@ -19,7 +19,6 @@
     <string name="video_file">Berkas video</string>
     <string name="other_file">Berkas lainnya</string>
     <string name="compress">Kompres</string>
-    <string name="compress_pro">Kompres (Pro)</string>
     <string name="decompress">Dekompres</string>
     <string name="compress_as">Kompres sebagai</string>
     <string name="compressing">Mengompres…</string>

@@ -20,7 +20,6 @@
     <string name="video_file">Видео файл</string>
     <string name="other_file">Друг тип файл</string>
     <string name="compress">Компресиране</string>
-    <string name="compress_pro">Компресиране (Pro)</string>
     <string name="decompress">Декомпресиране</string>
     <string name="compress_as">Компресиране като</string>
     <string name="compressing">Компресира се…</string>

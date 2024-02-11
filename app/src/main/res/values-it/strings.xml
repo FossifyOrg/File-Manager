@@ -20,7 +20,6 @@
     <string name="video_file">File video</string>
     <string name="other_file">Altro</string>
     <string name="compress">Comprimi</string>
-    <string name="compress_pro">Comprimi (Pro)</string>
     <string name="decompress">Decomprimi</string>
     <string name="compress_as">Comprimi come</string>
     <string name="compressing">Compressione…</string>

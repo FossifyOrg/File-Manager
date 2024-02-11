@@ -20,7 +20,6 @@
     <string name="video_file">קובץ וידיאו</string>
     <string name="other_file">קובץ אחר</string>
     <string name="compress">לדחוס</string>
-    <string name="compress_pro">דחיסה (פרו)</string>
     <string name="decompress">לבטל דחיסה</string>
     <string name="compress_as">דחוס כ</string>
     <string name="compressing">דוחס…</string>

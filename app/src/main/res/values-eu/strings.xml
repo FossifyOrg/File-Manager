@@ -33,7 +33,6 @@
     <string name="decompressing">Deskonprimatzen…</string>
     <string name="decompression_successful">Deskonprimatzea behar bezala burutu da</string>
     <string name="compressing_failed">Trinkotzeak huts egin du</string>
-    <string name="compress_pro">Trinkotu (Pro)</string>
     <string name="decompress">Deskonprimatu</string>
     <string name="go_to_favorite">Joan gogokoetara</string>
     <string name="archives">Artxiboak</string>

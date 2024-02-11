@@ -20,7 +20,6 @@
     <string name="video_file">Video dosyası</string>
     <string name="other_file">Diğer dosya</string>
     <string name="compress">Sıkıştır</string>
-    <string name="compress_pro">Sıkıştır (Pro)</string>
     <string name="decompress">Çöz</string>
     <string name="compress_as">Sıkıştır:</string>
     <string name="compressing">Sıkıştırılıyor…</string>

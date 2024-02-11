@@ -19,7 +19,6 @@
     <string name="video_file">वीडियो फ़ाइलें</string>
     <string name="other_file">अन्य फ़ाइलें</string>
     <string name="compress">संपीड़न</string>
-    <string name="compress_pro">संपीड़न (Pro)</string>
     <string name="decompress">अवसाद</string>
     <string name="compress_as">इस रूप में संपीड़न</string>
     <string name="compressing">संपीड़न हो रहा है</string>

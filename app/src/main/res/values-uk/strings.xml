@@ -20,7 +20,6 @@
     <string name="video_file">Відео</string>
     <string name="other_file">Інший тип</string>
     <string name="compress">Стиснути</string>
-    <string name="compress_pro">Стиснути (Pro)</string>
     <string name="decompress">Розпакувати</string>
     <string name="compress_as">Стиснути як</string>
     <string name="compressing">Триває стиснення…</string>
