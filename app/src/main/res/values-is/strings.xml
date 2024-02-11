@@ -20,7 +20,6 @@
     <string name="video_file">Myndbandsskrá</string>
     <string name="other_file">Annað</string>
     <string name="compress">Þjappa</string>
-    <string name="compress_pro">Þjappa (Pro)</string>
     <string name="decompress">Afþjappa</string>
     <string name="compress_as">Þjappa sem</string>
     <string name="compressing">Að þjappa…</string>
