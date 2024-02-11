@@ -20,7 +20,6 @@
     <string name="video_file">Video súbor</string>
     <string name="other_file">Iný súbor</string>
     <string name="compress">Komprimovať</string>
-    <string name="compress_pro">Komprimovať (Pro)</string>
     <string name="decompress">Dekomprimovať</string>
     <string name="compress_as">Komprimovať ako</string>
     <string name="compressing">Komprimuje sa…</string>
