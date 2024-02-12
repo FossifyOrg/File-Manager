@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_launcher_name">फ़ाइल प्रबंधक</string>
+    <string name="app_launcher_name">फाइल प्रबंधक</string>
     <string name="press_back_again">फिर से बाहर निकलने के लिए प्रेस करें</string>
-    <string name="go_to_home_folder">घर फ़ोल्डर में जाओ</string>
-    <string name="set_as_home_folder">होम फ़ोल्डर के रूप में सेट करें</string>
-    <string name="home_folder_updated">होम फ़ोल्डर अप्डैटिड</string>
+    <string name="go_to_home_folder">घर फोल्डर में जाओ</string>
+    <string name="set_as_home_folder">होम फोल्डर के रूप में सेट करें</string>
+    <string name="home_folder_updated">होम फोल्डर अप्डैटिड</string>
     <string name="copy_path">क्लिपबोर्ड के लिए पथ कॉपी करें</string>
     <string name="path_copied">पाथ कॉपी</string>
     <string name="select_audio_file">कृपया एक ऑडियो फ़ाइल चुनें</string>
-    <string name="search_folder">खोज फ़ोल्डर</string>
+    <string name="search_folder">खोज फोल्डर</string>
     <string name="rooted_device_only">यह ऑपरेशन केवल रूटेड डिवाइस पर काम करता है</string>
     <string name="recents">हाल के</string>
     <string name="show_recents">हाल ही में दिखाएं</string>
     <string name="open_as">इस रूप में खोलें</string>
-    <string name="text_file">टेकस्ट फ़ाइलें</string>
-    <string name="image_file">इमेज फ़ाइलें</string>
-    <string name="audio_file">आॉडियो फ़ाइलें</string>
-    <string name="video_file">वीडियो फ़ाइलें</string>
-    <string name="other_file">अन्य फ़ाइलें</string>
+    <string name="text_file">टेकस्ट फाइलें</string>
+    <string name="image_file">छवि फाइलें</string>
+    <string name="audio_file">आॉडियो फाइलें</string>
+    <string name="video_file">वीडियो फाइलें</string>
+    <string name="other_file">अन्य फाइल</string>
     <string name="compress">संपीड़न</string>
     <string name="decompress">अवसाद</string>
     <string name="compress_as">इस रूप में संपीड़न</string>
@@ -30,11 +30,11 @@
     <string name="manage_favorites">पसंदीदा प्रबंधित करें</string>
     <string name="go_to_favorite">पसंदीदा के जाओ</string>
     <string name="favorites_activity_placeholder">आप कहीं से भी आसानी से पहुंच के लिए पसंदीदा में अक्सर इस्तेमाल किए जाने वाले फ़ोल्डर जोड़ सकते हैं।</string>
-    <string name="file_editor">फ़ाइल संपादक</string>
+    <string name="file_editor">फाइल संपादक</string>
     <string name="enable_root_access">रूट एक्सेस</string>
     <string name="invert_colors">रंगों को उलटा करें</string>
     <string name="storage_analysis">स्टोरेज विश्लेषण</string>
-    <string name="images">इमेजेस</string>
+    <string name="images">छवियां</string>
     <string name="videos">वीडियो</string>
     <string name="archives">अभिलेखागार</string>
     <string name="others">अन्य</string>
