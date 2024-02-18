@@ -1,1 +1,1 @@
-Nützlicher, schlanker Open-Source-Dateiexplorer mit den wichtigsten Funktionen.
+Nützlicher, schlanker, quelloffener Dateiexplorer mit grundlegenden Funktionen.
