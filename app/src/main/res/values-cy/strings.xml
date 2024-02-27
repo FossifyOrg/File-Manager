@@ -30,4 +30,6 @@
     <string name="favorites_activity_placeholder">Gellir ychwanegu ffolder a ddefnyddir yn aml at y ffefrynnau i gael atyn nhw\'n hawdd o unrhyw fan.</string>
     <string name="file_editor">Golygydd Ffeiliau</string>
     <string name="enable_root_access">Galluogi mynediad craidd</string>
+    <string name="images">Delweddau</string>
+    <string name="videos">Fideos</string>
 </resources>
