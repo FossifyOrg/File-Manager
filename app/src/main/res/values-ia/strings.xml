@@ -19,4 +19,14 @@
     <string name="others">Alteres</string>
     <string name="storage_free">libere</string>
     <string name="enable_root_access">Activar le accesso root</string>
+    <string name="home_folder_updated">Dossier de initio actualisate</string>
+    <string name="copy_path">Copiar le percurso al area de transferentia</string>
+    <string name="search_folder">Cercar dossier</string>
+    <string name="invert_colors">Inverter le colores</string>
+    <string name="text_file">File de texto</string>
+    <string name="manage_favorites">Gerer le favoritos</string>
+    <string name="go_to_favorite">Vader al favoritos</string>
+    <string name="total_storage">Immagazinage total: %s</string>
+    <string name="path_copied">Percurso copiate</string>
+    <string name="select_audio_file">Selige un file de audio</string>
 </resources>
