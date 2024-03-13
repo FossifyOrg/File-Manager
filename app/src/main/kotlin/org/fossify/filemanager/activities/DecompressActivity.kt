@@ -1,6 +1,5 @@
 package org.fossify.filemanager.activities
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import net.lingala.zip4j.exception.ZipException
@@ -76,11 +75,6 @@ class DecompressActivity : SimpleActivity() {
         }
     }
 
-    private fun setupFilesList() {
-        fillAllListItems(uri!!)
-        updateCurrentPath("")
-    }
-
     override fun onBackPressed() {
         if (currentPath.isEmpty()) {
             super.onBackPressed()
@@ -90,10 +84,24 @@ class DecompressActivity : SimpleActivity() {
         }
     }
 
+    private fun setupFilesList() {
+        fillAllListItems(uri!!) {
+            updateCurrentPath("")
+        }
+    }
+
     private fun updateCurrentPath(path: String) {
         currentPath = path
         try {
             val listItems = getFolderItems(currentPath)
+            updateAdapter(listItems = listItems)
+        } catch (e: Exception) {
+            showErrorToast(e)
+        }
+    }
+
+    private fun updateAdapter(listItems: MutableList<ListItem>) {
+        runOnUiThread {
             DecompressItemsAdapter(this, listItems, binding.decompressList) {
                 if ((it as ListItem).isDirectory) {
                     updateCurrentPath(it.path)
@@ -101,8 +109,6 @@ class DecompressActivity : SimpleActivity() {
             }.apply {
                 binding.decompressList.adapter = this
             }
-        } catch (e: Exception) {
-            showErrorToast(e)
         }
     }
 
@@ -183,13 +189,12 @@ class DecompressActivity : SimpleActivity() {
         }.sortedWith(compareBy({ !it.isDirectory }, { it.mName })).toMutableList() as ArrayList<ListItem>
     }
 
-    @SuppressLint("NewApi")
-    private fun fillAllListItems(uri: Uri) {
+    private fun fillAllListItems(uri: Uri, callback: () -> Unit) = ensureBackgroundThread {
         val inputStream = try {
             contentResolver.openInputStream(uri)
         } catch (e: Exception) {
             showErrorToast(e)
-            return
+            return@ensureBackgroundThread
         }
 
         val zipInputStream = ZipInputStream(BufferedInputStream(inputStream))
@@ -206,9 +211,11 @@ class DecompressActivity : SimpleActivity() {
                         toast(getString(R.string.invalid_password))
                         passwordDialog?.clearPassword()
                     } else {
-                        askForPassword()
+                        runOnUiThread {
+                            askForPassword()
+                        }
                     }
-                    return
+                    return@ensureBackgroundThread
                 } else {
                     break
                 }
@@ -220,12 +227,39 @@ class DecompressActivity : SimpleActivity() {
                 break
             }
 
+            // Show progress bar only after password dialog is dismissed.
+            runOnUiThread {
+                if (binding.progressIndicator.isGone()) {
+                    binding.progressIndicator.show()
+                }
+            }
+
+            if (passwordDialog != null) {
+                passwordDialog?.dismiss(notify = false)
+                passwordDialog = null
+            }
+
             val lastModified = if (isOreoPlus()) zipEntry.lastModifiedTime else 0
             val filename = zipEntry.fileName.removeSuffix("/")
-            val listItem = ListItem(filename, filename.getFilenameFromPath(), zipEntry.isDirectory, 0, 0L, lastModified, false, false)
-            allFiles.add(listItem)
+            allFiles.add(
+                ListItem(
+                    mPath = filename,
+                    mName = filename.getFilenameFromPath(),
+                    mIsDirectory = zipEntry.isDirectory,
+                    mChildren = 0,
+                    mSize = 0L,
+                    mModified = lastModified,
+                    isSectionTitle = false,
+                    isGridTypeDivider = false
+                )
+            )
         }
-        passwordDialog?.dismiss(notify = false)
+
+        runOnUiThread {
+            binding.progressIndicator.hide()
+        }
+
+        callback()
     }
 
     private fun askForPassword() {
