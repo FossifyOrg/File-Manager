@@ -131,7 +131,7 @@ class DecompressItemsAdapter(activity: SimpleActivity, var listItems: MutableLis
     }
 
     private fun initDrawables() {
-        folderDrawable = resources.getColoredDrawableWithColor(R.drawable.ic_folder_vector, textColor)
+        folderDrawable = resources.getColoredDrawableWithColor(R.drawable.ic_folder_vector, properPrimaryColor)
         folderDrawable.alpha = 180
         fileDrawable = resources.getDrawable(R.drawable.ic_file_generic)
         fileDrawables = getFilePlaceholderDrawables(activity)
