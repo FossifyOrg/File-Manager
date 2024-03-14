@@ -57,8 +57,14 @@ import java.util.LinkedList
 import java.util.Locale
 
 class ItemsAdapter(
-    activity: SimpleActivity, var listItems: MutableList<ListItem>, val listener: ItemOperationsListener?, recyclerView: MyRecyclerView,
-    val isPickMultipleIntent: Boolean, val swipeRefreshLayout: SwipeRefreshLayout?, canHaveIndividualViewType: Boolean = true, itemClick: (Any) -> Unit
+    activity: SimpleActivity,
+    var listItems: MutableList<ListItem>,
+    private val listener: ItemOperationsListener?,
+    recyclerView: MyRecyclerView,
+    private val isPickMultipleIntent: Boolean,
+    private val swipeRefreshLayout: SwipeRefreshLayout?,
+    canHaveIndividualViewType: Boolean = true,
+    itemClick: (Any) -> Unit,
 ) : MyRecyclerViewAdapter(activity, recyclerView, itemClick), RecyclerViewFastScroller.OnPopupTextUpdate {
 
     private lateinit var fileDrawable: Drawable
@@ -401,12 +407,12 @@ class ItemsAdapter(
         val firstFile = files[0]
         val source = firstFile.getParentPath()
         FilePickerDialog(
-            activity,
-            activity.getDefaultCopyDestinationPath(config.shouldShowHidden(), source),
-            false,
-            config.shouldShowHidden(),
-            true,
-            true,
+            activity = activity,
+            currPath = activity.getDefaultCopyDestinationPath(config.shouldShowHidden(), source),
+            pickFile = false,
+            showHidden = config.shouldShowHidden(),
+            showFAB = true,
+            canAddShowHiddenButton = true,
             showFavoritesButton = true
         ) {
             config.lastCopyPath = it
@@ -749,28 +755,32 @@ class ItemsAdapter(
             return
         }
 
-        activity.handleSAFDialog(SAFPath) {
-            if (!it) {
+        activity.handleSAFDialog(SAFPath) { granted ->
+            if (!granted) {
                 return@handleSAFDialog
             }
 
             val files = ArrayList<FileDirItem>(selectedKeys.size)
             val positions = ArrayList<Int>()
-            selectedKeys.forEach {
-                config.removeFavorite(getItemWithKey(it)?.path ?: "")
-                val key = it
-                val position = listItems.indexOfFirst { it.path.hashCode() == key }
-                if (position != -1) {
-                    positions.add(position)
-                    files.add(listItems[position])
-                }
-            }
 
-            positions.sortDescending()
-            removeSelectedItems(positions)
-            listener?.deleteFiles(files)
-            positions.forEach {
-                listItems.removeAt(it)
+            ensureBackgroundThread {
+                selectedKeys.forEach { key ->
+                    config.removeFavorite(getItemWithKey(key)?.path ?: "")
+                    val position = listItems.indexOfFirst { it.path.hashCode() == key }
+                    if (position != -1) {
+                        positions.add(position)
+                        files.add(listItems[position])
+                    }
+                }
+
+                positions.sortDescending()
+                activity.runOnUiThread {
+                    removeSelectedItems(positions)
+                    listener?.deleteFiles(files)
+                    positions.forEach {
+                        listItems.removeAt(it)
+                    }
+                }
             }
         }
     }
