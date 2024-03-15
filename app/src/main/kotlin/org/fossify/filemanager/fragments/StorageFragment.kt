@@ -6,7 +6,6 @@ import android.app.usage.StorageStatsManager
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.media.MediaScannerConnection
 import android.os.Handler
 import android.os.Looper
 import android.os.storage.StorageManager
@@ -33,7 +32,6 @@ import org.fossify.filemanager.extensions.getAllVolumeNames
 import org.fossify.filemanager.helpers.*
 import org.fossify.filemanager.interfaces.ItemOperationsListener
 import org.fossify.filemanager.models.ListItem
-import java.io.File
 import java.util.Locale
 
 class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerFragment<MyViewPagerFragment.StorageInnerBinding>(context, attributeSet),
@@ -299,11 +297,6 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
                 volumeName = storageVolume.uuid!!.lowercase(Locale.US)
                 totalStorageSpace = file.totalSpace
                 freeStorageSpace = file.freeSpace
-                post {
-                    ensureBackgroundThread {
-                        scanVolume(volumeName, file)
-                    }
-                }
             }
 
             post {
@@ -322,22 +315,6 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
                     totalSpace.text = String.format(context.getString(R.string.total_storage), totalStorageSpace.formatSizeThousand())
                     freeSpaceLabel.beVisible()
                 }
-            }
-        }
-    }
-
-    private fun scanVolume(volumeName: String, root: File) {
-        val paths = mutableListOf<String>()
-        if (context.isPathOnSD(root.path)) {
-            File(context.sdCardPath).walkBottomUp().forEach {
-                paths.add(it.path)
-            }
-        }
-        var callbackCount = 0
-        MediaScannerConnection.scanFile(context, paths.toTypedArray(), null) { _, _ ->
-            callbackCount++
-            if (callbackCount == paths.size) {
-                getSizes(volumeName)
             }
         }
     }
