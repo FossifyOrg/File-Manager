@@ -13,7 +13,7 @@
         android:id="@+id/sort"
         android:icon="@drawable/ic_sort_vector"
         android:title="@string/sort_by"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/toggle_filename"
         android:icon="@drawable/ic_label_vector"
