@@ -2,4 +2,31 @@
 <resources>
     <string name="images">Imagens</string>
     <string name="videos">Vídeos</string>
+    <string name="open_as">Abrir como</string>
+    <string name="audio_file">Ficheiro de áudio</string>
+    <string name="other_file">Outro ficheiro</string>
+    <string name="file_editor">Editor de ficheiro</string>
+    <string name="manage_favorites">Gerir favoritos</string>
+    <string name="audio">Áudio</string>
+    <string name="documents">Documentos</string>
+    <string name="image_file">Ficheiro de imagem</string>
+    <string name="video_file">Ficheiro de vídeo</string>
+    <string name="press_back_twice">Necessita de clicar duas vezes no retroceder para sair da aplicação</string>
+    <string name="downloads">Downloads</string>
+    <string name="storage_analysis">Análises de armazenamento</string>
+    <string name="archives">Arquivos</string>
+    <string name="others">Outros</string>
+    <string name="rooted_device_only">Esta operação está apenas disponível em dispositivos rooted</string>
+    <string name="recents">Recentes</string>
+    <string name="total_storage">Armazenamento total: %s</string>
+    <string name="storage_free">grátis</string>
+    <string name="search_folder">Procurar pasta</string>
+    <string name="app_launcher_name">Gestor de ficheiros</string>
+    <string name="press_back_again">Clique retroceder novamente para sair</string>
+    <string name="go_to_home_folder">Vá para a pasta inicial</string>
+    <string name="set_as_home_folder">Configurar como pasta inicial</string>
+    <string name="home_folder_updated">Pasta inicial atualizada</string>
+    <string name="select_audio_file">Por favor, selecione um ficheiro de áudio</string>
+    <string name="show_recents">Mostrar recentes</string>
+    <string name="invert_colors">Inverter cores</string>
 </resources>

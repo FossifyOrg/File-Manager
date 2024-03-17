@@ -43,4 +43,5 @@
     <string name="total_storage">Spaţiu de stocare total: %s</string>
     <string name="enable_root_access">Activați accesul root</string>
     <string name="press_back_twice">Trebuie să apăsați de două ori butonul Înapoi pentru a părăsi aplicația</string>
+    <string name="audio">Audio</string>
 </resources>
