@@ -44,6 +44,4 @@
     <string name="total_storage">Samlet lagerplads: %s</string>
     <string name="enable_root_access">Aktiver root-adgang</string>
     <string name="press_back_twice">Kræv to tryk på tilbage for at forlade appen</string>
-    <string name="invert_colors">Inverter farver</string>
-    <string name="downloads">Downloads</string>
 </resources>
