@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_launcher_name">Gerenciador de Arquivos</string>
+    <string name="app_launcher_name">Gerenciador de Arquivos Fossify</string>
     <string name="press_back_again">Aperte novamente o botão Voltar para sair</string>
     <string name="go_to_home_folder">Ir para Pasta Principal</string>
     <string name="set_as_home_folder">Definir como Pasta Principal</string>

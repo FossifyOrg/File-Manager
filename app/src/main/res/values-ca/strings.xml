@@ -42,4 +42,6 @@
     <string name="total_storage">Emmagatzematge total: %s</string>
     <string name="enable_root_access">Habilita l\'accés «root»</string>
     <string name="press_back_twice">Cal que premeu Enrere dues vegades per sortir de l\'aplicació</string>
+    <string name="documents">Documents</string>
+    <string name="recents">Recents</string>
 </resources>
