@@ -22,8 +22,8 @@ app-build-javaVersion = "VERSION_17"
 app-build-kotlinJVMTarget = "17"
 #versioning
 app-version-appId = "org.fossify.filemanager"
-app-version-versionCode = "1"
-app-version-versionName = "1.0.0"
+app-version-versionCode = "2"
+app-version-versionName = "1.0.1"
 [libraries]
 #AndroidX
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "androidx-swiperefreshlayout" }
