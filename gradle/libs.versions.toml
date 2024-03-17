@@ -5,7 +5,7 @@ kotlin = "1.9.10"
 androidx-swiperefreshlayout = "1.1.0"
 androidx-documentfile = "1.0.1"
 #Fossify
-commons = "b34aef8104"
+commons = "18ad1dd308"
 #Other
 autofittextview = "0.2.1"
 gestureviews = "2.5.2"
@@ -13,7 +13,7 @@ rootshell = "1.6"
 roottools = "df729dcb13"
 zip4j = "2.11.5"
 #Gradle
-gradlePlugins-agp = "8.2.0"
+gradlePlugins-agp = "8.3.0"
 #build
 app-build-compileSDKVersion = "34"
 app-build-targetSDK = "34"
