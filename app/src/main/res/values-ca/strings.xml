@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_launcher_name">Gestor de fitxers</string>
-    <string name="press_back_again">Premeu enrere de nou per sortir</string>
+    <string name="press_back_again">Premeu enrere de nou per a sortir</string>
     <string name="go_to_home_folder">Ves a la carpeta d\'inici</string>
     <string name="set_as_home_folder">Estableix com a carpeta d\'inici</string>
     <string name="home_folder_updated">S\'ha actualitzat la carpeta d\'inici</string>
@@ -29,7 +29,7 @@
     <string name="decompressing_failed">Ha fallat la descompressió</string>
     <string name="manage_favorites">Gestiona els preferits</string>
     <string name="go_to_favorite">Ves als preferits</string>
-    <string name="favorites_activity_placeholder">Podeu afegir carpetes que utilitzeu amb freqüència als preferits per accedir fàcilment des de qualsevol lloc.</string>
+    <string name="favorites_activity_placeholder">Podeu afegir carpetes que utilitzeu amb freqüència als preferits per a accedir fàcilment des de qualsevol lloc.</string>
     <string name="file_editor">Editor de fitxers</string>
     <string name="storage_analysis">Anàlisi d\'emmagatzematge</string>
     <string name="images">Imatges</string>
@@ -41,7 +41,7 @@
     <string name="storage_free">lliure</string>
     <string name="total_storage">Emmagatzematge total: %s</string>
     <string name="enable_root_access">Habilita l\'accés «root»</string>
-    <string name="press_back_twice">Cal que premeu Enrere dues vegades per sortir de l\'aplicació</string>
+    <string name="press_back_twice">Cal que premeu Enrere dues vegades per a sortir de l\'aplicació</string>
     <string name="documents">Documents</string>
     <string name="recents">Recents</string>
 </resources>

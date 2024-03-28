@@ -1,0 +1,7 @@
+* Ordner verwenden nun eine Primär-/Akzentfarbe.
+* Unnötige Verzögerungen beim Umbenennen von Dateien behoben.
+* Verbesserte Suchleistung im Texteditor.
+* Unreaktives Verhalten bei der Inhaltsanzeige einer Zip-Datei behoben.
+* Das Verwenden von ungültigen Zeichen wie `/` beim Umbenennen von Batch-Dateien deaktiviert.
+* Unsichtbares Sortiermenü bei der Anzeige der Speicherübersicht korrigiert.
+* Einige Übersetzungen hinzugefügt.
