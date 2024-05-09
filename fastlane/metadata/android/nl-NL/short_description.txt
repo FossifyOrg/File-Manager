@@ -1,1 +1,1 @@
-Handig lichtgewicht open-source bestandsbeheer met alle essentiële functies.
+Handig lichtgewicht opensource bestandsbeheer met alle essentiële functies.
