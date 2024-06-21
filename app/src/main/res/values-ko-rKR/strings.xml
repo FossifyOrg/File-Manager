@@ -23,4 +23,6 @@
     <string name="favorites_activity_placeholder">자주 사용하는 폴더를 즐겨찾기에 추가하여 어디서나 쉽게 접근 할 수 있습니다.</string>
     <string name="file_editor">텍스트 편집기</string>
     <string name="enable_root_access">루트 접근 활성화</string>
+    <string name="images">사진</string>
+    <string name="videos">동영상</string>
 </resources>
