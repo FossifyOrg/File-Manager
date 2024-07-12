@@ -35,6 +35,7 @@ class ReadTextActivity : SimpleActivity() {
     }
 
     private val binding by viewBinding(ActivityReadTextBinding::inflate)
+    private val keyUnsavedText = "KEY_UNSAVED_TEXT"
 
     private var filePath = ""
     private var originalText = ""
@@ -85,7 +86,7 @@ class ReadTextActivity : SimpleActivity() {
 
         binding.readTextView.onGlobalLayout {
             ensureBackgroundThread {
-                checkIntent(uri)
+                checkIntent(uri, savedInstanceState)
             }
         }
 
@@ -95,6 +96,13 @@ class ReadTextActivity : SimpleActivity() {
     override fun onResume() {
         super.onResume()
         setupToolbar(binding.readTextToolbar, NavigationIcon.Arrow)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (originalText != binding.readTextView.text.toString()) {
+            outState.putString(keyUnsavedText, binding.readTextView.text.toString())
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
@@ -241,7 +249,7 @@ class ReadTextActivity : SimpleActivity() {
         }
     }
 
-    private fun checkIntent(uri: Uri) {
+    private fun checkIntent(uri: Uri, savedInstanceState: Bundle?) {
         originalText = if (uri.scheme == "file") {
             filePath = uri.path!!
             val file = File(filePath)
@@ -270,7 +278,13 @@ class ReadTextActivity : SimpleActivity() {
         }
 
         runOnUiThread {
-            binding.readTextView.setText(originalText)
+            var textToSet = originalText
+
+            if (savedInstanceState != null) {
+                textToSet = savedInstanceState.getString(keyUnsavedText, originalText)
+            }
+
+            binding.readTextView.setText(textToSet)
             if (originalText.isNotEmpty()) {
                 hideKeyboard()
             } else {
