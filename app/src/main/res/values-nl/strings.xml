@@ -15,7 +15,7 @@
     <string name="open_as">Openen als</string>
     <string name="text_file">Tekst</string>
     <string name="image_file">Afbeelding</string>
-    <string name="audio_file">Geluid</string>
+    <string name="audio_file">Geluidsbestand</string>
     <string name="video_file">Video</string>
     <string name="other_file">Overig</string>
     <string name="compress">Inpakken</string>
@@ -33,7 +33,7 @@
     <string name="file_editor">Bewerken</string>
     <string name="storage_analysis">Opslaganalyse</string>
     <string name="images">Afbeeldingen</string>
-    <string name="videos">Video</string>
+    <string name="videos">Video\'s</string>
     <string name="documents">Documenten</string>
     <string name="archives">Archieven</string>
     <string name="others">Overig</string>
