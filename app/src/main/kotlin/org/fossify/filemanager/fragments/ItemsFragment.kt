@@ -26,6 +26,7 @@ import org.fossify.filemanager.helpers.RootHelpers
 import org.fossify.filemanager.interfaces.ItemOperationsListener
 import org.fossify.filemanager.models.ListItem
 import java.io.File
+import java.util.zip.ZipFile
 
 class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerFragment<MyViewPagerFragment.ItemsInnerBinding>(context, attributeSet),
     ItemOperationsListener,
@@ -289,8 +290,81 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
     private fun itemClicked(item: FileDirItem) {
         if (item.isDirectory) {
             openDirectory(item.path)
+        } else if (item.name.endsWith(".zip", ignoreCase = true)) {
+            viewCompressedContent(item.path)
         } else {
-            clickedPath(item.path)
+            if (item.path.contains(".zip")) {
+                openZipFile(item.path)
+            } else {
+                clickedPath(item.path)
+            }
+        }
+    }
+
+    private fun openZipFile(zipFilePath: String) {
+        val zipPathParts = zipFilePath.split("/")
+        val zipFileNameIndex = zipPathParts.indexOfFirst { it.endsWith(".zip") }
+        if (zipFileNameIndex == -1) {
+            activity?.runOnUiThread {
+                activity?.toast("ZIP file not found in path")
+            }
+            return
+        }
+        val zipFileName = zipPathParts.take(zipFileNameIndex + 1).joinToString("/")
+        val internalFilePath = zipPathParts.drop(zipFileNameIndex + 1).joinToString("/")
+        ensureBackgroundThread {
+            try {
+                val zipFile = ZipFile(zipFileName)
+                val entry = zipFile.getEntry(internalFilePath)
+                if (entry != null) {
+                    zipFile.getInputStream(entry).use { inputStream ->
+                        val tempFile = File(context.cacheDir, entry.name.substringAfterLast('/'))
+                        tempFile.outputStream().use { outputStream ->
+                            inputStream.copyTo(outputStream)
+                        }
+                        activity?.runOnUiThread {
+                            clickedPath(tempFile.path)
+                        }
+                    }
+                } else {
+                    activity?.runOnUiThread {
+                        activity?.toast("File not found in ZIP")
+                    }
+                }
+            } catch (e: Exception) {
+                activity?.runOnUiThread {
+                    activity?.toast("Error viewing ZIP contents")
+                }
+            }
+        }
+    }
+
+    private fun viewCompressedContent(zipPath: String) {
+        ensureBackgroundThread {
+            try {
+                val zipFile = ZipFile(zipPath)
+                val entries = zipFile.entries().asSequence().toList()
+                val listItems = entries.map { entry ->
+                    ListItem(
+                        mPath = "$zipPath/${entry.name}",
+                        mName = entry.name,
+                        mIsDirectory = entry.isDirectory,
+                        mChildren = 0,
+                        mSize = entry.size,
+                        mModified = entry.time,
+                        isSectionTitle = false,
+                        isGridTypeDivider = false
+                    )
+                }
+                activity?.runOnUiThread {
+                    hideProgressBar()
+                    addItems(ArrayList(listItems), true)
+                }
+            } catch (e: Exception) {
+                activity?.runOnUiThread {
+                    activity?.toast("Error viewing ZIP contents")
+                }
+            }
         }
     }
 
