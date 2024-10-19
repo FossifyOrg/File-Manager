@@ -31,6 +31,7 @@ class DecompressActivity : SimpleActivity() {
     private var uri: Uri? = null
     private var password: String? = null
     private var passwordDialog: EnterPasswordDialog? = null
+    private var filename = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
@@ -51,7 +52,8 @@ class DecompressActivity : SimpleActivity() {
         password = savedInstanceState?.getString(PASSWORD, null)
 
         val realPath = getRealPathFromURI(uri!!)
-        binding.decompressToolbar.title = realPath?.getFilenameFromPath() ?: Uri.decode(uri.toString().getFilenameFromPath())
+        filename = realPath?.getFilenameFromPath() ?: Uri.decode(uri.toString().getFilenameFromPath())
+        binding.decompressToolbar.title = filename
         setupFilesList()
     }
 
@@ -145,7 +147,7 @@ class DecompressActivity : SimpleActivity() {
             zipInputStream.use {
                 while (true) {
                     val entry = zipInputStream.nextEntry ?: break
-                    val filename = title.toString().substringBeforeLast(".")
+                    val filename = filename.substringBeforeLast(".")
                     val parent = "$destination/$filename"
                     val newPath = "$parent/${entry.fileName.trimEnd('/')}"
 
