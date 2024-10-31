@@ -43,5 +43,5 @@
     <string name="storage_free">livre</string>
     <string name="total_storage">Armazenamento total: %s</string>
     <string name="enable_root_access">Conceder acesso root</string>
-    <string name="press_back_twice">Premir duas vezes a tecla Back para sair da aplicação</string>
+    <string name="press_back_twice">Toque duas vezes na tecla Back para sair da aplicação</string>
 </resources>
