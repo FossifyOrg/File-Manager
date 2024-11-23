@@ -1,2 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_launcher_name">Bainisteoir Comhad</string>
+    <string name="go_to_home_folder">Téigh go dtí an fillteán baile</string>
+    <string name="home_folder_updated">Nuashonraíodh an fillteán baile</string>
+    <string name="copy_path">Cóipeáil cosán chuig an ngearrthaisce</string>
+    <string name="path_copied">Cóipeáladh an cosán</string>
+    <string name="invert_colors">Inbhéartaigh dathanna</string>
+    <string name="open_as">Oscail mar</string>
+    <string name="video_file">Comhad físe</string>
+    <string name="other_file">Comhad eile</string>
+    <string name="compress">Comhbhrúigh</string>
+    <string name="compress_as">Comhbhrúigh mar</string>
+    <string name="decompressing">Ag dí-chomhbhrú…</string>
+    <string name="decompression_successful">Dí-chomhbhrú rathúil</string>
+    <string name="compressing_failed">Theip ar chomhbhrú</string>
+    <string name="go_to_favorite">Téigh go dtí is fearr leat</string>
+    <string name="file_editor">Eagarthóir Comhad</string>
+    <string name="storage_analysis">Anailís stórála</string>
+    <string name="images">Íomhánna</string>
+    <string name="downloads">Íoslódálacha</string>
+    <string name="archives">Cartlanna</string>
+    <string name="others">Eile</string>
+    <string name="storage_free">saor</string>
+    <string name="total_storage">Stóras iomlán: %s</string>
+    <string name="enable_root_access">Cumasaigh rochtain fréimhe</string>
+    <string name="press_back_twice">A cheangal ar an cnaipe Ar ais faoi dhó a fhágáil ar an aip</string>
+    <string name="press_back_again">Brúigh ar ais arís chun imeacht</string>
+    <string name="select_audio_file">Roghnaigh comhad fuaime</string>
+    <string name="search_folder">Cuardach fillteán</string>
+    <string name="recents">Le déanaí</string>
+    <string name="show_recents">Taispeáin nuashonruithe</string>
+    <string name="set_as_home_folder">Socraigh mar fhillteán baile</string>
+    <string name="image_file">Comhad íomhá</string>
+    <string name="audio_file">Comhad fuaime</string>
+    <string name="rooted_device_only">Ní oibríonn an oibríocht seo ach ar fheistí fréamhaithe</string>
+    <string name="text_file">Comhad téacs</string>
+    <string name="decompress">Dí-chomhbhrú</string>
+    <string name="compressing">Ag comhbhrúite…</string>
+    <string name="favorites_activity_placeholder">Is féidir leat fillteáin a úsáidtear go minic a chur le ceanáin ar mhaithe le rochtain éasca ó áit ar bith.</string>
+    <string name="videos">Físeáin</string>
+    <string name="documents">Doiciméid</string>
+    <string name="compression_successful">Comhbhrú rathúil</string>
+    <string name="decompressing_failed">Theip ar dhí-chomhbhrú</string>
+    <string name="manage_favorites">Theip ar an dí-chomhbhrú</string>
+    <string name="audio">Fuaime</string>
+</resources>
