@@ -43,4 +43,5 @@
     <string name="press_back_twice">Pressione o botão "voltar" duas vezes para sair do app</string>
     <string name="audio">Áudio</string>
     <string name="documents">Documentos</string>
+    <string name="downloads">Downloads</string>
 </resources>
