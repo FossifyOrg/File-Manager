@@ -1,6 +1,6 @@
 * Les dossiers utilisent désormais la couleur primaire/accentuée.
 * Résolution des retards inutiles lors du renommage des fichiers.
-* Performances de recherche améliorées dans l'éditeur de texte.
+* Performance de recherche améliorée dans l'éditeur de texte.
 * Correction du comportement qui ne répond pas lors de l'affichage du contenu d'un fichier zip.
 * Désactivation de l'utilisation de caractères invalides tels que `/` pour renommer les fichiers de commandes.
 * Correction du menu de tri invisible lors de la visualisation du résumé du stockage.
