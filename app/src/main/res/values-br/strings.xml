@@ -1,2 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="invert_colors">Tuginañ al livioù</string>
+    <string name="open_as">Digeriñ evel</string>
+    <string name="text_file">Restr testenn</string>
+    <string name="image_file">Restr skeudenn</string>
+    <string name="audio_file">Rest aodio</string>
+    <string name="video_file">Restr video</string>
+    <string name="other_file">Restr all</string>
+    <string name="compress">Koazhañ</string>
+    <string name="compress_as">Koazhañ evel</string>
+    <string name="compressing">O koazhañ…</string>
+    <string name="decompressing">O tigoazhañ…</string>
+    <string name="decompress">Digoazhañ</string>
+    <string name="decompression_successful">Digoazhet gant berzh</string>
+    <string name="compression_successful">Koazhet gant berzh</string>
+    <string name="compressing_failed">C\'hwitadenn war ar c\'hoazhañ</string>
+    <string name="decompressing_failed">C\'hwitadenn war an digoazhañ</string>
+    <string name="favorites_activity_placeholder">Gallout a rit ouzhpennañ kavlec\'hioù arveret alies d\'ho re well ganeoc\'h evit gallout mont eno adalek n\'eus forzh pelec\'h.</string>
+    <string name="file_editor">Embanner restr</string>
+    <string name="manage_favorites">Ardeiñ ma re well ganin</string>
+    <string name="go_to_favorite">Mont d\'am re well ganin</string>
+    <string name="images">Skeudennoù</string>
+    <string name="audio">Aodio</string>
+    <string name="documents">Teulioù</string>
+    <string name="downloads">Pellgargadurioù</string>
+    <string name="storage_analysis">Dezrann ar c\'hadaviñ</string>
+    <string name="videos">Videoioù</string>
+    <string name="archives">Dielloù</string>
+    <string name="storage_free">dieub</string>
+    <string name="others">Re all</string>
+    <string name="total_storage">Kadaviñ hollek: %s</string>
+    <string name="enable_root_access">Gweredekaat an haeziñ \"root\"</string>
+    <string name="press_back_twice">Azgoulenn pouezañ War-gil div wech evit kuitaat an arload</string>
+    <string name="app_launcher_name">Ardoer restroù</string>
+    <string name="press_back_again">Pouezit war an afell War-gil en-dro evit kuitaat</string>
+    <string name="go_to_home_folder">Mont d\'ar penngavlec\'hiad</string>
+    <string name="copy_path">Eilañ an treug er golver</string>
+    <string name="path_copied">Treug eilet</string>
+    <string name="select_audio_file">Diuzit ur restr aodio</string>
+    <string name="recents">Nevesañ</string>
+    <string name="show_recents">Diskouez ar re nevesañ</string>
+    <string name="set_as_home_folder">Lakaat er penngavlec\'hiad</string>
+    <string name="home_folder_updated">Penngavlec\'hiad hizivaet</string>
+    <string name="search_folder">Klask er c\'havlec\'h</string>
+    <string name="rooted_device_only">Mont a ra en-dro ar gwezhiadur-mañ war an trevnadoù root hepken</string>
+</resources>
