@@ -15,7 +15,7 @@ rootshell = "1.6"
 roottools = "87d3d22e93"
 zip4j = "2.11.5"
 #Gradle
-gradlePlugins-agp = "8.3.0"
+gradlePlugins-agp = "8.7.3"
 #build
 app-build-compileSDKVersion = "34"
 app-build-targetSDK = "34"
