@@ -6,11 +6,16 @@ import android.provider.MediaStore.Files
 import android.provider.MediaStore.Files.FileColumns
 import android.util.AttributeSet
 import androidx.core.os.bundleOf
-import org.fossify.commons.extensions.*
+import org.fossify.commons.extensions.areSystemAnimationsEnabled
+import org.fossify.commons.extensions.beVisibleIf
+import org.fossify.commons.extensions.getDoesFilePathExist
+import org.fossify.commons.extensions.getFilenameFromPath
+import org.fossify.commons.extensions.getLongValue
+import org.fossify.commons.extensions.getStringValue
+import org.fossify.commons.extensions.showErrorToast
 import org.fossify.commons.helpers.VIEW_TYPE_GRID
 import org.fossify.commons.helpers.VIEW_TYPE_LIST
 import org.fossify.commons.helpers.ensureBackgroundThread
-import org.fossify.commons.helpers.isOreoPlus
 import org.fossify.commons.models.FileDirItem
 import org.fossify.commons.views.MyGridLayoutManager
 import org.fossify.commons.views.MyRecyclerView
@@ -156,17 +161,13 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
         )
 
         try {
-            if (isOreoPlus()) {
-                val queryArgs = bundleOf(
-                    ContentResolver.QUERY_ARG_LIMIT to RECENTS_LIMIT,
-                    ContentResolver.QUERY_ARG_SORT_COLUMNS to arrayOf(FileColumns.DATE_MODIFIED),
-                    ContentResolver.QUERY_ARG_SORT_DIRECTION to ContentResolver.QUERY_SORT_DIRECTION_DESCENDING
-                )
-                context?.contentResolver?.query(uri, projection, queryArgs, null)
-            } else {
-                val sortOrder = "${FileColumns.DATE_MODIFIED} DESC LIMIT $RECENTS_LIMIT"
-                context?.contentResolver?.query(uri, projection, null, null, sortOrder)
-            }?.use { cursor ->
+            val queryArgs = bundleOf(
+                ContentResolver.QUERY_ARG_LIMIT to RECENTS_LIMIT,
+                ContentResolver.QUERY_ARG_SORT_COLUMNS to arrayOf(FileColumns.DATE_MODIFIED),
+                ContentResolver.QUERY_ARG_SORT_DIRECTION to ContentResolver.QUERY_SORT_DIRECTION_DESCENDING
+            )
+
+            context?.contentResolver?.query(uri, projection, queryArgs, null)?.use { cursor ->
                 if (cursor.moveToFirst()) {
                     do {
                         val path = cursor.getStringValue(FileColumns.DATA)

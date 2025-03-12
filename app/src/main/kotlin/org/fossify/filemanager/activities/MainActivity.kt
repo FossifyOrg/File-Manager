@@ -59,7 +59,6 @@ import org.fossify.commons.helpers.TAB_RECENT_FILES
 import org.fossify.commons.helpers.TAB_STORAGE_ANALYSIS
 import org.fossify.commons.helpers.VIEW_TYPE_GRID
 import org.fossify.commons.helpers.ensureBackgroundThread
-import org.fossify.commons.helpers.isOreoPlus
 import org.fossify.commons.helpers.isRPlus
 import org.fossify.commons.models.FAQItem
 import org.fossify.commons.models.RadioItem
@@ -108,7 +107,7 @@ class MainActivity : SimpleActivity() {
         refreshMenuItems()
         mTabsToShow = getTabsList()
 
-        if (!config.wasStorageAnalysisTabAdded && isOreoPlus()) {
+        if (!config.wasStorageAnalysisTabAdded) {
             config.wasStorageAnalysisTabAdded = true
             if (config.showTabs and TAB_STORAGE_ANALYSIS == 0) {
                 config.showTabs += TAB_STORAGE_ANALYSIS

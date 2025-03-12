@@ -16,8 +16,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.core.view.isVisible
-import org.fossify.commons.extensions.*
-import org.fossify.commons.helpers.*
+import org.fossify.commons.extensions.adjustAlpha
+import org.fossify.commons.extensions.applyColorFilter
+import org.fossify.commons.extensions.beGone
+import org.fossify.commons.extensions.beVisible
+import org.fossify.commons.extensions.beVisibleIf
+import org.fossify.commons.extensions.fadeIn
+import org.fossify.commons.extensions.formatSize
+import org.fossify.commons.extensions.getIsPathDirectory
+import org.fossify.commons.extensions.getLongValue
+import org.fossify.commons.extensions.getProperBackgroundColor
+import org.fossify.commons.extensions.getProperPrimaryColor
+import org.fossify.commons.extensions.getStringValue
+import org.fossify.commons.extensions.queryCursor
+import org.fossify.commons.extensions.showErrorToast
+import org.fossify.commons.extensions.updateTextColors
+import org.fossify.commons.helpers.LOWER_ALPHA
+import org.fossify.commons.helpers.SHORT_ANIMATION_DURATION
+import org.fossify.commons.helpers.VIEW_TYPE_GRID
+import org.fossify.commons.helpers.VIEW_TYPE_LIST
+import org.fossify.commons.helpers.ensureBackgroundThread
 import org.fossify.commons.models.FileDirItem
 import org.fossify.commons.views.MyGridLayoutManager
 import org.fossify.filemanager.R
@@ -29,7 +47,19 @@ import org.fossify.filemanager.databinding.StorageFragmentBinding
 import org.fossify.filemanager.extensions.config
 import org.fossify.filemanager.extensions.formatSizeThousand
 import org.fossify.filemanager.extensions.getAllVolumeNames
-import org.fossify.filemanager.helpers.*
+import org.fossify.filemanager.helpers.ARCHIVES
+import org.fossify.filemanager.helpers.AUDIO
+import org.fossify.filemanager.helpers.DOCUMENTS
+import org.fossify.filemanager.helpers.IMAGES
+import org.fossify.filemanager.helpers.OTHERS
+import org.fossify.filemanager.helpers.PRIMARY_VOLUME_NAME
+import org.fossify.filemanager.helpers.SHOW_MIMETYPE
+import org.fossify.filemanager.helpers.VIDEOS
+import org.fossify.filemanager.helpers.VOLUME_NAME
+import org.fossify.filemanager.helpers.archiveMimeTypes
+import org.fossify.filemanager.helpers.extraAudioMimeTypes
+import org.fossify.filemanager.helpers.extraDocumentMimeTypes
+import org.fossify.filemanager.helpers.getListItemsFromFileDirItems
 import org.fossify.filemanager.interfaces.ItemOperationsListener
 import org.fossify.filemanager.models.ListItem
 import java.util.Locale
@@ -173,10 +203,6 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
     }
 
     private fun getSizes(volumeName: String) {
-        if (!isOreoPlus()) {
-            return
-        }
-
         ensureBackgroundThread {
             val filesSize = getSizesByMimeType(volumeName)
             val fileSizeImages = filesSize[IMAGES]!!
@@ -284,15 +310,10 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
             if (storageVolume.isPrimary) {
                 // internal storage
                 volumeName = PRIMARY_VOLUME_NAME
-                if (isOreoPlus()) {
-                    val storageStatsManager = context.getSystemService(AppCompatActivity.STORAGE_STATS_SERVICE) as StorageStatsManager
-                    val uuid = StorageManager.UUID_DEFAULT
-                    totalStorageSpace = storageStatsManager.getTotalBytes(uuid)
-                    freeStorageSpace = storageStatsManager.getFreeBytes(uuid)
-                } else {
-                    totalStorageSpace = file.totalSpace
-                    freeStorageSpace = file.freeSpace
-                }
+                val storageStatsManager = context.getSystemService(AppCompatActivity.STORAGE_STATS_SERVICE) as StorageStatsManager
+                val uuid = StorageManager.UUID_DEFAULT
+                totalStorageSpace = storageStatsManager.getTotalBytes(uuid)
+                freeStorageSpace = storageStatsManager.getFreeBytes(uuid)
             } else {
                 volumeName = storageVolume.uuid!!.lowercase(Locale.US)
                 totalStorageSpace = file.totalSpace
@@ -405,16 +426,12 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
         )
 
         try {
-            if (isOreoPlus()) {
-                val queryArgs = bundleOf(
-                    ContentResolver.QUERY_ARG_SORT_COLUMNS to arrayOf(MediaStore.Files.FileColumns.DATE_MODIFIED),
-                    ContentResolver.QUERY_ARG_SORT_DIRECTION to ContentResolver.QUERY_SORT_DIRECTION_DESCENDING
-                )
-                context?.contentResolver?.query(uri, projection, queryArgs, null)
-            } else {
-                val sortOrder = "${MediaStore.Files.FileColumns.DATE_MODIFIED} DESC"
-                context?.contentResolver?.query(uri, projection, null, null, sortOrder)
-            }?.use { cursor ->
+            val queryArgs = bundleOf(
+                ContentResolver.QUERY_ARG_SORT_COLUMNS to arrayOf(MediaStore.Files.FileColumns.DATE_MODIFIED),
+                ContentResolver.QUERY_ARG_SORT_DIRECTION to ContentResolver.QUERY_SORT_DIRECTION_DESCENDING
+            )
+
+            context?.contentResolver?.query(uri, projection, queryArgs, null)?.use { cursor ->
                 if (cursor.moveToFirst()) {
                     do {
                         try {
