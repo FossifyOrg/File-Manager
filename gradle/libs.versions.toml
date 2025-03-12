@@ -1,13 +1,13 @@
 [versions]
 #jetbrains
-kotlin = "1.9.10"
+kotlin = "1.9.25"
 #Detekt
 detekt = "1.23.3"
 #AndroidX
 androidx-swiperefreshlayout = "1.1.0"
 androidx-documentfile = "1.0.1"
 #Fossify
-commons = "18ad1dd308"
+commons = "3dd1f7f33e"
 #Other
 autofittextview = "0.2.1"
 gestureviews = "2.5.2"
@@ -15,11 +15,11 @@ rootshell = "1.6"
 roottools = "87d3d22e93"
 zip4j = "2.11.5"
 #Gradle
-gradlePlugins-agp = "8.3.0"
+gradlePlugins-agp = "8.9.0"
 #build
 app-build-compileSDKVersion = "34"
 app-build-targetSDK = "34"
-app-build-minimumSDK = "23"
+app-build-minimumSDK = "26"
 app-build-javaVersion = "VERSION_17"
 app-build-kotlinJVMTarget = "17"
 #versioning
