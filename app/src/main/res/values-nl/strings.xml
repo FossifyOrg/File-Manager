@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_launcher_name">Bestandsbeheer</string>
-    <string name="press_back_again">Druk nogmaals op terug om af te sluiten</string>
+    <string name="press_back_again">Druk nogmaals op 'Terug' om te sluiten</string>
     <string name="go_to_home_folder">Naar beginmap</string>
-    <string name="set_as_home_folder">Als beginmap instellen</string>
+    <string name="set_as_home_folder">Instellen als beginmap</string>
     <string name="home_folder_updated">Beginmap ingesteld</string>
     <string name="copy_path">Pad naar klembord kopiëren</string>
     <string name="path_copied">Pad gekopieerd</string>
@@ -40,7 +40,7 @@
     <string name="storage_free">vrij</string>
     <string name="total_storage">Totale opslag: %s</string>
     <string name="enable_root_access">Root-toegang inschakelen</string>
-    <string name="press_back_twice">Twee keer op de terugknop drukken om af te sluiten</string>
+    <string name="press_back_twice">Twee keer 'Terug' drukken om te sluiten</string>
     <string name="audio">Geluid</string>
     <string name="downloads">Downloads</string>
     <string name="invert_colors">Kleuren omdraaien</string>
