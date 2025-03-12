@@ -18,8 +18,49 @@ import com.stericson.RootTools.RootTools
 import me.grantland.widget.AutofitHelper
 import org.fossify.commons.dialogs.ConfirmationAdvancedDialog
 import org.fossify.commons.dialogs.RadioGroupDialog
-import org.fossify.commons.extensions.*
-import org.fossify.commons.helpers.*
+import org.fossify.commons.extensions.appLaunched
+import org.fossify.commons.extensions.appLockManager
+import org.fossify.commons.extensions.beGoneIf
+import org.fossify.commons.extensions.checkWhatsNew
+import org.fossify.commons.extensions.getBottomNavigationBackgroundColor
+import org.fossify.commons.extensions.getColoredDrawableWithColor
+import org.fossify.commons.extensions.getFilePublicUri
+import org.fossify.commons.extensions.getMimeType
+import org.fossify.commons.extensions.getProperBackgroundColor
+import org.fossify.commons.extensions.getProperTextColor
+import org.fossify.commons.extensions.getRealPathFromURI
+import org.fossify.commons.extensions.getStorageDirectories
+import org.fossify.commons.extensions.getTimeFormat
+import org.fossify.commons.extensions.handleHiddenFolderPasswordProtection
+import org.fossify.commons.extensions.hasOTGConnected
+import org.fossify.commons.extensions.hasPermission
+import org.fossify.commons.extensions.hideKeyboard
+import org.fossify.commons.extensions.humanizePath
+import org.fossify.commons.extensions.internalStoragePath
+import org.fossify.commons.extensions.isPathOnOTG
+import org.fossify.commons.extensions.isPathOnSD
+import org.fossify.commons.extensions.launchMoreAppsFromUsIntent
+import org.fossify.commons.extensions.onGlobalLayout
+import org.fossify.commons.extensions.onTabSelectionChanged
+import org.fossify.commons.extensions.sdCardPath
+import org.fossify.commons.extensions.showErrorToast
+import org.fossify.commons.extensions.toast
+import org.fossify.commons.extensions.updateBottomTabItemColors
+import org.fossify.commons.extensions.viewBinding
+import org.fossify.commons.helpers.LICENSE_AUTOFITTEXTVIEW
+import org.fossify.commons.helpers.LICENSE_GESTURE_VIEWS
+import org.fossify.commons.helpers.LICENSE_GLIDE
+import org.fossify.commons.helpers.LICENSE_PATTERN
+import org.fossify.commons.helpers.LICENSE_REPRINT
+import org.fossify.commons.helpers.LICENSE_ZIP4J
+import org.fossify.commons.helpers.PERMISSION_WRITE_STORAGE
+import org.fossify.commons.helpers.TAB_FILES
+import org.fossify.commons.helpers.TAB_RECENT_FILES
+import org.fossify.commons.helpers.TAB_STORAGE_ANALYSIS
+import org.fossify.commons.helpers.VIEW_TYPE_GRID
+import org.fossify.commons.helpers.ensureBackgroundThread
+import org.fossify.commons.helpers.isOreoPlus
+import org.fossify.commons.helpers.isRPlus
 import org.fossify.commons.models.FAQItem
 import org.fossify.commons.models.RadioItem
 import org.fossify.commons.models.Release
@@ -51,8 +92,6 @@ class MainActivity : SimpleActivity() {
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
     private var wasBackJustPressed = false
-    private var mIsPasswordProtectionPending = false
-    private var mWasProtectionHandled = false
     private var mTabsToShow = ArrayList<Int>()
 
     private var mStoredFontSize = 0
@@ -81,22 +120,12 @@ class MainActivity : SimpleActivity() {
 
         updateMaterialActivityViews(binding.mainCoordinator, null, useTransparentNavigation = false, useTopSearchMenu = true)
 
-        mIsPasswordProtectionPending = config.isAppPasswordProtectionOn
-
         if (savedInstanceState == null) {
-            handleAppPasswordProtection {
-                mWasProtectionHandled = it
-                if (it) {
-                    initFragments()
-                    mIsPasswordProtectionPending = false
-                    tryInitFileManager()
-                    checkWhatsNewDialog()
-                    checkIfRootAvailable()
-                    checkInvalidFavorites()
-                } else {
-                    finish()
-                }
-            }
+            initFragments()
+            tryInitFileManager()
+            checkWhatsNewDialog()
+            checkIfRootAvailable()
+            checkInvalidFavorites()
         }
     }
 
@@ -128,7 +157,7 @@ class MainActivity : SimpleActivity() {
             }
         }
 
-        if (binding.mainViewPager.adapter == null && mWasProtectionHandled) {
+        if (binding.mainViewPager.adapter == null) {
             initFragments()
         }
     }
@@ -158,6 +187,7 @@ class MainActivity : SimpleActivity() {
                     wasBackJustPressed = false
                 }, BACK_PRESS_TIMEOUT.toLong())
             } else {
+                appLockManager.lock()
                 finish()
             }
         } else {
@@ -241,20 +271,18 @@ class MainActivity : SimpleActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(PICKED_PATH, getItemsFragment()?.currentPath ?: "")
-        outState.putBoolean(WAS_PROTECTION_HANDLED, mWasProtectionHandled)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        mWasProtectionHandled = savedInstanceState.getBoolean(WAS_PROTECTION_HANDLED, false)
         val path = savedInstanceState.getString(PICKED_PATH) ?: internalStoragePath
 
         if (binding.mainViewPager.adapter == null) {
             binding.mainViewPager.onGlobalLayout {
-                restorePath(path)
+                openPath(path, true)
             }
         } else {
-            restorePath(path)
+            openPath(path, true)
         }
     }
 
@@ -264,22 +292,6 @@ class MainActivity : SimpleActivity() {
         isAskingPermissions = false
         if (requestCode == MANAGE_STORAGE_RC && isRPlus()) {
             actionOnPermission?.invoke(Environment.isExternalStorageManager())
-        }
-    }
-
-    private fun restorePath(path: String) {
-        if (!mWasProtectionHandled) {
-            handleAppPasswordProtection {
-                mWasProtectionHandled = it
-                if (it) {
-                    mIsPasswordProtectionPending = false
-                    openPath(path, true)
-                } else {
-                    finish()
-                }
-            }
-        } else {
-            openPath(path, true)
         }
     }
 
@@ -494,10 +506,6 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun openPath(path: String, forceRefresh: Boolean = false) {
-        if (mIsPasswordProtectionPending && !mWasProtectionHandled) {
-            return
-        }
-
         var newPath = path
         val file = File(path)
         if (config.OTGPath.isNotEmpty() && config.OTGPath == path.trimEnd('/')) {
