@@ -1,6 +1,6 @@
 [versions]
 #jetbrains
-kotlin = "1.9.10"
+kotlin = "1.9.25"
 #Detekt
 detekt = "1.23.3"
 #AndroidX
