@@ -1,0 +1,7 @@
+* Le cartelle ora usano il colore primario/accento.
+* Risolti i ritardi non necessari quando si rinominano i file.
+* Miglioramento delle prestazioni di ricerca nell'editor di testo.
+* Corretto il comportamento non reattivo quando si visualizza il contenuto di un file zip.
+* Disabilitato l'uso di caratteri non validi come `/` per la rinominazione dei file in batch.
+* Fissato il menu di ordinamento invisibile quando si visualizza il riepilogo della memoria.
+* Aggiunta di traduzioni.
