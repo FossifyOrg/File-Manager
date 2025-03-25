@@ -1,7 +1,0 @@
-* Kaustad kasutavad nüüd primaarset ja aktsentvärvi.
-* Eemaldasime asjatud viivitused failinimede muutmisel.
-* Parandasime otsingu tõhusust tektitoimetis.
-* Parandasime zip-faili sisu vaatamisel tekkiva hangumise.
-* Blokeerisime keelatud tähemärkide nagu „/“ kasutamise mitme nime faili korraga muutmisel.
-* Parandasime nähtamatuks jäänud sortimismenüü, mis tekkis andmesalvestusmahu ülevaates.
-* Lisasime mõned tõlked.

@@ -1,7 +1,0 @@
-* Dùng màu chính/màu nhấn cho thư mục.
-* Sửa lỗi tình trạng chậm trễ khi đổi tên tệp.
-* Nâng cao hiệu suất tìm kiếm trong trình soạn thảo văn bản.
-* Sửa lỗi không phản hồi khi xem nội dung của file zip.
-* Vô hiệu hóa việc sử dụng các ký tự không hợp lệ như `/` để đổi tên file hàng loạt.
-* Sửa lỗi menu sắp xếp vô hình khi xem tóm tắt lưu trữ.
-* Đã thêm một số bản dịch.

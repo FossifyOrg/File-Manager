@@ -1,7 +1,0 @@
-* Složky nyní používají primární barvu.
-* Opraveno zbytečné zpoždění při přejmenování souborů.
-* Vylepšen výkon vyhledávání v textovém editoru.
-* Opraveno nereagující chování při prohlížení obsahu souboru ZIP.
-* Zakázáno používání neplatných znaků, jako je `/`, při hromadném přejmenování souborů.
-* Opravena neviditelná nabídka třídění při zobrazení přehledu úložišť.
-* Přidány některé překlady.

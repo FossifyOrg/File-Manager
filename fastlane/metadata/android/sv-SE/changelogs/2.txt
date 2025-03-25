@@ -1,7 +1,0 @@
-* Mappar använder nu primär- och accentfärg.
-* Åtgärdade onödiga fördröjningar vid filnamnsändringar.
-* Förbättrade sökfunktionen i textredigaren.
-* Åtgärdade problem vid visning av innehåll av en zipfil.
-* Inaktiverade användningen av ogiltiga tecken som '/' vid filnamnändringar av flera filer.
-* Åtgärdade osynlig sorteringsmeny vid vising av lagringssummering.
-* Lade till några översättningar.

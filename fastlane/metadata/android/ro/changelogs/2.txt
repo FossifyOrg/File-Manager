@@ -1,7 +1,0 @@
-* Dosarele utilizează acum culoarea principală/accentuată.
-* Au fost rezolvate întârzierile inutile la redenumirea fișierelor.
-* Performanță îmbunătățită de căutare în elaboratorul de text.
-* A fost corectat comportamentul la vizualizarea unui fișier zip.
-* Au fost dezactivate unele caractere, cum ar fi „/”, la redenumirea fișierelor.
-* A fost corectată opțiunea invizibilă de aranjare a listei de stocare.
-* Au fost adăugate unele traduceri.

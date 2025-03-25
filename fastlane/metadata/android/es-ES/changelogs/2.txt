@@ -1,7 +1,0 @@
-* Las carpetas utilizan ahora el color primario/acentuado.
-* Retrasos innecesarios al renombrar archivos.
-* Mejora del rendimiento de la búsqueda en el editor de texto.
-* Arreglado el comportamiento insensible al ver el contenido de un archivo zip.
-* Deshabilitado el uso de caracteres no válidos como `/` para renombrar archivos por lotes.
-* Corregido el menú de ordenación invisible al ver el resumen de almacenamiento.
-* Añadidas algunas traducciones.

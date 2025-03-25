@@ -1,7 +1,0 @@
-* Klasörler artık birincil / vurgu rengini kullanıyor.
-* Dosyaları yeniden adlandırırken yaşanan gereksiz gecikmeler giderildi.
-* Metin düzenleyicide gelişmiş arama performansı.
-* Bir zip dosyasının içeriğini görüntülerken yanıt vermeyen davranış düzeltildi.
-* Toplu dosya yeniden adlandırma için `/` gibi geçersiz karakterlerin kullanımı devre dışı bırakıldı.
-* Depolama özetini görüntülerken görünmez sıralama menüsü düzeltildi.
-* Bazı çeviriler eklendi.

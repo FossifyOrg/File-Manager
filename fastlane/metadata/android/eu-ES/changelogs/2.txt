@@ -1,7 +1,0 @@
-* Karpetek orain kolore nagusia erabiltzen dute.
-* Fitxategiak izena aldatzerakoan beharrezkoak ez diren atzerapenak konpondu ditu.
-* Bilaketa-errendimendu hobetua testu-editorean.
-* Zip fitxategi baten edukia ikustean erantzuten ez duen portaera konpondu da.
-* `/` bezalako karaktere baliogabeak erabiltzea desgaitu da batch fitxategien izena aldatzeko.
-* Ordenatzeko menu ikusezina konpondu da biltegiratze laburpena ikustean.
-* Itzulpen batzuk gehitu dira.
