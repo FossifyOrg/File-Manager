@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_launcher_name">Bestandsbeheer</string>
-    <string name="press_back_again">Druk nogmaals op 'Terug' om te sluiten</string>
+    <string name="press_back_again">Druk nogmaals op \'Terug\' om te sluiten</string>
     <string name="go_to_home_folder">Naar beginmap</string>
     <string name="set_as_home_folder">Instellen als beginmap</string>
     <string name="home_folder_updated">Beginmap ingesteld</string>
