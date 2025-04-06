@@ -186,7 +186,8 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             if (activity?.isDestroyed == false && activity?.isFinishing == false) {
                 val config = context!!.config
                 if (context.isRestrictedSAFOnlyRoot(path)) {
-                    activity?.handleAndroidSAFDialog(path) {
+                    activity?.runOnUiThread { hideProgressBar() }
+                    activity?.handleAndroidSAFDialog(path, openInSystemAppAllowed = true) {
                         if (!it) {
                             activity?.toast(R.string.no_storage_permissions)
                             return@handleAndroidSAFDialog
