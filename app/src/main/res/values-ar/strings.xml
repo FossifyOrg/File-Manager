@@ -34,4 +34,5 @@
     <string name="total_storage">إجمالي مساحة التخزين: %s</string>
     <string name="enable_root_access">تفعيل الدخول الى مسار الروت</string>
     <string name="press_back_twice">تتطلب الضغط على رجوع مرتين لمغادرة التطبيق</string>
+    <string name="audio">صوت</string>
 </resources>
