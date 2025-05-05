@@ -10,7 +10,7 @@ androidx-documentfile = "1.0.1"
 commons = "8439b1b80b"
 #Other
 autofittextview = "0.2.1"
-gestureviews = "2.5.2"
+gestureviews = "2.8.3"
 rootshell = "1.6"
 roottools = "87d3d22e93"
 zip4j = "2.11.5"
