@@ -2,7 +2,7 @@
 #jetbrains
 kotlin = "1.9.25"
 #Detekt
-detekt = "1.23.3"
+detekt = "1.23.8"
 #AndroidX
 androidx-swiperefreshlayout = "1.1.0"
 androidx-documentfile = "1.0.1"
