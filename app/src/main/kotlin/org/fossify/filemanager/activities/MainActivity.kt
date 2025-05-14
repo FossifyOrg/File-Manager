@@ -120,6 +120,7 @@ class MainActivity : SimpleActivity() {
         updateMaterialActivityViews(binding.mainCoordinator, null, useTransparentNavigation = false, useTopSearchMenu = true)
 
         if (savedInstanceState == null) {
+            config.temporarilyShowHidden = false
             initFragments()
             tryInitFileManager()
             checkWhatsNewDialog()
@@ -165,11 +166,6 @@ class MainActivity : SimpleActivity() {
         super.onPause()
         storeStateVariables()
         config.lastUsedViewPagerPage = binding.mainViewPager.currentItem
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        config.temporarilyShowHidden = false
     }
 
     override fun onBackPressed() {
