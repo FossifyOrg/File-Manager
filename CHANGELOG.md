@@ -7,14 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Replaced checkboxes with switches
+
 ## [1.0.1] - 2024-03-17
 
 ### Changed
+
 - Folders now use primary/accent color.
 - Enhanced search performance in the text editor.
 - Added some translations.
 
 ### Fixed
+
 - Addressed unnecessary delays when renaming files.
 - Fixed unresponsive behavior when viewing contents of a zip file.
 - Disabled the use of invalid characters such as `/` for batch file renaming.
@@ -23,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2024-01-07
 
 ### Added
+
 - Initial release
 
 [Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.0.1...HEAD
