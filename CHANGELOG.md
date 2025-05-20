@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Preserve modified date when unzip files ([#176])
+
 ## [1.1.0] - 2025-05-21
 
 ### Added
@@ -66,3 +70,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#120]: https://github.com/FossifyOrg/File-Manager/issues/120
 [#149]: https://github.com/FossifyOrg/File-Manager/issues/149
 [#150]: https://github.com/FossifyOrg/File-Manager/issues/150
+[#176]: https://github.com/FossifyOrg/File-Manager/issues/176

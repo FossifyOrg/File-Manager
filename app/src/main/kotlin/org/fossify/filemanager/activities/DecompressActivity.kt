@@ -171,7 +171,9 @@ class DecompressActivity : SimpleActivity() {
                         continue
                     }
 
-                    val isVulnerableForZipPathTraversal = !File(newPath).canonicalPath.startsWith(parent)
+                    val outputFile = File(newPath)
+
+                    val isVulnerableForZipPathTraversal = !outputFile.canonicalPath.startsWith(parent)
                     if (isVulnerableForZipPathTraversal) {
                         continue
                     }
@@ -187,6 +189,7 @@ class DecompressActivity : SimpleActivity() {
                         fos!!.write(buffer, 0, count)
                     }
                     fos!!.close()
+                    outputFile.setLastModified(entry.lastModifiedTimeEpoch)
                 }
 
                 toast(R.string.decompression_successful)
