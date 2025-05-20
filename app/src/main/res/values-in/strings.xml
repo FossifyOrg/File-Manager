@@ -6,18 +6,18 @@
     <string name="home_folder_updated">Folder beranda diperbarui</string>
     <string name="copy_path">Salin jalur ke papan klip</string>
     <string name="path_copied">Jalur disalin</string>
-    <string name="select_audio_file">Silakan pilih berkas audio</string>
+    <string name="select_audio_file">Silakan pilih file audio</string>
     <string name="search_folder">Cari folder</string>
     <string name="rooted_device_only">Tindakan ini hanya bekerja pada perangkat dengan akses root</string>
     <string name="recents">Terkini</string>
     <string name="show_recents">Tampilkan terkini</string>
     <string name="invert_colors">Invers warna</string>
     <string name="open_as">Buka sebagai</string>
-    <string name="text_file">Berkas teks</string>
-    <string name="image_file">Berkas gambar</string>
-    <string name="audio_file">Berkas audio</string>
-    <string name="video_file">Berkas video</string>
-    <string name="other_file">Berkas lainnya</string>
+    <string name="text_file">File teks</string>
+    <string name="image_file">File gambar</string>
+    <string name="audio_file">File audio</string>
+    <string name="video_file">File video</string>
+    <string name="other_file">File lainnya</string>
     <string name="compress">Kompres</string>
     <string name="decompress">Dekompres</string>
     <string name="compress_as">Kompres sebagai</string>
@@ -30,7 +30,7 @@
     <string name="manage_favorites">Kelola favorit</string>
     <string name="go_to_favorite">Buka favorit</string>
     <string name="favorites_activity_placeholder">Anda bisa menambahkan folder yang sering digunakan ke favorit untuk kemudahan akses dari mana saja.</string>
-    <string name="file_editor">Penyunting Berkas</string>
+    <string name="file_editor">Penyunting File</string>
     <string name="storage_analysis">Analisis penyimpanan</string>
     <string name="images">Gambar</string>
     <string name="videos">Video</string>
@@ -39,4 +39,9 @@
     <string name="total_storage">Total penyimpanan: %s</string>
     <string name="enable_root_access">Aktifkan akses root</string>
     <string name="press_back_twice">Wajib tekan tombol kembali dua kali untuk keluar aplikasi</string>
+    <string name="audio">Audio</string>
+    <string name="documents">Dokumen</string>
+    <string name="app_launcher_name">Pengelola File</string>
+    <string name="downloads">Unduhan</string>
+    <string name="storage_free">bebas</string>
 </resources>

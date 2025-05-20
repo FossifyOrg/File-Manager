@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_launcher_name">文件管理器</string>
-    <string name="press_back_again">再次点击返回以退出</string>
+    <string name="press_back_again">再次按返回退出</string>
     <string name="go_to_home_folder">前往主文件夹</string>
-    <string name="set_as_home_folder">设定为主文件夹</string>
+    <string name="set_as_home_folder">设为主文件夹</string>
     <string name="home_folder_updated">主文件夹已更新</string>
     <string name="copy_path">复制路径至剪贴板</string>
     <string name="path_copied">路径已复制</string>
     <string name="select_audio_file">请选择一个音频文件</string>
     <string name="search_folder">搜索文件夹</string>
-    <string name="rooted_device_only">该选项仅在 root 后的设备上工作</string>
-    <string name="recents">最近</string>
-    <string name="show_recents">显示最近</string>
+    <string name="rooted_device_only">仅在拥有 Root 权限时生效</string>
+    <string name="recents">最近文件</string>
+    <string name="show_recents">显示最近文件</string>
     <string name="invert_colors">恢复颜色</string>
     <string name="open_as">打开为</string>
     <string name="text_file">文本文件</string>
-    <string name="image_file">图像文件</string>
+    <string name="image_file">图片文件</string>
     <string name="audio_file">音频文件</string>
     <string name="video_file">视频文件</string>
     <string name="other_file">其他文件</string>
@@ -38,10 +38,10 @@
     <string name="audio">音频</string>
     <string name="documents">文档</string>
     <string name="downloads">下载</string>
-    <string name="archives">存档</string>
+    <string name="archives">归档</string>
     <string name="others">其他</string>
-    <string name="storage_free">空闲</string>
-    <string name="total_storage">总存储: %s</string>
+    <string name="storage_free">可用</string>
+    <string name="total_storage">总存储：%s</string>
     <string name="enable_root_access">启用 root 访问</string>
     <string name="press_back_twice">需要按两次返回键才能离开应用程序</string>
 </resources>

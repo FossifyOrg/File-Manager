@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_launcher_name">Bestandsbeheer</string>
-    <string name="press_back_again">Druk nogmaals op terug om af te sluiten</string>
+    <string name="press_back_again">Druk nogmaals op \'Terug\' om te sluiten</string>
     <string name="go_to_home_folder">Naar beginmap</string>
-    <string name="set_as_home_folder">Als beginmap instellen</string>
+    <string name="set_as_home_folder">Instellen als beginmap</string>
     <string name="home_folder_updated">Beginmap ingesteld</string>
     <string name="copy_path">Pad naar klembord kopiëren</string>
     <string name="path_copied">Pad gekopieerd</string>
@@ -13,9 +13,9 @@
     <string name="recents">Recent geopend</string>
     <string name="show_recents">Recente items tonen</string>
     <string name="open_as">Openen als</string>
-    <string name="text_file">Tekst</string>
+    <string name="text_file">Tekstbestand</string>
     <string name="image_file">Afbeelding</string>
-    <string name="audio_file">Geluid</string>
+    <string name="audio_file">Geluidsbestand</string>
     <string name="video_file">Video</string>
     <string name="other_file">Overig</string>
     <string name="compress">Inpakken</string>
@@ -33,14 +33,14 @@
     <string name="file_editor">Bewerken</string>
     <string name="storage_analysis">Opslaganalyse</string>
     <string name="images">Afbeeldingen</string>
-    <string name="videos">Video</string>
+    <string name="videos">Video\'s</string>
     <string name="documents">Documenten</string>
     <string name="archives">Archieven</string>
     <string name="others">Overig</string>
     <string name="storage_free">vrij</string>
     <string name="total_storage">Totale opslag: %s</string>
     <string name="enable_root_access">Root-toegang inschakelen</string>
-    <string name="press_back_twice">Twee keer op de terugknop drukken om af te sluiten</string>
+    <string name="press_back_twice">Twee keer op \'Terug\' drukken om de app te sluiten</string>
     <string name="audio">Geluid</string>
     <string name="downloads">Downloads</string>
     <string name="invert_colors">Kleuren omdraaien</string>

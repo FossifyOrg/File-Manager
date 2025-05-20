@@ -35,6 +35,13 @@
     <string name="videos">影片</string>
     <string name="others">其他</string>
     <string name="total_storage">總儲存空間：%s</string>
-    <string name="enable_root_access">啟用root權限</string>
+    <string name="enable_root_access">啟用 root 權限</string>
     <string name="press_back_twice">需按兩次返回鍵才能離開 app</string>
+    <string name="audio">音訊</string>
+    <string name="downloads">下載</string>
+    <string name="archives">封存</string>
+    <string name="recents">最近造訪</string>
+    <string name="show_recents">顯示最近造訪</string>
+    <string name="documents">文件</string>
+    <string name="storage_free">可用空間</string>
 </resources>
