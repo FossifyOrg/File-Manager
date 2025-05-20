@@ -1,13 +1,11 @@
 package org.fossify.filemanager.dialogs
 
 import org.fossify.commons.activities.BaseSimpleActivity
-import org.fossify.commons.extensions.beGone
 import org.fossify.commons.extensions.getAlertDialogBuilder
 import org.fossify.commons.extensions.setupDialogStuff
 import org.fossify.commons.helpers.TAB_FILES
 import org.fossify.commons.helpers.TAB_RECENT_FILES
 import org.fossify.commons.helpers.TAB_STORAGE_ANALYSIS
-import org.fossify.commons.helpers.isOreoPlus
 import org.fossify.commons.views.MyAppCompatCheckbox
 import org.fossify.filemanager.R
 import org.fossify.filemanager.databinding.DialogManageVisibleTabsBinding
@@ -23,10 +21,6 @@ class ManageVisibleTabsDialog(val activity: BaseSimpleActivity) {
             put(TAB_FILES, R.id.manage_visible_tabs_files)
             put(TAB_RECENT_FILES, R.id.manage_visible_tabs_recent_files)
             put(TAB_STORAGE_ANALYSIS, R.id.manage_visible_tabs_storage_analysis)
-        }
-
-        if (!isOreoPlus()) {
-            binding.manageVisibleTabsStorageAnalysis.beGone()
         }
 
         val showTabs = activity.config.showTabs

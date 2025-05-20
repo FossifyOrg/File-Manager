@@ -3,18 +3,18 @@
     <string name="app_launcher_name">Файлавы менеджар</string>
     <string name="press_back_again">Націсніце назад яшчэ раз, каб выйсці</string>
     <string name="go_to_home_folder">Перайдзіце ў хатнюю тэчку</string>
-    <string name="set_as_home_folder">Усталяваць у якасці хатняй тэчкі</string>
+    <string name="set_as_home_folder">Ўсталяваць ў якасці хатняй тэчкі</string>
     <string name="home_folder_updated">Хатняя папка абноўлена</string>
-    <string name="copy_path">Капіяваць шлях у буфер абмену</string>
+    <string name="copy_path">Скапіяваць шлях ў буфер абмену</string>
     <string name="path_copied">Шлях скапіяваны</string>
     <string name="select_audio_file">Выберыце аўдыяфайл</string>
     <string name="search_folder">Тэчка пошуку</string>
-    <string name="rooted_device_only">Гэтая аперацыя працуе толькі на каранёвых прыладах</string>
+    <string name="rooted_device_only">Гэтая каманда працуе толькі на прыладах з root-доступам</string>
     <string name="recents">Апошнія</string>
     <string name="show_recents">Паказаць апошнія</string>
     <string name="invert_colors">Інвертаваць колеры</string>
     <string name="open_as">Адкрыць як</string>
-    <string name="text_file">Тэкст</string>
+    <string name="text_file">Тэкставы файл</string>
     <string name="image_file">Выява</string>
     <string name="audio_file">Аўдыё</string>
     <string name="video_file">Відэа</string>
@@ -40,8 +40,8 @@
     <string name="downloads">Спампоўкі</string>
     <string name="archives">Архівы</string>
     <string name="others">Іншае</string>
-    <string name="storage_free">бясплатна</string>
+    <string name="storage_free">свабодна</string>
     <string name="total_storage">Агульная памяць: %s</string>
-    <string name="enable_root_access">Уключыць каранёвы доступ</string>
+    <string name="enable_root_access">Ўключыць root-доступ</string>
     <string name="press_back_twice">Патрабуецца двойчы націснуць \"Назад\", каб выйсці з праграмы</string>
 </resources>

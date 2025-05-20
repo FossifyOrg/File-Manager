@@ -1,13 +1,13 @@
 package org.fossify.filemanager
 
-import android.app.Application
 import com.github.ajalt.reprint.core.Reprint
-import org.fossify.commons.extensions.checkUseEnglish
+import org.fossify.commons.FossifyApp
 
-class App : Application() {
+class App : FossifyApp() {
+    override val isAppLockFeatureAvailable = true
+
     override fun onCreate() {
         super.onCreate()
-        checkUseEnglish()
         Reprint.initialize(this)
     }
 }

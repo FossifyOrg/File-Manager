@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_launcher_name">파일 매니저</string>
-    <string name="press_back_again">뒤로가기 버튼을 다시 누르면 종료됩니다.</string>
+    <string name="press_back_again">뒤로가기 버튼을 다시 누르면 종료됩니다</string>
     <string name="go_to_home_folder">홈 폴더 이동</string>
     <string name="set_as_home_folder">홈 폴더 설정</string>
     <string name="home_folder_updated">홈 폴더 설정완료</string>
     <string name="copy_path">클립보드에 경로 복사</string>
     <string name="path_copied">클립보드에 복사됨</string>
-    <string name="select_audio_file">오디도 파일을 선택하세요.</string>
+    <string name="select_audio_file">오디도 파일을 선택하세요</string>
     <string name="search_folder">폴더 및 파일검색</string>
     <string name="compress">압축</string>
     <string name="decompress">압축 해제</string>
@@ -23,4 +23,24 @@
     <string name="favorites_activity_placeholder">자주 사용하는 폴더를 즐겨찾기에 추가하여 어디서나 쉽게 접근 할 수 있습니다.</string>
     <string name="file_editor">텍스트 편집기</string>
     <string name="enable_root_access">루트 접근 활성화</string>
+    <string name="images">사진</string>
+    <string name="videos">동영상</string>
+    <string name="invert_colors">색상 반전</string>
+    <string name="image_file">사진 파일</string>
+    <string name="audio_file">오디오 파일</string>
+    <string name="open_as">다음으로 열기</string>
+    <string name="text_file">텍스트 파일</string>
+    <string name="video_file">비디오 파일</string>
+    <string name="other_file">기타 파일</string>
+    <string name="total_storage">전체 저장공간: %s</string>
+    <string name="audio">음성</string>
+    <string name="storage_analysis">저장공간 분석</string>
+    <string name="documents">문서</string>
+    <string name="downloads">다운로드</string>
+    <string name="archives">아카이브</string>
+    <string name="others">기타</string>
+    <string name="press_back_twice">뒤로 가기 버튼을 두 번 눌러 앱을 종료</string>
+    <string name="rooted_device_only">이 작업은 루팅된 기기에서만 작동합니다</string>
+    <string name="recents">최근 파일</string>
+    <string name="show_recents">최근 파일 보기</string>
 </resources>

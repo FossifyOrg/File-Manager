@@ -1,0 +1,1 @@
+Explorator de fișiere util, lejer, cu sursă liberă, cu caracteristici esențiale.
