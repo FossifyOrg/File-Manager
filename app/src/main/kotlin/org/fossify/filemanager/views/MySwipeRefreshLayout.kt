@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 
 class MySwipeRefreshLayout @JvmOverloads constructor(
     context: Context,
@@ -29,6 +30,17 @@ class MySwipeRefreshLayout @JvmOverloads constructor(
             return false
         } else {
             super.onStartNestedScroll(child, target, nestedScrollAxes)
+        }
+    }
+
+    override fun canChildScrollUp(): Boolean {
+        val directChild = getChildAt(0)
+        return when (directChild) {
+            is RecyclerViewFastScroller -> {
+                val innerRecyclerView = directChild.getChildAt(0)
+                innerRecyclerView?.canScrollVertically(-1) == true
+            }
+            else -> super.canChildScrollUp()
         }
     }
 }
