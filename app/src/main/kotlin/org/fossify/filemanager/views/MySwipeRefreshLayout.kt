@@ -14,7 +14,7 @@ class MySwipeRefreshLayout @JvmOverloads constructor(
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
         // Setting "isEnabled = false" is recommended for users of this ViewGroup
         // who who are not interested in the pull to refresh functionality
-        // Setting this easily avoids executing code unneededsly before the check for "canChildScrollUp".
+        // Setting this easily avoids executing code needlessly before the check for "canChildScrollUp".
         if (!isEnabled) {
             return false
         }
