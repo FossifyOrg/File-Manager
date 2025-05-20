@@ -13,8 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fixed accidental rendering of pull-to-refresh indicator ([#27])
 - Pull-to-refresh setting is now applied as expected ([#136])
-- Fixed accidental rendering of swipe refresh indicator.
 
 ## [1.0.1] - 2024-03-17
 
@@ -41,4 +41,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.1]: https://github.com/FossifyOrg/File-Manager/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/FossifyOrg/File-Manager/releases/tag/1.0.0
 
+[#27]: https://github.com/FossifyOrg/File-Manager/issues/27
 [#136]: https://github.com/FossifyOrg/File-Manager/issues/136
