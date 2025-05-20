@@ -22,7 +22,7 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <org.fossify.filemanager.views.MySwipeRefreshLayout
         android:id="@+id/recents_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -37,5 +37,5 @@
             android:scrollbars="none"
             app:layoutManager="org.fossify.commons.views.MyGridLayoutManager" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </org.fossify.filemanager.views.MySwipeRefreshLayout>
 </org.fossify.filemanager.fragments.RecentsFragment>
