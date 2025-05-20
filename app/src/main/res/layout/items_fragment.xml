@@ -68,7 +68,7 @@
                 android:textStyle="italic"
                 android:visibility="gone" />
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            <org.fossify.filemanager.views.MySwipeRefreshLayout
                 android:id="@+id/items_swipe_refresh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                         app:layoutManager="org.fossify.commons.views.MyGridLayoutManager" />
 
                 </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            </org.fossify.filemanager.views.MySwipeRefreshLayout>
         </RelativeLayout>
 
         <org.fossify.commons.views.MyFloatingActionButton

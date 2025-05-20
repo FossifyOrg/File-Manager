@@ -1,23 +1,25 @@
 [versions]
 #jetbrains
-kotlin = "1.9.10"
+kotlin = "1.9.25"
+#Detekt
+detekt = "1.23.3"
 #AndroidX
 androidx-swiperefreshlayout = "1.1.0"
-androidx-documentfile = "1.0.1"
+androidx-documentfile = "1.1.0"
 #Fossify
-commons = "18ad1dd308"
+commons = "8439b1b80b"
 #Other
 autofittextview = "0.2.1"
-gestureviews = "2.5.2"
+gestureviews = "2.8.3"
 rootshell = "1.6"
-roottools = "df729dcb13"
+roottools = "87d3d22e93"
 zip4j = "2.11.5"
 #Gradle
-gradlePlugins-agp = "8.3.0"
+gradlePlugins-agp = "8.10.0"
 #build
 app-build-compileSDKVersion = "34"
 app-build-targetSDK = "34"
-app-build-minimumSDK = "23"
+app-build-minimumSDK = "26"
 app-build-javaVersion = "VERSION_17"
 app-build-kotlinJVMTarget = "17"
 #versioning
@@ -34,8 +36,9 @@ fossify-commons = { module = "org.fossify:commons", version.ref = "commons" }
 autofittextview = { module = "me.grantland:autofittextview", version.ref = "autofittextview" }
 gestureviews = { module = "com.alexvasilkov:gesture-views", version.ref = "gestureviews" }
 rootshell = { module = "com.github.Stericson:RootShell", version.ref = "rootshell" }
-roottools = { module = "com.github.Stericson:RootTools", version.ref = "roottools" }
+roottools = { module = "com.github.naveensingh:RootTools", version.ref = "roottools" }
 zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
 [plugins]
 android = { id = "com.android.application", version.ref = "gradlePlugins-agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

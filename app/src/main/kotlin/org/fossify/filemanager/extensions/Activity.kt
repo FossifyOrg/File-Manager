@@ -2,15 +2,24 @@ package org.fossify.filemanager.extensions
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import org.fossify.commons.activities.BaseSimpleActivity
-import org.fossify.commons.extensions.*
-import org.fossify.commons.helpers.isNougatPlus
+import org.fossify.commons.extensions.getFilenameFromPath
+import org.fossify.commons.extensions.getMimeTypeFromUri
+import org.fossify.commons.extensions.getParentPath
+import org.fossify.commons.extensions.launchActivityIntent
+import org.fossify.commons.extensions.openPathIntent
+import org.fossify.commons.extensions.renameFile
+import org.fossify.commons.extensions.setAsIntent
+import org.fossify.commons.extensions.sharePathsIntent
 import org.fossify.filemanager.BuildConfig
-import org.fossify.filemanager.helpers.*
+import org.fossify.filemanager.helpers.OPEN_AS_AUDIO
+import org.fossify.filemanager.helpers.OPEN_AS_DEFAULT
+import org.fossify.filemanager.helpers.OPEN_AS_IMAGE
+import org.fossify.filemanager.helpers.OPEN_AS_TEXT
+import org.fossify.filemanager.helpers.OPEN_AS_VIDEO
 import java.io.File
 
 fun Activity.sharePaths(paths: ArrayList<String>) {
@@ -19,11 +28,9 @@ fun Activity.sharePaths(paths: ArrayList<String>) {
 
 fun Activity.tryOpenPathIntent(path: String, forceChooser: Boolean, openAsType: Int = OPEN_AS_DEFAULT, finishActivity: Boolean = false) {
     if (!forceChooser && path.endsWith(".apk", true)) {
-        val uri = if (isNougatPlus()) {
-            FileProvider.getUriForFile(this, "${BuildConfig.APPLICATION_ID}.provider", File(path))
-        } else {
-            Uri.fromFile(File(path))
-        }
+        val uri = FileProvider.getUriForFile(
+            this, "${BuildConfig.APPLICATION_ID}.provider", File(path)
+        )
 
         Intent().apply {
             action = Intent.ACTION_VIEW
