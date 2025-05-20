@@ -220,7 +220,7 @@ class ItemsAdapter(
     }
 
     override fun onActionModeDestroyed() {
-        swipeRefreshLayout?.isEnabled = true
+        swipeRefreshLayout?.isEnabled = config.enablePullToRefresh
     }
 
     override fun getItemViewType(position: Int): Int {
