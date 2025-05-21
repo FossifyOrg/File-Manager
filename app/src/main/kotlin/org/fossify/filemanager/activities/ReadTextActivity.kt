@@ -32,10 +32,10 @@ class ReadTextActivity : SimpleActivity() {
     companion object {
         private const val SELECT_SAVE_FILE_INTENT = 1
         private const val SELECT_SAVE_FILE_AND_EXIT_INTENT = 2
+        private const val KEY_UNSAVED_TEXT = "KEY_UNSAVED_TEXT"
     }
 
     private val binding by viewBinding(ActivityReadTextBinding::inflate)
-    private val keyUnsavedText = "KEY_UNSAVED_TEXT"
 
     private var filePath = ""
     private var originalText = ""
@@ -101,7 +101,7 @@ class ReadTextActivity : SimpleActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (originalText != binding.readTextView.text.toString()) {
-            outState.putString(keyUnsavedText, binding.readTextView.text.toString())
+            outState.putString(KEY_UNSAVED_TEXT, binding.readTextView.text.toString())
         }
     }
 
@@ -281,7 +281,7 @@ class ReadTextActivity : SimpleActivity() {
             var textToSet = originalText
 
             if (savedInstanceState != null) {
-                textToSet = savedInstanceState.getString(keyUnsavedText, originalText)
+                textToSet = savedInstanceState.getString(KEY_UNSAVED_TEXT, originalText)
             }
 
             binding.readTextView.setText(textToSet)
