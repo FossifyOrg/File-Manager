@@ -7,14 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2025-05-21
+
+### Added
+
+- Added SHA-1 and SHA-256 hashes to file properties ([#149])
+
 ### Changed
 
 - Replaced checkboxes with switches
+- Updated translations
+
+### Removed
+
+- Dropped support for Android 7 and older versions
 
 ### Fixed
 
+- Files saved via `Save As` option are now named properly ([#37])
+- Decompressed folders are now named properly ([#120])
+- Text editor no longer resets on device rotation ([#106])
+- JSON files can now be edited in-app ([#105])
 - Fixed accidental rendering of pull-to-refresh indicator ([#27])
 - Pull-to-refresh setting is now applied as expected ([#136])
+- Fixed invisible content when using app lock ([#150])
 
 ## [1.0.1] - 2024-03-17
 
@@ -37,9 +53,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.0.1...HEAD
+[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/FossifyOrg/File-Manager/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/FossifyOrg/File-Manager/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/FossifyOrg/File-Manager/releases/tag/1.0.0
 
 [#27]: https://github.com/FossifyOrg/File-Manager/issues/27
+[#37]: https://github.com/FossifyOrg/File-Manager/issues/37
 [#136]: https://github.com/FossifyOrg/File-Manager/issues/136
+[#105]: https://github.com/FossifyOrg/File-Manager/issues/105
+[#106]: https://github.com/FossifyOrg/File-Manager/issues/106
+[#120]: https://github.com/FossifyOrg/File-Manager/issues/120
+[#149]: https://github.com/FossifyOrg/File-Manager/issues/149
+[#150]: https://github.com/FossifyOrg/File-Manager/issues/150
