@@ -36,8 +36,11 @@ class SaveAsActivity : SimpleActivity() {
                             }
 
                             val source = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)!!
-                            val filename = getFilenameFromContentUri(source) ?: source.toString().getFilenameFromPath()
-                            val mimeType = contentResolver.getType(source) ?: intent.getType()?.takeIf { it != "*/*" } ?: filename.getMimeType()
+                            val filename = getFilenameFromContentUri(source)
+                                ?: source.toString().getFilenameFromPath()
+                            val mimeType = contentResolver.getType(source)
+                                ?: intent.type?.takeIf { it != "*/*" }
+                                ?: filename.getMimeType()
                             val inputStream = contentResolver.openInputStream(source)
 
                             val destinationPath = "$destination/$filename"
