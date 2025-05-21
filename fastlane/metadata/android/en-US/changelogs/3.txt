@@ -1,0 +1,20 @@
+Added:
+
+• Added SHA-1 and SHA-256 hashes to file properties
+
+Changed:
+
+• Replaced checkboxes with switches
+• Updated translations
+
+Removed:
+
+• Dropped support for Android 7 and older versions
+
+Fixed:
+
+• Files saved via `Save As` option are now named properly
+• Decompressed folders are now named properly
+• Text editor no longer resets on device rotation
+• Fixed accidental rendering of pull-to-refresh indicator
+• Pull-to-refresh setting is now applied as expected
