@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_launcher_name">מנהל קבצים</string>
-    <string name="press_back_again">לחץ שוב אחורה כדי לצאת</string>
+    <string name="press_back_again">ליציאה לחץ אחורה פעם נוספת</string>
     <string name="go_to_home_folder">עבור לתיקיית הבית</string>
     <string name="set_as_home_folder">הגדר כתיקיית בית</string>
     <string name="home_folder_updated">תיקיית הבית עודכנה</string>
@@ -19,15 +19,15 @@
     <string name="audio_file">קובץ שמע</string>
     <string name="video_file">קובץ וידיאו</string>
     <string name="other_file">קובץ אחר</string>
-    <string name="compress">לדחוס</string>
-    <string name="decompress">לבטל דחיסה</string>
-    <string name="compress_as">דחוס כ</string>
+    <string name="compress">דחיסה</string>
+    <string name="decompress">חילוץ</string>
+    <string name="compress_as">דחיסה כ</string>
     <string name="compressing">דוחס…</string>
-    <string name="decompressing">משחרר דחיסה…</string>
+    <string name="decompressing">חילוץ…</string>
     <string name="compression_successful">הדחיסה הצליחה</string>
-    <string name="decompression_successful">שחרור הדחיסה הצליח</string>
+    <string name="decompression_successful">חילוץ הצליח</string>
     <string name="compressing_failed">הדחיסה נכשלה</string>
-    <string name="decompressing_failed">פעולת שחרור הדחיסה נכשל</string>
+    <string name="decompressing_failed">פעולת חילוץ נכשלה</string>
     <string name="manage_favorites">נהל מועדפים</string>
     <string name="go_to_favorite">עבור למועדפים</string>
     <string name="favorites_activity_placeholder">‪אתה יכול להוסיף תיקיות בשימוש תכוף למועדפים לגישה נוחה מכל מקום.</string>
@@ -40,8 +40,8 @@
     <string name="downloads">הורדות</string>
     <string name="archives">ארכיון</string>
     <string name="others">אחרים</string>
-    <string name="storage_free">חינם</string>
+    <string name="storage_free">חופשי</string>
     <string name="total_storage">שטח אחסון כולל: %s</string>
     <string name="enable_root_access">אפשר גישת שורש</string>
-    <string name="press_back_twice">דרוש לחיצה על חזרה פעמיים כדי לצאת מהאפליקציה דרוש לחיצה על חזרה פעמיים כדי לצאת מהאפליקציה</string>
+    <string name="press_back_twice">דרישת לחיצה פעמיים על כפתור אחורה כדי לצאת מהאפליקציה</string>
 </resources>
