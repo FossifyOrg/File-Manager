@@ -101,6 +101,7 @@ import org.fossify.filemanager.extensions.config
 import org.fossify.filemanager.extensions.isPathOnRoot
 import org.fossify.filemanager.extensions.isZipFile
 import org.fossify.filemanager.extensions.setAs
+import org.fossify.filemanager.extensions.setLastModified
 import org.fossify.filemanager.extensions.sharePaths
 import org.fossify.filemanager.extensions.toggleItemVisibility
 import org.fossify.filemanager.extensions.tryOpenPathIntent
@@ -693,6 +694,7 @@ class ItemsAdapter(
             val fos = activity.getFileOutputStreamSync(newPath, newPath.getMimeType())
             if (fos != null) {
                 zipInputStream.copyTo(fos)
+                File(newPath).setLastModified(entry)
             }
         }
     }
