@@ -26,6 +26,7 @@ import org.fossify.filemanager.R
 import org.fossify.filemanager.adapters.DecompressItemsAdapter
 import org.fossify.filemanager.databinding.ActivityDecompressBinding
 import org.fossify.filemanager.extensions.config
+import org.fossify.filemanager.extensions.setLastModified
 import org.fossify.filemanager.models.ListItem
 import java.io.BufferedInputStream
 import java.io.File
@@ -171,7 +172,9 @@ class DecompressActivity : SimpleActivity() {
                         continue
                     }
 
-                    val isVulnerableForZipPathTraversal = !File(newPath).canonicalPath.startsWith(parent)
+                    val outputFile = File(newPath)
+
+                    val isVulnerableForZipPathTraversal = !outputFile.canonicalPath.startsWith(parent)
                     if (isVulnerableForZipPathTraversal) {
                         continue
                     }
@@ -187,6 +190,7 @@ class DecompressActivity : SimpleActivity() {
                         fos!!.write(buffer, 0, count)
                     }
                     fos!!.close()
+                    outputFile.setLastModified(entry)
                 }
 
                 toast(R.string.decompression_successful)
