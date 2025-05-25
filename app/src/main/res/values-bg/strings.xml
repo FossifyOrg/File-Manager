@@ -34,7 +34,7 @@
     <string name="file_editor">Файлов редактор</string>
     <string name="storage_analysis">Анализ на съхранението</string>
     <string name="images">Изображения</string>
-    <string name="videos">Видеоклипове</string>
+    <string name="videos">Видео</string>
     <string name="archives">Архиви</string>
     <string name="others">Други</string>
     <string name="total_storage">Общо място за съхранение: %s</string>
