@@ -35,4 +35,13 @@
     <string name="enable_root_access">تفعيل الدخول الى مسار الروت</string>
     <string name="press_back_twice">تتطلب الضغط على رجوع مرتين لمغادرة التطبيق</string>
     <string name="audio">صوت</string>
+    <string name="documents">المستندات</string>
+    <string name="downloads">التنزيلات</string>
+    <string name="storage_free">فارغ</string>
+    <string name="open_as">فتح كـ</string>
+    <string name="image_file">ملف صورة</string>
+    <string name="text_file">ملف نصي</string>
+    <string name="audio_file">ملف صوتي</string>
+    <string name="video_file">ملف فيديو</string>
+    <string name="other_file">ملف آخر</string>
 </resources>
