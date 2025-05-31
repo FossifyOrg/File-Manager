@@ -14,8 +14,8 @@
     <string name="decompression_successful">Giải nén thành công</string>
     <string name="compressing_failed">Không thể nén</string>
     <string name="decompressing_failed">Không thể giải nén</string>
-    <string name="manage_favorites">Quản lý mục yêu thích</string>
-    <string name="go_to_favorite">Đến mục yêu thích</string>
+    <string name="manage_favorites">Mục yêu thích</string>
+    <string name="go_to_favorite">Mục yêu thích</string>
     <string name="go_to_home_folder">Đến thư mục chính</string>
     <string name="set_as_home_folder">Đặt làm thư mục chính</string>
     <string name="audio">Âm thanh</string>
