@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_launcher_name">Failų tvarkytuvė</string>
-    <string name="press_back_again">Paspauskite atgal dar kartą, norėdami išeiti</string>
+    <string name="press_back_again">Dar kartą paspauskite atgal, kad išeitumėte</string>
     <string name="copy_path">Kopijuoti kelią į iškarpinę</string>
     <string name="path_copied">Kelias nukopijuotas</string>
     <string name="select_audio_file">Pasirinkite garso įrašo failą</string>
-    <string name="search_folder">Ieškoti aplanke</string>
+    <string name="search_folder">Ieškoti aplanką</string>
     <string name="open_as">Atverti kaip</string>
     <string name="text_file">Tekstinis failas</string>
-    <string name="image_file">Paveikslo failas</string>
+    <string name="image_file">Vaizdo failas</string>
     <string name="audio_file">Garso įrašo failas</string>
     <string name="video_file">Vaizdo įrašo failas</string>
     <string name="other_file">Kitas failas</string>
@@ -19,16 +19,29 @@
     <string name="decompressing">Išskleidžiama…</string>
     <string name="compression_successful">Glaudinimas sėkmingas</string>
     <string name="decompression_successful">Išskleidimas sėkmingas</string>
-    <string name="compressing_failed">Nepavyko glaudinti</string>
-    <string name="decompressing_failed">Nepavyko išskleisti</string>
-    <string name="file_editor">Failų redaktorius</string>
+    <string name="compressing_failed">Glaudinimas nepavyko.</string>
+    <string name="decompressing_failed">Išskleidimas nepavyko.</string>
+    <string name="file_editor">Failų rengyklė</string>
     <string name="storage_analysis">Saugyklos analizė</string>
-    <string name="images">Paveikslai</string>
+    <string name="images">Vaizdai</string>
     <string name="videos">Vaizdo įrašai</string>
     <string name="audio">Garso įrašai</string>
     <string name="documents">Dokumentai</string>
-    <string name="downloads">Atsiuntimai</string>
+    <string name="downloads">Atsisiuntimai</string>
     <string name="archives">Archyvai</string>
     <string name="others">Kiti</string>
     <string name="storage_free">laisva</string>
+    <string name="enable_root_access">Įjungti pagrindinį prieigą</string>
+    <string name="total_storage">Bendra saugykla: %s</string>
+    <string name="invert_colors">Invertuoti spalvas</string>
+    <string name="rooted_device_only">Ši operacija veikia tik pagrindiniuose įrenginiuose.</string>
+    <string name="recents">Naujausiai</string>
+    <string name="show_recents">Rodyti naujausių</string>
+    <string name="press_back_twice">Reikalauti dukart paspausti „Atgal“, kad palikti programėlę</string>
+    <string name="manage_favorites">Tvarkyti mėgstamus</string>
+    <string name="go_to_favorite">Eiti į mėgstamą</string>
+    <string name="favorites_activity_placeholder">Dažnai naudojamus aplankus galite pridėti prie mėgstamų, kad juos būtų lengva pasiekti iš bet kur.</string>
+    <string name="go_to_home_folder">Eiti į pagrindinį aplanką</string>
+    <string name="set_as_home_folder">Nustatyti kaip pagrindinį aplanką</string>
+    <string name="home_folder_updated">Pagrindinis aplankas atnaujintas</string>
 </resources>
