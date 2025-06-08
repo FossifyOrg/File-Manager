@@ -30,7 +30,7 @@
     <string name="decompressing_failed">החילוץ נכשל</string>
     <string name="manage_favorites">נהל מועדפים</string>
     <string name="go_to_favorite">עבור למועדפים</string>
-    <string name="favorites_activity_placeholder">‪אתה יכול להוסיף תיקיות בשימוש תכוף למועדפים לגישה נוחה מכל מקום.</string>
+    <string name="favorites_activity_placeholder">באפשרותך להוסיף תיקיות בשימוש תכוף למועדפים לגישה נוחה מכל מקום.</string>
     <string name="file_editor">עורך הקבצים</string>
     <string name="storage_analysis">ניתוח אחסון</string>
     <string name="images">תמונות</string>
