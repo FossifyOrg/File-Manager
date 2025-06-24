@@ -1,6 +1,6 @@
 [versions]
 #jetbrains
-kotlin = "2.1.21"
+kotlin = "2.2.0"
 #Detekt
 detekt = "1.23.8"
 #AndroidX
