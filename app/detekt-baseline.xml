@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <SmellBaseline>
-  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <ManuallySuppressedIssues/>
   <CurrentIssues>
     <ID>ComplexCondition:Activity.kt$(hide &amp;&amp; filename.startsWith('.')) || (!hide &amp;&amp; !filename.startsWith('.'))</ID>
     <ID>ComplexCondition:ItemsAdapter.kt$ItemsAdapter$activity.getDoesFilePathExist(source) &amp;&amp; activity.getIsPathDirectory(source) &amp;&amp; sourceFile.list()?.isEmpty() == true &amp;&amp; sourceFile.getProperSize(true) == 0L &amp;&amp; sourceFile.getFileCount(true) == 0</ID>
@@ -9,7 +9,6 @@
     <ID>ComplexCondition:MimeTypesActivity.kt$MimeTypesActivity$mimetype != "image" &amp;&amp; mimetype != "video" &amp;&amp; mimetype != "audio" &amp;&amp; mimetype != "text" &amp;&amp; !extraAudioMimeTypes.contains(fullMimetype) &amp;&amp; !extraDocumentMimeTypes.contains(fullMimetype) &amp;&amp; !archiveMimeTypes.contains(fullMimetype)</ID>
     <ID>ComplexCondition:ReadTextActivity.kt$ReadTextActivity$requestCode == SELECT_SAVE_FILE_INTENT &amp;&amp; resultCode == Activity.RESULT_OK &amp;&amp; resultData != null &amp;&amp; resultData.data != null</ID>
     <ID>CyclomaticComplexMethod:DecompressActivity.kt$DecompressActivity$private fun decompressTo(destination: String)</ID>
-    <ID>CyclomaticComplexMethod:DecompressActivity.kt$DecompressActivity$private fun fillAllListItems(uri: Uri, callback: () -&gt; Unit)</ID>
     <ID>CyclomaticComplexMethod:ItemsAdapter.kt$ItemsAdapter$@SuppressLint("NewApi") private fun compressPaths(sourcePaths: List&lt;String&gt;, targetPath: String, password: String? = null): Boolean</ID>
     <ID>CyclomaticComplexMethod:ItemsAdapter.kt$ItemsAdapter$override fun actionItemPressed(id: Int)</ID>
     <ID>CyclomaticComplexMethod:MainActivity.kt$MainActivity$private fun setupOptionsMenu()</ID>
@@ -23,7 +22,6 @@
     <ID>EmptyFunctionBlock:MimeTypesActivity.kt$MimeTypesActivity${}</ID>
     <ID>EmptyFunctionBlock:StorageFragment.kt$StorageFragment${}</ID>
     <ID>LargeClass:ItemsAdapter.kt$ItemsAdapter : MyRecyclerViewAdapterOnPopupTextUpdate</ID>
-    <ID>LargeClass:MainActivity.kt$MainActivity : SimpleActivity</ID>
     <ID>LongMethod:DecompressActivity.kt$DecompressActivity$private fun fillAllListItems(uri: Uri, callback: () -&gt; Unit)</ID>
     <ID>LongMethod:ItemsAdapter.kt$ItemsAdapter$@SuppressLint("NewApi") private fun compressPaths(sourcePaths: List&lt;String&gt;, targetPath: String, password: String? = null): Boolean</ID>
     <ID>LongMethod:MimeTypesActivity.kt$MimeTypesActivity$private fun getProperFileDirItems(callback: (ArrayList&lt;FileDirItem&gt;) -&gt; Unit)</ID>
@@ -62,7 +60,6 @@
     <ID>MaxLineLength:CompressAsDialog.kt$CompressAsDialog$val indexOfDot = if (filename.contains('.') &amp;&amp; !activity.getIsPathDirectory(path)) filename.lastIndexOf(".") else filename.length</ID>
     <ID>MaxLineLength:Config.kt$Config$set(wasStorageAnalysisTabAdded) = prefs.edit().putBoolean(WAS_STORAGE_ANALYSIS_TAB_ADDED, wasStorageAnalysisTabAdded).apply()</ID>
     <ID>MaxLineLength:Context.kt$fun Context.isPathOnRoot(path: String)</ID>
-    <ID>MaxLineLength:DecompressActivity.kt$DecompressActivity$binding.decompressToolbar.title = realPath?.getFilenameFromPath() ?: Uri.decode(uri.toString().getFilenameFromPath())</ID>
     <ID>MaxLineLength:DecompressActivity.kt$DecompressActivity$updateMaterialActivityViews(decompressCoordinator, decompressList, useTransparentNavigation = true, useTopSearchMenu = false)</ID>
     <ID>MaxLineLength:DecompressItemsAdapter.kt$DecompressItemsAdapter$class</ID>
     <ID>MaxLineLength:DecompressItemsAdapter.kt$DecompressItemsAdapter$val drawable = fileDrawables.getOrElse(fileName.substringAfterLast(".").lowercase(Locale.getDefault()), { fileDrawable })</ID>
@@ -188,35 +185,20 @@
     <ID>VariableNaming:ItemsAdapter.kt$ItemsAdapter$val SAFPath = getFirstSelectedItemPath()</ID>
     <ID>VariableNaming:RecentsFragment.kt$RecentsFragment$private val RECENTS_LIMIT = 50</ID>
     <ID>VariableNaming:StorageFragment.kt$StorageFragment$private val SIZE_DIVIDER = 100000</ID>
-    <ID>WildcardImport:Activity.kt$import org.fossify.commons.extensions.*</ID>
-    <ID>WildcardImport:Activity.kt$import org.fossify.filemanager.helpers.*</ID>
     <ID>WildcardImport:ChangeSortingDialog.kt$import org.fossify.commons.helpers.*</ID>
     <ID>WildcardImport:CompressAsDialog.kt$import org.fossify.commons.extensions.*</ID>
     <ID>WildcardImport:CreateNewItemDialog.kt$import org.fossify.commons.extensions.*</ID>
-    <ID>WildcardImport:DecompressActivity.kt$import org.fossify.commons.extensions.*</ID>
     <ID>WildcardImport:InsertFilenameDialog.kt$import org.fossify.commons.extensions.*</ID>
-    <ID>WildcardImport:ItemsAdapter.kt$import org.fossify.commons.dialogs.*</ID>
-    <ID>WildcardImport:ItemsAdapter.kt$import org.fossify.commons.extensions.*</ID>
-    <ID>WildcardImport:ItemsAdapter.kt$import org.fossify.commons.helpers.*</ID>
-    <ID>WildcardImport:ItemsAdapter.kt$import org.fossify.filemanager.databinding.*</ID>
-    <ID>WildcardImport:ItemsAdapter.kt$import org.fossify.filemanager.extensions.*</ID>
-    <ID>WildcardImport:ItemsAdapter.kt$import org.fossify.filemanager.helpers.*</ID>
     <ID>WildcardImport:ItemsFragment.kt$import org.fossify.commons.extensions.*</ID>
     <ID>WildcardImport:ItemsFragment.kt$import org.fossify.commons.helpers.*</ID>
-    <ID>WildcardImport:MainActivity.kt$import org.fossify.commons.extensions.*</ID>
-    <ID>WildcardImport:MainActivity.kt$import org.fossify.commons.helpers.*</ID>
     <ID>WildcardImport:ManageFavoritesAdapter.kt$import android.view.*</ID>
     <ID>WildcardImport:MimeTypesActivity.kt$import org.fossify.commons.extensions.*</ID>
     <ID>WildcardImport:MimeTypesActivity.kt$import org.fossify.filemanager.helpers.*</ID>
     <ID>WildcardImport:MyViewPagerFragment.kt$import org.fossify.commons.extensions.*</ID>
     <ID>WildcardImport:ReadTextActivity.kt$import org.fossify.commons.extensions.*</ID>
-    <ID>WildcardImport:RecentsFragment.kt$import org.fossify.commons.extensions.*</ID>
     <ID>WildcardImport:SaveAsActivity.kt$import org.fossify.commons.extensions.*</ID>
     <ID>WildcardImport:SaveAsDialog.kt$import org.fossify.commons.extensions.*</ID>
     <ID>WildcardImport:SettingsActivity.kt$import org.fossify.commons.extensions.*</ID>
     <ID>WildcardImport:SettingsActivity.kt$import org.fossify.commons.helpers.*</ID>
-    <ID>WildcardImport:StorageFragment.kt$import org.fossify.commons.extensions.*</ID>
-    <ID>WildcardImport:StorageFragment.kt$import org.fossify.commons.helpers.*</ID>
-    <ID>WildcardImport:StorageFragment.kt$import org.fossify.filemanager.helpers.*</ID>
   </CurrentIssues>
 </SmellBaseline>
