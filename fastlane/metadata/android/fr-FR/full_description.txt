@@ -1,30 +1,30 @@
 Fatigué des gestionnaires de fichiers qui vous ralentissent et envahissent votre vie privée ? Découvrez une expérience rapide comme l'éclair, sécurisée et entièrement personnalisable avec Fossify File Manager. ⚡
 
-🚀 DOMINEZ VOTRE MONDE NUMÉRIQUE AVEC UNE NAVIGATION ULTRA-RAPIDE :
+🚀 DOMINEZ VOTRE MONDE NUMÉRIQUE AVEC UNE NAVIGATION ULTRA-RAPIDE :
  • Gérez rapidement vos fichiers avec des capacités de compression et de transfert faciles, pour garder votre vie numérique organisée.
  • Accédez rapidement aux dossiers que vous utilisez le plus grâce à la personnalisation du dossier d’accueil et à des raccourcis vers vos favoris.
  • Trouvez ce dont vous avez besoin en quelques secondes grâce à des options intuitives de navigation, de recherche et de tri.
 
-🔐 RENFORCEZ VOS DONNÉES AVEC UNE CONFIDENTIALITÉ ET UNE SÉCURITÉ INÉGALÉES :
+🔐 RENFORCEZ VOS DONNÉES AVEC UNE CONFIDENTIALITÉ ET UNE SÉCURITÉ INÉGALÉES :
  • Sécurisez les fichiers sensibles avec un mot de passe, un schéma ou votre empreinte digitale, pour les éléments cachés ou pour toute l'application.
  • Aucun accès Internet requis – vos fichiers restent privés et sécurisés sur votre appareil.
 
-💾 MAÎTRISEZ VOTRE STOCKAGE COMME UN PRO :
+💾 MAÎTRISEZ VOTRE STOCKAGE COMME UN PRO :
  • Libérez de l'espace avec une compression facile des fichiers et des dossiers pour maximiser le potentiel de votre appareil.
  • Identifiez et nettoyez les fichiers occupant beaucoup d'espace avec l'outil d'analyse de stockage intégré.
  • Naviguez en toute transparence dans les fichiers racine, les cartes SD et les périphériques USB pour une organisation parfaite.
 
-📁 OPTIMISEZ VOS TÂCHES AVEC DES OUTILS PRATIQUES :
+📁 OPTIMISEZ VOS TÂCHES AVEC DES OUTILS PRATIQUES :
  • Créez des raccourcis sur votre écran d’accueil pour un accès instantané aux fichiers et dossiers que vous utilisez le plus.
  • Modifiez, imprimez ou lisez facilement des documents avec l'éditeur de fichiers légers, doté de gestes de zoom.
 
-🌈 FAITES-LE VÔTRE AVEC UNE PERSONNALISATION SANS FIN :
- • Profitez d'une expérience open-source sans publicités qui vous donne le contrôle, pas des applications appartenant à des géants.
+🌈 FAITES-LE VÔTRE AVEC UNE PERSONNALISATION SANS FIN :
+ • Profitez d'une expérience open-source sans publicités qui vous donne le contrôle, pas des applications appartenant à des géants du numérique.
  • Personnalisez les couleurs, les thèmes et les icônes pour refléter votre style unique et vos préférences.
 
-Abandonnez les gestionnaires de fichiers gonflés et envahissent la vie privée, faites l'expérience d'une véritable liberté avec Fossify File Manager. Téléchargez maintenant et reprenez en main votre vie numérique !
+Abandonnez les gestionnaires de fichiers encombrés et envahissant votre vie privée, faites l'expérience d'une véritable liberté avec Fossify File Manager. Téléchargez-le maintenant et reprenez en main votre vie numérique !
 
-Explorez plus d'apps de Fossify : https://www.fossify.org
-Code open-source : https://www.github.com/FossifyOrg
-Rejoignez la communauté sur Reddit : https://www.reddit.com/r/Fossify
-Restez connecté via Telegram : https://t.me/Fossify
+Découvre plus d'applis de Fossify : https://www.fossify.org
+Code open-source : https://www.github.com/FossifyOrg
+Rejoignez la communauté sur Reddit : https://www.reddit.com/r/Fossify
+Restez connecté via Telegram : https://t.me/Fossify
