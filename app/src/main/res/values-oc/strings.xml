@@ -36,4 +36,12 @@
     <string name="select_audio_file">Seleccionatz un fichièr àudio</string>
     <string name="compress">Compressar</string>
     <string name="documents">Documents</string>
+    <string name="rooted_device_only">Aquesta operacion fonciona sonque suls aparelhs rootats</string>
+    <string name="decompression_successful">Descompression reüssida</string>
+    <string name="compressing_failed">Fracàs de la compression</string>
+    <string name="decompressing_failed">Fracàs de la descompression</string>
+    <string name="manage_favorites">Gerir los favorits</string>
+    <string name="storage_analysis">Analisi de l\'emmagazinatge</string>
+    <string name="press_back_twice">Cal quichar dos còps la tòca Entrada per quitar l\'aplicacion</string>
+    <string name="favorites_activity_placeholder">Podètz apondre los dossièrs utilizatq frequentament per i accedir de pertot.</string>
 </resources>
