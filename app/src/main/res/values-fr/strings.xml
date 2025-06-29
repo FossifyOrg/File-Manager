@@ -26,8 +26,8 @@
     <string name="decompressing">Décompression…</string>
     <string name="compression_successful">Compression réussie</string>
     <string name="decompression_successful">Décompression réussie</string>
-    <string name="compressing_failed">Compression ratée</string>
-    <string name="decompressing_failed">Décompression ratée</string>
+    <string name="compressing_failed">Échec de la compression</string>
+    <string name="decompressing_failed">Échec de la décompression</string>
     <string name="manage_favorites">Gérer les favoris</string>
     <string name="go_to_favorite">Aller au favori</string>
     <string name="favorites_activity_placeholder">Vous pouvez ajouter des dossiers souvent utilisés comme favoris pour y avoir accès rapidement depuis n\'importe où.</string>
