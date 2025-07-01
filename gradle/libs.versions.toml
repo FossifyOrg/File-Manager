@@ -12,7 +12,7 @@ commons = "4.0.0"
 autofittextview = "0.2.1"
 gestureviews = "2.8.3"
 rootshell = "bc7e5d398e"
-roottools = "87d3d22e93"
+roottools = "965c154e20"
 zip4j = "2.11.5"
 #Gradle
 gradlePlugins-agp = "8.10.1"
