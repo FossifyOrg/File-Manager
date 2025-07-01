@@ -11,7 +11,7 @@ commons = "4.0.0"
 #Other
 autofittextview = "0.2.1"
 gestureviews = "2.8.3"
-rootshell = "1.6"
+rootshell = "bc7e5d398e"
 roottools = "87d3d22e93"
 zip4j = "2.11.5"
 #Gradle
@@ -31,7 +31,7 @@ fossify-commons = { module = "org.fossify:commons", version.ref = "commons" }
 #Other
 autofittextview = { module = "me.grantland:autofittextview", version.ref = "autofittextview" }
 gestureviews = { module = "com.alexvasilkov:gesture-views", version.ref = "gestureviews" }
-rootshell = { module = "com.github.Stericson:RootShell", version.ref = "rootshell" }
+rootshell = { module = "com.github.naveensingh:RootShell", version.ref = "rootshell" }
 roottools = { module = "com.github.naveensingh:RootTools", version.ref = "roottools" }
 zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
 [plugins]
