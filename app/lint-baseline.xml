@@ -30,19 +30,8 @@
         errorLine2="                      ~~~~">
         <location
             file="$HOME/Projects/Fossify/FossifyOrg/File-Manager/gradle/libs.versions.toml"
-            line="21"
+            line="22"
             column="23"/>
-    </issue>
-
-    <issue
-        id="UnusedAttribute"
-        message="Attribute `localeConfig` is only used in API level 33 and higher (current min is 26)"
-        errorLine1="        android:localeConfig=&quot;@xml/locale_config&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/AndroidManifest.xml"
-            line="25"
-            column="9"/>
     </issue>
 
     <issue
@@ -68,14 +57,14 @@
     </issue>
 
     <issue
-        id="GradleDependency"
-        message="A newer version of org.fossify:commons than 3.0.5 is available: 3.1.0"
-        errorLine1="commons = &quot;3.0.5&quot;"
-        errorLine2="          ~~~~~~~">
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.application than 8.10.1 is available: 8.11.0"
+        errorLine1="gradlePlugins-agp = &quot;8.10.1&quot;"
+        errorLine2="                    ~~~~~~~~">
         <location
             file="$HOME/Projects/Fossify/FossifyOrg/File-Manager/gradle/libs.versions.toml"
-            line="10"
-            column="11"/>
+            line="19"
+            column="21"/>
     </issue>
 
     <issue
@@ -85,7 +74,7 @@
         errorLine2="                              ~~~~">
         <location
             file="$HOME/Projects/Fossify/FossifyOrg/File-Manager/gradle/libs.versions.toml"
-            line="20"
+            line="21"
             column="31"/>
     </issue>
 

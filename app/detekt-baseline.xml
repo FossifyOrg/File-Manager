@@ -22,10 +22,6 @@
     <ID>EmptyFunctionBlock:MimeTypesActivity.kt$MimeTypesActivity${}</ID>
     <ID>EmptyFunctionBlock:StorageFragment.kt$StorageFragment${}</ID>
     <ID>LargeClass:ItemsAdapter.kt$ItemsAdapter : MyRecyclerViewAdapterOnPopupTextUpdate</ID>
-    <ID>LongMethod:DecompressActivity.kt$DecompressActivity$private fun fillAllListItems(uri: Uri, callback: () -&gt; Unit)</ID>
-    <ID>LongMethod:ItemsAdapter.kt$ItemsAdapter$@SuppressLint("NewApi") private fun compressPaths(sourcePaths: List&lt;String&gt;, targetPath: String, password: String? = null): Boolean</ID>
-    <ID>LongMethod:MimeTypesActivity.kt$MimeTypesActivity$private fun getProperFileDirItems(callback: (ArrayList&lt;FileDirItem&gt;) -&gt; Unit)</ID>
-    <ID>LongParameterList:ItemsAdapter.kt$ItemsAdapter$( activity: SimpleActivity, var listItems: MutableList&lt;ListItem&gt;, private val listener: ItemOperationsListener?, recyclerView: MyRecyclerView, private val isPickMultipleIntent: Boolean, private val swipeRefreshLayout: SwipeRefreshLayout?, canHaveIndividualViewType: Boolean = true, itemClick: (Any) -&gt; Unit, )</ID>
     <ID>LoopWithTooManyJumpStatements:DecompressActivity.kt$DecompressActivity$while</ID>
     <ID>LoopWithTooManyJumpStatements:StorageFragment.kt$StorageFragment$do</ID>
     <ID>MagicNumber:Config.kt$Config$1.2f</ID>
@@ -39,15 +35,11 @@
     <ID>MagicNumber:ItemsAdapter.kt$ItemsAdapter$180</ID>
     <ID>MagicNumber:ItemsAdapter.kt$ItemsAdapter$4</ID>
     <ID>MagicNumber:ItemsFragment.kt$ItemsFragment$3</ID>
-    <ID>MagicNumber:Long.kt$1000.0</ID>
-    <ID>MagicNumber:MimeTypesActivity.kt$MimeTypesActivity$1000</ID>
     <ID>MagicNumber:ReadTextActivity.kt$ReadTextActivity$250</ID>
     <ID>MagicNumber:ReadTextActivity.kt$ReadTextActivity$50</ID>
-    <ID>MagicNumber:RecentsFragment.kt$RecentsFragment$1000</ID>
     <ID>MagicNumber:RecentsFragment.kt$RecentsFragment$3</ID>
     <ID>MagicNumber:RecentsFragment.kt$RecentsFragment$50</ID>
     <ID>MagicNumber:RootHelpers.kt$RootHelpers.&lt;no name provided&gt;$5</ID>
-    <ID>MagicNumber:StorageFragment.kt$StorageFragment$1000</ID>
     <ID>MagicNumber:StorageFragment.kt$StorageFragment$100000</ID>
     <ID>MagicNumber:StorageFragment.kt$StorageFragment$2000</ID>
     <ID>MagicNumber:StorageFragment.kt$StorageFragment$3</ID>
