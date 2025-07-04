@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_folder">Cercar dins lo dossièr</string>
+    <string name="invert_colors">Invertir las colors</string>
+    <string name="images">Imatges</string>
+    <string name="app_launcher_name">Gestionari de fichièrs</string>
+    <string name="recents">Recents</string>
+    <string name="show_recents">Mostrar los recents</string>
+    <string name="open_as">Dobrir coma</string>
+    <string name="text_file">Fichièr tèxte</string>
+    <string name="image_file">Fichièr imatge</string>
+    <string name="audio_file">Fichièr àudio</string>
+    <string name="video_file">Fichièr vidèo</string>
+    <string name="other_file">Autre fichièr</string>
+    <string name="decompress">Descompressar</string>
+    <string name="compress_as">Compressar coma</string>
+    <string name="compressing">Compression…</string>
+    <string name="decompressing">Descompression…</string>
+    <string name="compression_successful">Compression reüssida</string>
+    <string name="go_to_favorite">Anar als favorits</string>
+    <string name="file_editor">Editor de fichièrs</string>
+    <string name="videos">Vidèos</string>
+    <string name="audio">Àudio</string>
+    <string name="downloads">Telecargaments</string>
+    <string name="archives">Fichièrs</string>
+    <string name="others">Autres</string>
+    <string name="storage_free">disponible</string>
+    <string name="total_storage">Emmagazinatge total : %s</string>
+    <string name="enable_root_access">Activar l’accès root</string>
+    <string name="press_back_again">Tocatz de nòu en rèire per sortir</string>
+    <string name="go_to_home_folder">Anar al dossièr principal</string>
+    <string name="set_as_home_folder">Definir coma dossièr principal</string>
+    <string name="home_folder_updated">Dossièr per defaut actualizat</string>
+    <string name="copy_path">Copiar l’emplaçament al quichapapièrs</string>
+    <string name="path_copied">Emplaçament copiat</string>
+    <string name="select_audio_file">Seleccionatz un fichièr àudio</string>
+    <string name="compress">Compressar</string>
+    <string name="documents">Documents</string>
+    <string name="rooted_device_only">Aquesta operacion fonciona sonque suls aparelhs rootats</string>
+    <string name="decompression_successful">Descompression reüssida</string>
+    <string name="compressing_failed">Fracàs de la compression</string>
+    <string name="decompressing_failed">Fracàs de la descompression</string>
+    <string name="manage_favorites">Gerir los favorits</string>
+    <string name="storage_analysis">Analisi de l\'emmagazinatge</string>
+    <string name="press_back_twice">Cal quichar dos còps la tòca Entrada per quitar l\'aplicacion</string>
+    <string name="favorites_activity_placeholder">Podètz apondre los dossièrs utilizatq frequentament per i accedir de pertot.</string>
+</resources>
