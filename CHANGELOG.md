@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Preserve modified date when unzip files ([#176])
+- File modification time is now preserved when compressing/decompressing files ([#176])
 
 ## [1.1.0] - 2025-05-21
 

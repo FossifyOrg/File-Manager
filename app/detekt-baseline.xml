@@ -9,7 +9,7 @@
     <ID>ComplexCondition:MimeTypesActivity.kt$MimeTypesActivity$mimetype != "image" &amp;&amp; mimetype != "video" &amp;&amp; mimetype != "audio" &amp;&amp; mimetype != "text" &amp;&amp; !extraAudioMimeTypes.contains(fullMimetype) &amp;&amp; !extraDocumentMimeTypes.contains(fullMimetype) &amp;&amp; !archiveMimeTypes.contains(fullMimetype)</ID>
     <ID>ComplexCondition:ReadTextActivity.kt$ReadTextActivity$requestCode == SELECT_SAVE_FILE_INTENT &amp;&amp; resultCode == Activity.RESULT_OK &amp;&amp; resultData != null &amp;&amp; resultData.data != null</ID>
     <ID>CyclomaticComplexMethod:DecompressActivity.kt$DecompressActivity$private fun decompressTo(destination: String)</ID>
-    <ID>CyclomaticComplexMethod:ItemsAdapter.kt$ItemsAdapter$@SuppressLint("NewApi") private fun compressPaths(sourcePaths: List&lt;String&gt;, targetPath: String, password: String? = null): Boolean</ID>
+    <ID>CyclomaticComplexMethod:ItemsAdapter.kt$ItemsAdapter$@SuppressLint("NewApi") private fun compressPaths( sourcePaths: List&lt;String&gt;, targetPath: String, password: String? = null ): Boolean</ID>
     <ID>CyclomaticComplexMethod:ItemsAdapter.kt$ItemsAdapter$override fun actionItemPressed(id: Int)</ID>
     <ID>CyclomaticComplexMethod:MainActivity.kt$MainActivity$private fun setupOptionsMenu()</ID>
     <ID>CyclomaticComplexMethod:MimeTypesActivity.kt$MimeTypesActivity$private fun getProperFileDirItems(callback: (ArrayList&lt;FileDirItem&gt;) -&gt; Unit)</ID>
@@ -58,32 +58,7 @@
     <ID>MaxLineLength:FavoritesActivity.kt$FavoritesActivity$FilePickerDialog</ID>
     <ID>MaxLineLength:FavoritesActivity.kt$FavoritesActivity$ManageFavoritesAdapter(this@FavoritesActivity, favorites, this@FavoritesActivity, manageFavoritesList) { }</ID>
     <ID>MaxLineLength:FavoritesActivity.kt$FavoritesActivity$updateMaterialActivityViews(manageFavoritesCoordinator, manageFavoritesList, useTransparentNavigation = true, useTopSearchMenu = false)</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$"${baseConfig.OTGTreeUri}/document/${baseConfig.OTGPartition}%3A${itemToLoad.substring(baseConfig.OTGPath.length).replace("/", "%2F")}"</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$(drawable as LayerDrawable).findDrawableByLayerId(R.id.shortcut_folder_background).applyColorFilter(appIconColor)</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$File(path).listFiles()?.filter { if (shouldShowHidden) true else !it.name.startsWith('.') }</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$activity.getDocumentFile(path)?.listFiles()?.filter { if (shouldShowHidden) true else !it.name!!.startsWith(".") }</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$if</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$intent.flags = intent.flags or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$itemName?.text = if (textToHighlight.isEmpty()) fileName else fileName.highlightTextPart(textToHighlight, properPrimaryColor)</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$itemSection?.text = if (textToHighlight.isEmpty()) listItem.mName else listItem.mName.highlightTextPart(textToHighlight, properPrimaryColor)</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$name = if (base == currentPath) currentPath.getFilenameFromPath() else mainFilePath.relativizeWith(base)</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$override fun getIsItemSelectable(position: Int)</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$override fun onChange(position: Int)</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$private</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$private fun getSelectedFileDirItems()</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$sourceFile.list()?.isEmpty() == true</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$val currPath = if (entry.isDirectory) path else "${path.getParentPath().trimEnd('/')}/${entry.fileName}"</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$val drawable = fileDrawables.getOrElse(fileName.substringAfterLast(".").lowercase(Locale.getDefault()), { fileDrawable })</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$val fileDirItem = FileDirItem(currPath, entry.fileName, entry.isDirectory, 0, entry.uncompressedSize)</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$val fileIcon = fileDrawables.getOrElse(path.substringAfterLast(".").lowercase(Locale.getDefault()), { fileDrawable })</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$val paths = getSelectedFileDirItems().asSequence().filter { !it.isDirectory }.map { it.path }.toMutableList() as ArrayList&lt;String&gt;</ID>
     <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$}</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter.Binding.ItemDirGrid$override</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter.Binding.ItemEmpty$override</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter.Binding.ItemFileDirList$override</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter.Binding.ItemFileDirList$return ItemFileDirListBindingAdapter(ItemFileDirListBinding.inflate(layoutInflater, viewGroup, attachToRoot))</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter.Binding.ItemFileGrid$override</ID>
-    <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter.Binding.ItemSection$override</ID>
     <ID>MaxLineLength:ItemsFragment.kt$ItemsFragment$ItemsAdapter</ID>
     <ID>MaxLineLength:ItemsFragment.kt$ItemsFragment$class</ID>
     <ID>MaxLineLength:ItemsFragment.kt$ItemsFragment$context</ID>
@@ -107,7 +82,6 @@
     <ID>MaxLineLength:MainActivity.kt$MainActivity$private fun getInactiveTabIndexes(activeIndex: Int)</ID>
     <ID>MaxLineLength:MainActivity.kt$MainActivity$resultIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION</ID>
     <ID>MaxLineLength:MainActivity.kt$MainActivity$updateMaterialActivityViews(binding.mainCoordinator, null, useTransparentNavigation = false, useTopSearchMenu = true)</ID>
-    <ID>MaxLineLength:MainActivity.kt$MainActivity$val isPickFileIntent = action == RingtoneManager.ACTION_RINGTONE_PICKER || action == Intent.ACTION_GET_CONTENT || action == Intent.ACTION_PICK</ID>
     <ID>MaxLineLength:MainActivity.kt$MainActivity$val licenses = LICENSE_GLIDE or LICENSE_PATTERN or LICENSE_REPRINT or LICENSE_GESTURE_VIEWS or LICENSE_AUTOFITTEXTVIEW or LICENSE_ZIP4J</ID>
     <ID>MaxLineLength:MimeTypesActivity.kt$MimeTypesActivity$!extraAudioMimeTypes.contains(fullMimetype)</ID>
     <ID>MaxLineLength:MimeTypesActivity.kt$MimeTypesActivity$if</ID>
@@ -136,18 +110,17 @@
     <ID>MaxLineLength:StorageFragment.kt$StorageFragment$val filtered = allDeviceListItems.filter { it.mName.contains(text, true) }.toMutableList() as ArrayList&lt;ListItem&gt;</ID>
     <ID>MaxLineLength:StorageFragment.kt$StorageFragment$val mimeType = cursor.getStringValue(MediaStore.Files.FileColumns.MIME_TYPE)?.lowercase(Locale.getDefault())</ID>
     <ID>MaxLineLength:StorageFragment.kt$StorageFragment$val storageStatsManager = context.getSystemService(AppCompatActivity.STORAGE_STATS_SERVICE) as StorageStatsManager</ID>
-    <ID>MaxLineLength:ViewPagerAdapter.kt$ViewPagerAdapter$val isGetContentIntent = activity.intent.action == Intent.ACTION_GET_CONTENT || activity.intent.action == Intent.ACTION_PICK</ID>
     <ID>NestedBlockDepth:DecompressActivity.kt$DecompressActivity$private fun decompressTo(destination: String)</ID>
-    <ID>NestedBlockDepth:ItemsAdapter.kt$ItemsAdapter$@SuppressLint("NewApi") private fun compressPaths(sourcePaths: List&lt;String&gt;, targetPath: String, password: String? = null): Boolean</ID>
-    <ID>NestedBlockDepth:ItemsAdapter.kt$ItemsAdapter$private fun decompressPaths(paths: List&lt;String&gt;, conflictResolutions: LinkedHashMap&lt;String, Int&gt;, callback: (success: Boolean) -&gt; Unit)</ID>
+    <ID>NestedBlockDepth:ItemsAdapter.kt$ItemsAdapter$@SuppressLint("NewApi") private fun compressPaths( sourcePaths: List&lt;String&gt;, targetPath: String, password: String? = null ): Boolean</ID>
+    <ID>NestedBlockDepth:ItemsAdapter.kt$ItemsAdapter$private fun decompressPaths( paths: List&lt;String&gt;, conflictResolutions: LinkedHashMap&lt;String, Int&gt;, callback: (success: Boolean) -&gt; Unit )</ID>
     <ID>NestedBlockDepth:ItemsAdapter.kt$ItemsAdapter$private fun setupView(binding: ItemViewBinding, listItem: ListItem)</ID>
-    <ID>NestedBlockDepth:ItemsAdapter.kt$ItemsAdapter$private fun tryDecompressingPaths(sourcePaths: List&lt;String&gt;, callback: (success: Boolean) -&gt; Unit)</ID>
+    <ID>NestedBlockDepth:ItemsAdapter.kt$ItemsAdapter$private fun tryDecompressingPaths( sourcePaths: List&lt;String&gt;, callback: (success: Boolean) -&gt; Unit )</ID>
     <ID>NestedBlockDepth:ItemsFragment.kt$ItemsFragment$private fun getRegularItemsOf(path: String, callback: (originalPath: String, items: ArrayList&lt;ListItem&gt;) -&gt; Unit)</ID>
     <ID>NestedBlockDepth:ItemsFragment.kt$ItemsFragment$private fun searchFiles(text: String, path: String): ArrayList&lt;ListItem&gt;</ID>
     <ID>NestedBlockDepth:RecentsFragment.kt$RecentsFragment$private fun getRecents(callback: (recents: ArrayList&lt;ListItem&gt;) -&gt; Unit)</ID>
     <ID>NestedBlockDepth:StorageFragment.kt$StorageFragment$override fun setupFragment(activity: SimpleActivity)</ID>
     <ID>NestedBlockDepth:StorageFragment.kt$StorageFragment$private fun getAllFiles(volumeName: String): ArrayList&lt;FileDirItem&gt;</ID>
-    <ID>ReturnCount:ItemsAdapter.kt$ItemsAdapter$@SuppressLint("NewApi") private fun compressPaths(sourcePaths: List&lt;String&gt;, targetPath: String, password: String? = null): Boolean</ID>
+    <ID>ReturnCount:ItemsAdapter.kt$ItemsAdapter$@SuppressLint("NewApi") private fun compressPaths( sourcePaths: List&lt;String&gt;, targetPath: String, password: String? = null ): Boolean</ID>
     <ID>SwallowedException:ItemsAdapter.kt$ItemsAdapter$e: Exception</ID>
     <ID>SwallowedException:MimeTypesActivity.kt$MimeTypesActivity$e: Exception</ID>
     <ID>SwallowedException:StorageFragment.kt$StorageFragment$e: Exception</ID>
