@@ -128,7 +128,8 @@ class ItemsAdapter(
     private val swipeRefreshLayout: SwipeRefreshLayout?,
     canHaveIndividualViewType: Boolean = true,
     itemClick: (Any) -> Unit,
-) : MyRecyclerViewAdapter(activity, recyclerView, itemClick), RecyclerViewFastScroller.OnPopupTextUpdate {
+) : MyRecyclerViewAdapter(activity, recyclerView, itemClick),
+    RecyclerViewFastScroller.OnPopupTextUpdate {
 
     private lateinit var fileDrawable: Drawable
     private lateinit var folderDrawable: Drawable
@@ -143,7 +144,9 @@ class ItemsAdapter(
 
     private val config = activity.config
     private val viewType = if (canHaveIndividualViewType) {
-        config.getFolderViewType(listItems.firstOrNull { !it.isSectionTitle }?.mPath?.getParentPath() ?: "")
+        config.getFolderViewType(
+            path = listItems.firstOrNull { !it.isSectionTitle }?.mPath?.getParentPath().orEmpty()
+        )
     } else {
         config.viewType
     }
@@ -169,7 +172,8 @@ class ItemsAdapter(
 
     override fun prepareActionMode(menu: Menu) {
         menu.apply {
-            findItem(R.id.cab_decompress).isVisible = getSelectedFileDirItems().map { it.path }.any { it.isZipFile() }
+            findItem(R.id.cab_decompress).isVisible =
+                getSelectedFileDirItems().map { it.path }.any { it.isZipFile() }
             findItem(R.id.cab_confirm_selection).isVisible = isPickMultipleIntent
             findItem(R.id.cab_copy_path).isVisible = isOneItemSelected()
             findItem(R.id.cab_open_with).isVisible = isOneFileSelected()
@@ -207,13 +211,21 @@ class ItemsAdapter(
         }
     }
 
-    override fun getSelectableItemCount() = listItems.filter { !it.isSectionTitle && !it.isGridTypeDivider }.size
+    override fun getSelectableItemCount(): Int {
+        return listItems.filter { !it.isSectionTitle && !it.isGridTypeDivider }.size
+    }
 
-    override fun getIsItemSelectable(position: Int) = !listItems[position].isSectionTitle && !listItems[position].isGridTypeDivider
+    override fun getIsItemSelectable(position: Int): Boolean {
+        return !listItems[position].isSectionTitle && !listItems[position].isGridTypeDivider
+    }
 
-    override fun getItemSelectionKey(position: Int) = listItems.getOrNull(position)?.path?.hashCode()
+    override fun getItemSelectionKey(position: Int): Int? {
+        return listItems.getOrNull(position)?.path?.hashCode()
+    }
 
-    override fun getItemKeyPosition(key: Int) = listItems.indexOfFirst { it.path.hashCode() == key }
+    override fun getItemKeyPosition(key: Int): Int {
+        return listItems.indexOfFirst { it.path.hashCode() == key }
+    }
 
     override fun onActionModeCreated() {
         swipeRefreshLayout?.isRefreshing = false
@@ -234,25 +246,37 @@ class ItemsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = Binding.getByItemViewType(viewType, isListViewType).inflate(layoutInflater, parent, false)
+        val binding = Binding.getByItemViewType(viewType, isListViewType)
+            .inflate(layoutInflater, parent, false)
 
         return createViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(holder: MyRecyclerViewAdapter.ViewHolder, position: Int) {
         val fileDirItem = listItems[position]
-        holder.bindView(fileDirItem, true, !fileDirItem.isSectionTitle) { itemView, layoutPosition ->
+        holder.bindView(
+            any = fileDirItem,
+            allowSingleClick = true,
+            allowLongClick = !fileDirItem.isSectionTitle
+        ) { itemView, layoutPosition ->
             val viewType = getItemViewType(position)
-            setupView(Binding.getByItemViewType(viewType, isListViewType).bind(itemView), fileDirItem)
+            setupView(
+                binding = Binding.getByItemViewType(viewType, isListViewType).bind(itemView),
+                listItem = fileDirItem
+            )
         }
         bindViewHolder(holder)
     }
 
     override fun getItemCount() = listItems.size
 
-    private fun getItemWithKey(key: Int): FileDirItem? = listItems.firstOrNull { it.path.hashCode() == key }
+    private fun getItemWithKey(key: Int): FileDirItem? {
+        return listItems.firstOrNull { it.path.hashCode() == key }
+    }
 
-    private fun isOneFileSelected() = isOneItemSelected() && getItemWithKey(selectedKeys.first())?.isDirectory == false
+    private fun isOneFileSelected(): Boolean {
+        return isOneItemSelected() && getItemWithKey(selectedKeys.first())?.isDirectory == false
+    }
 
     private fun checkHideBtnVisibility(menu: Menu) {
         var hiddenCnt = 0
@@ -271,7 +295,10 @@ class ItemsAdapter(
 
     private fun confirmSelection() {
         if (selectedKeys.isNotEmpty()) {
-            val paths = getSelectedFileDirItems().asSequence().filter { !it.isDirectory }.map { it.path }.toMutableList() as ArrayList<String>
+            val paths = getSelectedFileDirItems()
+                .asSequence()
+                .filter { !it.isDirectory }.map { it.path }
+                .toMutableList() as ArrayList<String>
             if (paths.isEmpty()) {
                 finishActMode()
             } else {
@@ -350,7 +377,11 @@ class ItemsAdapter(
             getShortcutImage(path, drawable) {
                 val intent = Intent(activity, SplashActivity::class.java)
                 intent.action = Intent.ACTION_VIEW
-                intent.flags = intent.flags or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY
+                intent.flags =
+                    intent.flags or
+                            Intent.FLAG_ACTIVITY_NEW_TASK or
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                            Intent.FLAG_ACTIVITY_NO_HISTORY
                 intent.data = Uri.fromFile(File(path))
 
                 val shortcut = ShortcutInfo.Builder(activity, path)
@@ -366,7 +397,8 @@ class ItemsAdapter(
 
     private fun getShortcutImage(path: String, drawable: Drawable, callback: () -> Unit) {
         val appIconColor = baseConfig.appIconColor
-        (drawable as LayerDrawable).findDrawableByLayerId(R.id.shortcut_folder_background).applyColorFilter(appIconColor)
+        (drawable as LayerDrawable).findDrawableByLayerId(R.id.shortcut_folder_background)
+            .applyColorFilter(appIconColor)
         if (activity.getIsPathDirectory(path)) {
             callback()
         } else {
@@ -387,10 +419,15 @@ class ItemsAdapter(
 
                 try {
                     val bitmap = builder.get()
-                    drawable.findDrawableByLayerId(R.id.shortcut_folder_background).applyColorFilter(0)
+                    drawable.findDrawableByLayerId(R.id.shortcut_folder_background)
+                        .applyColorFilter(0)
                     drawable.setDrawableByLayerId(R.id.shortcut_folder_image, bitmap)
                 } catch (e: Exception) {
-                    val fileIcon = fileDrawables.getOrElse(path.substringAfterLast(".").lowercase(Locale.getDefault()), { fileDrawable })
+                    val fileIcon = fileDrawables
+                        .getOrElse(
+                            key = path.substringAfterLast(".").lowercase(Locale.getDefault()),
+                            defaultValue = { fileDrawable }
+                        )
                     drawable.setDrawableByLayerId(R.id.shortcut_folder_image, fileIcon)
                 }
 
@@ -415,15 +452,19 @@ class ItemsAdapter(
                 }
 
                 activity.isPathOnOTG(path) -> {
-                    activity.getDocumentFile(path)?.listFiles()?.filter { if (shouldShowHidden) true else !it.name!!.startsWith(".") }?.forEach {
-                        addFileUris(it.uri.toString(), paths)
-                    }
+                    activity.getDocumentFile(path)?.listFiles()
+                        ?.filter { if (shouldShowHidden) true else !it.name!!.startsWith(".") }
+                        ?.forEach {
+                            addFileUris(it.uri.toString(), paths)
+                        }
                 }
 
                 else -> {
-                    File(path).listFiles()?.filter { if (shouldShowHidden) true else !it.name.startsWith('.') }?.forEach {
-                        addFileUris(it.absolutePath, paths)
-                    }
+                    File(path).listFiles()
+                        ?.filter { if (shouldShowHidden) true else !it.name.startsWith('.') }
+                        ?.forEach {
+                            addFileUris(it.absolutePath, paths)
+                        }
                 }
             }
         } else {
@@ -482,11 +523,21 @@ class ItemsAdapter(
             if (activity.isPathOnRoot(it) || activity.isPathOnRoot(firstFile.path)) {
                 copyMoveRootItems(files, it, isCopyOperation)
             } else {
-                activity.copyMoveFilesTo(files, source, it, isCopyOperation, false, config.shouldShowHidden()) {
+                activity.copyMoveFilesTo(
+                    fileDirItems = files,
+                    source = source,
+                    destination = it,
+                    isCopyOperation = isCopyOperation,
+                    copyPhotoVideoOnly = false,
+                    copyHidden = config.shouldShowHidden()
+                ) {
                     if (!isCopyOperation) {
                         files.forEach { sourceFileDir ->
                             val sourcePath = sourceFileDir.path
-                            if (activity.isRestrictedSAFOnlyRoot(sourcePath) && activity.getDoesFilePathExist(sourcePath)) {
+                            if (
+                                activity.isRestrictedSAFOnlyRoot(sourcePath)
+                                && activity.getDoesFilePathExist(sourcePath)
+                            ) {
                                 activity.deleteFile(sourceFileDir, true) {
                                     listener?.refreshFragment()
                                     activity.runOnUiThread {
@@ -495,8 +546,12 @@ class ItemsAdapter(
                                 }
                             } else {
                                 val sourceFile = File(sourcePath)
-                                if (activity.getDoesFilePathExist(source) && activity.getIsPathDirectory(source) &&
-                                    sourceFile.list()?.isEmpty() == true && sourceFile.getProperSize(true) == 0L && sourceFile.getFileCount(true) == 0
+                                if (
+                                    activity.getDoesFilePathExist(source)
+                                    && activity.getIsPathDirectory(source)
+                                    && sourceFile.list()?.isEmpty() == true
+                                    && sourceFile.getProperSize(true) == 0L
+                                    && sourceFile.getFileCount(true) == 0
                                 ) {
                                     val sourceFolder = sourceFile.toFileDirItem(activity)
                                     activity.deleteFile(sourceFolder, true) {
@@ -520,7 +575,11 @@ class ItemsAdapter(
         }
     }
 
-    private fun copyMoveRootItems(files: ArrayList<FileDirItem>, destinationPath: String, isCopyOperation: Boolean) {
+    private fun copyMoveRootItems(
+        files: ArrayList<FileDirItem>,
+        destinationPath: String,
+        isCopyOperation: Boolean
+    ) {
         activity.toast(R.string.copying)
         ensureBackgroundThread {
             val fileCnt = files.size
@@ -586,7 +645,11 @@ class ItemsAdapter(
                 return@handleSAFDialog
             }
 
-            val paths = getSelectedFileDirItems().asSequence().map { it.path }.filter { it.isZipFile() }.toList()
+            val paths = getSelectedFileDirItems()
+                .asSequence()
+                .map { it.path }
+                .filter { it.isZipFile() }
+                .toList()
             ensureBackgroundThread {
                 tryDecompressingPaths(paths) { success ->
                     activity.runOnUiThread {
@@ -603,15 +666,28 @@ class ItemsAdapter(
         }
     }
 
-    private fun tryDecompressingPaths(sourcePaths: List<String>, callback: (success: Boolean) -> Unit) {
+    private fun tryDecompressingPaths(
+        sourcePaths: List<String>,
+        callback: (success: Boolean) -> Unit
+    ) {
         sourcePaths.forEach { path ->
             ZipInputStream(BufferedInputStream(activity.getFileInputStreamSync(path))).use { zipInputStream ->
                 try {
                     val fileDirItems = ArrayList<FileDirItem>()
                     var entry = zipInputStream.nextEntry
                     while (entry != null) {
-                        val currPath = if (entry.isDirectory) path else "${path.getParentPath().trimEnd('/')}/${entry.fileName}"
-                        val fileDirItem = FileDirItem(currPath, entry.fileName, entry.isDirectory, 0, entry.uncompressedSize)
+                        val currPath = if (entry.isDirectory) {
+                            path
+                        } else {
+                            "${path.getParentPath().trimEnd('/')}/${entry.fileName}"
+                        }
+                        val fileDirItem = FileDirItem(
+                            path = currPath,
+                            name = entry.fileName,
+                            isDirectory = entry.isDirectory,
+                            children = 0,
+                            size = entry.uncompressedSize
+                        )
                         fileDirItems.add(fileDirItem)
                         entry = zipInputStream.nextEntry
                     }
@@ -636,9 +712,14 @@ class ItemsAdapter(
         }
     }
 
-    private fun decompressPaths(paths: List<String>, conflictResolutions: LinkedHashMap<String, Int>, callback: (success: Boolean) -> Unit) {
+    private fun decompressPaths(
+        paths: List<String>,
+        conflictResolutions: LinkedHashMap<String, Int>,
+        callback: (success: Boolean) -> Unit
+    ) {
         paths.forEach { path ->
-            val zipInputStream = ZipInputStream(BufferedInputStream(activity.getFileInputStreamSync(path)))
+            val zipInputStream =
+                ZipInputStream(BufferedInputStream(activity.getFileInputStreamSync(path)))
             zipInputStream.use {
                 try {
                     var entry = zipInputStream.nextEntry
@@ -651,7 +732,11 @@ class ItemsAdapter(
                         val resolution = getConflictResolution(conflictResolutions, newPath)
                         val doesPathExist = activity.getDoesFilePathExist(newPath)
                         if (doesPathExist && resolution == CONFLICT_OVERWRITE) {
-                            val fileDirItem = FileDirItem(newPath, newPath.getFilenameFromPath(), entry.isDirectory)
+                            val fileDirItem = FileDirItem(
+                                path = newPath,
+                                name = newPath.getFilenameFromPath(),
+                                isDirectory = entry.isDirectory
+                            )
                             if (activity.getIsPathDirectory(path)) {
                                 activity.deleteFolderBg(fileDirItem, false) {
                                     if (it) {
@@ -684,10 +769,15 @@ class ItemsAdapter(
         }
     }
 
-    private fun extractEntry(newPath: String, entry: LocalFileHeader, zipInputStream: ZipInputStream) {
+    private fun extractEntry(
+        newPath: String,
+        entry: LocalFileHeader,
+        zipInputStream: ZipInputStream
+    ) {
         if (entry.isDirectory) {
             if (!activity.createDirectorySync(newPath) && !activity.getDoesFilePathExist(newPath)) {
-                val error = String.format(activity.getString(R.string.could_not_create_file), newPath)
+                val error =
+                    String.format(activity.getString(R.string.could_not_create_file), newPath)
                 activity.showErrorToast(error)
             }
         } else {
@@ -699,7 +789,10 @@ class ItemsAdapter(
         }
     }
 
-    private fun getConflictResolution(conflictResolutions: LinkedHashMap<String, Int>, path: String): Int {
+    private fun getConflictResolution(
+        conflictResolutions: LinkedHashMap<String, Int>,
+        path: String
+    ): Int {
         return if (conflictResolutions.size == 1 && conflictResolutions.containsKey("")) {
             conflictResolutions[""]!!
         } else if (conflictResolutions.containsKey(path)) {
@@ -710,11 +803,16 @@ class ItemsAdapter(
     }
 
     @SuppressLint("NewApi")
-    private fun compressPaths(sourcePaths: List<String>, targetPath: String, password: String? = null): Boolean {
+    private fun compressPaths(
+        sourcePaths: List<String>,
+        targetPath: String,
+        password: String? = null
+    ): Boolean {
         val queue = LinkedList<String>()
         val fos = activity.getFileOutputStreamSync(targetPath, "application/zip") ?: return false
 
-        val zout = password?.let { ZipOutputStream(fos, password.toCharArray()) } ?: ZipOutputStream(fos)
+        val zout =
+            password?.let { ZipOutputStream(fos, password.toCharArray()) } ?: ZipOutputStream(fos)
         var res: Closeable = fos
 
         fun zipEntry(name: String, lastModified: Long) = ZipParameters().also {
@@ -779,7 +877,12 @@ class ItemsAdapter(
                         }
 
                     } else {
-                        name = if (base == currentPath) currentPath.getFilenameFromPath() else mainFilePath.relativizeWith(base)
+                        name =
+                            if (base == currentPath) {
+                                currentPath.getFilenameFromPath()
+                            } else {
+                                mainFilePath.relativizeWith(base)
+                            }
                         val fileModified = File(mainFilePath).lastModified()
                         zout.putNextEntry(zipEntry(name, fileModified))
                         activity.getFileInputStreamSync(mainFilePath)!!.copyTo(zout)
@@ -855,7 +958,11 @@ class ItemsAdapter(
 
     private fun getFirstSelectedItemPath() = getSelectedFileDirItems().first().path
 
-    private fun getSelectedFileDirItems() = listItems.filter { selectedKeys.contains(it.path.hashCode()) } as ArrayList<FileDirItem>
+    private fun getSelectedFileDirItems(): ArrayList<FileDirItem> {
+        return listItems.filter {
+            selectedKeys.contains(it.path.hashCode())
+        } as ArrayList<FileDirItem>
+    }
 
     fun updateItems(newItems: ArrayList<ListItem>, highlightText: String = "") {
         if (newItems.hashCode() != currentItemsHash) {
@@ -901,7 +1008,8 @@ class ItemsAdapter(
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         if (!activity.isDestroyed && !activity.isFinishing) {
-            val icon = Binding.getByItemViewType(holder.itemViewType, isListViewType).bind(holder.itemView).itemIcon
+            val icon = Binding.getByItemViewType(holder.itemViewType, isListViewType)
+                .bind(holder.itemView).itemIcon
             if (icon != null) {
                 Glide.with(activity).clear(icon)
             }
@@ -913,16 +1021,35 @@ class ItemsAdapter(
         binding.apply {
             if (listItem.isSectionTitle) {
                 itemIcon?.setImageDrawable(folderDrawable)
-                itemSection?.text = if (textToHighlight.isEmpty()) listItem.mName else listItem.mName.highlightTextPart(textToHighlight, properPrimaryColor)
+                itemSection?.text =
+                    if (textToHighlight.isEmpty()) {
+                        listItem.mName
+                    } else {
+                        listItem.mName.highlightTextPart(
+                            textToHighlight = textToHighlight,
+                            color = properPrimaryColor
+                        )
+                    }
                 itemSection?.setTextColor(textColor)
                 itemSection?.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
             } else if (!listItem.isGridTypeDivider) {
                 root.setupViewBackground(activity)
                 itemFrame.isSelected = isSelected
                 val fileName = listItem.name
-                itemName?.text = if (textToHighlight.isEmpty()) fileName else fileName.highlightTextPart(textToHighlight, properPrimaryColor)
+                itemName?.text =
+                    if (textToHighlight.isEmpty()) {
+                        fileName
+                    } else {
+                        fileName.highlightTextPart(
+                            textToHighlight = textToHighlight,
+                            color = properPrimaryColor
+                        )
+                    }
                 itemName?.setTextColor(textColor)
-                itemName?.setTextSize(TypedValue.COMPLEX_UNIT_PX, if (isListViewType) fontSize else smallerFontSize)
+                itemName?.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    if (isListViewType) fontSize else smallerFontSize
+                )
 
                 itemDetails?.setTextColor(textColor)
                 itemDetails?.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
@@ -951,7 +1078,10 @@ class ItemsAdapter(
                     itemDate?.beVisible()
                     itemDate?.text = listItem.modified.formatDate(activity, dateFormat, timeFormat)
 
-                    val drawable = fileDrawables.getOrElse(fileName.substringAfterLast(".").lowercase(Locale.getDefault()), { fileDrawable })
+                    val drawable = fileDrawables.getOrElse(
+                        key = fileName.substringAfterLast(".").lowercase(Locale.getDefault()),
+                        defaultValue = { fileDrawable }
+                    )
                     val options = RequestOptions()
                         .signature(listItem.getKey())
                         .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
@@ -976,12 +1106,16 @@ class ItemsAdapter(
         return activity.resources.getQuantityString(R.plurals.items, children, children)
     }
 
-    private fun getOTGPublicPath(itemToLoad: String) =
-        "${baseConfig.OTGTreeUri}/document/${baseConfig.OTGPartition}%3A${itemToLoad.substring(baseConfig.OTGPath.length).replace("/", "%2F")}"
+    private fun getOTGPublicPath(itemToLoad: String): String {
+        return "${baseConfig.OTGTreeUri}/document/${baseConfig.OTGPartition}%3A${
+            itemToLoad.substring(baseConfig.OTGPath.length).replace("/", "%2F")
+        }"
+    }
 
     private fun getImagePathToLoad(path: String): Any {
         var itemToLoad = if (path.endsWith(".apk", true)) {
-            val packageInfo = activity.packageManager.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES)
+            val packageInfo =
+                activity.packageManager.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES)
             if (packageInfo != null) {
                 val appInfo = packageInfo.applicationInfo
                 appInfo.sourceDir = path
@@ -1004,13 +1138,16 @@ class ItemsAdapter(
     }
 
     fun initDrawables() {
-        folderDrawable = resources.getColoredDrawableWithColor(R.drawable.ic_folder_vector, properPrimaryColor)
+        folderDrawable =
+            resources.getColoredDrawableWithColor(R.drawable.ic_folder_vector, properPrimaryColor)
         folderDrawable.alpha = 180
         fileDrawable = resources.getDrawable(R.drawable.ic_file_generic)
         fileDrawables = getFilePlaceholderDrawables(activity)
     }
 
-    override fun onChange(position: Int) = listItems.getOrNull(position)?.getBubbleText(activity, dateFormat, timeFormat) ?: ""
+    override fun onChange(position: Int): String {
+        return listItems.getOrNull(position)?.getBubbleText(activity, dateFormat, timeFormat) ?: ""
+    }
 
     private sealed interface Binding {
         companion object {
@@ -1031,12 +1168,23 @@ class ItemsAdapter(
             }
         }
 
-        fun inflate(layoutInflater: LayoutInflater, viewGroup: ViewGroup, attachToRoot: Boolean): ItemViewBinding
+        fun inflate(
+            layoutInflater: LayoutInflater,
+            viewGroup: ViewGroup,
+            attachToRoot: Boolean
+        ): ItemViewBinding
+
         fun bind(view: View): ItemViewBinding
 
         data object ItemSection : Binding {
-            override fun inflate(layoutInflater: LayoutInflater, viewGroup: ViewGroup, attachToRoot: Boolean): ItemViewBinding {
-                return ItemSectionBindingAdapter(ItemSectionBinding.inflate(layoutInflater, viewGroup, attachToRoot))
+            override fun inflate(
+                layoutInflater: LayoutInflater,
+                viewGroup: ViewGroup,
+                attachToRoot: Boolean
+            ): ItemViewBinding {
+                return ItemSectionBindingAdapter(
+                    ItemSectionBinding.inflate(layoutInflater, viewGroup, attachToRoot)
+                )
             }
 
             override fun bind(view: View): ItemViewBinding {
@@ -1045,8 +1193,14 @@ class ItemsAdapter(
         }
 
         data object ItemEmpty : Binding {
-            override fun inflate(layoutInflater: LayoutInflater, viewGroup: ViewGroup, attachToRoot: Boolean): ItemViewBinding {
-                return ItemEmptyBindingAdapter(ItemEmptyBinding.inflate(layoutInflater, viewGroup, attachToRoot))
+            override fun inflate(
+                layoutInflater: LayoutInflater,
+                viewGroup: ViewGroup,
+                attachToRoot: Boolean
+            ): ItemViewBinding {
+                return ItemEmptyBindingAdapter(
+                    ItemEmptyBinding.inflate(layoutInflater, viewGroup, attachToRoot)
+                )
             }
 
             override fun bind(view: View): ItemViewBinding {
@@ -1055,8 +1209,14 @@ class ItemsAdapter(
         }
 
         data object ItemFileDirList : Binding {
-            override fun inflate(layoutInflater: LayoutInflater, viewGroup: ViewGroup, attachToRoot: Boolean): ItemViewBinding {
-                return ItemFileDirListBindingAdapter(ItemFileDirListBinding.inflate(layoutInflater, viewGroup, attachToRoot))
+            override fun inflate(
+                layoutInflater: LayoutInflater,
+                viewGroup: ViewGroup,
+                attachToRoot: Boolean
+            ): ItemViewBinding {
+                return ItemFileDirListBindingAdapter(
+                    ItemFileDirListBinding.inflate(layoutInflater, viewGroup, attachToRoot)
+                )
             }
 
             override fun bind(view: View): ItemViewBinding {
@@ -1065,8 +1225,14 @@ class ItemsAdapter(
         }
 
         data object ItemDirGrid : Binding {
-            override fun inflate(layoutInflater: LayoutInflater, viewGroup: ViewGroup, attachToRoot: Boolean): ItemViewBinding {
-                return ItemDirGridBindingAdapter(ItemDirGridBinding.inflate(layoutInflater, viewGroup, attachToRoot))
+            override fun inflate(
+                layoutInflater: LayoutInflater,
+                viewGroup: ViewGroup,
+                attachToRoot: Boolean
+            ): ItemViewBinding {
+                return ItemDirGridBindingAdapter(
+                    ItemDirGridBinding.inflate(layoutInflater, viewGroup, attachToRoot)
+                )
             }
 
             override fun bind(view: View): ItemViewBinding {
@@ -1075,8 +1241,14 @@ class ItemsAdapter(
         }
 
         data object ItemFileGrid : Binding {
-            override fun inflate(layoutInflater: LayoutInflater, viewGroup: ViewGroup, attachToRoot: Boolean): ItemViewBinding {
-                return ItemFileGridBindingAdapter(ItemFileGridBinding.inflate(layoutInflater, viewGroup, attachToRoot))
+            override fun inflate(
+                layoutInflater: LayoutInflater,
+                viewGroup: ViewGroup,
+                attachToRoot: Boolean
+            ): ItemViewBinding {
+                return ItemFileGridBindingAdapter(
+                    ItemFileGridBinding.inflate(layoutInflater, viewGroup, attachToRoot)
+                )
             }
 
             override fun bind(view: View): ItemViewBinding {
@@ -1118,7 +1290,9 @@ class ItemsAdapter(
         override fun getRoot(): View = binding.root
     }
 
-    private class ItemFileDirListBindingAdapter(val binding: ItemFileDirListBinding) : ItemViewBinding {
+    private class ItemFileDirListBindingAdapter(
+        val binding: ItemFileDirListBinding
+    ) : ItemViewBinding {
         override val itemFrame: FrameLayout = binding.itemFrame
         override val itemName: TextView = binding.itemName
         override val itemIcon: ImageView = binding.itemIcon
