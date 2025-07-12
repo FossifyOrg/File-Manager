@@ -717,8 +717,9 @@ class ItemsAdapter(
         val zout = password?.let { ZipOutputStream(fos, password.toCharArray()) } ?: ZipOutputStream(fos)
         var res: Closeable = fos
 
-        fun zipEntry(name: String) = ZipParameters().also {
+        fun zipEntry(name: String, lastModified: Long) = ZipParameters().also {
             it.fileNameInZip = name
+            it.lastModifiedFileTime = lastModified
             if (password != null) {
                 it.isEncryptFiles = true
                 it.encryptionMethod = EncryptionMethod.AES
@@ -734,9 +735,11 @@ class ItemsAdapter(
                 queue.push(mainFilePath)
                 if (activity.getIsPathDirectory(mainFilePath)) {
                     name = "${mainFilePath.getFilenameFromPath()}/"
+                    val dirModified = File(mainFilePath).lastModified()
                     zout.putNextEntry(
                         ZipParameters().also {
                             it.fileNameInZip = name
+                            it.lastModifiedFileTime = dirModified
                         }
                     )
                 }
@@ -751,9 +754,9 @@ class ItemsAdapter(
                                     if (activity.getIsPathDirectory(file.path)) {
                                         queue.push(file.path)
                                         name = "${name.trimEnd('/')}/"
-                                        zout.putNextEntry(zipEntry(name))
+                                        zout.putNextEntry(zipEntry(name, file.modified))
                                     } else {
-                                        zout.putNextEntry(zipEntry(name))
+                                        zout.putNextEntry(zipEntry(name, file.modified))
                                         activity.getFileInputStreamSync(file.path)!!.copyTo(zout)
                                         zout.closeEntry()
                                     }
@@ -766,9 +769,9 @@ class ItemsAdapter(
                                 if (activity.getIsPathDirectory(file.absolutePath)) {
                                     queue.push(file.absolutePath)
                                     name = "${name.trimEnd('/')}/"
-                                    zout.putNextEntry(zipEntry(name))
+                                    zout.putNextEntry(zipEntry(name, file.lastModified()))
                                 } else {
-                                    zout.putNextEntry(zipEntry(name))
+                                    zout.putNextEntry(zipEntry(name, file.lastModified()))
                                     activity.getFileInputStreamSync(file.path)!!.copyTo(zout)
                                     zout.closeEntry()
                                 }
@@ -777,7 +780,8 @@ class ItemsAdapter(
 
                     } else {
                         name = if (base == currentPath) currentPath.getFilenameFromPath() else mainFilePath.relativizeWith(base)
-                        zout.putNextEntry(zipEntry(name))
+                        val fileModified = File(mainFilePath).lastModified()
+                        zout.putNextEntry(zipEntry(name, fileModified))
                         activity.getFileInputStreamSync(mainFilePath)!!.copyTo(zout)
                         zout.closeEntry()
                     }
