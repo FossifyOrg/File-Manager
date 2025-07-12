@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="6" by="lint 8.10.1" type="baseline" client="gradle" dependencies="false" name="AGP (8.10.1)" variant="all" version="8.10.1">
+<issues format="6" by="lint 8.11.0" type="baseline" client="gradle" dependencies="false" name="AGP (8.11.0)" variant="all" version="8.11.0">
 
     <issue
         id="ScopedStorage"
@@ -47,9 +47,9 @@
 
     <issue
         id="AndroidGradlePluginVersion"
-        message="A newer version of Gradle than 8.11.1 is available: 8.14.2"
-        errorLine1="distributionUrl=https\://services.gradle.org/distributions/gradle-8.11.1-bin.zip"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        message="A newer version of Gradle than 8.13 is available: 8.14.3"
+        errorLine1="distributionUrl=https\://services.gradle.org/distributions/gradle-8.13-bin.zip"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="$HOME/Projects/Fossify/FossifyOrg/File-Manager/gradle/wrapper/gradle-wrapper.properties"
             line="3"
@@ -58,8 +58,8 @@
 
     <issue
         id="AndroidGradlePluginVersion"
-        message="A newer version of com.android.application than 8.10.1 is available: 8.11.0"
-        errorLine1="gradlePlugins-agp = &quot;8.10.1&quot;"
+        message="A newer version of com.android.application than 8.11.0 is available: 8.11.1"
+        errorLine1="gradlePlugins-agp = &quot;8.11.0&quot;"
         errorLine2="                    ~~~~~~~~">
         <location
             file="$HOME/Projects/Fossify/FossifyOrg/File-Manager/gradle/libs.versions.toml"
@@ -69,7 +69,7 @@
 
     <issue
         id="GradleDependency"
-        message="A newer version of `compileSdkVersion` than 34 is available: 35"
+        message="A newer version of `compileSdkVersion` than 34 is available: 36"
         errorLine1="app-build-compileSDKVersion = &quot;34&quot;"
         errorLine2="                              ~~~~">
         <location
@@ -96,7 +96,7 @@
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/kotlin/org/fossify/filemanager/adapters/ItemsAdapter.kt"
-            line="349"
+            line="376"
             column="28"/>
     </issue>
 
@@ -107,7 +107,7 @@
         errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/kotlin/org/fossify/filemanager/adapters/ItemsAdapter.kt"
-            line="1005"
+            line="1144"
             column="24"/>
     </issue>
 
@@ -613,7 +613,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/kotlin/org/fossify/filemanager/adapters/ItemsAdapter.kt"
-            line="861"
+            line="972"
             column="13"/>
     </issue>
 
@@ -624,7 +624,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/kotlin/org/fossify/filemanager/adapters/ItemsAdapter.kt"
-            line="865"
+            line="976"
             column="13"/>
     </issue>
 
@@ -635,7 +635,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/kotlin/org/fossify/filemanager/adapters/ItemsAdapter.kt"
-            line="872"
+            line="983"
             column="9"/>
     </issue>
 
@@ -646,7 +646,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/kotlin/org/fossify/filemanager/adapters/ItemsAdapter.kt"
-            line="878"
+            line="989"
             column="9"/>
     </issue>
 
@@ -657,7 +657,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/kotlin/org/fossify/filemanager/adapters/ItemsAdapter.kt"
-            line="883"
+            line="994"
             column="9"/>
     </issue>
 
