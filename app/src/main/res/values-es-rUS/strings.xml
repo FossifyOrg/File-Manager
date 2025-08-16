@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_launcher_name">Gestor de archivos</string>
+    <string name="press_back_again">Presione hacia atrás nuevamente para salir</string>
+    <string name="go_to_home_folder">Ir a la carpeta de inicio</string>
+</resources>
