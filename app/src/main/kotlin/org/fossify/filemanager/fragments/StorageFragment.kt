@@ -95,7 +95,6 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
                 }
 
                 totalSpace.text = String.format(context.getString(R.string.total_storage), "…")
-                getSizes(volumeName)
 
                 if (volumeNames.size > 1) {
                     root.children.forEach { it.beGone() }
@@ -155,8 +154,7 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
         val tealColor = context.resources.getColor(R.color.md_teal_700)
         val pinkColor = context.resources.getColor(R.color.md_pink_700)
 
-        volumes.entries.forEach { (it, volumeBinding) ->
-            getSizes(it)
+        volumes.values.forEach { volumeBinding ->
             volumeBinding.apply {
                 mainStorageUsageProgressbar.setIndicatorColor(properPrimaryColor)
                 mainStorageUsageProgressbar.trackColor = properPrimaryColor.adjustAlpha(LOWER_ALPHA)
@@ -335,6 +333,7 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
                     freeSpaceValue.text = freeStorageSpace.formatSizeThousand()
                     totalSpace.text = String.format(context.getString(R.string.total_storage), totalStorageSpace.formatSizeThousand())
                     freeSpaceLabel.beVisible()
+                    getSizes(volumeName)
                 }
             }
         }
@@ -365,7 +364,6 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
             } else {
                 showProgressBar()
                 ensureBackgroundThread {
-                    val start = System.currentTimeMillis()
                     val filtered = allDeviceListItems.filter { it.mName.contains(text, true) }.toMutableList() as ArrayList<ListItem>
                     if (lastSearchedText != text) {
                         return@ensureBackgroundThread
