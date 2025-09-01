@@ -58,7 +58,7 @@
 
     <issue
         id="AndroidGradlePluginVersion"
-        message="A newer version of com.android.application than 8.11.1 is available: 8.12.0"
+        message="A newer version of com.android.application than 8.11.1 is available: 8.12.2"
         errorLine1="gradlePlugins-agp = &quot;8.11.1&quot;"
         errorLine2="                    ~~~~~~~~">
         <location
@@ -76,17 +76,6 @@
             file="$HOME/work/File-Manager/File-Manager/gradle/libs.versions.toml"
             line="21"
             column="31"/>
-    </issue>
-
-    <issue
-        id="NewerVersionAvailable"
-        message="A newer version of io.nlopez.compose.rules:detekt than 0.4.25 is available: 0.4.26"
-        errorLine1="detektCompose = &quot;0.4.25&quot;"
-        errorLine2="                ~~~~~~~~">
-        <location
-            file="$HOME/work/File-Manager/File-Manager/gradle/libs.versions.toml"
-            line="6"
-            column="17"/>
     </issue>
 
     <issue
