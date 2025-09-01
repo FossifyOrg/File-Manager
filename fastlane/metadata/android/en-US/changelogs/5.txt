@@ -1,0 +1,8 @@
+Changed:
+
+• Updated translations
+
+Fixed:
+
+• Fixed empty storage usage bars on initial load 
+
