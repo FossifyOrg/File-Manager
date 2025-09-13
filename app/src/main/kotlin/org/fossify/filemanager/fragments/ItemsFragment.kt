@@ -257,7 +257,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         }
 
         var lastModified = lastModifieds.remove(curPath)
-        val isDirectory = if (lastModified != null) false else file.isDirectory
+        val isDirectory = file.isDirectory
         val children = if (isDirectory && getProperChildCount) file.getDirectChildrenCount(context, showHidden) else 0
         val size = if (isDirectory) {
             if (isSortingBySize) {
