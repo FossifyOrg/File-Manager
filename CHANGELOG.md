@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Fixed folders showing up incorrectly as files in some cases ([#80])
 
 ## [1.2.2] - 2025-09-01
 ### Changed
@@ -58,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [#27]: https://github.com/FossifyOrg/File-Manager/issues/27
 [#37]: https://github.com/FossifyOrg/File-Manager/issues/37
+[#80]: https://github.com/FossifyOrg/File-Manager/issues/80
 [#105]: https://github.com/FossifyOrg/File-Manager/issues/105
 [#106]: https://github.com/FossifyOrg/File-Manager/issues/106
 [#120]: https://github.com/FossifyOrg/File-Manager/issues/120
