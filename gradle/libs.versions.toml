@@ -1,6 +1,6 @@
 [versions]
 #jetbrains
-kotlin = "2.2.10"
+kotlin = "2.2.20"
 #Detekt
 detekt = "1.23.8"
 detektCompose = "0.4.27"
