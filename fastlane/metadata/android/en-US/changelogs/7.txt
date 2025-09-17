@@ -1,0 +1,3 @@
+Fixed:
+
+• Fixed folders showing up incorrectly as files in some cases 
