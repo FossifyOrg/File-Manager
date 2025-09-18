@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_launcher_name">Филе Манагер</string>
+    <string name="app_launcher_name">Менаџер фајлова</string>
     <string name="press_back_again">Притисните поново да бисте изашли</string>
     <string name="go_to_home_folder">Идите у почетни фолдер</string>
     <string name="set_as_home_folder">Постави као почетни фолдер</string>
