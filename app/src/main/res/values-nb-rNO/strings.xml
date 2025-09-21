@@ -9,7 +9,7 @@
     <string name="path_copied">Bane kopiert</string>
     <string name="select_audio_file">Vennligst velg en lydfil</string>
     <string name="search_folder">Søk etter mappe</string>
-    <string name="rooted_device_only">Denne handlingen fungerer bare på rootede enheter.</string>
+    <string name="rooted_device_only">Denne handlingen fungerer bare på enheter med rot-tilgang</string>
     <string name="recents">Nylige</string>
     <string name="show_recents">Vis nylige</string>
     <string name="open_as">Åpne som</string>
@@ -40,4 +40,8 @@
     <string name="storage_free">ledig</string>
     <string name="total_storage">Total lagring: %s</string>
     <string name="enable_root_access">Aktiver root-tilgang</string>
+    <string name="invert_colors">Inverter farger</string>
+    <string name="storage_analysis">Lagringsanalyse</string>
+    <string name="others">Andre</string>
+    <string name="press_back_twice">Trykk Tilbake to ganger for å avslutte appen</string>
 </resources>
