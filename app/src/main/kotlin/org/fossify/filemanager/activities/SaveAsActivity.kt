@@ -36,8 +36,9 @@ class SaveAsActivity : SimpleActivity() {
                             }
 
                             val source = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)!!
-                            val filename = getFilenameFromContentUri(source)
+                            val originalFilename = getFilenameFromContentUri(source)
                                 ?: source.toString().getFilenameFromPath()
+                            val filename = sanitizeFilename(originalFilename)
                             val mimeType = contentResolver.getType(source)
                                 ?: intent.type?.takeIf { it != "*/*" }
                                 ?: filename.getMimeType()
@@ -65,5 +66,10 @@ class SaveAsActivity : SimpleActivity() {
     override fun onResume() {
         super.onResume()
         setupToolbar(binding.activitySaveAsToolbar, NavigationIcon.Arrow)
+    }
+
+    fun sanitizeFilename(filename: String): String {
+        return filename.replace("[/\\\\<>:\"|?*\u0000-\u001F]".toRegex(), "_")
+            .takeIf { it.isNotBlank() } ?: "unnamed_file"
     }
 }
