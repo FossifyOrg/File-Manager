@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Fixed folders showing up incorrectly as files in copy/move dialog ([#267])
-- Fixed filename error in Save As-Dialog ([#50])
+- Fixed error when saving files with unsupported characters ([#250])
 
 ## [1.2.3] - 2025-09-15
 ### Fixed
