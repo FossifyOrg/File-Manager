@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Fixed folders showing up incorrectly as files in copy/move dialog ([#267])
+- Fixed error when saving files with unsupported characters ([#250])
 
 ## [1.2.3] - 2025-09-15
 ### Fixed
@@ -74,6 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#176]: https://github.com/FossifyOrg/File-Manager/issues/176
 [#251]: https://github.com/FossifyOrg/File-Manager/issues/251
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
+[#250]: https://github.com/FossifyOrg/File-Manager/issues/250
 
 [Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.2.3...HEAD
 [1.2.3]: https://github.com/FossifyOrg/File-Manager/compare/1.2.2...1.2.3
