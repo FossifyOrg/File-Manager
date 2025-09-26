@@ -140,6 +140,7 @@ class DecompressActivity : SimpleActivity() {
                 if (it) {
                     ensureBackgroundThread {
                         decompressTo(destination)
+                        updateCurrentPath(destination)
                     }
                 }
             }
