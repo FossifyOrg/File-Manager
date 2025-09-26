@@ -34,6 +34,7 @@ import java.io.File
 class DecompressActivity : SimpleActivity() {
     companion object {
         private const val PASSWORD = "password"
+        var onDecompressFinished: ((String) -> Unit)? = null
     }
 
     private val binding by viewBinding(ActivityDecompressBinding::inflate)
@@ -140,7 +141,6 @@ class DecompressActivity : SimpleActivity() {
                 if (it) {
                     ensureBackgroundThread {
                         decompressTo(destination)
-                        updateCurrentPath(destination)
                     }
                 }
             }
@@ -193,9 +193,13 @@ class DecompressActivity : SimpleActivity() {
                     fos!!.close()
                     outputFile.setLastModified(entry)
                 }
+                runOnUiThread {
+                    toast(R.string.decompression_successful)
+                    val extractedFolder = "$destination/${filename.substringBeforeLast(".")}"
+                    onDecompressFinished?.invoke(extractedFolder)
+                    finish()
+                }
 
-                toast(R.string.decompression_successful)
-                finish()
             }
         } catch (e: Exception) {
             showErrorToast(e)
