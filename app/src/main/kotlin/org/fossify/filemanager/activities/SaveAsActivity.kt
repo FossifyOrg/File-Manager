@@ -68,7 +68,7 @@ class SaveAsActivity : SimpleActivity() {
         setupToolbar(binding.activitySaveAsToolbar, NavigationIcon.Arrow)
     }
 
-    fun sanitizeFilename(filename: String): String {
+    private fun sanitizeFilename(filename: String): String {
         return filename.replace("[/\\\\<>:\"|?*\u0000-\u001F]".toRegex(), "_")
             .takeIf { it.isNotBlank() } ?: "unnamed_file"
     }
