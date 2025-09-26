@@ -232,7 +232,7 @@ class DecompressActivity : SimpleActivity() {
             } catch (passwordException: ZipException) {
                 if (passwordException.type == Type.WRONG_PASSWORD) {
                     if (password != null) {
-                        toast(getString(R.string.invalid_password))
+                        toast(R.string.invalid_password)
                         passwordDialog?.clearPassword()
                     } else {
                         runOnUiThread {
