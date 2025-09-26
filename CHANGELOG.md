@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fixed folders showing up incorrectly as files in copy/move dialog ([#267])
 - Fixed error when saving files with unsupported characters ([#250])
+- Fixed File manager does not ask for file access permission if opened for the first time via "share" dialog ([#85])
 
 ## [1.2.3] - 2025-09-15
 ### Fixed
@@ -76,6 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#251]: https://github.com/FossifyOrg/File-Manager/issues/251
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
 [#250]: https://github.com/FossifyOrg/File-Manager/issues/250
+[#85]: https://github.com/FossifyOrg/File-Manager/issues/85
 
 [Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.2.3...HEAD
 [1.2.3]: https://github.com/FossifyOrg/File-Manager/compare/1.2.2...1.2.3
