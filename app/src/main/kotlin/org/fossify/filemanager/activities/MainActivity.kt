@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
 import android.provider.Settings
 import android.widget.ImageView
@@ -278,15 +277,6 @@ class MainActivity : SimpleActivity() {
             }
         } else {
             openPath(path, true)
-        }
-    }
-
-    @SuppressLint("NewApi")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, resultData)
-        isAskingPermissions = false
-        if (requestCode == MANAGE_STORAGE_RC && isRPlus()) {
-            actionOnPermission?.invoke(Environment.isExternalStorageManager())
         }
     }
 

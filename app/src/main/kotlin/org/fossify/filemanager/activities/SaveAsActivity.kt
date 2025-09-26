@@ -1,18 +1,15 @@
 package org.fossify.filemanager.activities
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import org.fossify.commons.dialogs.FilePickerDialog
 import org.fossify.commons.extensions.*
 import org.fossify.commons.helpers.NavigationIcon
 import org.fossify.commons.helpers.ensureBackgroundThread
-import org.fossify.commons.helpers.isRPlus
 import org.fossify.filemanager.R
 import org.fossify.filemanager.databinding.ActivitySaveAsBinding
 import org.fossify.filemanager.extensions.config
@@ -88,19 +85,5 @@ class SaveAsActivity : SimpleActivity() {
     private fun sanitizeFilename(filename: String): String {
         return filename.replace("[/\\\\<>:\"|?*\u0000-\u001F]".toRegex(), "_")
             .takeIf { it.isNotBlank() } ?: "unnamed_file"
-    }
-
-    @SuppressLint("NewApi")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, dataIntent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, dataIntent)
-
-        if (requestCode == MANAGE_STORAGE_RC && isRPlus()) {
-            if (Environment.isExternalStorageManager()) {
-                recreate()
-            } else {
-                toast(R.string.no_storage_permissions)
-                finish()
-            }
-        }
     }
 }

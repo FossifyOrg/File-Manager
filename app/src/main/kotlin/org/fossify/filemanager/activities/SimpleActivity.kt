@@ -1,9 +1,11 @@
 package org.fossify.filemanager.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Environment
 import org.fossify.commons.activities.BaseSimpleActivity
 import org.fossify.commons.extensions.hasPermission
+import org.fossify.commons.extensions.toast
 import org.fossify.commons.helpers.PERMISSION_WRITE_STORAGE
 import org.fossify.commons.helpers.isRPlus
 import org.fossify.filemanager.R
@@ -31,9 +33,27 @@ open class SimpleActivity : BaseSimpleActivity() {
         R.mipmap.ic_launcher_grey_black
     )
 
+    companion object {
+        private const val MANAGE_STORAGE_RC = 201
+    }
+
     override fun getAppLauncherName() = getString(R.string.app_launcher_name)
 
     override fun getRepositoryName() = "File-Manager"
+
+    @SuppressLint("NewApi")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, dataIntent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, dataIntent)
+
+        if (requestCode == MANAGE_STORAGE_RC && isRPlus()) {
+            if (Environment.isExternalStorageManager()) {
+                recreate()
+            } else {
+                toast(R.string.no_storage_permissions)
+                finish()
+            }
+        }
+    }
 
     @SuppressLint("NewApi")
     fun hasStoragePermission(): Boolean {
