@@ -2,7 +2,6 @@ package org.fossify.filemanager.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
 import android.os.Environment
 import android.provider.Settings
 import org.fossify.commons.activities.BaseSimpleActivity
@@ -13,6 +12,7 @@ import org.fossify.commons.extensions.toast
 import org.fossify.commons.helpers.PERMISSION_WRITE_STORAGE
 import org.fossify.commons.helpers.isRPlus
 import org.fossify.filemanager.R
+import androidx.core.net.toUri
 
 open class SimpleActivity : BaseSimpleActivity() {
     override fun getAppIconIDs() = arrayListOf(
@@ -82,10 +82,10 @@ open class SimpleActivity : BaseSimpleActivity() {
                         try {
                             val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
                             intent.addCategory("android.intent.category.DEFAULT")
-                            intent.data = Uri.parse("package:$packageName")
+                            "package:$packageName".toUri().also { intent.data = it }
                             startActivityForResult(intent, MANAGE_STORAGE_RC)
                         } catch (e: Exception) {
-                            showErrorToast(e)
+                            toast(R.string.no_storage_permissions)
                             val intent = Intent()
                             intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
                             startActivityForResult(intent, MANAGE_STORAGE_RC)
