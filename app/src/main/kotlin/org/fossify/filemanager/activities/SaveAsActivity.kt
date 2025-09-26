@@ -1,12 +1,16 @@
 package org.fossify.filemanager.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import androidx.core.net.toUri
 import org.fossify.commons.dialogs.FilePickerDialog
 import org.fossify.commons.extensions.*
 import org.fossify.commons.helpers.NavigationIcon
 import org.fossify.commons.helpers.ensureBackgroundThread
+import org.fossify.commons.helpers.isRPlus
 import org.fossify.filemanager.R
 import org.fossify.filemanager.databinding.ActivitySaveAsBinding
 import org.fossify.filemanager.extensions.config
@@ -15,9 +19,18 @@ import java.io.File
 class SaveAsActivity : SimpleActivity() {
     private val binding by viewBinding(ActivitySaveAsBinding::inflate)
 
+    companion object {
+        private const val MANAGE_STORAGE_RC = 201
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        if (isRPlus() && !Environment.isExternalStorageManager()) {
+            val intent = Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+            intent.data = "package:$packageName".toUri()
+            startActivityForResult(intent, MANAGE_STORAGE_RC)
+            return
+        }
 
         if (intent.action == Intent.ACTION_SEND && intent.extras?.containsKey(Intent.EXTRA_STREAM) == true) {
             FilePickerDialog(this, pickFile = false, showHidden = config.shouldShowHidden(), showFAB = true, showFavoritesButton = true) {
@@ -71,5 +84,19 @@ class SaveAsActivity : SimpleActivity() {
     private fun sanitizeFilename(filename: String): String {
         return filename.replace("[/\\\\<>:\"|?*\u0000-\u001F]".toRegex(), "_")
             .takeIf { it.isNotBlank() } ?: "unnamed_file"
+    }
+
+    @SuppressLint("NewApi")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, dataIntent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, dataIntent)
+
+        if (requestCode == MANAGE_STORAGE_RC && isRPlus()) {
+            if (Environment.isExternalStorageManager()) {
+                recreate()
+            } else {
+                toast(R.string.no_storage_permissions)
+                finish()
+            }
+        }
     }
 }
