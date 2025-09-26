@@ -2,10 +2,7 @@ package org.fossify.filemanager.activities
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresApi
-import androidx.core.net.toUri
 import org.fossify.commons.dialogs.FilePickerDialog
 import org.fossify.commons.extensions.*
 import org.fossify.commons.helpers.NavigationIcon
@@ -18,21 +15,24 @@ import java.io.File
 class SaveAsActivity : SimpleActivity() {
     private val binding by viewBinding(ActivitySaveAsBinding::inflate)
 
-    companion object {
-        private const val MANAGE_STORAGE_RC = 201
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+        tryInitFileManager()
     }
 
-    @RequiresApi(Build.VERSION_CODES.R)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (!isExternalStorageManager()) {
-            val intent = Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-            intent.data = "package:$packageName".toUri()
-            startActivityForResult(intent, MANAGE_STORAGE_RC)
-            return
+    private fun tryInitFileManager() {
+        handleStoragePermission { granted ->
+            if (granted) {
+                saveAsDialog()
+            } else {
+                toast(R.string.no_storage_permissions)
+                finish()
+            }
         }
-        setContentView(binding.root)
-
+    }
+    private fun saveAsDialog() {
         if (intent.action == Intent.ACTION_SEND && intent.extras?.containsKey(Intent.EXTRA_STREAM) == true) {
             FilePickerDialog(this, pickFile = false, showHidden = config.shouldShowHidden(), showFAB = true, showFavoritesButton = true) {
                 val destination = it
