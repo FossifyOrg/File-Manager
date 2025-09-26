@@ -3,8 +3,10 @@ package org.fossify.filemanager.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import org.fossify.commons.dialogs.FilePickerDialog
 import org.fossify.commons.extensions.*
@@ -23,14 +25,16 @@ class SaveAsActivity : SimpleActivity() {
         private const val MANAGE_STORAGE_RC = 201
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (isRPlus() && !Environment.isExternalStorageManager()) {
+        if (!isExternalStorageManager()) {
             val intent = Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
             intent.data = "package:$packageName".toUri()
             startActivityForResult(intent, MANAGE_STORAGE_RC)
             return
         }
+        setContentView(binding.root)
 
         if (intent.action == Intent.ACTION_SEND && intent.extras?.containsKey(Intent.EXTRA_STREAM) == true) {
             FilePickerDialog(this, pickFile = false, showHidden = config.shouldShowHidden(), showFAB = true, showFavoritesButton = true) {
