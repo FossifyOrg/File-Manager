@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.2.4] - 2025-09-27
+### Changed
+- Updated translations
+
 ### Fixed
 - Fixed folders showing up incorrectly as files in copy/move dialog ([#267])
 - Fixed error when saving files with unsupported characters ([#250])
@@ -67,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#27]: https://github.com/FossifyOrg/File-Manager/issues/27
 [#37]: https://github.com/FossifyOrg/File-Manager/issues/37
 [#80]: https://github.com/FossifyOrg/File-Manager/issues/80
+[#85]: https://github.com/FossifyOrg/File-Manager/issues/85
 [#105]: https://github.com/FossifyOrg/File-Manager/issues/105
 [#106]: https://github.com/FossifyOrg/File-Manager/issues/106
 [#120]: https://github.com/FossifyOrg/File-Manager/issues/120
@@ -74,12 +80,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#149]: https://github.com/FossifyOrg/File-Manager/issues/149
 [#150]: https://github.com/FossifyOrg/File-Manager/issues/150
 [#176]: https://github.com/FossifyOrg/File-Manager/issues/176
+[#250]: https://github.com/FossifyOrg/File-Manager/issues/250
 [#251]: https://github.com/FossifyOrg/File-Manager/issues/251
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
-[#250]: https://github.com/FossifyOrg/File-Manager/issues/250
-[#85]: https://github.com/FossifyOrg/File-Manager/issues/85
 
-[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.2.3...HEAD
+[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.2.4...HEAD
+[1.2.4]: https://github.com/FossifyOrg/File-Manager/compare/1.2.3...1.2.4
 [1.2.3]: https://github.com/FossifyOrg/File-Manager/compare/1.2.2...1.2.3
 [1.2.2]: https://github.com/FossifyOrg/File-Manager/compare/1.2.0...1.2.2
 [1.2.0]: https://github.com/FossifyOrg/File-Manager/compare/1.1.0...1.2.0

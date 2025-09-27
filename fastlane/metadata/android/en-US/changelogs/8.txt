@@ -1,0 +1,10 @@
+Changed:
+
+• Updated translations
+
+Fixed:
+
+• Fixed folders showing up incorrectly as files in copy/move dialog 
+• Fixed error when saving files with unsupported characters 
+• Fixed missing permission prompt on initial "Save as" launch 
+
