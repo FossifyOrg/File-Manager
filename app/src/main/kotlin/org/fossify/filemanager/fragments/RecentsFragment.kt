@@ -242,7 +242,11 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
 
     override fun searchQueryChanged(text: String) {
         lastSearchedText = text
-        val filtered = filesIgnoringSearch.filter { it.mName.contains(text, true) }.toMutableList() as ArrayList<ListItem>
+        val normalizedText = text.normalizeText()
+        val filtered = filesIgnoringSearch.filter {
+            it.mName.normalizeText().contains(normalizedText)
+        }.toMutableList() as ArrayList<ListItem>
+
         binding.apply {
             (recentsList.adapter as? ItemsAdapter)?.updateItems(filtered, text)
             recentsPlaceholder.beVisibleIf(filtered.isEmpty())
