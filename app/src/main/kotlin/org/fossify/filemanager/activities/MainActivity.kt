@@ -310,7 +310,7 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-        private fun initFileManager(refreshRecents: Boolean) {
+    private fun initFileManager(refreshRecents: Boolean) {
         if (intent.action == Intent.ACTION_VIEW && intent.data != null) {
             val data = intent.data
             if (data?.scheme == "file") {
