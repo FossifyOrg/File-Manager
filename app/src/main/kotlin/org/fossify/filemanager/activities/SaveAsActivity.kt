@@ -15,8 +15,7 @@ import java.io.File
 class SaveAsActivity : SimpleActivity() {
     private val binding by viewBinding(ActivitySaveAsBinding::inflate)
 
-
-        override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         tryInitFileManager()
@@ -32,6 +31,7 @@ class SaveAsActivity : SimpleActivity() {
             }
         }
     }
+
     private fun saveAsDialog() {
         if (intent.action == Intent.ACTION_SEND && intent.extras?.containsKey(Intent.EXTRA_STREAM) == true) {
             FilePickerDialog(this, pickFile = false, showHidden = config.shouldShowHidden(), showFAB = true, showFavoritesButton = true) {

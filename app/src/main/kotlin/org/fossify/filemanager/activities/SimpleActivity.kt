@@ -45,17 +45,12 @@ open class SimpleActivity : BaseSimpleActivity() {
 
     override fun getRepositoryName() = "File-Manager"
 
-    @SuppressLint("NewApi")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, dataIntent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, dataIntent)
-
+   @SuppressLint("NewApi")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, resultData)
+        isAskingPermissions = false
         if (requestCode == MANAGE_STORAGE_RC && isRPlus()) {
-            if (Environment.isExternalStorageManager()) {
-                recreate()
-            } else {
-                toast(R.string.no_storage_permissions)
-                finish()
-            }
+            actionOnPermission?.invoke(Environment.isExternalStorageManager())
         }
     }
 
