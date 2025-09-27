@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed folders showing up incorrectly as files in copy/move dialog ([#267])
 - Fixed error when saving files with unsupported characters ([#250])
 - Fixed missing permission prompt on initial "Save as" launch ([#85])
-- Search - Ignore accents and diacritics ([#95])
+- Fixed ignoring accents and diacritics in Search ([#95])
 
 ## [1.2.3] - 2025-09-15
 ### Fixed
