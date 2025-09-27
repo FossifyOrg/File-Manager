@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintManager
+import android.util.Base64
 import android.view.inputmethod.EditorInfo
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -229,7 +230,9 @@ class ReadTextActivity : SimpleActivity() {
                 }
             }
 
-            webView.loadData(binding.readTextView.text.toString(), "text/plain", "UTF-8")
+            val text = binding.readTextView.text.toString()
+            val base64 = Base64.encodeToString(text.toByteArray(), Base64.DEFAULT)
+            webView.loadData(base64, "text/plain", "base64")
         } catch (e: Exception) {
             showErrorToast(e)
         }
