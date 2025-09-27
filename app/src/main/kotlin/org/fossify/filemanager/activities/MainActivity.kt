@@ -1,22 +1,17 @@
 package org.fossify.filemanager.activities
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ClipData
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
-import android.provider.Settings
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.stericson.RootTools.RootTools
 import me.grantland.widget.AutofitHelper
-import org.fossify.commons.dialogs.ConfirmationAdvancedDialog
 import org.fossify.commons.dialogs.RadioGroupDialog
 import org.fossify.commons.extensions.appLaunched
 import org.fossify.commons.extensions.appLockManager
@@ -43,7 +38,6 @@ import org.fossify.commons.extensions.launchMoreAppsFromUsIntent
 import org.fossify.commons.extensions.onGlobalLayout
 import org.fossify.commons.extensions.onTabSelectionChanged
 import org.fossify.commons.extensions.sdCardPath
-import org.fossify.commons.extensions.showErrorToast
 import org.fossify.commons.extensions.toast
 import org.fossify.commons.extensions.updateBottomTabItemColors
 import org.fossify.commons.extensions.viewBinding
@@ -59,7 +53,6 @@ import org.fossify.commons.helpers.TAB_RECENT_FILES
 import org.fossify.commons.helpers.TAB_STORAGE_ANALYSIS
 import org.fossify.commons.helpers.VIEW_TYPE_GRID
 import org.fossify.commons.helpers.ensureBackgroundThread
-import org.fossify.commons.helpers.isRPlus
 import org.fossify.commons.models.FAQItem
 import org.fossify.commons.models.RadioItem
 import org.fossify.commons.models.Release
@@ -84,7 +77,6 @@ import java.io.File
 class MainActivity : SimpleActivity() {
     companion object {
         private const val BACK_PRESS_TIMEOUT = 5000
-        private const val MANAGE_STORAGE_RC = 201
         private const val PICKED_PATH = "picked_path"
     }
 
@@ -281,15 +273,6 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-    @SuppressLint("NewApi")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, resultData)
-        isAskingPermissions = false
-        if (requestCode == MANAGE_STORAGE_RC && isRPlus()) {
-            actionOnPermission?.invoke(Environment.isExternalStorageManager())
-        }
-    }
-
     private fun updateMenuColors() {
         updateStatusbarColor(getProperBackgroundColor())
         binding.mainMenu.updateColors()
@@ -319,38 +302,6 @@ class MainActivity : SimpleActivity() {
             } else {
                 toast(R.string.no_storage_permissions)
                 finish()
-            }
-        }
-    }
-
-    @SuppressLint("InlinedApi")
-    private fun handleStoragePermission(callback: (granted: Boolean) -> Unit) {
-        actionOnPermission = null
-        if (hasStoragePermission()) {
-            callback(true)
-        } else {
-            if (isRPlus()) {
-                ConfirmationAdvancedDialog(this, "", R.string.access_storage_prompt, R.string.ok, 0, false) { success ->
-                    if (success) {
-                        isAskingPermissions = true
-                        actionOnPermission = callback
-                        try {
-                            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-                            intent.addCategory("android.intent.category.DEFAULT")
-                            intent.data = Uri.parse("package:$packageName")
-                            startActivityForResult(intent, MANAGE_STORAGE_RC)
-                        } catch (e: Exception) {
-                            showErrorToast(e)
-                            val intent = Intent()
-                            intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
-                            startActivityForResult(intent, MANAGE_STORAGE_RC)
-                        }
-                    } else {
-                        finish()
-                    }
-                }
-            } else {
-                handlePermission(PERMISSION_WRITE_STORAGE, callback)
             }
         }
     }
