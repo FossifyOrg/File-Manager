@@ -1,6 +1,7 @@
 package org.fossify.filemanager.fragments
 
 import android.content.Context
+import android.icu.text.Normalizer2
 import android.util.AttributeSet
 import android.widget.RelativeLayout
 import org.fossify.commons.extensions.*
@@ -16,6 +17,7 @@ import org.fossify.filemanager.databinding.StorageFragmentBinding
 import org.fossify.filemanager.extensions.isPathOnRoot
 import org.fossify.filemanager.extensions.tryOpenPathIntent
 import org.fossify.filemanager.helpers.RootHelpers
+import java.util.Locale
 
 abstract class MyViewPagerFragment<BINDING : MyViewPagerFragment.InnerBinding>(context: Context, attributeSet: AttributeSet) :
     RelativeLayout(context, attributeSet) {
@@ -86,6 +88,13 @@ abstract class MyViewPagerFragment<BINDING : MyViewPagerFragment.InnerBinding>(c
                 fileMimeType.equals(wantedMimeType, true)
             }
         }
+    }
+
+    protected fun String.normalizeText(): String {
+        val normalizer = Normalizer2.getNFDInstance()
+        return normalizer.normalize(this)
+            .replace("\\p{M}".toRegex(), "")
+            .lowercase(Locale.getDefault())
     }
 
     abstract fun setupFragment(activity: SimpleActivity)
