@@ -119,6 +119,10 @@ class MainActivity : SimpleActivity() {
             checkIfRootAvailable()
             checkInvalidFavorites()
         }
+
+        DecompressActivity.onDecompressFinished = { extractedFolder ->
+            openPath(extractedFolder, true)
+        }
     }
 
     override fun onResume() {
