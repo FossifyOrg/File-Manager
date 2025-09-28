@@ -377,7 +377,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             return files
         }
 
-        val normalizedText = text.normalizeText()
+        val normalizedText = text.normalizeString()
         val sorting = context!!.config.getFolderSorting(path)
         FileDirItem.sorting = context!!.config.getFolderSorting(currentPath)
         val isSortingBySize = sorting and SORT_BY_SIZE != 0
@@ -387,7 +387,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             }
 
             if (it.isDirectory) {
-                if (it.name.normalizeText().contains(normalizedText)) {
+                if (it.name.normalizeString().contains(normalizedText)) {
                     val fileDirItem = getListItemFromFile(it, isSortingBySize, HashMap(), false)
                     if (fileDirItem != null) {
                         files.add(fileDirItem)
@@ -396,7 +396,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
 
                 files.addAll(searchFiles(text, it.absolutePath))
             } else {
-                if (it.name.normalizeText().contains(normalizedText)) {
+                if (it.name.normalizeString().contains(normalizedText)) {
                     val fileDirItem = getListItemFromFile(it, isSortingBySize, HashMap(), false)
                     if (fileDirItem != null) {
                         files.add(fileDirItem)
