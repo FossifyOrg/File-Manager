@@ -231,8 +231,16 @@ class ReadTextActivity : SimpleActivity() {
             }
 
             val text = binding.readTextView.text.toString()
-            val base64 = Base64.encodeToString(text.toByteArray(), Base64.DEFAULT)
-            webView.loadData(base64, "text/plain", "base64")
+            ensureBackgroundThread {
+                try {
+                    val base64 = Base64.encodeToString(text.toByteArray(), Base64.DEFAULT)
+                    runOnUiThread {
+                        webView.loadData(base64, "text/plain", "base64")
+                    }
+                } catch (e: Exception) {
+                    showErrorToast(e)
+                }
+            }
         } catch (e: Exception) {
             showErrorToast(e)
         }
