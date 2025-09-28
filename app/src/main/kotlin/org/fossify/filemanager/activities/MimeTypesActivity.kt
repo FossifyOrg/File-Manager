@@ -133,10 +133,11 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
     override fun selectedPaths(paths: ArrayList<String>) {}
 
     fun searchQueryChanged(text: String) {
-        val searchText = text.trim()
-        lastSearchedText = searchText
+        val normalizedText = text.normalizeString()
+        val searchNormalizedText = normalizedText.trim()
+        lastSearchedText = searchNormalizedText
         when {
-            searchText.isEmpty() -> {
+            searchNormalizedText.isEmpty() -> {
                 binding.apply {
                     mimetypesFastscroller.beVisible()
                     getRecyclerAdapter()?.updateItems(storedItems)
@@ -145,7 +146,7 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
                 }
             }
 
-            searchText.length == 1 -> {
+            searchNormalizedText.length == 1 -> {
                 binding.apply {
                     mimetypesFastscroller.beGone()
                     mimetypesPlaceholder.beVisible()
@@ -155,11 +156,13 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
 
             else -> {
                 ensureBackgroundThread {
-                    if (lastSearchedText != searchText) {
+                    if (lastSearchedText != searchNormalizedText) {
                         return@ensureBackgroundThread
                     }
 
-                    val listItems = storedItems.filter { it.name.contains(searchText, true) } as ArrayList<ListItem>
+                    val listItems = storedItems.filter {
+                        it.name.normalizeString().contains(searchNormalizedText, true)
+                    } as ArrayList<ListItem>
 
                     runOnUiThread {
                         getRecyclerAdapter()?.updateItems(listItems, text)
@@ -339,6 +342,7 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
                         }
                     }
                 } catch (e: Exception) {
+                    showErrorToast(e)
                 }
             }
         } catch (e: Exception) {
