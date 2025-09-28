@@ -245,7 +245,7 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
         lastSearchedText = text
         val normalizedText = text.normalizeString()
         val filtered = filesIgnoringSearch.filter {
-            it.mName.normalizeString().contains(normalizedText)
+            it.mName.normalizeString().contains(normalizedText, true)
         }.toMutableList() as ArrayList<ListItem>
 
         binding.apply {
