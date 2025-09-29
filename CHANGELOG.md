@@ -11,8 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed missing permission prompt on initial "Save as" launch ([#85])
 - Fixed printing text files containing a "#" ([#104])
 
+### Added
+- Added a separate "Save as" option in the text editor ([#224])
+
 ### Changed
-- "Save as" moved to menu in Text Editor ([#224])
+- Save button now overwrites files directly in the text editor ([#224])
 
 ## [1.2.3] - 2025-09-15
 ### Fixed

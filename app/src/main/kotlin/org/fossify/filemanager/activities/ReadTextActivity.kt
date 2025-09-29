@@ -128,7 +128,7 @@ class ReadTextActivity : SimpleActivity() {
                 lastSavePromptTS = System.currentTimeMillis()
                 ConfirmationAdvancedDialog(this, "", R.string.save_before_closing, R.string.save, R.string.discard) {
                     if (it) {
-                        saveAsText(true)
+                        saveText(true)
                     } else {
                         super.onBackPressed()
                     }
@@ -166,14 +166,14 @@ class ReadTextActivity : SimpleActivity() {
         }, 250)
     }
 
-    private fun getFilePath(){
+    private fun updateFilePath() {
         if (filePath.isEmpty()) {
             filePath = getRealPathFromURI(intent.data!!) ?: ""
         }
     }
 
     private fun saveAsText(shouldExitAfterSaving: Boolean = false) {
-        getFilePath()
+        updateFilePath()
 
         if (filePath.isEmpty()) {
             SaveAsDialog(this, filePath, true) { _, filename ->
@@ -207,13 +207,12 @@ class ReadTextActivity : SimpleActivity() {
     }
 
     private fun saveText(shouldExitAfterSaving: Boolean = false) {
-        getFilePath()
+        updateFilePath()
 
         if (hasStoragePermission()) {
             val file = File(filePath)
             getFileOutputStream(file.toFileDirItem(this), true) {
-                val shouldOverwriteOriginalText = true
-                saveTextContent(it, shouldExitAfterSaving, shouldOverwriteOriginalText)
+                saveTextContent(it, shouldExitAfterSaving, true)
             }
         } else {
             toast(R.string.no_storage_permissions)
