@@ -128,7 +128,7 @@ class ReadTextActivity : SimpleActivity() {
                 lastSavePromptTS = System.currentTimeMillis()
                 ConfirmationAdvancedDialog(this, "", R.string.save_before_closing, R.string.save, R.string.discard) {
                     if (it) {
-                        saveText(true)
+                        saveAsText(true)
                     } else {
                         super.onBackPressed()
                     }
@@ -144,6 +144,7 @@ class ReadTextActivity : SimpleActivity() {
             when (menuItem.itemId) {
                 R.id.menu_search -> openSearch()
                 R.id.menu_save -> saveText()
+                R.id.menu_save_as -> saveAsText()
                 R.id.menu_open_with -> openPath(intent.dataString!!, true)
                 R.id.menu_print -> printText()
                 else -> return@setOnMenuItemClickListener false
@@ -165,10 +166,14 @@ class ReadTextActivity : SimpleActivity() {
         }, 250)
     }
 
-    private fun saveText(shouldExitAfterSaving: Boolean = false) {
+    private fun getFilePath(){
         if (filePath.isEmpty()) {
             filePath = getRealPathFromURI(intent.data!!) ?: ""
         }
+    }
+
+    private fun saveAsText(shouldExitAfterSaving: Boolean = false) {
+        getFilePath()
 
         if (filePath.isEmpty()) {
             SaveAsDialog(this, filePath, true) { _, filename ->
@@ -182,6 +187,7 @@ class ReadTextActivity : SimpleActivity() {
                     } else {
                         SELECT_SAVE_FILE_INTENT
                     }
+                    @Suppress("DEPRECATION")
                     startActivityForResult(this, requestCode)
                 }
             }
@@ -197,6 +203,20 @@ class ReadTextActivity : SimpleActivity() {
                     toast(R.string.no_storage_permissions)
                 }
             }
+        }
+    }
+
+    private fun saveText(shouldExitAfterSaving: Boolean = false) {
+        getFilePath()
+
+        if (hasStoragePermission()) {
+            val file = File(filePath)
+            getFileOutputStream(file.toFileDirItem(this), true) {
+                val shouldOverwriteOriginalText = true
+                saveTextContent(it, shouldExitAfterSaving, shouldOverwriteOriginalText)
+            }
+        } else {
+            toast(R.string.no_storage_permissions)
         }
     }
 

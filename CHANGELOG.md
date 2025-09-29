@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed missing permission prompt on initial "Save as" launch ([#85])
 - Fixed printing text files containing a "#" ([#104])
 
+### Changed
+- "Save as" moved to menu in Text Editor ([#224])
+
 ## [1.2.3] - 2025-09-15
 ### Fixed
 - Fixed folders showing up incorrectly as files in some cases ([#80])
@@ -80,6 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#250]: https://github.com/FossifyOrg/File-Manager/issues/250
 [#85]: https://github.com/FossifyOrg/File-Manager/issues/85
 [#104]: https://github.com/FossifyOrg/File-Manager/issues/104
+[#224]: https://github.com/FossifyOrg/File-Manager/issues/224
 
 [Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.2.3...HEAD
 [1.2.3]: https://github.com/FossifyOrg/File-Manager/compare/1.2.2...1.2.3
