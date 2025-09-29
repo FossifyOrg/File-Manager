@@ -209,7 +209,9 @@ class ReadTextActivity : SimpleActivity() {
     private fun saveText(shouldExitAfterSaving: Boolean = false) {
         updateFilePath()
 
-        if (hasStoragePermission()) {
+        if (filePath.isEmpty()) {
+            saveAsText(shouldExitAfterSaving)
+        } else if (hasStoragePermission()) {
             val file = File(filePath)
             getFileOutputStream(file.toFileDirItem(this), true) {
                 saveTextContent(it, shouldExitAfterSaving, true)
