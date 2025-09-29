@@ -11,7 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed missing permission prompt on initial "Save as" launch ([#85])
 - Fixed printing text files containing a "#" ([#104])
 
+### Added
+- Added a separate "Save as" option in the text editor ([#224])
+
 ### Changed
+- Save button now overwrites files directly in the text editor ([#224])
 - Search now ignores accents and diacritics ([#95])
 
 ## [1.2.3] - 2025-09-15
@@ -84,6 +88,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#85]: https://github.com/FossifyOrg/File-Manager/issues/85
 [#95]: https://github.com/FossifyOrg/File-Manager/issues/95
 [#104]: https://github.com/FossifyOrg/File-Manager/issues/104
+[#224]: https://github.com/FossifyOrg/File-Manager/issues/224
 
 [Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.2.3...HEAD
 [1.2.3]: https://github.com/FossifyOrg/File-Manager/compare/1.2.2...1.2.3
