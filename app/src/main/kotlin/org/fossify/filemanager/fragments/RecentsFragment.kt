@@ -179,9 +179,11 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
                         val name = cursor.getStringValue(FileColumns.DISPLAY_NAME) ?: path.getFilenameFromPath()
                         val size = cursor.getLongValue(FileColumns.SIZE)
                         val modified = cursor.getLongValue(FileColumns.DATE_MODIFIED) * 1000
-                        val fileDirItem = ListItem(path, name, false, 0, size, modified, false, false)
-                        if ((showHidden || !name.startsWith(".")) && activity?.getDoesFilePathExist(path) == true) {
+                        val isHiddenFile = name.startsWith(".")
+                        val shouldShow = showHidden || (!isHiddenFile && !isPathInHiddenFolder(path))
+                        if (shouldShow && activity?.getDoesFilePathExist(path) == true) {
                             if (wantedMimeTypes.any { isProperMimeType(it, path, false) }) {
+                                val fileDirItem = ListItem(path, name, false, 0, size, modified, false, false)
                                 listItems.add(fileDirItem)
                             }
                         }
@@ -195,6 +197,18 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
         activity?.runOnUiThread {
             callback(listItems)
         }
+    }
+
+    private fun isPathInHiddenFolder(path: String): Boolean {
+        val parts = path.split("/")
+        for (i in 1 until parts.size - 1) {
+            val part = parts[i]
+            val isHidden = part.startsWith(".") && part != "." && part != ".." && part.isNotEmpty()
+            if (isHidden) {
+                return true
+            }
+        }
+        return false
     }
 
     private fun getRecyclerAdapter() = binding.recentsList.adapter as? ItemsAdapter
