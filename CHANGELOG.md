@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Save button now overwrites files directly in the text editor ([#224])
+- Search now ignores accents and diacritics ([#95])
 
 ## [1.2.3] - 2025-09-15
 ### Fixed
@@ -86,6 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
 [#250]: https://github.com/FossifyOrg/File-Manager/issues/250
 [#85]: https://github.com/FossifyOrg/File-Manager/issues/85
+[#95]: https://github.com/FossifyOrg/File-Manager/issues/95
 [#104]: https://github.com/FossifyOrg/File-Manager/issues/104
 [#224]: https://github.com/FossifyOrg/File-Manager/issues/224
 [#217]: https://github.com/FossifyOrg/File-Manager/issues/217
