@@ -179,8 +179,7 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
                         val size = cursor.getLongValue(FileColumns.SIZE)
                         val modified = cursor.getLongValue(FileColumns.DATE_MODIFIED) * 1000
                         val isHiddenFile = name.startsWith(".")
-                        val isFileInHiddenFolder = isPathInHiddenFolder(path)
-                        val shouldShow = showHidden || (!isHiddenFile && !isFileInHiddenFolder)
+                        val shouldShow = showHidden || (!isHiddenFile && !isPathInHiddenFolder(path))
                         if (shouldShow && activity?.getDoesFilePathExist(path) == true) {
                             if (wantedMimeTypes.any { isProperMimeType(it, path, false) }) {
                                 val fileDirItem = ListItem(path, name, false, 0, size, modified, false, false)
@@ -202,8 +201,9 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
     private fun isPathInHiddenFolder(path: String): Boolean {
         val parts = path.split("/")
         for (i in 1 until parts.size - 1) {
-            val segment = parts[i]
-            if (segment.startsWith(".") && segment != "." && segment != ".." && segment.isNotEmpty()) {
+            val part = parts[i]
+            val isHidden = part.startsWith(".") && part != "." && part != ".." && part.isNotEmpty()
+            if (isHidden) {
                 return true
             }
         }
