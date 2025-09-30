@@ -12,6 +12,7 @@ import org.fossify.commons.extensions.getDoesFilePathExist
 import org.fossify.commons.extensions.getFilenameFromPath
 import org.fossify.commons.extensions.getLongValue
 import org.fossify.commons.extensions.getStringValue
+import org.fossify.commons.extensions.normalizeString
 import org.fossify.commons.extensions.showErrorToast
 import org.fossify.commons.helpers.VIEW_TYPE_GRID
 import org.fossify.commons.helpers.VIEW_TYPE_LIST
@@ -242,7 +243,11 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
 
     override fun searchQueryChanged(text: String) {
         lastSearchedText = text
-        val filtered = filesIgnoringSearch.filter { it.mName.contains(text, true) }.toMutableList() as ArrayList<ListItem>
+        val normalizedText = text.normalizeString()
+        val filtered = filesIgnoringSearch.filter {
+            it.mName.normalizeString().contains(normalizedText, true)
+        }.toMutableList() as ArrayList<ListItem>
+
         binding.apply {
             (recentsList.adapter as? ItemsAdapter)?.updateItems(filtered, text)
             recentsPlaceholder.beVisibleIf(filtered.isEmpty())
