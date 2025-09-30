@@ -342,7 +342,6 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
                         }
                     }
                 } catch (e: Exception) {
-                    showErrorToast(e)
                 }
             }
         } catch (e: Exception) {
