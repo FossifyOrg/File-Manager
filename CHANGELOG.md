@@ -5,19 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Fixed
-- Fixed folders showing up incorrectly as files in copy/move dialog ([#267])
-- Fixed error when saving files with unsupported characters ([#250])
-- Fixed missing permission prompt on initial "Save as" launch ([#85])
-- Fixed printing text files containing a "#" ([#104])
-- Fixed files in hidden folders showing up in recent tab ([#217])
 
+## [1.3.0] - 2025-09-30
 ### Added
 - Added a separate "Save as" option in the text editor ([#224])
 
 ### Changed
 - Save button now overwrites files directly in the text editor ([#224])
 - Search now ignores accents and diacritics ([#95])
+- Updated translations
+
+### Fixed
+- Fixed folders showing up incorrectly as files in copy/move dialog ([#267])
+- Fixed error when saving files with unsupported characters ([#250])
+- Fixed missing permission prompt on initial "Save as" launch ([#85])
+- Fixed printing text files containing a "#" ([#104])
+- Fixed files in hidden folders showing up in recent tab ([#217])
 
 ## [1.2.3] - 2025-09-15
 ### Fixed
@@ -76,6 +79,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#27]: https://github.com/FossifyOrg/File-Manager/issues/27
 [#37]: https://github.com/FossifyOrg/File-Manager/issues/37
 [#80]: https://github.com/FossifyOrg/File-Manager/issues/80
+[#85]: https://github.com/FossifyOrg/File-Manager/issues/85
+[#95]: https://github.com/FossifyOrg/File-Manager/issues/95
+[#104]: https://github.com/FossifyOrg/File-Manager/issues/104
 [#105]: https://github.com/FossifyOrg/File-Manager/issues/105
 [#106]: https://github.com/FossifyOrg/File-Manager/issues/106
 [#120]: https://github.com/FossifyOrg/File-Manager/issues/120
@@ -83,16 +89,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#149]: https://github.com/FossifyOrg/File-Manager/issues/149
 [#150]: https://github.com/FossifyOrg/File-Manager/issues/150
 [#176]: https://github.com/FossifyOrg/File-Manager/issues/176
+[#217]: https://github.com/FossifyOrg/File-Manager/issues/217
+[#224]: https://github.com/FossifyOrg/File-Manager/issues/224
+[#250]: https://github.com/FossifyOrg/File-Manager/issues/250
 [#251]: https://github.com/FossifyOrg/File-Manager/issues/251
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
-[#250]: https://github.com/FossifyOrg/File-Manager/issues/250
-[#85]: https://github.com/FossifyOrg/File-Manager/issues/85
-[#95]: https://github.com/FossifyOrg/File-Manager/issues/95
-[#104]: https://github.com/FossifyOrg/File-Manager/issues/104
-[#224]: https://github.com/FossifyOrg/File-Manager/issues/224
-[#217]: https://github.com/FossifyOrg/File-Manager/issues/217
 
-[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.2.3...HEAD
+[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.3.0...HEAD
+[1.3.0]: https://github.com/FossifyOrg/File-Manager/compare/1.2.3...1.3.0
 [1.2.3]: https://github.com/FossifyOrg/File-Manager/compare/1.2.2...1.2.3
 [1.2.2]: https://github.com/FossifyOrg/File-Manager/compare/1.2.0...1.2.2
 [1.2.0]: https://github.com/FossifyOrg/File-Manager/compare/1.1.0...1.2.0
