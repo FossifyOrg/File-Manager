@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed printing text files containing a "#" ([#104])
 - Fixed files in hidden folders showing up in recent tab ([#217])
 
+### Added
+- Added a separate "Save as" option in the text editor ([#224])
+
+### Changed
+- Save button now overwrites files directly in the text editor ([#224])
+
 ## [1.2.3] - 2025-09-15
 ### Fixed
 - Fixed folders showing up incorrectly as files in some cases ([#80])
@@ -81,6 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#250]: https://github.com/FossifyOrg/File-Manager/issues/250
 [#85]: https://github.com/FossifyOrg/File-Manager/issues/85
 [#104]: https://github.com/FossifyOrg/File-Manager/issues/104
+[#224]: https://github.com/FossifyOrg/File-Manager/issues/224
 [#217]: https://github.com/FossifyOrg/File-Manager/issues/217
 
 [Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.2.3...HEAD
