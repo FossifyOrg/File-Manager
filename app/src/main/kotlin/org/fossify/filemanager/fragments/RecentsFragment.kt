@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import androidx.core.os.bundleOf
 import org.fossify.commons.extensions.areSystemAnimationsEnabled
 import org.fossify.commons.extensions.beVisibleIf
+import org.fossify.commons.extensions.getDoesFilePathExist
 import org.fossify.commons.extensions.getFilenameFromPath
 import org.fossify.commons.extensions.getLongValue
 import org.fossify.commons.extensions.getStringValue
@@ -180,7 +181,7 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
                         val isHiddenFile = name.startsWith(".")
                         val isFileInHiddenFolder = isPathInHiddenFolder(path)
                         val shouldShow = showHidden || (!isHiddenFile && !isFileInHiddenFolder)
-                        if (shouldShow) {
+                        if (shouldShow && activity?.getDoesFilePathExist(path) == true) {
                             if (wantedMimeTypes.any { isProperMimeType(it, path, false) }) {
                                 val fileDirItem = ListItem(path, name, false, 0, size, modified, false, false)
                                 listItems.add(fileDirItem)
