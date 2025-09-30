@@ -10,9 +10,7 @@ Changed:
 
 Fixed:
 
-• Fixed folders showing up incorrectly as files in copy/move dialog 
+• Fixed folders showing up incorrectly as files in the copy/move dialog 
 • Fixed error when saving files with unsupported characters 
-• Fixed missing permission prompt on initial "Save as" launch 
 • Fixed printing text files containing a "#" 
-• Fixed files in hidden folders showing up in recent tab 
-
+• Fixed files in hidden folders showing up in the recent tab 
