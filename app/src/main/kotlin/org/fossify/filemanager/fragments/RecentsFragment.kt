@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import androidx.core.os.bundleOf
 import org.fossify.commons.extensions.areSystemAnimationsEnabled
 import org.fossify.commons.extensions.beVisibleIf
-import org.fossify.commons.extensions.getDoesFilePathExist
 import org.fossify.commons.extensions.getFilenameFromPath
 import org.fossify.commons.extensions.getLongValue
 import org.fossify.commons.extensions.getStringValue
@@ -178,9 +177,12 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
                         val name = cursor.getStringValue(FileColumns.DISPLAY_NAME) ?: path.getFilenameFromPath()
                         val size = cursor.getLongValue(FileColumns.SIZE)
                         val modified = cursor.getLongValue(FileColumns.DATE_MODIFIED) * 1000
-                        val fileDirItem = ListItem(path, name, false, 0, size, modified, false, false)
-                        if ((showHidden || !name.startsWith(".")) && activity?.getDoesFilePathExist(path) == true) {
+                        val isHiddenFile = name.startsWith(".")
+                        val isFileInHiddenFolder = isPathInHiddenFolder(path)
+                        val shouldShow = showHidden || (!isHiddenFile && !isFileInHiddenFolder)
+                        if (shouldShow) {
                             if (wantedMimeTypes.any { isProperMimeType(it, path, false) }) {
+                                val fileDirItem = ListItem(path, name, false, 0, size, modified, false, false)
                                 listItems.add(fileDirItem)
                             }
                         }
@@ -194,6 +196,17 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
         activity?.runOnUiThread {
             callback(listItems)
         }
+    }
+
+    private fun isPathInHiddenFolder(path: String): Boolean {
+        val parts = path.split("/")
+        for (i in 1 until parts.size - 1) {
+            val segment = parts[i]
+            if (segment.startsWith(".") && segment != "." && segment != ".." && segment.isNotEmpty()) {
+                return true
+            }
+        }
+        return false
     }
 
     private fun getRecyclerAdapter() = binding.recentsList.adapter as? ItemsAdapter
