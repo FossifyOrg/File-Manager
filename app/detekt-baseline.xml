@@ -96,7 +96,6 @@
     <ID>MaxLineLength:RecentsFragment.kt$RecentsFragment$binding.recentsSwipeRefresh.isEnabled = lastSearchedText.isEmpty() &amp;&amp; activity?.config?.enablePullToRefresh != false</ID>
     <ID>MaxLineLength:RecentsFragment.kt$RecentsFragment$class</ID>
     <ID>MaxLineLength:RecentsFragment.kt$RecentsFragment$if</ID>
-    <ID>MaxLineLength:RecentsFragment.kt$RecentsFragment$val filtered = filesIgnoringSearch.filter { it.mName.contains(text, true) }.toMutableList() as ArrayList&lt;ListItem&gt;</ID>
     <ID>MaxLineLength:RootHelpers.kt$RootHelpers$fun</ID>
     <ID>MaxLineLength:RootHelpers.kt$RootHelpers$private</ID>
     <ID>MaxLineLength:SaveAsActivity.kt$SaveAsActivity$FilePickerDialog</ID>
@@ -107,7 +106,6 @@
     <ID>MaxLineLength:StorageFragment.kt$StorageFragment$mainStorageUsageProgressbar</ID>
     <ID>MaxLineLength:StorageFragment.kt$StorageFragment$mainStorageUsageProgressbar.progress = ((totalStorageSpace - freeStorageSpace) / SIZE_DIVIDER).toInt()</ID>
     <ID>MaxLineLength:StorageFragment.kt$StorageFragment$totalSpace.text = String.format(context.getString(R.string.total_storage), totalStorageSpace.formatSizeThousand())</ID>
-    <ID>MaxLineLength:StorageFragment.kt$StorageFragment$val filtered = allDeviceListItems.filter { it.mName.contains(text, true) }.toMutableList() as ArrayList&lt;ListItem&gt;</ID>
     <ID>MaxLineLength:StorageFragment.kt$StorageFragment$val mimeType = cursor.getStringValue(MediaStore.Files.FileColumns.MIME_TYPE)?.lowercase(Locale.getDefault())</ID>
     <ID>MaxLineLength:StorageFragment.kt$StorageFragment$val storageStatsManager = context.getSystemService(AppCompatActivity.STORAGE_STATS_SERVICE) as StorageStatsManager</ID>
     <ID>NestedBlockDepth:DecompressActivity.kt$DecompressActivity$private fun decompressTo(destination: String)</ID>
@@ -127,7 +125,6 @@
     <ID>TooGenericExceptionCaught:DecompressActivity.kt$DecompressActivity$e: Exception</ID>
     <ID>TooGenericExceptionCaught:ItemsAdapter.kt$ItemsAdapter$e: Exception</ID>
     <ID>TooGenericExceptionCaught:ItemsAdapter.kt$ItemsAdapter$exception: Exception</ID>
-    <ID>TooGenericExceptionCaught:MainActivity.kt$MainActivity$e: Exception</ID>
     <ID>TooGenericExceptionCaught:MimeTypesActivity.kt$MimeTypesActivity$e: Exception</ID>
     <ID>TooGenericExceptionCaught:ReadTextActivity.kt$ReadTextActivity$e: Exception</ID>
     <ID>TooGenericExceptionCaught:RecentsFragment.kt$RecentsFragment$e: Exception</ID>
