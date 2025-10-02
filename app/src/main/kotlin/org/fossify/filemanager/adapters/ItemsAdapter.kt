@@ -831,16 +831,6 @@ class ItemsAdapter(
                 val base = "${mainFilePath.getParentPath()}/"
                 res = zout
                 queue.push(mainFilePath)
-                if (activity.getIsPathDirectory(mainFilePath)) {
-                    name = "${mainFilePath.getFilenameFromPath()}/"
-                    val dirModified = File(mainFilePath).lastModified()
-                    zout.putNextEntry(
-                        ZipParameters().also {
-                            it.fileNameInZip = name
-                            it.lastModifiedFileTime = dirModified
-                        }
-                    )
-                }
 
                 while (!queue.isEmpty()) {
                     mainFilePath = queue.pop()
