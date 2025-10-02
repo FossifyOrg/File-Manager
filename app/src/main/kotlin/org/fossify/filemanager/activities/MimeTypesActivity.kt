@@ -25,6 +25,7 @@ import org.fossify.filemanager.databinding.ActivityMimetypesBinding
 import org.fossify.filemanager.dialogs.ChangeSortingDialog
 import org.fossify.filemanager.dialogs.ChangeViewTypeDialog
 import org.fossify.filemanager.extensions.config
+import org.fossify.filemanager.extensions.isPathInHiddenFolder
 import org.fossify.filemanager.extensions.tryOpenPathIntent
 import org.fossify.filemanager.helpers.*
 import org.fossify.filemanager.interfaces.ItemOperationsListener
@@ -288,7 +289,10 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
                 try {
                     val fullMimetype = cursor.getStringValue(MediaStore.Files.FileColumns.MIME_TYPE)?.lowercase(Locale.getDefault()) ?: return@queryCursor
                     val name = cursor.getStringValue(MediaStore.Files.FileColumns.DISPLAY_NAME)
-                    if (!showHidden && name.startsWith(".")) {
+                    val path = cursor.getStringValue(MediaStore.Files.FileColumns.DATA)
+                    
+                    val isHiddenFile = name.startsWith(".")
+                    if (!showHidden && (isHiddenFile || path.isPathInHiddenFolder())) {
                         return@queryCursor
                     }
 
@@ -297,7 +301,6 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
                         return@queryCursor
                     }
 
-                    val path = cursor.getStringValue(MediaStore.Files.FileColumns.DATA)
                     val lastModified = cursor.getLongValue(MediaStore.Files.FileColumns.DATE_MODIFIED) * 1000
 
                     val mimetype = fullMimetype.substringBefore("/")

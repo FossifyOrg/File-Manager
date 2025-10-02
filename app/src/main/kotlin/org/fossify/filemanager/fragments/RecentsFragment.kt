@@ -25,6 +25,7 @@ import org.fossify.filemanager.activities.SimpleActivity
 import org.fossify.filemanager.adapters.ItemsAdapter
 import org.fossify.filemanager.databinding.RecentsFragmentBinding
 import org.fossify.filemanager.extensions.config
+import org.fossify.filemanager.extensions.isPathInHiddenFolder
 import org.fossify.filemanager.helpers.MAX_COLUMN_COUNT
 import org.fossify.filemanager.interfaces.ItemOperationsListener
 import org.fossify.filemanager.models.ListItem
@@ -180,7 +181,7 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
                         val size = cursor.getLongValue(FileColumns.SIZE)
                         val modified = cursor.getLongValue(FileColumns.DATE_MODIFIED) * 1000
                         val isHiddenFile = name.startsWith(".")
-                        val shouldShow = showHidden || (!isHiddenFile && !isPathInHiddenFolder(path))
+                        val shouldShow = showHidden || (!isHiddenFile && !path.isPathInHiddenFolder())
                         if (shouldShow && activity?.getDoesFilePathExist(path) == true) {
                             if (wantedMimeTypes.any { isProperMimeType(it, path, false) }) {
                                 val fileDirItem = ListItem(path, name, false, 0, size, modified, false, false)
@@ -197,18 +198,6 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
         activity?.runOnUiThread {
             callback(listItems)
         }
-    }
-
-    private fun isPathInHiddenFolder(path: String): Boolean {
-        val parts = path.split("/")
-        for (i in 1 until parts.size - 1) {
-            val part = parts[i]
-            val isHidden = part.startsWith(".") && part != "." && part != ".." && part.isNotEmpty()
-            if (isHidden) {
-                return true
-            }
-        }
-        return false
     }
 
     private fun getRecyclerAdapter() = binding.recentsList.adapter as? ItemsAdapter
