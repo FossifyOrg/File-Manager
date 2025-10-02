@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.3.1] - 2025-10-02
+### Changed
+- Updated translations
+
 ### Fixed
 - Fixed files from hidden folders showing up in storage tab browser ([#217])
 
@@ -97,7 +102,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#251]: https://github.com/FossifyOrg/File-Manager/issues/251
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
 
-[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.3.0...HEAD
+[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.3.1...HEAD
+[1.3.1]: https://github.com/FossifyOrg/File-Manager/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/FossifyOrg/File-Manager/compare/1.2.3...1.3.0
 [1.2.3]: https://github.com/FossifyOrg/File-Manager/compare/1.2.2...1.2.3
 [1.2.2]: https://github.com/FossifyOrg/File-Manager/compare/1.2.0...1.2.2
