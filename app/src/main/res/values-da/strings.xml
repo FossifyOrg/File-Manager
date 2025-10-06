@@ -42,6 +42,6 @@
     <string name="others">Andre</string>
     <string name="storage_free">fri</string>
     <string name="total_storage">Samlet lagerplads: %s</string>
-    <string name="enable_root_access">Aktiver root-adgang</string>
-    <string name="press_back_twice">Kræv to tryk på tilbage for at forlade appen</string>
+    <string name="enable_root_access">Aktivér root-adgang</string>
+    <string name="press_back_twice">Dobbelttryk på Tilbage for at afslutte appen</string>
 </resources>
