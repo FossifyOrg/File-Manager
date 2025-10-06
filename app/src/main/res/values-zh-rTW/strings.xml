@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_launcher_name">簡易檔案管理器</string>
+    <string name="app_launcher_name">檔案管理器</string>
     <string name="press_back_again">再按一次返回以離開</string>
     <string name="go_to_home_folder">前往主資料夾</string>
     <string name="set_as_home_folder">設為主資料夾</string>

@@ -28,6 +28,7 @@ import org.fossify.commons.extensions.getLongValue
 import org.fossify.commons.extensions.getProperBackgroundColor
 import org.fossify.commons.extensions.getProperPrimaryColor
 import org.fossify.commons.extensions.getStringValue
+import org.fossify.commons.extensions.normalizeString
 import org.fossify.commons.extensions.queryCursor
 import org.fossify.commons.extensions.showErrorToast
 import org.fossify.commons.extensions.updateTextColors
@@ -340,6 +341,7 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
     }
 
     override fun searchQueryChanged(text: String) {
+        val normalizedText = text.normalizeString()
         lastSearchedText = text
         binding.apply {
             if (text.isNotEmpty()) {
@@ -364,7 +366,10 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
             } else {
                 showProgressBar()
                 ensureBackgroundThread {
-                    val filtered = allDeviceListItems.filter { it.mName.contains(text, true) }.toMutableList() as ArrayList<ListItem>
+                    val filtered = allDeviceListItems.filter {
+                        it.mName.normalizeString().contains(normalizedText, true)
+                    }.toMutableList() as ArrayList<ListItem>
+
                     if (lastSearchedText != text) {
                         return@ensureBackgroundThread
                     }

@@ -12,6 +12,7 @@ import org.fossify.commons.extensions.getDoesFilePathExist
 import org.fossify.commons.extensions.getFilenameFromPath
 import org.fossify.commons.extensions.getLongValue
 import org.fossify.commons.extensions.getStringValue
+import org.fossify.commons.extensions.normalizeString
 import org.fossify.commons.extensions.showErrorToast
 import org.fossify.commons.helpers.VIEW_TYPE_GRID
 import org.fossify.commons.helpers.VIEW_TYPE_LIST
@@ -24,6 +25,7 @@ import org.fossify.filemanager.activities.SimpleActivity
 import org.fossify.filemanager.adapters.ItemsAdapter
 import org.fossify.filemanager.databinding.RecentsFragmentBinding
 import org.fossify.filemanager.extensions.config
+import org.fossify.filemanager.extensions.isPathInHiddenFolder
 import org.fossify.filemanager.helpers.MAX_COLUMN_COUNT
 import org.fossify.filemanager.interfaces.ItemOperationsListener
 import org.fossify.filemanager.models.ListItem
@@ -178,9 +180,11 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
                         val name = cursor.getStringValue(FileColumns.DISPLAY_NAME) ?: path.getFilenameFromPath()
                         val size = cursor.getLongValue(FileColumns.SIZE)
                         val modified = cursor.getLongValue(FileColumns.DATE_MODIFIED) * 1000
-                        val fileDirItem = ListItem(path, name, false, 0, size, modified, false, false)
-                        if ((showHidden || !name.startsWith(".")) && activity?.getDoesFilePathExist(path) == true) {
+                        val isHiddenFile = name.startsWith(".")
+                        val shouldShow = showHidden || (!isHiddenFile && !path.isPathInHiddenFolder())
+                        if (shouldShow && activity?.getDoesFilePathExist(path) == true) {
                             if (wantedMimeTypes.any { isProperMimeType(it, path, false) }) {
+                                val fileDirItem = ListItem(path, name, false, 0, size, modified, false, false)
                                 listItems.add(fileDirItem)
                             }
                         }
@@ -242,7 +246,11 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
 
     override fun searchQueryChanged(text: String) {
         lastSearchedText = text
-        val filtered = filesIgnoringSearch.filter { it.mName.contains(text, true) }.toMutableList() as ArrayList<ListItem>
+        val normalizedText = text.normalizeString()
+        val filtered = filesIgnoringSearch.filter {
+            it.mName.normalizeString().contains(normalizedText, true)
+        }.toMutableList() as ArrayList<ListItem>
+
         binding.apply {
             (recentsList.adapter as? ItemsAdapter)?.updateItems(filtered, text)
             recentsPlaceholder.beVisibleIf(filtered.isEmpty())

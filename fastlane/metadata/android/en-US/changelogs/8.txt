@@ -1,0 +1,16 @@
+Added:
+
+• Added a separate "Save as" option in the text editor 
+
+Changed:
+
+• Save button now overwrites files directly in the text editor 
+• Search now ignores accents and diacritics 
+• Updated translations
+
+Fixed:
+
+• Fixed folders showing up incorrectly as files in the copy/move dialog 
+• Fixed error when saving files with unsupported characters 
+• Fixed printing text files containing a "#" 
+• Fixed files in hidden folders showing up in the recent tab 
