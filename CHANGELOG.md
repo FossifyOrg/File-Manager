@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fixed files from hidden folders showing up in storage tab browser ([#217])
 - Fixed duplicated folders in decompressActivity ([#76])
-- Fixed missing refresh after resume to fragment ([194])
+- Fixed missing refresh after resume to fragment ([#194])
 
 ## [1.3.0] - 2025-09-30
 ### Added
