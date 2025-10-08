@@ -265,18 +265,20 @@ class DecompressActivity : SimpleActivity() {
 
             val lastModified = zipEntry.lastModifiedTime
             val filename = zipEntry.fileName.removeSuffix("/")
-            allFiles.add(
-                ListItem(
-                    mPath = filename,
-                    mName = filename.getFilenameFromPath(),
-                    mIsDirectory = zipEntry.isDirectory,
-                    mChildren = 0,
-                    mSize = 0L,
-                    mModified = lastModified,
-                    isSectionTitle = false,
-                    isGridTypeDivider = false
+            if (allFiles.none { it.mPath == filename }) {
+                allFiles.add(
+                    ListItem(
+                        mPath = filename,
+                        mName = filename.getFilenameFromPath(),
+                        mIsDirectory = zipEntry.isDirectory,
+                        mChildren = 0,
+                        mSize = 0L,
+                        mModified = lastModified,
+                        isSectionTitle = false,
+                        isGridTypeDivider = false
+                    )
                 )
-            )
+            }
         }
 
         runOnUiThread {
