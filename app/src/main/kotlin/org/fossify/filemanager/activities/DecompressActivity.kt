@@ -214,78 +214,76 @@ class DecompressActivity : SimpleActivity() {
     }
 
     private fun fillAllListItems(uri: Uri, callback: () -> Unit) = ensureBackgroundThread {
-        val inputStream = try {
-            contentResolver.openInputStream(uri)
+        val zipStream = openZipInputStream(uri) ?: return@ensureBackgroundThread
+        processZipEntries(zipStream)
+        runOnUiThread { binding.progressIndicator.hide() }
+        callback()
+    }
+
+    private fun openZipInputStream(uri: Uri): ZipInputStream? {
+        return try {
+            val inputStream = contentResolver.openInputStream(uri)
+            ZipInputStream(BufferedInputStream(inputStream)).apply {
+                password?.let { setPassword(it.toCharArray()) }
+            }
         } catch (e: Exception) {
             showErrorToast(e)
-            return@ensureBackgroundThread
+            null
         }
+    }
 
-        val zipInputStream = ZipInputStream(BufferedInputStream(inputStream))
-        if (password != null) {
-            zipInputStream.setPassword(password?.toCharArray())
-        }
+    private fun processZipEntries(zipInputStream: ZipInputStream) {
         var zipEntry: LocalFileHeader?
         while (true) {
             try {
-                zipEntry = zipInputStream.nextEntry
-            } catch (passwordException: ZipException) {
-                if (passwordException.type == Type.WRONG_PASSWORD) {
-                    if (password != null) {
-                        toast(getString(R.string.invalid_password))
-                        passwordDialog?.clearPassword()
-                    } else {
-                        runOnUiThread {
-                            askForPassword()
-                        }
-                    }
-                    return@ensureBackgroundThread
-                } else {
-                    break
-                }
-            } catch (ignored: Exception) {
+                zipEntry = zipInputStream.nextEntry ?: break
+            } catch (e: ZipException) {
+                handleZipException(e)
                 break
             }
-
-            if (zipEntry == null) {
-                break
-            }
-
-            // Show progress bar only after password dialog is dismissed.
-            runOnUiThread {
-                if (binding.progressIndicator.isGone()) {
-                    binding.progressIndicator.show()
-                }
-            }
-
-            if (passwordDialog != null) {
-                passwordDialog?.dismiss(notify = false)
-                passwordDialog = null
-            }
-
-            val lastModified = zipEntry.lastModifiedTime
-            val filename = zipEntry.fileName.removeSuffix("/")
-            if (allFiles.none { it.mPath == filename }) {
-                allFiles.add(
-                    ListItem(
-                        mPath = filename,
-                        mName = filename.getFilenameFromPath(),
-                        mIsDirectory = zipEntry.isDirectory,
-                        mChildren = 0,
-                        mSize = 0L,
-                        mModified = lastModified,
-                        isSectionTitle = false,
-                        isGridTypeDivider = false
-                    )
-                )
-            }
+            handleZipEntry(zipEntry)
         }
+    }
 
+    private fun handleZipException(e: ZipException) {
+        if (e.type == Type.WRONG_PASSWORD) {
+            if (password != null) {
+                toast(getString(R.string.invalid_password))
+                passwordDialog?.clearPassword()
+            } else {
+                runOnUiThread { askForPassword() }
+            }
+        } else {
+            showErrorToast(e)
+        }
+    }
+
+    private fun handleZipEntry(zipEntry: LocalFileHeader) {
         runOnUiThread {
-            binding.progressIndicator.hide()
+            if (binding.progressIndicator.isGone()) {
+                binding.progressIndicator.show()
+            }
         }
+        passwordDialog?.dismiss(notify = false)
+        passwordDialog = null
 
-        callback()
+        val filename = zipEntry.fileName.removeSuffix("/")
+        val lastModified = zipEntry.lastModifiedTime
+
+        if (allFiles.none { it.mPath == filename }) {
+            allFiles.add(
+                ListItem(
+                    mPath = filename,
+                    mName = filename.getFilenameFromPath(),
+                    mIsDirectory = zipEntry.isDirectory,
+                    mChildren = 0,
+                    mSize = 0L,
+                    mModified = lastModified,
+                    isSectionTitle = false,
+                    isGridTypeDivider = false
+                )
+            )
+        }
     }
 
     private fun askForPassword() {
