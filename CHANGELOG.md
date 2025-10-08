@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Fixed files from hidden folders showing up in storage tab browser ([#217])
+- Fixed duplicated folders in decompressActivity ([#76])
+- Fixed missing refresh after resume to fragment ([194])
+
 
 ## [1.3.0] - 2025-09-30
 ### Added
@@ -80,6 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [#27]: https://github.com/FossifyOrg/File-Manager/issues/27
 [#37]: https://github.com/FossifyOrg/File-Manager/issues/37
+[#76]: https://github.com/FossifyOrg/File-Manager/issues/76
 [#80]: https://github.com/FossifyOrg/File-Manager/issues/80
 [#85]: https://github.com/FossifyOrg/File-Manager/issues/85
 [#95]: https://github.com/FossifyOrg/File-Manager/issues/95
@@ -91,6 +95,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#149]: https://github.com/FossifyOrg/File-Manager/issues/149
 [#150]: https://github.com/FossifyOrg/File-Manager/issues/150
 [#176]: https://github.com/FossifyOrg/File-Manager/issues/176
+[#194]: https://github.com/FossifyOrg/File-Manager/issues/194
 [#217]: https://github.com/FossifyOrg/File-Manager/issues/217
 [#224]: https://github.com/FossifyOrg/File-Manager/issues/224
 [#250]: https://github.com/FossifyOrg/File-Manager/issues/250
