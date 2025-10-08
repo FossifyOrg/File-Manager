@@ -82,6 +82,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
 
             itemsSwipeRefresh.isEnabled = lastSearchedText.isEmpty() && activity?.config?.enablePullToRefresh != false
         }
+        refreshFragment()
     }
 
     override fun setupFontSize() {
