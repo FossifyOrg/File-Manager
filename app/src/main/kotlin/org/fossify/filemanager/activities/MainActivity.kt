@@ -362,10 +362,7 @@ class MainActivity : SimpleActivity() {
     private fun setupTabs() {
         binding.mainTabsHolder.removeAllTabs()
         val action = intent.action
-        val isPickFileIntent = action == RingtoneManager.ACTION_RINGTONE_PICKER
-                || action == Intent.ACTION_GET_CONTENT
-                || action == Intent.ACTION_PICK
-                || action == Intent.ACTION_OPEN_DOCUMENT
+        val isPickFileIntent = action == RingtoneManager.ACTION_RINGTONE_PICKER || action == Intent.ACTION_GET_CONTENT || action == Intent.ACTION_PICK
         val isCreateDocumentIntent = action == Intent.ACTION_CREATE_DOCUMENT
 
         if (isPickFileIntent) {
