@@ -365,7 +365,6 @@ class MainActivity : SimpleActivity() {
         val isPickFileIntent = action == RingtoneManager.ACTION_RINGTONE_PICKER
                 || action == Intent.ACTION_GET_CONTENT
                 || action == Intent.ACTION_PICK
-                || action == Intent.ACTION_OPEN_DOCUMENT
         val isCreateDocumentIntent = action == Intent.ACTION_CREATE_DOCUMENT
 
         if (isPickFileIntent) {
