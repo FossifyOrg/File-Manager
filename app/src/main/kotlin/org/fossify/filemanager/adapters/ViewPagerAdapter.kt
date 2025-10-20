@@ -22,7 +22,8 @@ class ViewPagerAdapter(val activity: SimpleActivity, val tabsToShow: ArrayList<I
 
         (view as MyViewPagerFragment<*>).apply {
             val isPickRingtoneIntent = activity.intent.action == RingtoneManager.ACTION_RINGTONE_PICKER
-            val isGetContentIntent = activity.intent.action == Intent.ACTION_GET_CONTENT || activity.intent.action == Intent.ACTION_PICK
+            val isGetContentIntent = activity.intent.action == Intent.ACTION_GET_CONTENT
+                    || activity.intent.action == Intent.ACTION_PICK
             val isCreateDocumentIntent = activity.intent.action == Intent.ACTION_CREATE_DOCUMENT
             val allowPickingMultipleIntent = activity.intent.getBooleanExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
             val getContentMimeType = if (isGetContentIntent) {
