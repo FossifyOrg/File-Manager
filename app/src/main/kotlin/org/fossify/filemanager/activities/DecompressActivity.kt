@@ -49,8 +49,8 @@ class DecompressActivity : SimpleActivity() {
         setContentView(binding.root)
         setupOptionsMenu()
         binding.apply {
-            updateEdgeToEdge(topAppBar = decompressToolbar, scrollingView = decompressList)
-            setupMaterialScrollListener(decompressList, decompressToolbar)
+            setupEdgeToEdge(padBottomSystem = listOf(decompressList))
+            setupMaterialScrollListener(binding.decompressList, binding.decompressAppbar)
         }
 
         uri = intent.data
@@ -69,7 +69,7 @@ class DecompressActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupTopAppBar(binding.decompressToolbar, NavigationIcon.Arrow)
+        setupTopAppBar(binding.decompressAppbar, NavigationIcon.Arrow)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

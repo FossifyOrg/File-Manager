@@ -49,8 +49,8 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
         setupOptionsMenu()
         refreshMenuItems()
         binding.apply {
-            updateEdgeToEdge(topAppBar = mimetypesToolbar, scrollingView = mimetypesList)
-            setupMaterialScrollListener(mimetypesList, mimetypesToolbar)
+            setupEdgeToEdge(padBottomSystem = listOf(mimetypesList))
+            setupMaterialScrollListener(binding.mimetypesList, binding.mimetypesAppbar)
         }
 
         currentMimeType = intent.getStringExtra(SHOW_MIMETYPE) ?: return
@@ -84,7 +84,7 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
 
     override fun onResume() {
         super.onResume()
-        setupTopAppBar(binding.mimetypesToolbar, NavigationIcon.Arrow, searchMenuItem = searchMenuItem)
+        setupTopAppBar(binding.mimetypesAppbar, NavigationIcon.Arrow, searchMenuItem = searchMenuItem)
     }
 
     private fun refreshMenuItems() {

@@ -23,14 +23,14 @@ class FavoritesActivity : SimpleActivity(), RefreshRecyclerViewListener {
         setupOptionsMenu()
         updateFavorites()
         binding.apply {
-            updateEdgeToEdge(topAppBar = manageFavoritesToolbar, scrollingView = manageFavoritesList)
-            setupMaterialScrollListener(manageFavoritesList, manageFavoritesToolbar)
+            setupEdgeToEdge(padBottomSystem = listOf(manageFavoritesList))
+            setupMaterialScrollListener(binding.manageFavoritesList, binding.manageFavoritesAppbar)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        setupTopAppBar(binding.manageFavoritesToolbar, NavigationIcon.Arrow)
+        setupTopAppBar(binding.manageFavoritesAppbar, NavigationIcon.Arrow)
     }
 
     private fun setupOptionsMenu() {

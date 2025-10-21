@@ -55,8 +55,8 @@ class ReadTextActivity : SimpleActivity() {
         setContentView(binding.root)
         setupOptionsMenu()
         binding.apply {
-            updateEdgeToEdge(topAppBar = readTextToolbar, scrollingView = readTextView)
-            setupMaterialScrollListener(readTextHolder, readTextToolbar)
+            setupEdgeToEdge(padBottomImeAndSystem = listOf(readTextView))
+            setupMaterialScrollListener(binding.readTextHolder, binding.readTextAppbar)
         }
 
         searchQueryET = findViewById(R.id.search_query)
@@ -95,7 +95,7 @@ class ReadTextActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupTopAppBar(binding.readTextToolbar, NavigationIcon.Arrow)
+        setupTopAppBar(binding.readTextAppbar, NavigationIcon.Arrow)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

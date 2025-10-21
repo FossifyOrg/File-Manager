@@ -110,10 +110,7 @@ class MainActivity : SimpleActivity() {
         storeStateVariables()
         setupTabs()
 
-        updateEdgeToEdge(
-            topAppBar = binding.mainMenu.getToolbar(),
-            bottomBar = binding.mainTabsHolder
-        )
+        setupEdgeToEdge(padBottomImeAndSystem = listOf(binding.mainTabsHolder))
 
         if (savedInstanceState == null) {
             config.temporarilyShowHidden = false
@@ -193,7 +190,7 @@ class MainActivity : SimpleActivity() {
         val currentViewType = config.getFolderViewType(currentFragment.currentPath)
         val favorites = config.favorites
 
-        binding.mainMenu.getToolbar().menu.apply {
+        binding.mainMenu.requireToolbar().menu.apply {
             findItem(R.id.sort).isVisible = currentFragment is ItemsFragment
             findItem(R.id.change_view_type).isVisible = currentFragment !is StorageFragment
 
@@ -218,7 +215,7 @@ class MainActivity : SimpleActivity() {
 
     private fun setupOptionsMenu() {
         binding.mainMenu.apply {
-            getToolbar().inflateMenu(R.menu.menu)
+            requireToolbar().inflateMenu(R.menu.menu)
             toggleHideOnScroll(false)
             setupMenu()
 
@@ -232,7 +229,7 @@ class MainActivity : SimpleActivity() {
                 getCurrentFragment()?.searchQueryChanged(text)
             }
 
-            getToolbar().setOnMenuItemClickListener { menuItem ->
+            requireToolbar().setOnMenuItemClickListener { menuItem ->
                 if (getCurrentFragment() == null) {
                     return@setOnMenuItemClickListener true
                 }
