@@ -110,7 +110,10 @@ class MainActivity : SimpleActivity() {
         storeStateVariables()
         setupTabs()
 
-        updateEdgeToEdge(topAppBar = binding.mainSearchMenu.getToolbar())
+        updateEdgeToEdge(
+            topAppBar = binding.mainMenu.getToolbar(),
+            bottomBar = binding.mainTabsHolder
+        )
 
         if (savedInstanceState == null) {
             config.temporarilyShowHidden = false
@@ -275,7 +278,6 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun updateMenuColors() {
-        updateStatusbarColor(getProperBackgroundColor())
         binding.mainMenu.updateColors()
     }
 
@@ -418,7 +420,6 @@ class MainActivity : SimpleActivity() {
             }
 
             val bottomBarColor = getBottomNavigationBackgroundColor()
-            updateNavigationBarColor(bottomBarColor)
             mainTabsHolder.setBackgroundColor(bottomBarColor)
         }
     }

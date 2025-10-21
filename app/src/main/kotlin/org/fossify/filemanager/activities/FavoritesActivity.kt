@@ -30,7 +30,7 @@ class FavoritesActivity : SimpleActivity(), RefreshRecyclerViewListener {
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(binding.manageFavoritesToolbar, NavigationIcon.Arrow)
+        setupTopAppBar(binding.manageFavoritesToolbar, NavigationIcon.Arrow)
     }
 
     private fun setupOptionsMenu() {

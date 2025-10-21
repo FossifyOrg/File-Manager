@@ -84,7 +84,7 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(binding.mimetypesToolbar, NavigationIcon.Arrow, searchMenuItem = searchMenuItem)
+        setupTopAppBar(binding.mimetypesToolbar, NavigationIcon.Arrow, searchMenuItem = searchMenuItem)
     }
 
     private fun refreshMenuItems() {

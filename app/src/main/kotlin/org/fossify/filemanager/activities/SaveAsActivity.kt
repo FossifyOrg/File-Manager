@@ -79,7 +79,7 @@ class SaveAsActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(binding.activitySaveAsToolbar, NavigationIcon.Arrow)
+        setupTopAppBar(binding.activitySaveAsToolbar, NavigationIcon.Arrow)
     }
 
     private fun sanitizeFilename(filename: String): String {

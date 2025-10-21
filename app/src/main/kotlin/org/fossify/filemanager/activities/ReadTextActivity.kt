@@ -95,7 +95,7 @@ class ReadTextActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(binding.readTextToolbar, NavigationIcon.Arrow)
+        setupTopAppBar(binding.readTextToolbar, NavigationIcon.Arrow)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

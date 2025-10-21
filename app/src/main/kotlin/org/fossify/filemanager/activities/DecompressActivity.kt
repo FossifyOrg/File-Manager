@@ -69,7 +69,7 @@ class DecompressActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(binding.decompressToolbar, NavigationIcon.Arrow)
+        setupTopAppBar(binding.decompressToolbar, NavigationIcon.Arrow)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

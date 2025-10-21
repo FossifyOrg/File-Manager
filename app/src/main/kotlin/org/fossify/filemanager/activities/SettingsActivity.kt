@@ -31,7 +31,7 @@ class SettingsActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(binding.settingsToolbar, NavigationIcon.Arrow)
+        setupTopAppBar(binding.settingsToolbar, NavigationIcon.Arrow)
 
         setupCustomizeColors()
         setupUseEnglish()
