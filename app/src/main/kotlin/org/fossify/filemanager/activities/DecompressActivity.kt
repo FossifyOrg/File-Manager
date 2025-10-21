@@ -45,12 +45,11 @@ class DecompressActivity : SimpleActivity() {
     private var filename = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupOptionsMenu()
         binding.apply {
-            updateMaterialActivityViews(decompressCoordinator, decompressList, useTransparentNavigation = true, useTopSearchMenu = false)
+            updateEdgeToEdge(topAppBar = decompressToolbar, scrollingView = decompressList)
             setupMaterialScrollListener(decompressList, decompressToolbar)
         }
 

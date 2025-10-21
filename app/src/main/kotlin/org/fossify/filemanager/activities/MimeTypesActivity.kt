@@ -44,13 +44,12 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
     private var currentVolume = PRIMARY_VOLUME_NAME
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupOptionsMenu()
         refreshMenuItems()
         binding.apply {
-            updateMaterialActivityViews(mimetypesCoordinator, mimetypesList, useTransparentNavigation = true, useTopSearchMenu = false)
+            updateEdgeToEdge(topAppBar = mimetypesToolbar, scrollingView = mimetypesList)
             setupMaterialScrollListener(mimetypesList, mimetypesToolbar)
         }
 

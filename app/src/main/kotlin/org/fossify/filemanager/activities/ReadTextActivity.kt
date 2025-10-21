@@ -51,12 +51,11 @@ class ReadTextActivity : SimpleActivity() {
     private lateinit var searchClearBtn: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupOptionsMenu()
         binding.apply {
-            updateMaterialActivityViews(readTextCoordinator, readTextView, useTransparentNavigation = true, useTopSearchMenu = false)
+            updateEdgeToEdge(topAppBar = readTextToolbar, scrollingView = readTextView)
             setupMaterialScrollListener(readTextHolder, readTextToolbar)
         }
 

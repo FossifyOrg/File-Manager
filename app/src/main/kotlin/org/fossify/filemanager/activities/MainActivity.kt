@@ -75,6 +75,8 @@ import org.fossify.filemanager.interfaces.ItemOperationsListener
 import java.io.File
 
 class MainActivity : SimpleActivity() {
+    override var isSearchBarEnabled = true
+    
     companion object {
         private const val BACK_PRESS_TIMEOUT = 5000
         private const val PICKED_PATH = "picked_path"
@@ -91,7 +93,6 @@ class MainActivity : SimpleActivity() {
     private var mStoredShowTabs = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         appLaunched(BuildConfig.APPLICATION_ID)
@@ -109,7 +110,7 @@ class MainActivity : SimpleActivity() {
         storeStateVariables()
         setupTabs()
 
-        updateMaterialActivityViews(binding.mainCoordinator, null, useTransparentNavigation = false, useTopSearchMenu = true)
+        updateEdgeToEdge(topAppBar = binding.mainSearchMenu.getToolbar())
 
         if (savedInstanceState == null) {
             config.temporarilyShowHidden = false
