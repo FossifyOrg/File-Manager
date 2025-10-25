@@ -87,12 +87,13 @@ class DecompressActivity : SimpleActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        if (currentPath.isEmpty()) {
-            super.onBackPressed()
+    override fun onBackPressedCompat(): Boolean {
+        return if (currentPath.isEmpty()) {
+            false
         } else {
             val newPath = if (currentPath.contains("/")) currentPath.getParentPath() else ""
             updateCurrentPath(newPath)
+            true
         }
     }
 

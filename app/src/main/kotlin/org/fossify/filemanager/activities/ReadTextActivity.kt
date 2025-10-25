@@ -119,22 +119,26 @@ class ReadTextActivity : SimpleActivity() {
         }
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressedCompat(): Boolean {
         val hasUnsavedChanges = originalText != binding.readTextView.text.toString()
-        when {
-            isSearchActive -> closeSearch()
+        return when {
+            isSearchActive -> {
+                closeSearch()
+                true
+            }
             hasUnsavedChanges && System.currentTimeMillis() - lastSavePromptTS > SAVE_DISCARD_PROMPT_INTERVAL -> {
                 lastSavePromptTS = System.currentTimeMillis()
                 ConfirmationAdvancedDialog(this, "", R.string.save_before_closing, R.string.save, R.string.discard) {
                     if (it) {
                         saveText(true)
                     } else {
-                        super.onBackPressed()
+                        performDefaultBack()
                     }
                 }
+                true
             }
 
-            else -> super.onBackPressed()
+            else -> false
         }
     }
 
@@ -232,7 +236,7 @@ class ReadTextActivity : SimpleActivity() {
             }
 
             if (shouldExitAfterSaving) {
-                super.onBackPressed()
+                performDefaultBack()
             }
         } else {
             toast(R.string.unknown_error_occurred)

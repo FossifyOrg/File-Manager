@@ -161,12 +161,13 @@ class MainActivity : SimpleActivity() {
         config.lastUsedViewPagerPage = binding.mainViewPager.currentItem
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressedCompat(): Boolean {
         val currentFragment = getCurrentFragment()
         if (binding.mainMenu.isSearchOpen) {
             binding.mainMenu.closeSearch()
+            return true
         } else if (currentFragment is RecentsFragment || currentFragment is StorageFragment) {
-            super.onBackPressed()
+            return false
         } else if ((currentFragment as ItemsFragment).getBreadcrumbs().getItemCount() <= 1) {
             if (!wasBackJustPressed && config.pressBackTwice) {
                 wasBackJustPressed = true
@@ -174,13 +175,16 @@ class MainActivity : SimpleActivity() {
                 Handler().postDelayed({
                     wasBackJustPressed = false
                 }, BACK_PRESS_TIMEOUT.toLong())
+                return true
             } else {
                 appLockManager.lock()
                 finish()
+                return true
             }
         } else {
             currentFragment.getBreadcrumbs().removeBreadcrumb()
             openPath(currentFragment.getBreadcrumbs().getLastItem().path)
+            return true
         }
     }
 
