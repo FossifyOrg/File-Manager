@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Compatibility updates for Android 15 & 16
+
 ## [1.3.1] - 2025-10-02
 ### Changed
 - Updated translations
