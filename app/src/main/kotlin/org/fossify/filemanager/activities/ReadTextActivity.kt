@@ -51,13 +51,12 @@ class ReadTextActivity : SimpleActivity() {
     private lateinit var searchClearBtn: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupOptionsMenu()
         binding.apply {
-            updateMaterialActivityViews(readTextCoordinator, readTextView, useTransparentNavigation = true, useTopSearchMenu = false)
-            setupMaterialScrollListener(readTextHolder, readTextToolbar)
+            setupEdgeToEdge(padBottomImeAndSystem = listOf(readTextView))
+            setupMaterialScrollListener(binding.readTextHolder, binding.readTextAppbar)
         }
 
         searchQueryET = findViewById(R.id.search_query)
@@ -96,7 +95,7 @@ class ReadTextActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(binding.readTextToolbar, NavigationIcon.Arrow)
+        setupTopAppBar(binding.readTextAppbar, NavigationIcon.Arrow)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -120,22 +119,26 @@ class ReadTextActivity : SimpleActivity() {
         }
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressedCompat(): Boolean {
         val hasUnsavedChanges = originalText != binding.readTextView.text.toString()
-        when {
-            isSearchActive -> closeSearch()
+        return when {
+            isSearchActive -> {
+                closeSearch()
+                true
+            }
             hasUnsavedChanges && System.currentTimeMillis() - lastSavePromptTS > SAVE_DISCARD_PROMPT_INTERVAL -> {
                 lastSavePromptTS = System.currentTimeMillis()
                 ConfirmationAdvancedDialog(this, "", R.string.save_before_closing, R.string.save, R.string.discard) {
                     if (it) {
                         saveText(true)
                     } else {
-                        super.onBackPressed()
+                        performDefaultBack()
                     }
                 }
+                true
             }
 
-            else -> super.onBackPressed()
+            else -> false
         }
     }
 
@@ -233,7 +236,7 @@ class ReadTextActivity : SimpleActivity() {
             }
 
             if (shouldExitAfterSaving) {
-                super.onBackPressed()
+                performDefaultBack()
             }
         } else {
             toast(R.string.unknown_error_occurred)

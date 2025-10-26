@@ -45,13 +45,12 @@ class DecompressActivity : SimpleActivity() {
     private var filename = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupOptionsMenu()
         binding.apply {
-            updateMaterialActivityViews(decompressCoordinator, decompressList, useTransparentNavigation = true, useTopSearchMenu = false)
-            setupMaterialScrollListener(decompressList, decompressToolbar)
+            setupEdgeToEdge(padBottomSystem = listOf(decompressList))
+            setupMaterialScrollListener(binding.decompressList, binding.decompressAppbar)
         }
 
         uri = intent.data
@@ -70,7 +69,7 @@ class DecompressActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(binding.decompressToolbar, NavigationIcon.Arrow)
+        setupTopAppBar(binding.decompressAppbar, NavigationIcon.Arrow)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -88,12 +87,13 @@ class DecompressActivity : SimpleActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        if (currentPath.isEmpty()) {
-            super.onBackPressed()
+    override fun onBackPressedCompat(): Boolean {
+        return if (currentPath.isEmpty()) {
+            false
         } else {
             val newPath = if (currentPath.contains("/")) currentPath.getParentPath() else ""
             updateCurrentPath(newPath)
+            true
         }
     }
 

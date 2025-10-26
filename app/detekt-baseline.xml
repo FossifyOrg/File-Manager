@@ -52,12 +52,10 @@
     <ID>MaxLineLength:CompressAsDialog.kt$CompressAsDialog$val indexOfDot = if (filename.contains('.') &amp;&amp; !activity.getIsPathDirectory(path)) filename.lastIndexOf(".") else filename.length</ID>
     <ID>MaxLineLength:Config.kt$Config$set(wasStorageAnalysisTabAdded) = prefs.edit().putBoolean(WAS_STORAGE_ANALYSIS_TAB_ADDED, wasStorageAnalysisTabAdded).apply()</ID>
     <ID>MaxLineLength:Context.kt$fun Context.isPathOnRoot(path: String)</ID>
-    <ID>MaxLineLength:DecompressActivity.kt$DecompressActivity$updateMaterialActivityViews(decompressCoordinator, decompressList, useTransparentNavigation = true, useTopSearchMenu = false)</ID>
     <ID>MaxLineLength:DecompressItemsAdapter.kt$DecompressItemsAdapter$class</ID>
     <ID>MaxLineLength:DecompressItemsAdapter.kt$DecompressItemsAdapter$val drawable = fileDrawables.getOrElse(fileName.substringAfterLast(".").lowercase(Locale.getDefault()), { fileDrawable })</ID>
     <ID>MaxLineLength:FavoritesActivity.kt$FavoritesActivity$FilePickerDialog</ID>
     <ID>MaxLineLength:FavoritesActivity.kt$FavoritesActivity$ManageFavoritesAdapter(this@FavoritesActivity, favorites, this@FavoritesActivity, manageFavoritesList) { }</ID>
-    <ID>MaxLineLength:FavoritesActivity.kt$FavoritesActivity$updateMaterialActivityViews(manageFavoritesCoordinator, manageFavoritesList, useTransparentNavigation = true, useTopSearchMenu = false)</ID>
     <ID>MaxLineLength:ItemsAdapter.kt$ItemsAdapter$}</ID>
     <ID>MaxLineLength:ItemsFragment.kt$ItemsFragment$ItemsAdapter</ID>
     <ID>MaxLineLength:ItemsFragment.kt$ItemsFragment$class</ID>
@@ -81,17 +79,14 @@
     <ID>MaxLineLength:MainActivity.kt$MainActivity$if</ID>
     <ID>MaxLineLength:MainActivity.kt$MainActivity$private fun getInactiveTabIndexes(activeIndex: Int)</ID>
     <ID>MaxLineLength:MainActivity.kt$MainActivity$resultIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION</ID>
-    <ID>MaxLineLength:MainActivity.kt$MainActivity$updateMaterialActivityViews(binding.mainCoordinator, null, useTransparentNavigation = false, useTopSearchMenu = true)</ID>
     <ID>MaxLineLength:MainActivity.kt$MainActivity$val licenses = LICENSE_GLIDE or LICENSE_PATTERN or LICENSE_REPRINT or LICENSE_GESTURE_VIEWS or LICENSE_AUTOFITTEXTVIEW or LICENSE_ZIP4J</ID>
     <ID>MaxLineLength:MimeTypesActivity.kt$MimeTypesActivity$!extraAudioMimeTypes.contains(fullMimetype)</ID>
     <ID>MaxLineLength:MimeTypesActivity.kt$MimeTypesActivity$if</ID>
-    <ID>MaxLineLength:MimeTypesActivity.kt$MimeTypesActivity$updateMaterialActivityViews(mimetypesCoordinator, mimetypesList, useTransparentNavigation = true, useTopSearchMenu = false)</ID>
     <ID>MaxLineLength:MimeTypesActivity.kt$MimeTypesActivity$val fullMimetype = cursor.getStringValue(MediaStore.Files.FileColumns.MIME_TYPE)?.lowercase(Locale.getDefault()) ?: return@queryCursor</ID>
     <ID>MaxLineLength:MyViewPagerFragment.kt$MyViewPagerFragment$abstract</ID>
     <ID>MaxLineLength:MyViewPagerFragment.kt$MyViewPagerFragment$val fabIcon = context.resources.getColoredDrawableWithColor(iconId, context.getProperPrimaryColor().getContrastColor())</ID>
     <ID>MaxLineLength:ReadTextActivity.kt$ReadTextActivity$if</ID>
     <ID>MaxLineLength:ReadTextActivity.kt$ReadTextActivity$private</ID>
-    <ID>MaxLineLength:ReadTextActivity.kt$ReadTextActivity$updateMaterialActivityViews(readTextCoordinator, readTextView, useTransparentNavigation = true, useTopSearchMenu = false)</ID>
     <ID>MaxLineLength:RecentsFragment.kt$RecentsFragment$ItemsAdapter</ID>
     <ID>MaxLineLength:RecentsFragment.kt$RecentsFragment$binding.recentsSwipeRefresh.isEnabled = lastSearchedText.isEmpty() &amp;&amp; activity?.config?.enablePullToRefresh != false</ID>
     <ID>MaxLineLength:RecentsFragment.kt$RecentsFragment$class</ID>
@@ -101,7 +96,6 @@
     <ID>MaxLineLength:SaveAsActivity.kt$SaveAsActivity$FilePickerDialog</ID>
     <ID>MaxLineLength:SaveAsDialog.kt$SaveAsDialog$val title = String.format(activity.getString(R.string.file_already_exists_overwrite), newFilename)</ID>
     <ID>MaxLineLength:SettingsActivity.kt$SettingsActivity$settingsUseEnglishHolder.beVisibleIf((config.wasUseEnglishToggled || Locale.getDefault().language != "en") &amp;&amp; !isTiramisuPlus())</ID>
-    <ID>MaxLineLength:SettingsActivity.kt$SettingsActivity$updateMaterialActivityViews(settingsCoordinator, settingsHolder, useTransparentNavigation = true, useTopSearchMenu = false)</ID>
     <ID>MaxLineLength:StorageFragment.kt$StorageFragment$class</ID>
     <ID>MaxLineLength:StorageFragment.kt$StorageFragment$mainStorageUsageProgressbar</ID>
     <ID>MaxLineLength:StorageFragment.kt$StorageFragment$mainStorageUsageProgressbar.progress = ((totalStorageSpace - freeStorageSpace) / SIZE_DIVIDER).toInt()</ID>
@@ -118,7 +112,7 @@
     <ID>NestedBlockDepth:RecentsFragment.kt$RecentsFragment$private fun getRecents(callback: (recents: ArrayList&lt;ListItem&gt;) -&gt; Unit)</ID>
     <ID>NestedBlockDepth:StorageFragment.kt$StorageFragment$override fun setupFragment(activity: SimpleActivity)</ID>
     <ID>NestedBlockDepth:StorageFragment.kt$StorageFragment$private fun getAllFiles(volumeName: String): ArrayList&lt;FileDirItem&gt;</ID>
-    <ID>ReturnCount:ItemsAdapter.kt$ItemsAdapter$@SuppressLint("NewApi") private fun compressPaths( sourcePaths: List&lt;String&gt;, targetPath: String, password: String? = null ): Boolean</ID>
+    <ID>ReturnCount:MainActivity.kt$MainActivity$override fun onBackPressedCompat(): Boolean</ID>
     <ID>SwallowedException:ItemsAdapter.kt$ItemsAdapter$e: Exception</ID>
     <ID>SwallowedException:MimeTypesActivity.kt$MimeTypesActivity$e: Exception</ID>
     <ID>SwallowedException:StorageFragment.kt$StorageFragment$e: Exception</ID>

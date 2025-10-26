@@ -117,8 +117,8 @@ class DecompressItemsAdapter(activity: SimpleActivity, var listItems: MutableLis
     private fun getImagePathToLoad(path: String): Any {
         return if (path.endsWith(".apk", true)) {
             val packageInfo = activity.packageManager.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES)
-            if (packageInfo != null) {
-                val appInfo = packageInfo.applicationInfo
+            val appInfo = packageInfo?.applicationInfo
+            if (appInfo != null) {
                 appInfo.sourceDir = path
                 appInfo.publicSourceDir = path
                 appInfo.loadIcon(activity.packageManager)
