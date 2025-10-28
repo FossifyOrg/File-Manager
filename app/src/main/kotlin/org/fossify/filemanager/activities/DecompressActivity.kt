@@ -98,6 +98,7 @@ class DecompressActivity : SimpleActivity() {
     }
 
     private fun setupFilesList() {
+        allFiles.clear()
         fillAllListItems(uri!!) {
             updateCurrentPath("")
         }
