@@ -6,8 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2025-10-29
 ### Changed
 - Compatibility updates for Android 15 & 16
+- Updated translations
 
 ### Fixed
 - Fixed duplicated entries when viewing protected ZIP files ([#76])
@@ -109,7 +111,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#251]: https://github.com/FossifyOrg/File-Manager/issues/251
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
 
-[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.3.1...HEAD
+[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.4.0...HEAD
+[1.4.0]: https://github.com/FossifyOrg/File-Manager/compare/1.3.1...1.4.0
 [1.3.1]: https://github.com/FossifyOrg/File-Manager/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/FossifyOrg/File-Manager/compare/1.2.3...1.3.0
 [1.2.3]: https://github.com/FossifyOrg/File-Manager/compare/1.2.2...1.2.3
