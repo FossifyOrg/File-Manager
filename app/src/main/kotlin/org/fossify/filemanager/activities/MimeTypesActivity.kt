@@ -49,7 +49,7 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
         setupOptionsMenu()
         refreshMenuItems()
         binding.apply {
-            setupEdgeToEdge(padBottomSystem = listOf(mimetypesList))
+            setupEdgeToEdge(padBottomImeAndSystem = listOf(mimetypesList))
             setupMaterialScrollListener(binding.mimetypesList, binding.mimetypesAppbar)
         }
 
