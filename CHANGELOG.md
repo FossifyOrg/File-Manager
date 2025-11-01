@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fixed files from hidden folders showing up in storage tab browser ([#217])
+- Fixed cleanup after moving nested folders ([#102])
 
 ## [1.3.0] - 2025-09-30
 ### Added
@@ -110,6 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#250]: https://github.com/FossifyOrg/File-Manager/issues/250
 [#251]: https://github.com/FossifyOrg/File-Manager/issues/251
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
+[#102]: https://github.com/FossifyOrg/File-Manager/issues/102
 
 [Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.4.0...HEAD
 [1.4.0]: https://github.com/FossifyOrg/File-Manager/compare/1.3.1...1.4.0
