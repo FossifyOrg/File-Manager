@@ -1,3 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="images">Tugniwin</string>
+    <string name="videos">Tividyutin</string>
+    <string name="audio">Imesli</string>
+    <string name="documents">Isemliyen</string>
+    <string name="downloads">Isidar</string>
+    <string name="archives">Iɣbaren</string>
+    <string name="others">Wiyyaḍ</string>
+    <string name="storage_free">i d-yeqqimen</string>
+    <string name="app_launcher_name">Amsefrak n ifuyla</string>
+    <string name="compress">Tussda</string>
+    <string name="open_as">Ldi am</string>
+    <string name="text_file">Afaylu aḍris</string>
+    <string name="image_file">Afaylu n tugna</string>
+    <string name="audio_file">Afaylu n imesli</string>
+    <string name="video_file">Ifuyla n uvidyu</string>
+    <string name="other_file">Afaylu nniḍen</string>
+    <string name="compress_as">Ssed am</string>
+    <string name="recents">N melmi kan</string>
+    <string name="file_editor">Amaẓrag n ufaylu</string>
+    <string name="go_to_home_folder">Ddu ar ukaram agejdan</string>
 </resources>
