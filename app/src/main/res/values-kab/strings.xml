@@ -20,4 +20,6 @@
     <string name="recents">N melmi kan</string>
     <string name="file_editor">Amaẓrag n ufaylu</string>
     <string name="go_to_home_folder">Ddu ar ukaram agejdan</string>
+    <string name="home_folder_updated">Akaram agejdan yettwalqem</string>
+    <string name="copy_path">Nɣel abrid ɣer tecfawt</string>
 </resources>
