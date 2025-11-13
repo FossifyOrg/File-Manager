@@ -22,4 +22,7 @@
     <string name="go_to_home_folder">Ddu ar ukaram agejdan</string>
     <string name="home_folder_updated">Akaram agejdan yettwalqem</string>
     <string name="copy_path">Nɣel abrid ɣer tecfawt</string>
+    <string name="search_folder">Nadi akaram</string>
+    <string name="rooted_device_only">Tamhelt-a tetteddu kan deg yibenkan iẓaranen</string>
+    <string name="show_recents">Sken ineggura</string>
 </resources>
