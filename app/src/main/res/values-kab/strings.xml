@@ -26,4 +26,9 @@
     <string name="rooted_device_only">Tamhelt-a tetteddu kan deg yibenkan iẓaranen</string>
     <string name="show_recents">Sken ineggura</string>
     <string name="compressing">Asekkussem…</string>
+    <string name="compression_successful">Asekkussem yedda akken iwata</string>
+    <string name="decompression_successful">Tukksa n usekkusem tedda akken iwata</string>
+    <string name="compressing_failed">Asekkussem ur yedda ara</string>
+    <string name="favorites_activity_placeholder">Tzemreḍ ad ternuḍ ikaramen yettwasqedcen s waṭas ɣer unurifen i unekcum s wudem fessusen seg yal amḍiq.</string>
+    <string name="storage_analysis">Aslaḍ n tkatut</string>
 </resources>
