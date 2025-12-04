@@ -99,7 +99,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#250]: https://github.com/FossifyOrg/File-Manager/issues/250
 [#251]: https://github.com/FossifyOrg/File-Manager/issues/251
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
-[#267]: https://github.com/FossifyOrg/File-Manager/issues/131
+[#131]: https://github.com/FossifyOrg/File-Manager/issues/131
 
 [Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.3.0...HEAD
 [1.3.0]: https://github.com/FossifyOrg/File-Manager/compare/1.2.3...1.3.0
