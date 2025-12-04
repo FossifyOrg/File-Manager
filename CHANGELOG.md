@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fixed files from hidden folders showing up in storage tab browser ([#217])
 
+### Changed
+- SaveAsDialog now appends "_{index}" to filename if file already exists ([#131])
+
 ## [1.3.0] - 2025-09-30
 ### Added
 - Added a separate "Save as" option in the text editor ([#224])
@@ -96,6 +99,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#250]: https://github.com/FossifyOrg/File-Manager/issues/250
 [#251]: https://github.com/FossifyOrg/File-Manager/issues/251
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
+[#267]: https://github.com/FossifyOrg/File-Manager/issues/131
 
 [Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.3.0...HEAD
 [1.3.0]: https://github.com/FossifyOrg/File-Manager/compare/1.2.3...1.3.0

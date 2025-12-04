@@ -58,7 +58,7 @@ class SaveAsActivity : SimpleActivity() {
                                 ?: filename.getMimeType()
                             val inputStream = contentResolver.openInputStream(source)
 
-                            val destinationPath = "$destination/$filename"
+                            val destinationPath = setAvailablePath("$destination/$filename")
                             val outputStream = getFileOutputStreamSync(destinationPath, mimeType, null)!!
                             inputStream!!.copyTo(outputStream)
                             rescanPaths(arrayListOf(destinationPath))
@@ -86,4 +86,32 @@ class SaveAsActivity : SimpleActivity() {
         return filename.replace("[/\\\\<>:\"|?*\u0000-\u001F]".toRegex(), "_")
             .takeIf { it.isNotBlank() } ?: "unnamed_file"
     }
+
+    private fun setAvailablePath(path: String): String {
+        val file = File(path)
+
+        return if (!file.exists()) {
+            path
+        } else {
+            findAvailableNameForExistingFile(file)
+        }
+    }
+
+    private fun findAvailableNameForExistingFile(file: File): String {
+        val parent = file.parent ?: return file.absolutePath
+        val name = file.nameWithoutExtension
+        val ext = if (file.extension.isNotEmpty()) ".${file.extension}" else ""
+
+        var index = 1
+        var newFile: File
+
+        do {
+            val newName = "${name}_${index}$ext"
+            newFile = File(parent, newName)
+            index++
+        } while (newFile.exists())
+
+        return newFile.absolutePath
+    }
+
 }
