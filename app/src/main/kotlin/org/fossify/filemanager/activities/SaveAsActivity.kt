@@ -102,15 +102,14 @@ class SaveAsActivity : SimpleActivity() {
         val ext = if (file.extension.isNotEmpty()) ".${file.extension}" else ""
 
         var index = 1
-        var newFile: File
+        var newPath: String
 
         do {
-            val newName = "${name}_${index}$ext"
-            newFile = File(parent, newName)
+            newPath = "$parent/${name}_$index$ext"
             index++
-        } while (newFile.exists())
+        } while (getDoesFilePathExist(newPath))
 
-        return newFile.absolutePath
+        return newPath
     }
 
 }
