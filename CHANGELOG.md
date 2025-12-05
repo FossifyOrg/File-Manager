@@ -2,15 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## [Unreleased]
-### Fixed
-- Fixed files from hidden folders showing up in storage tab browser ([#217])
-
-### Changed
-- SaveAsDialog now appends "_{index}" to filename if file already exists ([#131])
-
+- Fixed an issue where existing files were overwritten when saving new files ([#131])
 ## [1.3.0] - 2025-09-30
 ### Added
 - Added a separate "Save as" option in the text editor ([#224])
