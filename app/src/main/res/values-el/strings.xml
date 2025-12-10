@@ -9,7 +9,7 @@
     <string name="path_copied">Η διαδρομή αντιγράφηκε</string>
     <string name="select_audio_file">Επιλέξτε ένα αρχείο ήχου</string>
     <string name="search_folder">Αναζήτηση φακέλου</string>
-    <string name="rooted_device_only">Αυτό το χαρακτηριστικό λειτουργεί μόνο σε συσκευές με πρόσβαση στον ριζικό κατάλογο.</string>
+    <string name="rooted_device_only">Αυτό το χαρακτηριστικό λειτουργεί μόνο σε συσκευές με πρόσβαση στον ριζικό κατάλογο</string>
     <string name="recents">Πρόσφατα</string>
     <string name="show_recents">Εμφάνιση προσφάτων</string>
     <string name="invert_colors">Αντιστροφή χρωμάτων</string>
