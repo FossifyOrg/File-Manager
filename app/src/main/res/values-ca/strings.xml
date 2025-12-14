@@ -2,13 +2,13 @@
 <resources>
     <string name="app_launcher_name">Gestor de fitxers</string>
     <string name="press_back_again">Premeu enrere de nou per a sortir</string>
-    <string name="go_to_home_folder">Ves a la carpeta d\'inici</string>
-    <string name="set_as_home_folder">Estableix com a carpeta d\'inici</string>
+    <string name="go_to_home_folder">Anar a la carpeta d\'inici</string>
+    <string name="set_as_home_folder">Establir com a carpeta d\'inici</string>
     <string name="home_folder_updated">S\'ha actualitzat la carpeta d\'inici</string>
-    <string name="copy_path">Copia el camí al porta-retalls</string>
-    <string name="path_copied">S\'ha copiat el camí</string>
-    <string name="select_audio_file">Seleccioneu un fitxer d\'àudio</string>
-    <string name="search_folder">Cerca carpeta</string>
+    <string name="copy_path">Copiar el camí al porta-retalls</string>
+    <string name="path_copied">Ruta copiada</string>
+    <string name="select_audio_file">Trieu un fitxer d\'àudio</string>
+    <string name="search_folder">Cercar carpeta</string>
     <string name="rooted_device_only">Aquesta operació només funciona en dispositius amb «root»</string>
     <string name="show_recents">Mostra els recents</string>
     <string name="invert_colors">Inverteix els colors</string>
