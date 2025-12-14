@@ -1,0 +1,1 @@
+Explorador de fitxers senzill, lleuger i de codi font obert, funcional.
