@@ -1,3 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_launcher_name">Gestor de fitxers</string>
+    <string name="press_back_again">Polseu arrere de nou per a eixir</string>
+    <string name="go_to_home_folder">Anar a la carpeta d\'inici</string>
+    <string name="set_as_home_folder">Establir com a carpeta d\'inici</string>
+    <string name="home_folder_updated">Carpeta principal actualizada</string>
+    <string name="copy_path">Copiar el camí al porta-retalls</string>
+    <string name="path_copied">Ruta copiada</string>
+    <string name="select_audio_file">Trieu un fitxer d\'àudio</string>
+    <string name="search_folder">Buscar carpeta</string>
 </resources>
