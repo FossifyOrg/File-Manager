@@ -154,9 +154,7 @@ class SaveAsActivity : SimpleActivity() {
         return try {
             val originalFilename = getFilenameFromContentUri(source)
                 ?: source.toString().getFilenameFromPath()
-                ?: "file_$index"
-            val filename = originalFilename.replace("[/\\\\<>:\"|?*\u0000-\u001F]".toRegex(), "_")
-                .takeIf { it.isNotBlank() } ?: "unnamed_file"
+            val filename = sanitizeFilename(originalFilename)
 
             val mimeType = contentResolver.getType(source)
                 ?: mimeTypes?.getOrNull(index)?.takeIf { it != "*/*" }
@@ -164,11 +162,11 @@ class SaveAsActivity : SimpleActivity() {
                 ?: filename.getMimeType()
 
             val inputStream = contentResolver.openInputStream(source)
-                ?: throw IOException("Cannot open input stream")
+                ?: throw IOException(getString(R.string.error, source))
 
             val destinationPath = getAvailablePath("$destination/$filename")
             val outputStream = getFileOutputStreamSync(destinationPath, mimeType, null)
-                ?: throw IOException("Cannot create output stream")
+                ?: throw IOException(getString(R.string.error, source))
 
             inputStream.use { input ->
                 outputStream.use { output ->
