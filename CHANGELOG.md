@@ -6,8 +6,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
-- Fixed files from hidden folders showing up in storage tab browser ([#217])
 - Fixed cleanup after moving nested folders ([#102])
+
+## [1.5.0] - 2025-12-16
+### Changed
+- Updated translations
+
+### Fixed
+- Fixed an issue where existing files were overwritten when saving new files ([#131])
+
+## [1.4.0] - 2025-10-29
+### Changed
+- Compatibility updates for Android 15 & 16
+- Updated translations
+
+### Fixed
+- Fixed duplicated entries when viewing protected ZIP files ([#76])
+
+## [1.3.1] - 2025-10-02
+### Changed
+- Updated translations
+
+### Fixed
+- Fixed files from hidden folders showing up in storage tab browser ([#217])
+- Fixed an issue where existing files were overwritten when saving new files ([#131])
+
 
 ## [1.3.0] - 2025-09-30
 ### Added
@@ -81,13 +104,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [#27]: https://github.com/FossifyOrg/File-Manager/issues/27
 [#37]: https://github.com/FossifyOrg/File-Manager/issues/37
+[#76]: https://github.com/FossifyOrg/File-Manager/issues/76
 [#80]: https://github.com/FossifyOrg/File-Manager/issues/80
 [#85]: https://github.com/FossifyOrg/File-Manager/issues/85
 [#95]: https://github.com/FossifyOrg/File-Manager/issues/95
+[#102]: https://github.com/FossifyOrg/File-Manager/issues/102
 [#104]: https://github.com/FossifyOrg/File-Manager/issues/104
 [#105]: https://github.com/FossifyOrg/File-Manager/issues/105
 [#106]: https://github.com/FossifyOrg/File-Manager/issues/106
 [#120]: https://github.com/FossifyOrg/File-Manager/issues/120
+[#131]: https://github.com/FossifyOrg/File-Manager/issues/131
 [#136]: https://github.com/FossifyOrg/File-Manager/issues/136
 [#149]: https://github.com/FossifyOrg/File-Manager/issues/149
 [#150]: https://github.com/FossifyOrg/File-Manager/issues/150
@@ -97,9 +123,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#250]: https://github.com/FossifyOrg/File-Manager/issues/250
 [#251]: https://github.com/FossifyOrg/File-Manager/issues/251
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
-[#102]: https://github.com/FossifyOrg/File-Manager/issues/102
 
-[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.3.0...HEAD
+[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.5.0...HEAD
+[1.5.0]: https://github.com/FossifyOrg/File-Manager/compare/1.4.0...1.5.0
+[1.4.0]: https://github.com/FossifyOrg/File-Manager/compare/1.3.1...1.4.0
+[1.3.1]: https://github.com/FossifyOrg/File-Manager/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/FossifyOrg/File-Manager/compare/1.2.3...1.3.0
 [1.2.3]: https://github.com/FossifyOrg/File-Manager/compare/1.2.2...1.2.3
 [1.2.2]: https://github.com/FossifyOrg/File-Manager/compare/1.2.0...1.2.2

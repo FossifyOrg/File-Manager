@@ -75,6 +75,8 @@ import org.fossify.filemanager.interfaces.ItemOperationsListener
 import java.io.File
 
 class MainActivity : SimpleActivity() {
+    override var isSearchBarEnabled = true
+    
     companion object {
         private const val BACK_PRESS_TIMEOUT = 5000
         private const val PICKED_PATH = "picked_path"
@@ -91,7 +93,6 @@ class MainActivity : SimpleActivity() {
     private var mStoredShowTabs = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         appLaunched(BuildConfig.APPLICATION_ID)
@@ -109,7 +110,7 @@ class MainActivity : SimpleActivity() {
         storeStateVariables()
         setupTabs()
 
-        updateMaterialActivityViews(binding.mainCoordinator, null, useTransparentNavigation = false, useTopSearchMenu = true)
+        setupEdgeToEdge(padBottomImeAndSystem = listOf(binding.mainTabsHolder))
 
         if (savedInstanceState == null) {
             config.temporarilyShowHidden = false
@@ -160,12 +161,13 @@ class MainActivity : SimpleActivity() {
         config.lastUsedViewPagerPage = binding.mainViewPager.currentItem
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressedCompat(): Boolean {
         val currentFragment = getCurrentFragment()
         if (binding.mainMenu.isSearchOpen) {
             binding.mainMenu.closeSearch()
+            return true
         } else if (currentFragment is RecentsFragment || currentFragment is StorageFragment) {
-            super.onBackPressed()
+            return false
         } else if ((currentFragment as ItemsFragment).getBreadcrumbs().getItemCount() <= 1) {
             if (!wasBackJustPressed && config.pressBackTwice) {
                 wasBackJustPressed = true
@@ -173,13 +175,16 @@ class MainActivity : SimpleActivity() {
                 Handler().postDelayed({
                     wasBackJustPressed = false
                 }, BACK_PRESS_TIMEOUT.toLong())
+                return true
             } else {
                 appLockManager.lock()
                 finish()
+                return true
             }
         } else {
             currentFragment.getBreadcrumbs().removeBreadcrumb()
             openPath(currentFragment.getBreadcrumbs().getLastItem().path)
+            return true
         }
     }
 
@@ -189,7 +194,7 @@ class MainActivity : SimpleActivity() {
         val currentViewType = config.getFolderViewType(currentFragment.currentPath)
         val favorites = config.favorites
 
-        binding.mainMenu.getToolbar().menu.apply {
+        binding.mainMenu.requireToolbar().menu.apply {
             findItem(R.id.sort).isVisible = currentFragment is ItemsFragment
             findItem(R.id.change_view_type).isVisible = currentFragment !is StorageFragment
 
@@ -214,7 +219,7 @@ class MainActivity : SimpleActivity() {
 
     private fun setupOptionsMenu() {
         binding.mainMenu.apply {
-            getToolbar().inflateMenu(R.menu.menu)
+            requireToolbar().inflateMenu(R.menu.menu)
             toggleHideOnScroll(false)
             setupMenu()
 
@@ -228,7 +233,7 @@ class MainActivity : SimpleActivity() {
                 getCurrentFragment()?.searchQueryChanged(text)
             }
 
-            getToolbar().setOnMenuItemClickListener { menuItem ->
+            requireToolbar().setOnMenuItemClickListener { menuItem ->
                 if (getCurrentFragment() == null) {
                     return@setOnMenuItemClickListener true
                 }
@@ -274,7 +279,6 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun updateMenuColors() {
-        updateStatusbarColor(getProperBackgroundColor())
         binding.mainMenu.updateColors()
     }
 
@@ -365,7 +369,6 @@ class MainActivity : SimpleActivity() {
         val isPickFileIntent = action == RingtoneManager.ACTION_RINGTONE_PICKER
                 || action == Intent.ACTION_GET_CONTENT
                 || action == Intent.ACTION_PICK
-                || action == Intent.ACTION_OPEN_DOCUMENT
         val isCreateDocumentIntent = action == Intent.ACTION_CREATE_DOCUMENT
 
         if (isPickFileIntent) {
@@ -418,7 +421,6 @@ class MainActivity : SimpleActivity() {
             }
 
             val bottomBarColor = getBottomNavigationBackgroundColor()
-            updateNavigationBarColor(bottomBarColor)
             mainTabsHolder.setBackgroundColor(bottomBarColor)
         }
     }

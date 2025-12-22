@@ -18,20 +18,19 @@ class FavoritesActivity : SimpleActivity(), RefreshRecyclerViewListener {
     private val binding by viewBinding(ActivityFavoritesBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupOptionsMenu()
         updateFavorites()
         binding.apply {
-            updateMaterialActivityViews(manageFavoritesCoordinator, manageFavoritesList, useTransparentNavigation = true, useTopSearchMenu = false)
-            setupMaterialScrollListener(manageFavoritesList, manageFavoritesToolbar)
+            setupEdgeToEdge(padBottomSystem = listOf(manageFavoritesList))
+            setupMaterialScrollListener(binding.manageFavoritesList, binding.manageFavoritesAppbar)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(binding.manageFavoritesToolbar, NavigationIcon.Arrow)
+        setupTopAppBar(binding.manageFavoritesAppbar, NavigationIcon.Arrow)
     }
 
     private fun setupOptionsMenu() {

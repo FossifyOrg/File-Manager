@@ -1,0 +1,9 @@
+Changed:
+
+• Compatibility updates for Android 15 & 16
+• Updated translations
+
+Fixed:
+
+• Fixed duplicated entries when viewing protected ZIP files 
+

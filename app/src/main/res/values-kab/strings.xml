@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="images">Tugniwin</string>
+    <string name="videos">Tividyutin</string>
+    <string name="audio">Imesli</string>
+    <string name="documents">Isemliyen</string>
+    <string name="downloads">Isidar</string>
+    <string name="archives">Iɣbaren</string>
+    <string name="others">Wiyyaḍ</string>
+    <string name="storage_free">i d-yeqqimen</string>
+    <string name="app_launcher_name">Amsefrak n ifuyla</string>
+    <string name="compress">Tussda</string>
+    <string name="open_as">Ldi am</string>
+    <string name="text_file">Afaylu aḍris</string>
+    <string name="image_file">Afaylu n tugna</string>
+    <string name="audio_file">Afaylu n imesli</string>
+    <string name="video_file">Ifuyla n uvidyu</string>
+    <string name="other_file">Afaylu nniḍen</string>
+    <string name="compress_as">Ssed am</string>
+    <string name="recents">N melmi kan</string>
+    <string name="file_editor">Amaẓrag n ufaylu</string>
+    <string name="go_to_home_folder">Ddu ar ukaram agejdan</string>
+    <string name="home_folder_updated">Akaram agejdan yettwalqem</string>
+    <string name="copy_path">Nɣel abrid ɣer tecfawt</string>
+    <string name="search_folder">Nadi akaram</string>
+    <string name="rooted_device_only">Tamhelt-a tetteddu kan deg yibenkan iẓaranen</string>
+    <string name="show_recents">Sken ineggura</string>
+    <string name="compressing">Asekkussem…</string>
+    <string name="compression_successful">Asekkussem yedda akken iwata</string>
+    <string name="decompression_successful">Tukksa n usekkusem tedda akken iwata</string>
+    <string name="compressing_failed">Asekkussem ur yedda ara</string>
+    <string name="favorites_activity_placeholder">Tzemreḍ ad ternuḍ ikaramen yettwasqedcen s waṭas ɣer unurifen i unekcum s wudem fessusen seg yal amḍiq.</string>
+    <string name="storage_analysis">Aslaḍ n tkatut</string>
+    <string name="decompress">Ssef</string>
+    <string name="press_back_again">Sit tikkelt-nniḍen akken ad teffɣeḍ</string>
+    <string name="set_as_home_folder">Sbadu d akaram agejdan</string>
+    <string name="path_copied">Abrid yettwanɣel</string>
+    <string name="select_audio_file">Ma ulac aɣilif, fren afaylu ameslaw</string>
+    <string name="invert_colors">Tti initen</string>
+    <string name="decompressing">Tukksa n usekkussem…</string>
+    <string name="decompressing_failed">Tuccḍa deg tukksa n usekkussem</string>
+    <string name="manage_favorites">Sefrek inurifen</string>
+    <string name="go_to_favorite">Ddu ɣer unurif</string>
+    <string name="total_storage">Amḍiq n usekles amatu: %s</string>
+    <string name="enable_root_access">Rmed anekcum ɣer uẓar</string>
+    <string name="press_back_twice">Yessefk ad tsiteḍ snat n tikkal akken ad teffɣeḍ seg usnas</string>
+</resources>

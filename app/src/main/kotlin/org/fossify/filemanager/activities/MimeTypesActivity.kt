@@ -44,14 +44,13 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
     private var currentVolume = PRIMARY_VOLUME_NAME
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupOptionsMenu()
         refreshMenuItems()
         binding.apply {
-            updateMaterialActivityViews(mimetypesCoordinator, mimetypesList, useTransparentNavigation = true, useTopSearchMenu = false)
-            setupMaterialScrollListener(mimetypesList, mimetypesToolbar)
+            setupEdgeToEdge(padBottomImeAndSystem = listOf(mimetypesList))
+            setupMaterialScrollListener(binding.mimetypesList, binding.mimetypesAppbar)
         }
 
         currentMimeType = intent.getStringExtra(SHOW_MIMETYPE) ?: return
@@ -85,7 +84,7 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(binding.mimetypesToolbar, NavigationIcon.Arrow, searchMenuItem = searchMenuItem)
+        setupTopAppBar(binding.mimetypesAppbar, NavigationIcon.Arrow, searchMenuItem = searchMenuItem)
     }
 
     private fun refreshMenuItems() {

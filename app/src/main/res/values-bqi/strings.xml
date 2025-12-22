@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="go_to_home_folder">راو و دوبلگه هووه</string>
+    <string name="set_as_home_folder">سامووݩ و عونوان دوبلگه هووه</string>
+    <string name="copy_path">لف گیری تور منه کیلیپ بورد</string>
+    <string name="app_launcher_name">دؽوۉداری فایل</string>
+    <string name="path_copied">تور لف گیری وابی</string>
+    <string name="select_audio_file">فایل آرنگی ن پسند کۊنین</string>
+    <string name="search_folder">پیتینیڌن دوبلگه</string>
+    <string name="recents">دیندا</string>
+    <string name="show_recents">نشووݩ داڌن مووردا دیندایی</string>
+    <string name="invert_colors">چواسه کردن رنگا</string>
+    <string name="open_as">گۊشیڌن و عونوان</string>
+    <string name="text_file">فایل هؽلی</string>
+    <string name="image_file">فایل شؽواتی</string>
+    <string name="audio_file">فایل آرنگی</string>
+    <string name="video_file">فایل ویدیویی</string>
+    <string name="other_file">فایل دیری</string>
+    <string name="press_back_again">سی و در زیڌن، ز نۊ دویمه وورگشتن ن بزنین</string>
+    <string name="home_folder_updated">دوبلگه هووه ورۊ رسۊوی وابی</string>
+    <string name="audio">دونگ</string>
+</resources>
