@@ -3,7 +3,7 @@
 kotlin = "2.2.21"
 #Detekt
 detekt = "1.23.8"
-detektCompose = "0.4.28"
+detektCompose = "0.5.3"
 #AndroidX
 androidx-swiperefreshlayout = "1.2.0"
 androidx-documentfile = "1.1.0"
