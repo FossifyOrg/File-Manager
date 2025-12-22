@@ -13,7 +13,6 @@ import org.fossify.filemanager.extensions.config
 import java.io.File
 import java.io.IOException
 
-@Suppress("TooManyFunctions")
 class SaveAsActivity : SimpleActivity() {
     private val binding by viewBinding(ActivitySaveAsBinding::inflate)
 
@@ -187,7 +186,8 @@ class SaveAsActivity : SimpleActivity() {
         runOnUiThread {
             when {
                 result.successCount > 0 && result.errorCount == 0 -> {
-                    toast(getString(R.string.file_saved))
+                    val message = resources.getQuantityString(R.plurals.files_saved,result.successCount)
+                    toast(message)
                 }
                 result.successCount > 0 && result.errorCount > 0 -> {
                     toast(getString(R.string.files_saved_partially))

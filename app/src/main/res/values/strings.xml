@@ -13,7 +13,6 @@
     <string name="recents">Recents</string>
     <string name="show_recents">Show recents</string>
     <string name="invert_colors">Invert colors</string>
-    <string name="files_saved">Files saved successfully</string>
     <string name="files_saved_partially">Files saved partially</string>
 
     <!-- Open as -->

@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Added multiple files "save as"-intent ([#345])
+- Support for saving multiple files ([#345])
 
 ## [1.5.0] - 2025-12-16
 ### Changed
