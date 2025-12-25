@@ -1,1 +1,1 @@
-Trình quản lý file tiện, nhẹ, mã nguồn mở với các tính năng cần thiết.
+Trình quản lý tệp tiện, nhẹ, mã nguồn mở với các tính năng cần thiết.
