@@ -52,6 +52,7 @@
     <string name="others">Others</string>
     <string name="storage_free">free</string>
     <string name="total_storage">Total storage: %s</string>
+    <string name="cloud">Cloud Connection</string>
 
     <!-- Settings -->
     <string name="enable_root_access">Enable root access</string>
