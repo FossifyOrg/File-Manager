@@ -47,7 +47,7 @@
 
     <issue
         id="AndroidGradlePluginVersion"
-        message="A newer version of com.android.application than 8.11.1 is available: 8.13.1. (There is also a newer version of 8.11.𝑥 available, if upgrading to 8.13.1 is difficult: 8.11.2)"
+        message="A newer version of com.android.application than 8.11.1 is available: 8.13.2. (There is also a newer version of 8.11.𝑥 available, if upgrading to 8.13.2 is difficult: 8.11.2)"
         errorLine1="gradlePlugins-agp = &quot;8.11.1&quot;"
         errorLine2="                    ~~~~~~~~">
         <location
@@ -58,13 +58,24 @@
 
     <issue
         id="NewerVersionAvailable"
-        message="A newer version of io.nlopez.compose.rules:detekt than 0.4.28 is available: 0.5.1"
+        message="A newer version of io.nlopez.compose.rules:detekt than 0.4.28 is available: 0.5.3"
         errorLine1="detektCompose = &quot;0.4.28&quot;"
         errorLine2="                ~~~~~~~~">
         <location
             file="$HOME/work/File-Manager/File-Manager/gradle/libs.versions.toml"
             line="6"
             column="17"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of com.alexvasilkov:gesture-views than 2.8.3 is available: 2.9.0"
+        errorLine1="gestureviews = &quot;2.8.3&quot;"
+        errorLine2="               ~~~~~~~">
+        <location
+            file="$HOME/work/File-Manager/File-Manager/gradle/libs.versions.toml"
+            line="14"
+            column="16"/>
     </issue>
 
     <issue
