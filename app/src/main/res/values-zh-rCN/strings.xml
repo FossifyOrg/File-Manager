@@ -43,5 +43,5 @@
     <string name="storage_free">可用</string>
     <string name="total_storage">总存储：%s</string>
     <string name="enable_root_access">启用 root 访问</string>
-    <string name="press_back_twice">需要按两次返回键才能离开应用程序</string>
+    <string name="press_back_twice">需要按两次返回键才能离开应用</string>
 </resources>
