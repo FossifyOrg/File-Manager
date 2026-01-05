@@ -11,7 +11,7 @@ androidx-documentfile = "1.1.0"
 commons = "5.13.1"
 #Other
 autofittextview = "0.2.1"
-gestureviews = "2.8.3"
+gestureviews = "2.9.0"
 rootshell = "bc7e5d398e"
 roottools = "965c154e20"
 zip4j = "2.11.5"
