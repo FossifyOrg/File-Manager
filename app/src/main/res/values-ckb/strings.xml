@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_launcher_name">بەڕێوەبەری فایل</string>
+    <string name="app_launcher_name">بەڕێوەبەری پەڕگە</string>
+    <string name="press_back_again">بۆ دەرچوون دووبارە گەڕانەوە داگرە</string>
+    <string name="recents">دوایین</string>
+    <string name="open_as">کردنەوە وەک</string>
+    <string name="text_file">پەڕگەی دەقی</string>
+    <string name="image_file">پەڕگەی وێنەیی</string>
+    <string name="audio_file">پەڕگەی دەنگی</string>
+    <string name="video_file">پەڕگەی ڤیدیۆیی</string>
+    <string name="other_file">پەڕگەی دیکە</string>
+    <string name="compress">پەستان</string>
+    <string name="decompress">شیتەڵکردنەوە</string>
+    <string name="compress_as">بیپەستە وەک</string>
+    <string name="compressing">دەیپەستێت…</string>
+    <string name="decompressing">شیتەڵی دەکاتەوە…</string>
+    <string name="compression_successful">پەستانەکە سەرکەوت</string>
+    <string name="decompression_successful">شیتەڵکردنەوەکە سەرکەوت</string>
+    <string name="file_editor">دەستکاریکەری پەڕگە</string>
+    <string name="images">وێنەکان</string>
+    <string name="videos">ڤیدیۆکان</string>
+    <string name="audio">دەنگ</string>
+    <string name="documents">بەڵگەنامەکان</string>
+    <string name="downloads">داگیراوەکان</string>
+    <string name="archives">ئەرشیفەکان</string>
+    <string name="others">ئیتکە</string>
+    <string name="storage_free">بەتاڵە</string>
+    <string name="total_storage">سەرجەمی بیرگە: %s</string>
 </resources>
