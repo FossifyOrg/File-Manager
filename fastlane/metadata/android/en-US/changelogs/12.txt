@@ -1,0 +1,8 @@
+Added:
+
+• Added support for custom fonts
+
+Changed:
+
+• Updated translations
+
