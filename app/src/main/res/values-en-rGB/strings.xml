@@ -2,4 +2,5 @@
 <resources>
     <string name="app_launcher_name">File Manager</string>
     <string name="invert_colors">Invert colours</string>
+    <string name="audio">Audio</string>
 </resources>
