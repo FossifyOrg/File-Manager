@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Fixed cleanup after moving nested folders ([#102])
 
 ## [1.6.0] - 2026-01-30
 ### Added
@@ -112,6 +114,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#80]: https://github.com/FossifyOrg/File-Manager/issues/80
 [#85]: https://github.com/FossifyOrg/File-Manager/issues/85
 [#95]: https://github.com/FossifyOrg/File-Manager/issues/95
+[#102]: https://github.com/FossifyOrg/File-Manager/issues/102
 [#104]: https://github.com/FossifyOrg/File-Manager/issues/104
 [#105]: https://github.com/FossifyOrg/File-Manager/issues/105
 [#106]: https://github.com/FossifyOrg/File-Manager/issues/106
