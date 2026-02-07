@@ -39,5 +39,4 @@ roottools = { module = "com.github.naveensingh:RootTools", version.ref = "rootto
 zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
 [plugins]
 android = { id = "com.android.application", version.ref = "gradlePlugins-agp" }
-kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
