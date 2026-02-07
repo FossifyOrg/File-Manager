@@ -22,6 +22,11 @@ fun hasSigningVars(): Boolean {
             && providers.environmentVariable("SIGNING_STORE_PASSWORD").orNull != null
 }
 
+base {
+    val versionCode = project.property("VERSION_CODE").toString().toInt()
+    archivesName = "file-manager-$versionCode"
+}
+
 android {
     compileSdk = project.libs.versions.app.build.compileSDKVersion.get().toInt()
 
@@ -33,7 +38,6 @@ android {
         versionCode = project.property("VERSION_CODE").toString().toInt()
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
-        setProperty("archivesBaseName", "file-manager-$versionCode")
     }
 
     signingConfigs {
