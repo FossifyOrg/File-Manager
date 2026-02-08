@@ -8,7 +8,7 @@ detektCompose = "0.4.28"
 androidx-swiperefreshlayout = "1.2.0"
 androidx-documentfile = "1.1.0"
 #Fossify
-commons = "6.1.0"
+commons = "6.1.3"
 #Other
 autofittextview = "0.2.1"
 gestureviews = "2.9.0"
