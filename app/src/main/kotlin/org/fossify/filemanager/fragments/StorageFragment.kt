@@ -46,7 +46,7 @@ import org.fossify.filemanager.adapters.ItemsAdapter
 import org.fossify.filemanager.databinding.ItemStorageVolumeBinding
 import org.fossify.filemanager.databinding.StorageFragmentBinding
 import org.fossify.filemanager.extensions.config
-import org.fossify.filemanager.extensions.formatSizeThousand
+
 import org.fossify.filemanager.extensions.getAllVolumeNames
 import org.fossify.filemanager.helpers.ARCHIVES
 import org.fossify.filemanager.helpers.AUDIO
@@ -331,8 +331,8 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
                     mainStorageUsageProgressbar.progress = ((totalStorageSpace - freeStorageSpace) / SIZE_DIVIDER).toInt()
 
                     mainStorageUsageProgressbar.beVisible()
-                    freeSpaceValue.text = freeStorageSpace.formatSizeThousand()
-                    totalSpace.text = String.format(context.getString(R.string.total_storage), totalStorageSpace.formatSizeThousand())
+                    freeSpaceValue.text = freeStorageSpace.formatSize()
+                    totalSpace.text = String.format(context.getString(R.string.total_storage), totalStorageSpace.formatSize())
                     freeSpaceLabel.beVisible()
                     getSizes(volumeName)
                 }
