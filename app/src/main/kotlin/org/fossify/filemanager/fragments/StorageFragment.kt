@@ -46,7 +46,6 @@ import org.fossify.filemanager.adapters.ItemsAdapter
 import org.fossify.filemanager.databinding.ItemStorageVolumeBinding
 import org.fossify.filemanager.databinding.StorageFragmentBinding
 import org.fossify.filemanager.extensions.config
-
 import org.fossify.filemanager.extensions.getAllVolumeNames
 import org.fossify.filemanager.helpers.ARCHIVES
 import org.fossify.filemanager.helpers.AUDIO
