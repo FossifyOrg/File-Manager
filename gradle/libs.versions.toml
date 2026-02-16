@@ -14,7 +14,7 @@ autofittextview = "0.2.1"
 gestureviews = "2.9.0"
 rootshell = "bc7e5d398e"
 roottools = "965c154e20"
-zip4j = "2.11.5"
+zip4j = "2.11.6"
 #Gradle
 gradlePlugins-agp = "9.0.1"
 #build
