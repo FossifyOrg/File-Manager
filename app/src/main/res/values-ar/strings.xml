@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_launcher_name">مدير الملفات</string>
-    <string name="press_back_again">اضغط مرة أخرى للخروج</string>
+    <string name="press_back_again">انقر مرة أخرى للخروج</string>
     <string name="go_to_home_folder">اذهب إلى المجلد المنزل</string>
     <string name="set_as_home_folder">عيّن كمجلد المنزل</string>
     <string name="home_folder_updated">حُدِّث مجلد المنزل</string>
