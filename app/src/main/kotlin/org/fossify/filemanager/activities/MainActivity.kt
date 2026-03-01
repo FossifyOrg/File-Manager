@@ -253,6 +253,7 @@ class MainActivity : SimpleActivity() {
                     R.id.more_apps_from_us -> launchMoreAppsFromUsIntent()
                     R.id.settings -> launchSettings()
                     R.id.about -> launchAbout()
+                    R.id.cloud -> launchCloudActivity()
                     else -> return@setOnMenuItemClickListener false
                 }
                 return@setOnMenuItemClickListener true
@@ -260,6 +261,9 @@ class MainActivity : SimpleActivity() {
         }
     }
 
+    private fun launchCloudActivity(){
+        startActivity(Intent(applicationContext, CloudActivity::class.java))
+    }
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(PICKED_PATH, getItemsFragment()?.currentPath ?: "")

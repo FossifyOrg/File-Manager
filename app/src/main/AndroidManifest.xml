@@ -77,6 +77,11 @@
             android:configChanges="orientation"
             android:exported="false"
             android:parentActivityName=".activities.MainActivity" />
+        <activity
+            android:name=".activities.CloudActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:parentActivityName=".activities.MainActivity" />
 
         <activity
             android:name=".activities.ReadTextActivity"

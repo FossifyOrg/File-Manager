@@ -142,5 +142,6 @@ dependencies {
     implementation(libs.gestureviews)
     implementation(libs.autofittextview)
     implementation(libs.zip4j)
+    implementation(libs.jcifs.ng)
     detektPlugins(libs.compose.detekt)
 }
