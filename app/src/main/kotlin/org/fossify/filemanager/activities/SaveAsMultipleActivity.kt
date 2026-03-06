@@ -21,8 +21,9 @@ import org.fossify.filemanager.R
 import org.fossify.filemanager.databinding.ActivitySaveAsBinding
 import org.fossify.filemanager.extensions.config
 import java.io.File
+import java.io.IOException
 
-class SaveAsActivity : SimpleActivity() {
+class SaveAsMultipleActivity : SimpleActivity() {
     private val binding by viewBinding(ActivitySaveAsBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,8 +44,14 @@ class SaveAsActivity : SimpleActivity() {
     }
 
     private fun saveAsDialog() {
-        if (intent.action == Intent.ACTION_SEND && intent.extras?.containsKey(Intent.EXTRA_STREAM) == true) {
-            FilePickerDialog(this, pickFile = false, showHidden = config.shouldShowHidden(), showFAB = true, showFavoritesButton = true) {
+        if (intent.action == Intent.ACTION_SEND_MULTIPLE && intent.extras?.containsKey(Intent.EXTRA_STREAM) == true) {
+            FilePickerDialog(
+                this,
+                pickFile = false,
+                showHidden = config.shouldShowHidden(),
+                showFAB = true,
+                showFavoritesButton = true
+            ) {
                 val destination = it
                 handleSAFDialog(destination) {
                     toast(R.string.saving)
@@ -59,22 +66,34 @@ class SaveAsActivity : SimpleActivity() {
                                 }
                             }
 
-                            val source = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)!!
-                            val originalFilename = getFilenameFromContentUri(source)
-                                ?: source.toString().getFilenameFromPath()
-                            val filename = sanitizeFilename(originalFilename)
-                            val mimeType = contentResolver.getType(source)
-                                ?: intent.type?.takeIf { it != "*/*" }
-                                ?: filename.getMimeType()
-                            val inputStream = contentResolver.openInputStream(source)
+                            val sources = intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)!!
 
-                            val destinationPath = getAvailablePath("$destination/$filename")
-                            val outputStream = getFileOutputStreamSync(destinationPath, mimeType, null)!!
-                            inputStream!!.copyTo(outputStream)
-                            rescanPaths(arrayListOf(destinationPath))
-                            toast(R.string.file_saved)
+                            sources.forEach { source ->
+                                val originalFilename = getFilenameFromContentUri(source)
+                                    ?: source.toString().getFilenameFromPath()
+
+                                val filename = sanitizeFilename(originalFilename)
+
+                                val mimeType = contentResolver.getType(source)
+                                    ?: filename.getMimeType()
+
+                                val inputStream = contentResolver.openInputStream(source)
+
+                                val destinationPath = getAvailablePath("$destination/$filename")
+
+                                val outputStream = getFileOutputStreamSync(destinationPath, mimeType, null)!!
+                                inputStream!!.copyTo(outputStream)
+
+                                val savedPaths = arrayListOf<String>()
+                                rescanPaths(savedPaths)
+                            }
+                            val message = resources.getQuantityString(R.plurals.files_saved,sources.count())
+                            toast(message)
                             finish()
-                        } catch (e: Exception) {
+                        } catch (e: IOException) {
+                            showErrorToast(e)
+                            finish()
+                        } catch (e: SecurityException) {
                             showErrorToast(e)
                             finish()
                         }
