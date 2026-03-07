@@ -5,7 +5,6 @@ import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.android)
-    alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.detekt)
 }
 
@@ -22,6 +21,11 @@ fun hasSigningVars(): Boolean {
             && providers.environmentVariable("SIGNING_STORE_PASSWORD").orNull != null
 }
 
+base {
+    val versionCode = project.property("VERSION_CODE").toString().toInt()
+    archivesName = "file-manager-$versionCode"
+}
+
 android {
     compileSdk = project.libs.versions.app.build.compileSDKVersion.get().toInt()
 
@@ -33,7 +37,6 @@ android {
         versionCode = project.property("VERSION_CODE").toString().toInt()
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
-        setProperty("archivesBaseName", "file-manager-$versionCode")
     }
 
     signingConfigs {
@@ -85,7 +88,7 @@ android {
     }
 
     sourceSets {
-        getByName("main").java.srcDirs("src/main/kotlin")
+        getByName("main").java.directories.add("src/main/kotlin")
     }
 
     compileOptions {
