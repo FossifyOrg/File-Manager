@@ -9,7 +9,8 @@ import org.fossify.filemanager.extensions.config
 
 class ManageFolderColumnsDialog(val activity: BaseSimpleActivity) {
     private var config = activity.config
-    private val binding: DialogManageFolderColumsBinding = DialogManageFolderColumsBinding.inflate(activity.layoutInflater)
+    private val binding: DialogManageFolderColumsBinding = DialogManageFolderColumsBinding
+        .inflate(activity.layoutInflater)
     private var showFolderSize : Boolean = config.showFolderSize
     private var showChildrenCount : Boolean = config.showFolderChildrenCount
     private var showModifiedAt : Boolean = config.showFolderLastModifiedAt

@@ -1070,45 +1070,64 @@ class ItemsAdapter(
                 }
 
                 if (listItem.isDirectory) {
-                    itemIcon?.setImageDrawable(folderDrawable)
-                    val parts = mutableListOf<String>()
-
-                    if (config.showFolderChildrenCount) {
-                        parts.add(getChildrenCnt(listItem))
-                    }
-
-                    if (config.showFolderSize) {
-                        parts.add(listItem.mSize.formatSize())
-                        loadFolderSize(listItem, getItemKeyPosition(listItem.path.hashCode()))
-                    }
-
-                    itemDetails?.text = parts.joinToString(" • ")
-                    setupFolderDate(listItem,itemDate)
+                    setupDirectoryView(itemIcon, listItem, itemDetails, itemDate)
                 } else {
-                    itemDetails?.text = listItem.size.formatSize()
-                    itemDate?.beVisible()
-                    itemDate?.text = listItem.modified.formatDate(activity, dateFormat, timeFormat)
-
-                    val drawable = fileDrawables.getOrElse(
-                        key = fileName.substringAfterLast(".").lowercase(Locale.getDefault()),
-                        defaultValue = { fileDrawable }
-                    )
-                    val options = RequestOptions()
-                        .signature(listItem.getKey())
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .error(drawable)
-                        .transform(CenterCrop(), RoundedCorners(10))
-
-                    val itemToLoad = getImagePathToLoad(listItem.path)
-                    if (!activity.isDestroyed && itemIcon != null) {
-                        Glide.with(activity)
-                            .load(itemToLoad)
-                            .transition(DrawableTransitionOptions.withCrossFade())
-                            .apply(options)
-                            .into(itemIcon!!)
-                    }
+                    setupFileView(itemIcon, listItem, itemDetails, itemDate, fileName)
                 }
             }
+        }
+    }
+
+    private fun setupDirectoryView(
+        itemIcon: ImageView?,
+        listItem: ListItem,
+        itemDetails: TextView?,
+        itemDate: TextView?
+    ){
+        itemIcon?.setImageDrawable(folderDrawable)
+        val parts = mutableListOf<String>()
+
+        if (config.showFolderChildrenCount) {
+            parts.add(getChildrenCnt(listItem))
+        }
+
+        if (config.showFolderSize) {
+            parts.add(listItem.mSize.formatSize())
+            loadFolderSize(listItem, getItemKeyPosition(listItem.path.hashCode()))
+        }
+
+        itemDetails?.text = parts.joinToString(" • ")
+        setupFolderDate(listItem,itemDate)
+    }
+
+    private fun setupFileView(
+        itemIcon: ImageView?,
+        listItem: ListItem,
+        itemDetails: TextView?,
+        itemDate: TextView?,
+        fileName : String
+    ){
+        itemDetails?.text = listItem.size.formatSize()
+        itemDate?.beVisible()
+        itemDate?.text = listItem.modified.formatDate(activity, dateFormat, timeFormat)
+
+        val drawable = fileDrawables.getOrElse(
+            key = fileName.substringAfterLast(".").lowercase(Locale.getDefault()),
+            defaultValue = { fileDrawable }
+        )
+        val options = RequestOptions()
+            .signature(listItem.getKey())
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+            .error(drawable)
+            .transform(CenterCrop(), RoundedCorners(10))
+
+        val itemToLoad = getImagePathToLoad(listItem.path)
+        if (!activity.isDestroyed && itemIcon != null) {
+            Glide.with(activity)
+                .load(itemToLoad)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .apply(options)
+                .into(itemIcon!!)
         }
     }
 
