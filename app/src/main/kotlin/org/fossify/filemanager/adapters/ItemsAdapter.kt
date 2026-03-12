@@ -1071,8 +1071,19 @@ class ItemsAdapter(
 
                 if (listItem.isDirectory) {
                     itemIcon?.setImageDrawable(folderDrawable)
-                    itemDetails?.text = getChildrenCnt(listItem)
-                    itemDate?.beGone()
+                    val parts = mutableListOf<String>()
+
+                    if (config.showFolderChildrenCount) {
+                        parts.add(getChildrenCnt(listItem))
+                    }
+
+                    if (config.showFolderSize) {
+                        parts.add(listItem.mSize.formatSize())
+                        loadFolderSize(listItem, getItemKeyPosition(listItem.path.hashCode()))
+                    }
+
+                    itemDetails?.text = parts.joinToString(" • ")
+                    setupFolderDate(listItem,itemDate)
                 } else {
                     itemDetails?.text = listItem.size.formatSize()
                     itemDate?.beVisible()
@@ -1098,6 +1109,25 @@ class ItemsAdapter(
                     }
                 }
             }
+        }
+    }
+
+    private fun loadFolderSize(listItem: ListItem, position: Int) {
+        ensureBackgroundThread {
+            val size = File(listItem.path).getProperSize(config.shouldShowHidden())
+            activity.runOnUiThread {
+                listItem.mSize = size
+                notifyItemChanged(position, Unit)
+            }
+        }
+    }
+
+    private fun setupFolderDate(listItem : ListItem,dateView: TextView?) {
+        if (config.showFolderLastModifiedAt) {
+            dateView?.beVisible()
+            dateView?.text = listItem.modified.formatDate(activity, dateFormat, timeFormat)
+        } else {
+            dateView?.beGone()
         }
     }
 
