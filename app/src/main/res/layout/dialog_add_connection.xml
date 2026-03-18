@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/add_connection_dialog"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/change_view_type_dialog_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/activity_margin"
+        android:paddingTop="@dimen/activity_margin"
+        android:paddingEnd="@dimen/activity_margin">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/change_view_type_dialog_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/medium_margin">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/host_tf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Host">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/host_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/user_tf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/user_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_tf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/sharedPath_tf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Shared Path">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sharedPath_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <include
+            android:id="@+id/use_for_this_folder_divider"
+            layout="@layout/divider" />
+
+        <org.fossify.commons.views.MyAppCompatCheckbox
+            android:id="@+id/change_view_type_dialog_use_for_this_folder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:paddingTop="@dimen/medium_margin"
+            android:paddingBottom="@dimen/medium_margin"
+            android:text="@string/use_for_this_folder" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
