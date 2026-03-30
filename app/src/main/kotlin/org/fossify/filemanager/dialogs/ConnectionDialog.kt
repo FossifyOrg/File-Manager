@@ -8,13 +8,13 @@ import org.fossify.filemanager.R
 import org.fossify.filemanager.databinding.DialogAddConnectionBinding
 import org.fossify.filemanager.databinding.DialogChangeViewTypeBinding
 
-class ConnectionDialog(val activity: BaseSimpleActivity, dispatch:(String, String, String, String)-> Unit) {
+class ConnectionDialog(val activity: BaseSimpleActivity, dispatch:(String, String, String, String, String)-> Unit) {
     private var binding: DialogAddConnectionBinding
 
     init {
         binding = DialogAddConnectionBinding.inflate(activity.layoutInflater)
         activity.getAlertDialogBuilder()
-            .setPositiveButton(R.string.ok) { dialog, which -> dispatch(binding.hostEt.value,binding.userEt.value,binding.passwordEt.value,binding.sharedPathEt.value) }
+            .setPositiveButton(R.string.ok) { _,_ -> dispatch(binding.hostEt.value,binding.userEt.value,binding.passwordEt.value,binding.sharedPathEt.value,binding.displayEt.value) }
             .setNegativeButton(R.string.cancel, null)
             .apply {
                 activity.setupDialogStuff(binding.root, this)

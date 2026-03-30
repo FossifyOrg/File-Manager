@@ -30,20 +30,25 @@
 
     </org.fossify.commons.views.MyAppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/cloud_nested_scrollview"
+    <RelativeLayout
+        android:id="@+id/connection_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fillViewport="true"
         android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
-            android:id="@+id/settings_holder"
+        <org.fossify.commons.views.MyRecyclerView
+            android:id="@+id/connections_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/small_margin"
+            android:scrollbars="none"
+            app:layoutManager="org.fossify.commons.views.MyLinearLayoutManager" />
 
-    </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

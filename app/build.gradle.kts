@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.android)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.detekt)
+    id("com.google.devtools.ksp")
 }
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -144,4 +145,9 @@ dependencies {
     implementation(libs.zip4j)
     implementation(libs.jcifs.ng)
     detektPlugins(libs.compose.detekt)
+
+    val roomVersion = "2.7.0-alpha11"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+    implementation (libs.androidx.room.ktx)
 }

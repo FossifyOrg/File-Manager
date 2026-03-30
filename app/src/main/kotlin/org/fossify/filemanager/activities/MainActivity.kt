@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
@@ -21,7 +22,6 @@ import org.fossify.commons.extensions.getBottomNavigationBackgroundColor
 import org.fossify.commons.extensions.getColoredDrawableWithColor
 import org.fossify.commons.extensions.getFilePublicUri
 import org.fossify.commons.extensions.getMimeType
-import org.fossify.commons.extensions.getProperBackgroundColor
 import org.fossify.commons.extensions.getProperTextColor
 import org.fossify.commons.extensions.getRealPathFromURI
 import org.fossify.commons.extensions.getStorageDirectories
@@ -70,13 +70,15 @@ import org.fossify.filemanager.fragments.MyViewPagerFragment
 import org.fossify.filemanager.fragments.RecentsFragment
 import org.fossify.filemanager.fragments.StorageFragment
 import org.fossify.filemanager.helpers.MAX_COLUMN_COUNT
+import org.fossify.filemanager.helpers.NETWORK_PATH
+import org.fossify.filemanager.helpers.PATH
 import org.fossify.filemanager.helpers.RootHelpers
 import org.fossify.filemanager.interfaces.ItemOperationsListener
 import java.io.File
 
 class MainActivity : SimpleActivity() {
     override var isSearchBarEnabled = true
-    
+
     companion object {
         private const val BACK_PRESS_TIMEOUT = 5000
         private const val PICKED_PATH = "picked_path"
@@ -115,11 +117,18 @@ class MainActivity : SimpleActivity() {
         if (savedInstanceState == null) {
             config.temporarilyShowHidden = false
             initFragments()
-            tryInitFileManager()
+            val data = getIntentDataIfAny()
+            tryInitFileManager(data.first,data.second)
             checkWhatsNewDialog()
             checkIfRootAvailable()
             checkInvalidFavorites()
         }
+    }
+
+    private fun getIntentDataIfAny(): Pair<String, Boolean> {
+        val path = intent.getStringExtra(PATH)
+        val isNetworkPath = intent.getBooleanExtra(NETWORK_PATH, false)
+        return Pair(path ?: "",isNetworkPath)
     }
 
     override fun onResume() {
@@ -261,9 +270,10 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-    private fun launchCloudActivity(){
+    private fun launchCloudActivity() {
         startActivity(Intent(applicationContext, CloudActivity::class.java))
     }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(PICKED_PATH, getItemsFragment()?.currentPath ?: "")
@@ -295,7 +305,7 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-    private fun tryInitFileManager() {
+    private fun tryInitFileManager(path: String, isNetworkPath : Boolean = false) {
         val hadPermission = hasStoragePermission()
         handleStoragePermission {
             checkOTGPath()
@@ -305,7 +315,7 @@ class MainActivity : SimpleActivity() {
                 }
 
                 binding.mainViewPager.onGlobalLayout {
-                    initFileManager(!hadPermission)
+                    initFileManager(!hadPermission,path,isNetworkPath)
                 }
             } else {
                 toast(R.string.no_storage_permissions)
@@ -314,7 +324,8 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-    private fun initFileManager(refreshRecents: Boolean) {
+    private fun initFileManager(refreshRecents: Boolean, path: String, isNetworkPath: Boolean) {
+        Log.d("File Path",path)
         if (intent.action == Intent.ACTION_VIEW && intent.data != null) {
             val data = intent.data
             if (data?.scheme == "file") {
@@ -334,7 +345,7 @@ class MainActivity : SimpleActivity() {
 
             binding.mainViewPager.currentItem = 0
         } else {
-            openPath(config.homeFolder)
+            openPath(if(path.isNotEmpty()) path else config.homeFolder,isNetworkPath = isNetworkPath)
         }
 
         if (refreshRecents) {
@@ -371,8 +382,8 @@ class MainActivity : SimpleActivity() {
         binding.mainTabsHolder.removeAllTabs()
         val action = intent.action
         val isPickFileIntent = action == RingtoneManager.ACTION_RINGTONE_PICKER
-                || action == Intent.ACTION_GET_CONTENT
-                || action == Intent.ACTION_PICK
+            || action == Intent.ACTION_GET_CONTENT
+            || action == Intent.ACTION_PICK
         val isCreateDocumentIntent = action == Intent.ACTION_CREATE_DOCUMENT
 
         if (isPickFileIntent) {
@@ -460,18 +471,18 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-    private fun openPath(path: String, forceRefresh: Boolean = false) {
+    private fun openPath(path: String, forceRefresh: Boolean = false, isNetworkPath: Boolean = false) {
         var newPath = path
         val file = File(path)
         if (config.OTGPath.isNotEmpty() && config.OTGPath == path.trimEnd('/')) {
             newPath = path
-        } else if (file.exists() && !file.isDirectory) {
+        } else if (file.exists() && !file.isDirectory && !isNetworkPath) {
             newPath = file.parent
-        } else if (!file.exists() && !isPathOnOTG(newPath)) {
+        } else if (!file.exists() && !isPathOnOTG(newPath) && !isNetworkPath) {
             newPath = internalStoragePath
         }
 
-        getItemsFragment()?.openPath(newPath, forceRefresh)
+        getItemsFragment()?.openPath(newPath, forceRefresh, isNetworkPath)
     }
 
     private fun goHome() {

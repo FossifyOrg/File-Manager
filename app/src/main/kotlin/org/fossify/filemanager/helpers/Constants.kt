@@ -44,6 +44,11 @@ const val SHOW_MIMETYPE = "show_mimetype"
 const val VOLUME_NAME = "volume_name"
 const val PRIMARY_VOLUME_NAME = "external_primary"
 
+const val PATH = "path"
+
+const val NETWORK_PATH = "network_path"
+
+
 // what else should we count as an audio except "audio/*" mimetype
 val extraAudioMimeTypes = arrayListOf("application/ogg")
 val extraDocumentMimeTypes = arrayListOf(
