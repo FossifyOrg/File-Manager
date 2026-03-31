@@ -7,4 +7,6 @@ interface NetworkConnectionRepositoryApi {
     suspend fun verifyConnection(connection: NetworkConnection): Boolean
 
     fun getFilesFromNetworkPath(): Array<SmbFile>
+
+    fun getMainSmbFile(): SmbFile
 }

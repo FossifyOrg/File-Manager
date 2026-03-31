@@ -12,7 +12,7 @@ import org.fossify.filemanager.models.NetworkConnection
 import java.util.Properties
 
 class NetworkConnectionRepositoryApiImpl: NetworkConnectionRepositoryApi {
-    private lateinit var dir: SmbFile
+    lateinit var dir: SmbFile
     private val defaultProperties: Properties =
         Properties().apply {
             setProperty("jcifs.resolveOrder", "BCAST")
@@ -45,4 +45,6 @@ class NetworkConnectionRepositoryApiImpl: NetworkConnectionRepositoryApi {
         val files = dir.listFiles()
         return files
     }
+
+    override fun getMainSmbFile(): SmbFile = dir
 }

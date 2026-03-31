@@ -180,7 +180,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             ItemsAdapter(activity as SimpleActivity, storedItems, this, binding.itemsList, isPickMultipleIntent, binding.itemsSwipeRefresh) {
                 if(isNetworkPath){
                     (it as? ListItem)?.let { item ->
-                        FileHelpers.launchSMB(item, this@ItemsFragment.context)
+                        FileHelpers.launchSMB(item, this@ItemsFragment.context,viewModel.getMainSmb())
                     }
                 }
                 else if ((it as? ListItem)?.isSectionTitle == true) {

@@ -150,4 +150,6 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
     implementation (libs.androidx.room.ktx)
+    //noinspection UseTomlInstead
+    implementation("org.nanohttpd:nanohttpd:2.3.1")
 }

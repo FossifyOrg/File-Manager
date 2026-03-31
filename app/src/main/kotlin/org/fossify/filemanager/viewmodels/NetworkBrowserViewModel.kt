@@ -43,4 +43,6 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
     fun getFilesFromNetworkPath():Array<SmbFile>{
         return  networkConnectionRepositoryApi.getFilesFromNetworkPath()
     }
+
+    fun getMainSmb(): SmbFile = networkConnectionRepositoryApi.getMainSmbFile()
 }

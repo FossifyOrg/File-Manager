@@ -26,6 +26,7 @@ import org.fossify.filemanager.adapters.DecompressItemsAdapter
 import org.fossify.filemanager.databinding.CloudActivityBinding
 import org.fossify.filemanager.dialogs.ConnectionDialog
 import org.fossify.filemanager.enums.ConnectionTypes
+import org.fossify.filemanager.fileSystems.HttpServer
 import org.fossify.filemanager.helpers.NETWORK_PATH
 import org.fossify.filemanager.helpers.PATH
 import org.fossify.filemanager.models.ListItem
@@ -131,6 +132,7 @@ class CloudActivity : SimpleActivity() {
                 viewModel.verifyNetwork.collectLatest { value ->
                     if (value) {
                         val path = "${item.host.trimEnd('/')}/${item.sharedPath.trimStart('/')}"
+                        startServer(item)
                         startActivity(Intent(this@CloudActivity, MainActivity::class.java).apply {
                             putExtra(PATH, path)
                             putExtra(NETWORK_PATH, true)
@@ -144,5 +146,10 @@ class CloudActivity : SimpleActivity() {
         }.apply {
             binding.connectionsList.adapter = this
         }
+    }
+
+    private fun startServer(connection:NetworkConnection){
+        val https = HttpServer(7871,connection.host)
+        https.start()
     }
 }

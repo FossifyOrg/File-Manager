@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
+import jcifs.smb.SmbFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,22 +16,22 @@ import java.io.File
 
 object FileHelpers {
     val URL: String = "http://127.0.0.1:7871/"
-    fun launchSMB(item: ListItem, context: Context) {
+    fun launchSMB(item: ListItem, context: Context, smb: SmbFile) {
         try {
             CoroutineScope(Dispatchers.Main).launch {
                 val uri = "${URL}${item.parent}${(item.path.toUri()).path}".toUri()
-                kotlinx . coroutines . delay (50)
                 val i =
                     Intent(Intent.ACTION_VIEW)
+                Log.d("FileName",uri.toString())
                 i.setDataAndType(uri, MimeTypes.getMimeTypes(item.mPath))
                 val packageManager: PackageManager = context.packageManager
                 val resInfos = packageManager.queryIntentActivities(i, 0)
-                if (resInfos.size > 0){ context.startActivity(i) } } }
-                catch(exp: Exception) {
-                    Log.e("Activity Launch Failed", exp.toString())
+                if (resInfos.size > 0) {
+                    context.startActivity(i)
                 }
             }
+        } catch (exp: Exception) {
+            Log.e("Activity Launch Failed", exp.toString())
         }
-
     }
 }
