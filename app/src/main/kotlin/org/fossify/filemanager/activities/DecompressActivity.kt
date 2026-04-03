@@ -155,6 +155,7 @@ class DecompressActivity : SimpleActivity() {
                 zipInputStream.setPassword(password?.toCharArray())
             }
             val buffer = ByteArray(1024)
+            val foldersTimestamp = mutableListOf<Pair<File, LocalFileHeader>>()
 
             zipInputStream.use {
                 while (true) {
@@ -162,6 +163,7 @@ class DecompressActivity : SimpleActivity() {
                     val filename = filename.substringBeforeLast(".")
                     val parent = "$destination/$filename"
                     val newPath = "$parent/${entry.fileName.trimEnd('/')}"
+                    val outputFile = File(newPath)
 
                     if (!getDoesFilePathExist(parent)) {
                         if (!createDirectorySync(parent)) {
@@ -170,10 +172,14 @@ class DecompressActivity : SimpleActivity() {
                     }
 
                     if (entry.isDirectory) {
-                        continue
-                    }
+                        if (!getDoesFilePathExist(newPath)) {
+                            createDirectorySync(newPath)
+                        }
 
-                    val outputFile = File(newPath)
+                        foldersTimestamp.add(Pair(outputFile,entry))
+                        continue
+
+                    }
 
                     val isVulnerableForZipPathTraversal = !outputFile.canonicalPath.startsWith(parent)
                     if (isVulnerableForZipPathTraversal) {
@@ -193,7 +199,9 @@ class DecompressActivity : SimpleActivity() {
                     fos!!.close()
                     outputFile.setLastModified(entry)
                 }
-
+                for ((folder,header) in foldersTimestamp){
+                    folder.setLastModified((header))
+                }
                 toast(R.string.decompression_successful)
                 finish()
             }
