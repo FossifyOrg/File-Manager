@@ -2,10 +2,16 @@ package org.fossify.filemanager.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
 import android.os.Parcelable
 import android.util.AttributeSet
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.fossify.commons.activities.BaseSimpleActivity
 import org.fossify.commons.dialogs.StoragePickerDialog
 import org.fossify.commons.extensions.*
@@ -21,6 +27,7 @@ import org.fossify.filemanager.activities.SimpleActivity
 import org.fossify.filemanager.adapters.ItemsAdapter
 import org.fossify.filemanager.databinding.ItemsFragmentBinding
 import org.fossify.filemanager.dialogs.CreateNewItemDialog
+import org.fossify.filemanager.enums.ConnectionTypes
 import org.fossify.filemanager.extensions.config
 import org.fossify.filemanager.extensions.isPathOnRoot
 import org.fossify.filemanager.fileSystems.FileHelpers
@@ -115,7 +122,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         getRecyclerAdapter()?.finishActMode()
     }
 
-    fun openPath(path: String, forceRefresh: Boolean = false, isNetworkPath: Boolean = false) {
+    fun openPath(path: String, forceRefresh: Boolean = false, isNetworkPath: Boolean = false, connectionType: ConnectionTypes = ConnectionTypes.Default) {
         if ((activity as? BaseSimpleActivity)?.isAskingPermissions == true) {
             return
         }
@@ -129,7 +136,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         currentPath = realPath
         showHidden = context!!.config.shouldShowHidden()
         showProgressBar()
-        getItems(currentPath, isNetworkPath) { originalPath, listItems ->
+        getItems(currentPath, isNetworkPath, connectionType = connectionType) { originalPath, listItems ->
             if (currentPath != originalPath) {
                 return@getItems
             }
@@ -155,16 +162,16 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             itemsIgnoringSearch = listItems
             activity?.runOnUiThread {
                 (activity as? MainActivity)?.refreshMenuItems()
-                addItems(listItems, forceRefresh,isNetworkPath)
+                addItems(listItems, forceRefresh,isNetworkPath,connectionType)
                 if (context != null && currentViewType != context!!.config.getFolderViewType(currentPath)) {
-                    setupLayoutManager()
+                    setupLayoutManager(connectionType)
                 }
                 hideProgressBar()
             }
         }
     }
 
-    private fun addItems(items: ArrayList<ListItem>, forceRefresh: Boolean = false,isNetworkPath: Boolean = false) {
+    private fun addItems(items: ArrayList<ListItem>, forceRefresh: Boolean = false, isNetworkPath: Boolean = false, connectionType: ConnectionTypes) {
         activity?.runOnUiThread {
             binding.itemsSwipeRefresh.isRefreshing = false
             binding.breadcrumbs.setBreadcrumb(currentPath)
@@ -178,9 +185,14 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             }
 
             ItemsAdapter(activity as SimpleActivity, storedItems, this, binding.itemsList, isPickMultipleIntent, binding.itemsSwipeRefresh) {
-                if(isNetworkPath){
+                if(connectionType == ConnectionTypes.SMB){
                     (it as? ListItem)?.let { item ->
                         FileHelpers.launchSMB(item, this@ItemsFragment.context,viewModel.getMainSmb())
+                    }
+                }
+                else if(connectionType == ConnectionTypes.WebDav){
+                    (it as? ListItem)?.let { item ->
+                        FileHelpers.launchWebDav(connectionType, context = this@ItemsFragment.context, item = item)
                     }
                 }
                 else if ((it as? ListItem)?.isSectionTitle == true) {
@@ -207,15 +219,29 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
     private fun getRecyclerLayoutManager() = (binding.itemsList.layoutManager as MyGridLayoutManager)
 
     @SuppressLint("NewApi")
-    private fun getItems(path: String, isNetworkPath: Boolean = false, callback: (originalPath: String, items: ArrayList<ListItem>) -> Unit) {
+    private fun getItems(path: String, isNetworkPath: Boolean = false,connectionType: ConnectionTypes, callback: (originalPath: String, items: ArrayList<ListItem>) -> Unit) {
         ensureBackgroundThread {
             if (activity?.isDestroyed == false && activity?.isFinishing == false) {
                 val config = context!!.config
-                if (isNetworkPath) {
+
+                if (connectionType.equals(ConnectionTypes.SMB)) {
                     val fileItems = viewModel.getFilesFromNetworkPath()
                     val items = fileItems.map { it -> it.toFileItem() }
                     callback(path, getListItemsFromFileDirItems(ArrayList(items.toList())))
-                } else if (context.isRestrictedSAFOnlyRoot(path)) {
+                }
+                else if(connectionType.equals(ConnectionTypes.WebDav)){
+                    CoroutineScope(Dispatchers.IO).launch {
+                        viewModel.listWebDavFiles(path)
+                        viewModel.webDavFiles.collectLatest {
+                            if(it.isNotEmpty()) {
+                                val fileItems = it
+                                val items = fileItems.map { it -> it.toFileItem() }
+                                callback(path, getListItemsFromFileDirItems(ArrayList(items.toList())))
+                            }
+                        }
+                    }
+                }
+                else if (context.isRestrictedSAFOnlyRoot(path)) {
                     activity?.runOnUiThread { hideProgressBar() }
                     activity?.handleAndroidSAFDialog(path, openInSystemAppAllowed = true) {
                         if (!it) {
@@ -232,8 +258,8 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                     context!!.getOTGItems(path, config.shouldShowHidden(), getProperFileSize) {
                         callback(path, getListItemsFromFileDirItems(it))
                     }
-                } else if (!config.enableRootAccess || !context!!.isPathOnRoot(path)) {
-                    getRegularItemsOf(path, callback)
+                } else if (!config.enableRootAccess || !context!!.isPathOnRoot(path) && (connectionType.equals(ConnectionTypes.ExternalStorage) || connectionType.equals(ConnectionTypes.Default))) {
+                    getRegularItemsOf(path, callback,connectionType)
                 } else {
                     RootHelpers(activity!!).getFiles(path, callback)
                 }
@@ -241,42 +267,66 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         }
     }
 
-    private fun getRegularItemsOf(path: String, callback: (originalPath: String, items: ArrayList<ListItem>) -> Unit) {
+    private fun getRegularItemsOf(path: String, callback: (originalPath: String, items: ArrayList<ListItem>) -> Unit, connectionType: ConnectionTypes) {
         val items = ArrayList<ListItem>()
-        val files = File(path).listFiles()?.filterNotNull()
-        if (context == null || files == null) {
-            callback(path, items)
-            return
-        }
-
-        val isSortingBySize = context!!.config.getFolderSorting(currentPath) and SORT_BY_SIZE != 0
         val getProperChildCount = context!!.config.getFolderViewType(currentPath) == VIEW_TYPE_LIST
-        val lastModifieds = context!!.getFolderLastModifieds(path)
 
-        for (file in files) {
-            val listItem = getListItemFromFile(file, isSortingBySize, lastModifieds, false)
-            if (listItem != null) {
-                if (wantedMimeTypes.any { isProperMimeType(it, file.absolutePath, file.isDirectory) }) {
-                    items.add(listItem)
-                }
+        if(connectionType == ConnectionTypes.ExternalStorage){
+            val uri = Uri.parse(path)
+            val docFile = DocumentFile.fromTreeUri(context, uri)
+            val files = docFile?.listFiles()
+
+            files?.forEach { file ->
+                items.add(
+                    ListItem(
+                        mPath = file.uri.toString(),
+                        mName = file.name ?: "",
+                        mIsDirectory = file.isDirectory,
+                        mChildren = if (file.isDirectory) 1 else 0,
+                        mSize = if (file.isFile) file.length() else 0L,
+                        mModified = file.lastModified(),
+                        isSectionTitle = false,
+                        isGridTypeDivider = false,
+                        parent = path
+                    )
+                )
             }
         }
+        else {
+            val files = File(path).listFiles()?.filterNotNull()
+            if (context == null || files == null) {
+                callback(path, items)
+                return
+            }
 
-        // send out the initial item list asap, get proper child count asynchronously as it can be slow
-        callback(path, items)
+            val isSortingBySize = context!!.config.getFolderSorting(currentPath) and SORT_BY_SIZE != 0
+            val lastModifieds = context!!.getFolderLastModifieds(path)
 
-        if (getProperChildCount) {
-            items.filter { it.mIsDirectory }.forEach {
-                if (context != null) {
-                    val childrenCount = it.getDirectChildrenCount(activity as BaseSimpleActivity, showHidden)
-                    if (childrenCount != 0) {
-                        activity?.runOnUiThread {
-                            getRecyclerAdapter()?.updateChildCount(it.mPath, childrenCount)
-                        }
+            for (file in files) {
+                val listItem = getListItemFromFile(file, isSortingBySize, lastModifieds, false)
+                if (listItem != null) {
+                    if (wantedMimeTypes.any { isProperMimeType(it, file.absolutePath, file.isDirectory) }) {
+                        items.add(listItem)
                     }
                 }
             }
         }
+
+            // send out the initial item list asap, get proper child count asynchronously as it can be slow
+            callback(path, items)
+
+            if (getProperChildCount) {
+                items.filter { it.mIsDirectory }.forEach {
+                    if (context != null) {
+                        val childrenCount = it.getDirectChildrenCount(activity as BaseSimpleActivity, showHidden)
+                        if (childrenCount != 0) {
+                            activity?.runOnUiThread {
+                                getRecyclerAdapter()?.updateChildCount(it.mPath, childrenCount)
+                            }
+                        }
+                    }
+                }
+            }
     }
 
     private fun getListItemFromFile(file: File, isSortingBySize: Boolean, lastModifieds: HashMap<String, Long>, getProperChildCount: Boolean): ListItem? {
@@ -460,7 +510,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
 
     private fun getRecyclerAdapter() = binding.itemsList.adapter as? ItemsAdapter
 
-    private fun setupLayoutManager() {
+    private fun setupLayoutManager(connectionType: ConnectionTypes) {
         if (context!!.config.getFolderViewType(currentPath) == VIEW_TYPE_GRID) {
             currentViewType = VIEW_TYPE_GRID
             setupGridLayoutManager()
@@ -471,7 +521,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
 
         binding.itemsList.adapter = null
         initZoomListener()
-        addItems(storedItems, true)
+        addItems(storedItems, true, connectionType = connectionType)
     }
 
     private fun setupGridLayoutManager() {

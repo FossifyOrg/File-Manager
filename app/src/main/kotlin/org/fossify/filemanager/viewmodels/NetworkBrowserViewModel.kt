@@ -1,8 +1,12 @@
 package org.fossify.filemanager.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.thegrizzlylabs.sardineandroid.DavResource
+import jcifs.CIFSContext
+import jcifs.Configuration
+import jcifs.config.PropertyConfiguration
+import jcifs.context.BaseContext
 import jcifs.smb.NtlmPasswordAuthenticator
 import jcifs.smb.SmbFile
 import kotlinx.coroutines.Dispatchers
@@ -13,15 +17,38 @@ import kotlinx.coroutines.launch
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryApi
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryDb
 import org.fossify.filemanager.models.NetworkConnection
+import java.io.InputStream
 
 class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkConnectionRepositoryDb, private val networkConnectionRepositoryApi: NetworkConnectionRepositoryApi): ViewModel() {
 
     val savedNetworks = MutableStateFlow<List<NetworkConnection>>(emptyList())
     val verifyNetwork = MutableSharedFlow<Boolean>()
 
+    val verifyWebDav = MutableSharedFlow<Boolean>()
+
+    val webDavFiles = MutableStateFlow<List<DavResource>>(emptyList())
     fun saveNetwork(networkConnection: NetworkConnection){
         viewModelScope.launch(Dispatchers.IO) {
             networkConnectionRepository.saveConnection(networkConnection)
+        }
+    }
+
+    fun authenticateAndSaveSMBNetwork(networkConnection: NetworkConnection){
+        viewModelScope.launch(Dispatchers.IO) {
+            val config: Configuration = PropertyConfiguration(System.getProperties())
+            val context: CIFSContext = BaseContext(config)
+            val auth = NtlmPasswordAuthenticator(
+                "",
+                networkConnection.username,
+                networkConnection.password
+            )
+            val authContext = context.withCredentials(auth)
+            val smbUrl = "smb://${networkConnection.host}/${networkConnection.sharedPath}"
+
+            val dir = SmbFile(smbUrl, authContext)
+            if (dir.exists()) {
+                saveNetwork(networkConnection)
+            }
         }
     }
 
@@ -45,4 +72,25 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
     }
 
     fun getMainSmb(): SmbFile = networkConnectionRepositoryApi.getMainSmbFile()
+
+    fun connectAndAuthenticateWebDav(userName: String = "", password: String = "", url: String){
+        viewModelScope.launch(Dispatchers.IO) {
+           val result = networkConnectionRepositoryApi.connectAndVerifyWebDav(userName, password, url)
+            verifyWebDav.emit(result)
+        }
+    }
+
+    fun listWebDavFiles(url: String){
+        viewModelScope.launch(Dispatchers.IO) {
+          webDavFiles.emit(networkConnectionRepositoryApi.listAllFilesOnWebDav(url))
+        }
+    }
+
+    fun listWebDavFileStream(url: String): InputStream{
+        return networkConnectionRepositoryApi.listWebDavFileInputStream(url)
+    }
+
+    fun listWebDavFileDetail(url: String): DavResource?{
+        return networkConnectionRepositoryApi.listWebDavFileDetail(url)
+    }
 }

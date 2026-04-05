@@ -2,34 +2,26 @@ package org.fossify.filemanager.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import jcifs.CIFSContext
-import jcifs.Configuration
-import jcifs.config.PropertyConfiguration
-import jcifs.context.BaseContext
-import jcifs.smb.NtlmPasswordAuthenticator
-import jcifs.smb.SmbFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.fossify.commons.extensions.toast
 import org.fossify.commons.extensions.viewBinding
 import org.fossify.commons.helpers.NavigationIcon
 import org.fossify.filemanager.App
 import org.fossify.filemanager.adapters.ConnectionItemsAdapter
-import org.fossify.filemanager.adapters.DecompressItemsAdapter
 import org.fossify.filemanager.databinding.CloudActivityBinding
 import org.fossify.filemanager.dialogs.ConnectionDialog
 import org.fossify.filemanager.enums.ConnectionTypes
 import org.fossify.filemanager.fileSystems.HttpServer
-import org.fossify.filemanager.helpers.NETWORK_PATH
+import org.fossify.filemanager.helpers.CONNECTION_TYPE
 import org.fossify.filemanager.helpers.PATH
-import org.fossify.filemanager.models.ListItem
+import org.fossify.filemanager.helpers.PORT_WEBDAV
 import org.fossify.filemanager.models.NetworkConnection
 import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
 
@@ -54,16 +46,44 @@ class CloudActivity : SimpleActivity() {
         getAllSavedNetworks()
     }
 
+    private val openDocumentTreeLauncher =
+        registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+            uri?.let {
+                contentResolver.takePersistableUriPermission(
+                    it,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                )
+
+                val storage = DocumentFile.fromTreeUri(this, it)
+                storage?.let { s ->
+                    if (s.name != null && it.path != null) {
+                        viewModel.saveNetwork(
+                            NetworkConnection(
+                                displayName = s.name!!,
+                                sharedPath = s.uri.toString(),
+                                connectionType = ConnectionTypes.ExternalStorage.toString()
+                            )
+                        )
+                    }
+                }
+            }
+        }
+
+    fun promptUserToSelectStorage() {
+        openDocumentTreeLauncher.launch(null)
+    }
 
     private fun setupToolBar() {
         setupTopAppBar(binding.cloudAppbar, NavigationIcon.Arrow)
     }
 
     private fun showConnectionDialog() {
-        ConnectionDialog(this@CloudActivity) { host, user, password, shared, displayName ->
-            listFiles(host, user, password, shared, displayName)
+        ConnectionDialog(this@CloudActivity) { host, user, password, shared, displayName,port, connection ->
+            saveNetwork(host, user, password, shared, displayName,port, connection)
         }
     }
+
 
     private fun registerAddConnectionListener() {
         binding.addButton.setOnClickListener {
@@ -71,43 +91,40 @@ class CloudActivity : SimpleActivity() {
         }
     }
 
-    private fun listFiles(host: String, user: String, password: String, shared: String, displayName: String) {
+    private fun saveNetwork(host: String, user: String, password: String, shared: String, displayName: String,port: Int, connectionType: ConnectionTypes) {
         CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val config: Configuration = PropertyConfiguration(System.getProperties())
-                val context: CIFSContext = BaseContext(config)
-                val auth = NtlmPasswordAuthenticator(
-                    "",
-                    user,
-                    password
-                )
-                val authContext = context.withCredentials(auth)
-                val smbUrl = "smb://$host/$shared"
-
-                val dir = SmbFile(smbUrl, authContext)
-                Log.d("Display Name", displayName)
-                if (dir.exists())
-                    viewModel.saveNetwork(
-                        NetworkConnection(
-                            host = host,
-                            username = user,
-                            password = password,
-                            sharedPath = shared,
-                            connectionType = ConnectionTypes.SMB.type,
-                            displayName = displayName
-                        )
+            if (connectionType == ConnectionTypes.SMB) {
+                viewModel.authenticateAndSaveSMBNetwork(
+                    NetworkConnection(
+                        host = host,
+                        username = user,
+                        password = password,
+                        sharedPath = shared,
+                        connectionType = connectionType.toString(),
+                        displayName = displayName
                     )
-                val files = dir.listFiles()
-
-                for (file in files) {
-                    Log.d("Loading Files", file.name)
-                }
-
-            } catch (e: Exception) {
-                Log.e("File Load Failed", e.toString())
-                toast(e.message.toString(), Toast.LENGTH_LONG)
+                )
             }
-
+            if (connectionType == ConnectionTypes.WebDav) {
+                val url = "http://${host}:8090/${shared}"
+                viewModel.connectAndAuthenticateWebDav(user, password, url)
+                viewModel.verifyWebDav.collectLatest {
+                    if (it) {
+                        viewModel.saveNetwork(
+                            NetworkConnection(
+                                host = host,
+                                username = user,
+                                password = password,
+                                sharedPath = shared,
+                                connectionType = connectionType.toString(),
+                                displayName = displayName,
+                                url = url,
+                                port = port
+                            )
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -127,18 +144,34 @@ class CloudActivity : SimpleActivity() {
 
     private fun updateAdapter(listItems: MutableList<NetworkConnection>) {
         ConnectionItemsAdapter(this, listItems, binding.connectionsList) { item ->
-            viewModel.verifyNetwork(item as NetworkConnection)
-            lifecycleScope.launch {
-                viewModel.verifyNetwork.collectLatest { value ->
-                    if (value) {
-                        val path = "${item.host.trimEnd('/')}/${item.sharedPath.trimStart('/')}"
-                        startServer(item)
-                        startActivity(Intent(this@CloudActivity, MainActivity::class.java).apply {
-                            putExtra(PATH, path)
-                            putExtra(NETWORK_PATH, true)
-                        })
-                    } else {
-                        Toast.makeText(this@CloudActivity, "Connection failed", Toast.LENGTH_SHORT).show()
+            val itm = item as NetworkConnection
+            if (itm.connectionType == ConnectionTypes.SMB.type) {
+                viewModel.verifyNetwork(itm)
+                lifecycleScope.launch {
+                    viewModel.verifyNetwork.collectLatest { value ->
+                        if (value) {
+                            val path = "${item.host.trimEnd('/')}/${item.sharedPath.trimStart('/')}"
+                            startServer(item, connectionType = ConnectionTypes.SMB, machinePort = itm.port)
+                            launchMainActivity(ConnectionTypes.SMB, path)
+                        } else {
+                            Toast.makeText(this@CloudActivity, "Connection failed", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            } else if (itm.connectionType == ConnectionTypes.ExternalStorage.type) {
+                launchMainActivity(ConnectionTypes.ExternalStorage, itm.sharedPath)
+            } else if (itm.connectionType == ConnectionTypes.WebDav.type) {
+                itm.username?.let { username ->
+                    itm.password?.let { password ->
+                        viewModel.connectAndAuthenticateWebDav(username, password, itm.url)
+                        lifecycleScope.launch {
+                            viewModel.verifyWebDav.collectLatest {
+                                if (it) {
+                                    startServer(item, PORT_WEBDAV, connectionType = ConnectionTypes.WebDav, machinePort = itm.port)
+                                    launchMainActivity(ConnectionTypes.WebDav, itm.url)
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -148,8 +181,15 @@ class CloudActivity : SimpleActivity() {
         }
     }
 
-    private fun startServer(connection:NetworkConnection){
-        val https = HttpServer(7871,connection.host)
+    private fun launchMainActivity(connectionType: ConnectionTypes, path: String) {
+        startActivity(Intent(this@CloudActivity, MainActivity::class.java).apply {
+            putExtra(PATH, path)
+            putExtra(CONNECTION_TYPE, connectionType)
+        })
+    }
+
+    private fun startServer(connection: NetworkConnection, port: Int = 7871,connectionType: ConnectionTypes,machinePort: Int) {
+        val https = HttpServer(port, connection.host,connectionType,viewModel,machinePort)
         https.start()
     }
 }

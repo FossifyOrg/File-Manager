@@ -11,5 +11,6 @@ data class NetworkConnectionEntity(
     val password: String?,
     val displayName: String,
     val connectionType: String,
-    val sharedPath: String
+    val sharedPath: String,
+    val url: String
 )

@@ -152,4 +152,4 @@ dependencies {
     implementation (libs.androidx.room.ktx)
     //noinspection UseTomlInstead
     implementation("org.nanohttpd:nanohttpd:2.3.1")
-}
+    implementation("com.github.thegrizzlylabs:sardine-android:0.9")}

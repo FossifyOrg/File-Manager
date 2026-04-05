@@ -8,6 +8,11 @@ import org.fossify.filemanager.models.ListItem
 
 const val MAX_COLUMN_COUNT = 15
 
+//Ports
+
+const val PORT_SMB = 7871
+const val PORT_WEBDAV = 7890
+
 // shared preferences
 const val SHOW_HIDDEN = "show_hidden"
 const val PRESS_BACK_TWICE = "press_back_twice"
@@ -48,6 +53,7 @@ const val PATH = "path"
 
 const val NETWORK_PATH = "network_path"
 
+const val CONNECTION_TYPE = "connection_type"
 
 // what else should we count as an audio except "audio/*" mimetype
 val extraAudioMimeTypes = arrayListOf("application/ogg")
