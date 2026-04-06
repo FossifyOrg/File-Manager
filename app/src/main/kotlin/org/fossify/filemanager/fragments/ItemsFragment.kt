@@ -142,7 +142,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             }
 
             FileDirItem.sorting = context!!.config.getFolderSorting(currentPath)
-            if(isNetworkPath){
+            if(connectionType != ConnectionTypes.Default){
                 listItems.forEach {
                     it.parent = originalPath.substringAfter('/')
                 }

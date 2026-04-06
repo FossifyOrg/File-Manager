@@ -70,9 +70,10 @@ class NetworkConnectionRepositoryApiImpl: NetworkConnectionRepositoryApi {
         return resources
     }
 
-    override fun listWebDavFileInputStream(url: String): InputStream {
-        val inputStream = sardine.get(url)
-        return inputStream
+    override fun listWebDavFileInputStream(url: String,start: Long,end: Long): InputStream {
+        val rangeHeader = "bytes=$start-$end"
+        val headers = mapOf("Range" to rangeHeader)
+        return sardine.get(url, headers)
     }
 
     override fun listWebDavFileDetail(url: String): DavResource? {

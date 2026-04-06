@@ -16,7 +16,7 @@ interface NetworkConnectionRepositoryApi {
 
     suspend fun listAllFilesOnWebDav(url: String): List<DavResource>
 
-    fun listWebDavFileInputStream(url: String): InputStream
+    fun listWebDavFileInputStream(url: String,start: Long,end: Long): InputStream
 
     fun listWebDavFileDetail(url: String): DavResource?
 }

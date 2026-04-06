@@ -86,8 +86,8 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
         }
     }
 
-    fun listWebDavFileStream(url: String): InputStream{
-        return networkConnectionRepositoryApi.listWebDavFileInputStream(url)
+    fun listWebDavFileStream(url: String,start: Long,end: Long): InputStream{
+        return networkConnectionRepositoryApi.listWebDavFileInputStream(url,start,end)
     }
 
     fun listWebDavFileDetail(url: String): DavResource?{

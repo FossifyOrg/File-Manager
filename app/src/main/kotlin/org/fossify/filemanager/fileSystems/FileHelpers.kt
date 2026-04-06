@@ -40,7 +40,7 @@ object FileHelpers {
         try {
             CoroutineScope(Dispatchers.IO).launch {
                 val port = Helpers.getPortForEachService(connectionTypes)
-                val uri = Helpers.createUrl(connectionTypes, item.mPath, item.parent,port).toUri()
+                val uri = Helpers.createUrl(connectionTypes, item.mPath, port = port).toUri()
                 val i =
                     Intent(Intent.ACTION_VIEW)
                 i.setDataAndType(uri, MimeTypes.getMimeTypes(item.mPath))

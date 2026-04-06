@@ -1,6 +1,5 @@
 package org.fossify.filemanager.fileSystems
 
-import com.thegrizzlylabs.sardineandroid.DavResource
 import fi.iki.elonen.NanoHTTPD
 
 import jcifs.smb.SmbFile
@@ -9,14 +8,19 @@ import org.fossify.filemanager.enums.ConnectionTypes
 import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
 
-class HttpServer(private val port: Int, private val serverIp: String, private val connectionTypes: ConnectionTypes, private val viewModel: NetworkBrowserViewModel, private val machinePort: Int) :
+class HttpServer(
+    private val port: Int,
+    private val serverIp: String,
+    private val connectionTypes: ConnectionTypes,
+    private val viewModel: NetworkBrowserViewModel,
+    private val machinePort: Int
+) :
     NanoHTTPD(port) {
-    private lateinit var webDavFile: DavResource
     override fun serve(session: IHTTPSession): Response {
         val uri = session.uri
         val rangeHeader = session.headers["range"]
         if (connectionTypes.equals(ConnectionTypes.SMB)) {
-            val smbUrl = "smb://${serverIp}${uri}"
+            val smbUrl = "smb://${serverIp}/${uri}"
             val file = SmbFile(smbUrl)
             if (!file.exists()) {
                 return newFixedLengthResponse(Response.Status.NOT_FOUND, "text/plain", "File not found")
@@ -24,19 +28,10 @@ class HttpServer(private val port: Int, private val serverIp: String, private va
             return handleRangeRequest(file, rangeHeader, file.length())
         }
         val url = Helpers.createUrl(connectionTypes, server = serverIp, path = uri.toString(), port = machinePort)
-        cacheFileDetail(url)
-
-        return handleRangeRequestWebDav(rangeHeader, webDavFile.contentLength, uri = uri)
+        val webDavFile = viewModel.listWebDavFileDetail(url)
+        return handleRangeRequestWebDav(rangeHeader, webDavFile?.contentLength!!, uri = uri,webDavFile.contentType)
     }
 
-    private fun cacheFileDetail(uri: String){
-        if(!::webDavFile.isInitialized && connectionTypes.equals(ConnectionTypes.WebDav)){
-            val data =  viewModel.listWebDavFileDetail(uri)
-            data?.let {
-                webDavFile = it
-            }
-        }
-    }
 
     private fun handleRangeRequest(
         file: SmbFile,
@@ -84,7 +79,7 @@ class HttpServer(private val port: Int, private val serverIp: String, private va
     }
 
 
-    private fun handleRangeRequestWebDav(rangeHeader: String?, fileLength: Long, uri: String):Response {
+    private fun handleRangeRequestWebDav(rangeHeader: String?, fileLength: Long, uri: String, contentType: String): Response {
         var start: Long = 0
         var end = fileLength - 1
         val url = Helpers.createUrl(connectionTypes, server = serverIp, path = uri, port = machinePort)
@@ -96,24 +91,17 @@ class HttpServer(private val port: Int, private val serverIp: String, private va
             } catch (e: NumberFormatException) {
             }
         }
-
         if (start >= fileLength) {
             return newFixedLengthResponse(Response.Status.RANGE_NOT_SATISFIABLE, "text/plain", "")
         }
 
         val contentLength = end - start + 1
 
-        val inputStream = viewModel.listWebDavFileStream(url =url  )
-        var remaining = start
-        while (remaining > 0) {
-            val skipped = inputStream.skip(remaining)
-            if (skipped <= 0) break
-            remaining -= skipped
-        }
+        val inputStream = viewModel.listWebDavFileStream(url = url,start,end)
 
         return newFixedLengthResponse(
             Response.Status.PARTIAL_CONTENT,
-            MimeTypes.getMimeTypes(webDavFile?.contentType),
+            MimeTypes.getMimeTypes(contentType),
             inputStream,
             contentLength
         ).apply {
