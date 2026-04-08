@@ -1,5 +1,7 @@
 package org.fossify.filemanager.interfaces
 
+import com.jcraft.jsch.ChannelSftp
+import com.jcraft.jsch.SftpATTRS
 import com.thegrizzlylabs.sardineandroid.DavResource
 import jcifs.smb.SmbFile
 import org.fossify.filemanager.models.NetworkConnection
@@ -19,4 +21,14 @@ interface NetworkConnectionRepositoryApi {
     fun listWebDavFileInputStream(url: String,start: Long,end: Long): InputStream
 
     fun listWebDavFileDetail(url: String): DavResource?
+
+    suspend fun connectToSftp(userName: String, password: String,server: String,port: Int): Boolean
+
+    suspend fun listAllSFTPFiles(path: String):MutableList<ChannelSftp.LsEntry>
+
+    fun listSFTPFileDetails(path: String): SftpATTRS?
+
+    fun listSFTPFileInputStream(url: String): InputStream
+
+    fun getSFTPConn(): ChannelSftp
 }

@@ -13,6 +13,8 @@ const val MAX_COLUMN_COUNT = 15
 const val PORT_SMB = 7871
 const val PORT_WEBDAV = 7890
 
+const val PORT_SFTP = 7860
+
 // shared preferences
 const val SHOW_HIDDEN = "show_hidden"
 const val PRESS_BACK_TWICE = "press_back_twice"

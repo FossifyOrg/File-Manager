@@ -2,6 +2,7 @@ package org.fossify.filemanager.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.documentfile.provider.DocumentFile
@@ -21,6 +22,7 @@ import org.fossify.filemanager.enums.ConnectionTypes
 import org.fossify.filemanager.fileSystems.HttpServer
 import org.fossify.filemanager.helpers.CONNECTION_TYPE
 import org.fossify.filemanager.helpers.PATH
+import org.fossify.filemanager.helpers.PORT_SFTP
 import org.fossify.filemanager.helpers.PORT_WEBDAV
 import org.fossify.filemanager.models.NetworkConnection
 import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
@@ -79,8 +81,8 @@ class CloudActivity : SimpleActivity() {
     }
 
     private fun showConnectionDialog() {
-        ConnectionDialog(this@CloudActivity) { host, user, password, shared, displayName,port, connection ->
-            saveNetwork(host, user, password, shared, displayName,port, connection)
+        ConnectionDialog(this@CloudActivity) { host, user, password, shared, displayName, port, connection ->
+            saveNetwork(host, user, password, shared, displayName, port, connection)
         }
     }
 
@@ -91,8 +93,8 @@ class CloudActivity : SimpleActivity() {
         }
     }
 
-    private fun saveNetwork(host: String, user: String, password: String, shared: String, displayName: String,port: Int, connectionType: ConnectionTypes) {
-        CoroutineScope(Dispatchers.IO).launch {
+    private fun saveNetwork(host: String, user: String, password: String, shared: String, displayName: String, port: Int, connectionType: ConnectionTypes) {
+        lifecycleScope.launch((Dispatchers.IO)) {
             if (connectionType == ConnectionTypes.SMB) {
                 viewModel.authenticateAndSaveSMBNetwork(
                     NetworkConnection(
@@ -106,7 +108,7 @@ class CloudActivity : SimpleActivity() {
                 )
             }
             if (connectionType == ConnectionTypes.WebDav) {
-                val url = "http://${host}:8090/${shared}"
+                val url = "http://${host}:${port}/${shared}"
                 viewModel.connectAndAuthenticateWebDav(user, password, url)
                 viewModel.verifyWebDav.collectLatest {
                     if (it) {
@@ -121,6 +123,17 @@ class CloudActivity : SimpleActivity() {
                                 url = url,
                                 port = port
                             )
+                        )
+                    }
+                }
+            }
+
+            if (connectionType == ConnectionTypes.SFTP) {
+                viewModel.connectSFTP(user, password, host, port)
+                viewModel.verifySFTP.collectLatest {
+                    if (it) {
+                        viewModel.saveNetwork(
+                            NetworkConnection(host = host, username = user, password = password, connectionType = connectionType.toString(), port = port, displayName = displayName, url = viewModel.getSFTPConn().pwd())
                         )
                     }
                 }
@@ -174,6 +187,21 @@ class CloudActivity : SimpleActivity() {
                         }
                     }
                 }
+            } else if (item.connectionType == ConnectionTypes.SFTP.type) {
+                itm.username?.let { username ->
+                    itm.password?.let { password ->
+                        viewModel.connectSFTP(username, password, itm.host, itm.port)
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            viewModel.verifySFTP.collectLatest {
+                                if(it){
+                                    startServer(item, PORT_SFTP, connectionType = ConnectionTypes.SFTP, machinePort = itm.port)
+                                    launchMainActivity(ConnectionTypes.SFTP,itm.url)
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
 
         }.apply {
@@ -188,8 +216,8 @@ class CloudActivity : SimpleActivity() {
         })
     }
 
-    private fun startServer(connection: NetworkConnection, port: Int = 7871,connectionType: ConnectionTypes,machinePort: Int) {
-        val https = HttpServer(port, connection.host,connectionType,viewModel,machinePort)
+    private fun startServer(connection: NetworkConnection, port: Int = 7871, connectionType: ConnectionTypes, machinePort: Int) {
+        val https = HttpServer(port, connection.host, connectionType, viewModel, machinePort)
         https.start()
     }
 }

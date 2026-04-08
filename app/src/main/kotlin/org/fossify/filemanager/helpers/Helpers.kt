@@ -6,12 +6,12 @@ import java.nio.file.Path
 
 object Helpers {
     val host: String = "127.0.0.1"
-    fun createUrl(connectionTypes: ConnectionTypes, path: String, server: String = "", port: Int): String{
+    fun createUrl(connectionTypes: ConnectionTypes, path: String = "", server: String = "", port: Int): String{
         var protocol = Protocols.HTTP.toString().lowercase()
         if(connectionTypes.equals(ConnectionTypes.WebDav)){
             protocol = Protocols.HTTP.toString().lowercase()
         }
-        if(connectionTypes.equals(ConnectionTypes.SMB)){
+        else if(connectionTypes.equals(ConnectionTypes.SMB)){
             protocol = Protocols.SMB.toString().lowercase()
         }
         val url = "${protocol}://${if (server.isEmpty()) host else server }:${port}/${path}"
@@ -24,6 +24,9 @@ object Helpers {
         }
         else if(connectionTypes.equals(ConnectionTypes.SMB)){
             return PORT_SMB
+        }
+        else if(connectionTypes.equals(ConnectionTypes.SFTP)){
+            return PORT_SFTP
         }
         return PORT_SMB
     }

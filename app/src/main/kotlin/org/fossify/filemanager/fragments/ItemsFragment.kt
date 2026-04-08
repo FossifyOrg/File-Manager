@@ -195,6 +195,12 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                         FileHelpers.launchWebDav(connectionType, context = this@ItemsFragment.context, item = item)
                     }
                 }
+
+                else if(connectionType == ConnectionTypes.SFTP){
+                    (it as? ListItem)?.let { item ->
+                        FileHelpers.launchSFTP(connectionType, context = this@ItemsFragment.context, item = item)
+                    }
+                }
                 else if ((it as? ListItem)?.isSectionTitle == true) {
                     openDirectory(it.mPath)
                     searchClosed()
@@ -238,6 +244,19 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                                 val items = fileItems.map { it -> it.toFileItem() }
                                 callback(path, getListItemsFromFileDirItems(ArrayList(items.toList())))
                             }
+                        }
+                    }
+                }
+
+                else if (connectionType.equals(ConnectionTypes.SFTP)){
+                    CoroutineScope(Dispatchers.IO).launch {
+                        viewModel.listAllSFTPFile(path)
+                            viewModel.sftpFiles.collectLatest {
+                                if(it.isNotEmpty()) {
+                                    val fileItems = it
+                                    val items = fileItems.map { it -> it.toFileItem(path) }
+                                    callback(path, getListItemsFromFileDirItems(ArrayList(items.toList())))
+                                }
                         }
                     }
                 }

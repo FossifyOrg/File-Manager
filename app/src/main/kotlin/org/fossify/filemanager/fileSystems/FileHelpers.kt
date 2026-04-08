@@ -45,7 +45,27 @@ object FileHelpers {
                     Intent(Intent.ACTION_VIEW)
                 i.setDataAndType(uri, MimeTypes.getMimeTypes(item.mPath))
 
-                Log.d("MimeType",MimeTypes.getMimeTypes(item.mPath).toString())
+                val packageManager: PackageManager = context.packageManager
+                val resInfos = packageManager.queryIntentActivities(i, 0)
+                if (resInfos.size > 0) {
+                    context.startActivity(i)
+                }
+            }
+        }
+        catch (exp: Exception){
+            Log.e("Activity Launch Failed", exp.toString())
+        }
+    }
+
+    fun launchSFTP(connectionTypes: ConnectionTypes,item: ListItem,context: Context){
+        try{
+            CoroutineScope(Dispatchers.IO).launch {
+                val port = Helpers.getPortForEachService(connectionTypes)
+                val uri = Helpers.createUrl(connectionTypes, item.mPath, port = port).toUri()
+                val i =
+                    Intent(Intent.ACTION_VIEW)
+                i.setDataAndType(uri, MimeTypes.getMimeTypes(item.mPath))
+
                 val packageManager: PackageManager = context.packageManager
                 val resInfos = packageManager.queryIntentActivities(i, 0)
                 if (resInfos.size > 0) {

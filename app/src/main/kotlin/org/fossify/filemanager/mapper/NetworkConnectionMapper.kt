@@ -1,6 +1,7 @@
 package org.fossify.filemanager.mapper
 
 import android.util.Log
+import com.jcraft.jsch.ChannelSftp
 import com.thegrizzlylabs.sardineandroid.DavResource
 import jcifs.smb.SmbFile
 import org.fossify.commons.models.FileDirItem
@@ -52,6 +53,22 @@ fun DavResource.toFileItem(): FileDirItem {
         isDirectory = this.isDirectory,
         size = if (!this.isDirectory) (this.contentLength ?: 0L) else 0L,
         modified = this.modified?.time ?: 0L,
+        children = 0,
+        mediaStoreId = 0L
+    )
+}
+
+
+fun ChannelSftp.LsEntry.toFileItem(parentPath: String): FileDirItem {
+    val attrs = this.attrs
+    val cleanParent = parentPath.trimEnd('/')
+
+    return FileDirItem(
+        path = "$cleanParent/${this.filename}",
+        name = this.filename.trimEnd('/'),
+        isDirectory = attrs.isDir,
+        size = if (!attrs.isDir) attrs.size else 0L,
+        modified = attrs.mTime.toLong() * 1000L,
         children = 0,
         mediaStoreId = 0L
     )

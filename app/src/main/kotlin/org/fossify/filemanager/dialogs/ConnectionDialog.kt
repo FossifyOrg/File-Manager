@@ -16,7 +16,7 @@ import org.fossify.filemanager.enums.ConnectionTypes
 
 class ConnectionDialog(val activity: BaseSimpleActivity, dispatch: (String, String, String, String, String, Int, ConnectionTypes) -> Unit) {
     private var binding: DialogAddConnectionBinding
-    val items = listOf(ConnectionTypes.ExternalStorage.type, ConnectionTypes.SMB.type, ConnectionTypes.WebDav.type, ConnectionTypes.SFTP.type)
+    val items = listOf(ConnectionTypes.ExternalStorage.type, ConnectionTypes.SMB.type, ConnectionTypes.WebDav.type, ConnectionTypes.SFTP.type, ConnectionTypes.SFTP.type)
 
     init {
         binding = DialogAddConnectionBinding.inflate(activity.layoutInflater)
