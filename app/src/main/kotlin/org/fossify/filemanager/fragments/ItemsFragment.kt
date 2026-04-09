@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.fossify.commons.activities.BaseSimpleActivity
 import org.fossify.commons.dialogs.StoragePickerDialog
+import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.extensions.*
 import org.fossify.commons.helpers.*
 import org.fossify.commons.models.FileDirItem
@@ -27,7 +28,6 @@ import org.fossify.filemanager.activities.SimpleActivity
 import org.fossify.filemanager.adapters.ItemsAdapter
 import org.fossify.filemanager.databinding.ItemsFragmentBinding
 import org.fossify.filemanager.dialogs.CreateNewItemDialog
-import org.fossify.filemanager.enums.ConnectionTypes
 import org.fossify.filemanager.extensions.config
 import org.fossify.filemanager.extensions.isPathOnRoot
 import org.fossify.filemanager.fileSystems.FileHelpers
@@ -122,7 +122,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         getRecyclerAdapter()?.finishActMode()
     }
 
-    fun openPath(path: String, forceRefresh: Boolean = false, isNetworkPath: Boolean = false, connectionType: ConnectionTypes = ConnectionTypes.Default) {
+    fun openPath(path: String, forceRefresh: Boolean = false, isNetworkPath: Boolean = false, connectionType: ConnectionTypes =  ConnectionTypes.Default) {
         if ((activity as? BaseSimpleActivity)?.isAskingPermissions == true) {
             return
         }
@@ -174,14 +174,14 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
     private fun addItems(items: ArrayList<ListItem>, forceRefresh: Boolean = false, isNetworkPath: Boolean = false, connectionType: ConnectionTypes) {
         activity?.runOnUiThread {
             binding.itemsSwipeRefresh.isRefreshing = false
-            binding.breadcrumbs.setBreadcrumb(currentPath)
+            binding.breadcrumbs.setBreadcrumb(currentPath,connectionType)
             if (!forceRefresh && items.hashCode() == storedItems.hashCode()) {
                 return@runOnUiThread
             }
 
             storedItems = items
             if (binding.itemsList.adapter == null) {
-                binding.breadcrumbs.updateFontSize(context!!.getTextSize(), true)
+                binding.breadcrumbs.updateFontSize(context!!.getTextSize(), true,connectionType)
             }
 
             ItemsAdapter(activity as SimpleActivity, storedItems, this, binding.itemsList, isPickMultipleIntent, binding.itemsSwipeRefresh) {
@@ -631,7 +631,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             }
         } else {
             val item = binding.breadcrumbs.getItem(id)
-            openPath(item.path)
+            openPath(item.path, connectionType = item.connectionType)
         }
     }
 

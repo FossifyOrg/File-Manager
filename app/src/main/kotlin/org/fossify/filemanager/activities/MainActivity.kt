@@ -14,6 +14,7 @@ import androidx.viewpager.widget.ViewPager
 import com.stericson.RootTools.RootTools
 import me.grantland.widget.AutofitHelper
 import org.fossify.commons.dialogs.RadioGroupDialog
+import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.extensions.appLaunched
 import org.fossify.commons.extensions.appLockManager
 import org.fossify.commons.extensions.beGoneIf
@@ -63,7 +64,6 @@ import org.fossify.filemanager.databinding.ActivityMainBinding
 import org.fossify.filemanager.dialogs.ChangeSortingDialog
 import org.fossify.filemanager.dialogs.ChangeViewTypeDialog
 import org.fossify.filemanager.dialogs.InsertFilenameDialog
-import org.fossify.filemanager.enums.ConnectionTypes
 import org.fossify.filemanager.extensions.config
 import org.fossify.filemanager.extensions.tryOpenPathIntent
 import org.fossify.filemanager.fragments.ItemsFragment

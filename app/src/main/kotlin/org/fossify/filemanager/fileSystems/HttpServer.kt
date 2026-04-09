@@ -4,7 +4,7 @@ import fi.iki.elonen.NanoHTTPD
 
 import jcifs.smb.SmbFile
 import jcifs.smb.SmbFileInputStream
-import org.fossify.filemanager.enums.ConnectionTypes
+import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
 

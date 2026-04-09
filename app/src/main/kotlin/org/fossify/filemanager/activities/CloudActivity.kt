@@ -12,13 +12,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.extensions.viewBinding
 import org.fossify.commons.helpers.NavigationIcon
 import org.fossify.filemanager.App
 import org.fossify.filemanager.adapters.ConnectionItemsAdapter
 import org.fossify.filemanager.databinding.CloudActivityBinding
 import org.fossify.filemanager.dialogs.ConnectionDialog
-import org.fossify.filemanager.enums.ConnectionTypes
 import org.fossify.filemanager.fileSystems.HttpServer
 import org.fossify.filemanager.helpers.CONNECTION_TYPE
 import org.fossify.filemanager.helpers.PATH

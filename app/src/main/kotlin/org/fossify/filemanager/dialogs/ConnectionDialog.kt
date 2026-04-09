@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import org.fossify.commons.activities.BaseSimpleActivity
+import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.extensions.getAlertDialogBuilder
 import org.fossify.commons.extensions.setupDialogStuff
 import org.fossify.commons.extensions.value
@@ -12,7 +13,6 @@ import org.fossify.filemanager.R
 import org.fossify.filemanager.activities.CloudActivity
 import org.fossify.filemanager.databinding.DialogAddConnectionBinding
 import org.fossify.filemanager.databinding.DialogChangeViewTypeBinding
-import org.fossify.filemanager.enums.ConnectionTypes
 
 class ConnectionDialog(val activity: BaseSimpleActivity, dispatch: (String, String, String, String, String, Int, ConnectionTypes) -> Unit) {
     private var binding: DialogAddConnectionBinding

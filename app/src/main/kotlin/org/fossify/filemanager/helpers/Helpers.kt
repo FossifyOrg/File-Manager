@@ -1,6 +1,6 @@
 package org.fossify.filemanager.helpers
 
-import org.fossify.filemanager.enums.ConnectionTypes
+import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.enums.Protocols
 import java.nio.file.Path
 

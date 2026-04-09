@@ -11,7 +11,7 @@ import jcifs.smb.SmbFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.fossify.filemanager.enums.ConnectionTypes
+import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.models.ListItem
 import java.io.File
