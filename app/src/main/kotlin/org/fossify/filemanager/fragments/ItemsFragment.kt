@@ -260,6 +260,19 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                         }
                     }
                 }
+
+                else if (connectionType.equals(ConnectionTypes.FTP)){
+                    CoroutineScope(Dispatchers.IO).launch {
+                        viewModel.listAllFTPFiles(path)
+                        viewModel.ftpFiles.collectLatest {
+                            if(it.isNotEmpty()) {
+                                val fileItems = it
+                                val items = fileItems.map { it -> it.toFileItem(path) }
+                                callback(path, getListItemsFromFileDirItems(ArrayList(items.toList())))
+                            }
+                        }
+                    }
+                }
                 else if (context.isRestrictedSAFOnlyRoot(path)) {
                     activity?.runOnUiThread { hideProgressBar() }
                     activity?.handleAndroidSAFDialog(path, openInSystemAppAllowed = true) {

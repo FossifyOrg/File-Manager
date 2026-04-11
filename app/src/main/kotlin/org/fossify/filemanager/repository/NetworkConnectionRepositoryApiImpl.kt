@@ -19,6 +19,8 @@ import org.fossify.filemanager.models.NetworkConnection
 import java.io.InputStream
 import java.util.Properties
 import net.schmizz.sshj.sftp.RemoteResourceInfo
+import org.apache.commons.net.ftp.FTPClient
+import org.apache.commons.net.ftp.FTPFile
 
 class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
     lateinit var dir: SmbFile
@@ -26,6 +28,8 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
     private val sftpLock = Any()
     private lateinit var ssh: SSHClient
     private lateinit var sftp: SFTPClient
+
+    private lateinit var ftp: FTPClient
     private val defaultProperties: Properties =
         Properties().apply {
             setProperty("jcifs.resolveOrder", "BCAST")
@@ -138,5 +142,29 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
     }
 
     override fun getSFTPConn() = sftp
+
+    override suspend fun connectToFTP(userName: String, password: String, server: String, port: Int): Boolean {
+        try {
+            ftp = FTPClient()
+            ftp.connect(server, port)
+            val loginSuccess = ftp.login(userName, password)
+            if (!loginSuccess) {
+                return false
+            }
+            ftp.enterLocalPassiveMode()
+            return true
+        }
+        catch (exp: Exception){
+            return false
+        }
+    }
+
+    override suspend fun listAllFTPFiles(path: String): List<FTPFile> {
+        ftp.changeWorkingDirectory(path)
+        val files: Array<FTPFile> = ftp.listFiles()
+        return files.toList()
+    }
+
+    override fun getFTPConn(): FTPClient = ftp
 
 }

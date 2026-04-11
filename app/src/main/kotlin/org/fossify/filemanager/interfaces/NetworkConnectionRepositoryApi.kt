@@ -6,6 +6,8 @@ import jcifs.smb.SmbFile
 import net.schmizz.sshj.sftp.FileAttributes
 import net.schmizz.sshj.sftp.RemoteResourceInfo
 import net.schmizz.sshj.sftp.SFTPClient
+import org.apache.commons.net.ftp.FTPClient
+import org.apache.commons.net.ftp.FTPFile
 import org.fossify.filemanager.models.NetworkConnection
 import java.io.InputStream
 
@@ -35,4 +37,10 @@ interface NetworkConnectionRepositoryApi {
     fun listSFTPFileInputStream(url: String,startByte: Long): InputStream
 
     fun getSFTPConn(): SFTPClient
+
+    suspend fun connectToFTP(userName: String, password: String,server: String,port: Int): Boolean
+
+    suspend fun listAllFTPFiles(path: String): List<FTPFile>
+
+    fun getFTPConn(): FTPClient
 }

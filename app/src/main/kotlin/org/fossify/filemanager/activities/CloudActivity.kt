@@ -26,6 +26,7 @@ import org.fossify.filemanager.models.NetworkConnection
 import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
 import java.security.Security
 import org.bouncycastle.jce.provider.BouncyCastleProvider
+import org.fossify.filemanager.helpers.PORT_FTP
 import java.security.Provider
 
 
@@ -120,7 +121,7 @@ class CloudActivity : SimpleActivity() {
                     )
                 )
             }
-            if (connectionType == ConnectionTypes.WebDav) {
+            else if (connectionType == ConnectionTypes.WebDav) {
                 val url = "http://${host}:${port}/${shared}"
                 viewModel.connectAndAuthenticateWebDav(user, password, url)
                 viewModel.verifyWebDav.collectLatest {
@@ -141,12 +142,22 @@ class CloudActivity : SimpleActivity() {
                 }
             }
 
-            if (connectionType == ConnectionTypes.SFTP) {
+            else if (connectionType == ConnectionTypes.SFTP) {
                 viewModel.connectSFTP(user, password, host, port)
                 viewModel.verifySFTP.collectLatest {
                     if (it) {
                         viewModel.saveNetwork(
                             NetworkConnection(host = host, username = user, password = password, connectionType = connectionType.toString(), port = port, displayName = displayName, url = viewModel.getSFTPConn().canonicalize("."))
+                        )
+                    }
+                }
+            }
+            else if (connectionType == ConnectionTypes.FTP) {
+                viewModel.connectFTP(user, password, host, port)
+                viewModel.verifyFTP.collectLatest {
+                    if (it) {
+                        viewModel.saveNetwork(
+                            NetworkConnection(host = host, username = user, password = password, connectionType = connectionType.toString(), port = port, displayName = displayName, url = viewModel.getFTP().printWorkingDirectory())
                         )
                     }
                 }
@@ -215,6 +226,22 @@ class CloudActivity : SimpleActivity() {
                     }
                 }
 
+            }
+
+            else if (item.connectionType == ConnectionTypes.FTP.type){
+                itm.username?.let { username ->
+                    itm.password?.let { password ->
+                        viewModel.connectFTP(username,password,itm.host,itm.port)
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            viewModel.verifyFTP.collectLatest {
+                                if(it){
+                                    startServer(item,PORT_FTP, connectionType = ConnectionTypes.FTP, machinePort = itm.port)
+                                    launchMainActivity(ConnectionTypes.FTP,itm.url)
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
         }.apply {

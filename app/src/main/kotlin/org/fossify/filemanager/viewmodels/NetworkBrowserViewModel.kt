@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import net.schmizz.sshj.sftp.FileAttributes
 import net.schmizz.sshj.sftp.RemoteResourceInfo
 import net.schmizz.sshj.sftp.SFTPClient
+import org.apache.commons.net.ftp.FTPFile
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryApi
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryDb
 import org.fossify.filemanager.models.NetworkConnection
@@ -30,10 +31,15 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
     val verifyWebDav = MutableSharedFlow<Boolean>()
 
     val verifySFTP = MutableSharedFlow<Boolean>()
+    val verifyFTP = MutableSharedFlow<Boolean>()
+
 
     val sftpFiles = MutableStateFlow<List<RemoteResourceInfo>>(emptyList())
 
     val webDavFiles = MutableStateFlow<List<DavResource>>(emptyList())
+
+    val ftpFiles = MutableStateFlow<List<FTPFile>>(emptyList())
+
     fun saveNetwork(networkConnection: NetworkConnection){
         viewModelScope.launch(Dispatchers.IO) {
             networkConnectionRepository.saveConnection(networkConnection)
@@ -130,5 +136,21 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
 
     fun getSFTPFileStream(path: String,startByte: Long): InputStream{
         return  networkConnectionRepositoryApi.listSFTPFileInputStream(url = path,startByte)
+    }
+
+    fun connectFTP(userName: String, password: String,server: String,port: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = networkConnectionRepositoryApi.connectToFTP(userName,password,server,port)
+            verifyFTP.emit(res)
+        }
+    }
+
+    fun getFTP() = networkConnectionRepositoryApi.getFTPConn()
+
+    fun listAllFTPFiles(path: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = networkConnectionRepositoryApi.listAllFTPFiles(path)
+            ftpFiles.emit(res)
+        }
     }
 }

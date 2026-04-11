@@ -4,6 +4,7 @@ import android.util.Log
 import com.thegrizzlylabs.sardineandroid.DavResource
 import jcifs.smb.SmbFile
 import net.schmizz.sshj.sftp.RemoteResourceInfo
+import org.apache.commons.net.ftp.FTPFile
 import org.fossify.commons.models.FileDirItem
 import org.fossify.filemanager.entity.NetworkConnectionEntity
 import org.fossify.filemanager.models.NetworkConnection
@@ -69,6 +70,19 @@ fun RemoteResourceInfo.toFileItem(parentPath: String): FileDirItem {
         isDirectory = this.isDirectory,
         size = if (this.isRegularFile) attrs.size else 0L,
         modified = attrs.mtime * 1000L,
+        children = 0,
+        mediaStoreId = 0L
+    )
+}
+
+fun FTPFile.toFileItem(parentPath: String): FileDirItem {
+    val cleanParent = parentPath.trimEnd('/')
+    return FileDirItem(
+        path = "$cleanParent/${this.name}",
+        name = this.name,
+        isDirectory = this.isDirectory,
+        size = if (this.isFile) this.size else 0L,
+        modified = this.timestamp?.timeInMillis ?: 0L,
         children = 0,
         mediaStoreId = 0L
     )

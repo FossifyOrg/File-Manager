@@ -33,9 +33,14 @@ class HttpServer(
             val webDavFile = viewModel.listWebDavFileDetail(url)
             return handleRangeRequestWebDav(rangeHeader, webDavFile?.contentLength!!, uri = uri, webDavFile.contentType)
         }
+        else if (connectionTypes.equals(ConnectionTypes.SFTP)) {
+            val url = Helpers.createUrl(connectionTypes, server = serverIp, path = "", port = machinePort)
+            val sftFile = viewModel.listSFTPFileDetails(uri)
+            return handleRangeRequestSFTPServer(rangeHeader, sftFile?.size!!, uri = uri, url)
+        }
         val url = Helpers.createUrl(connectionTypes, server = serverIp, path = "", port = machinePort)
         val sftFile = viewModel.listSFTPFileDetails(uri)
-        return handleRangeRequestSFTPServer(rangeHeader, sftFile?.size!!, uri = uri, url)
+        return handleRangeRequestFTPServer(rangeHeader, sftFile?.size!!, uri = uri, url)
     }
 
 
@@ -120,6 +125,39 @@ class HttpServer(
 
     private fun handleRangeRequestSFTPServer(rangeHeader: String?, fileLength: Long, uri: String = "", contentType: String): Response {
          var start: Long = 0
+        var end = fileLength - 1
+        val url = Helpers.createUrl(connectionTypes, server = serverIp, path = uri, port = machinePort)
+        if (rangeHeader != null && rangeHeader.startsWith("bytes=")) {
+            val ranges = rangeHeader.substring(6).split("-")
+            try {
+                if (ranges[0].isNotEmpty()) start = ranges[0].toLong()
+                if (ranges.size > 1 && ranges[1].isNotEmpty()) end = ranges[1].toLong()
+            } catch (e: NumberFormatException) {
+            }
+        }
+        if (start >= fileLength) {
+            return newFixedLengthResponse(Response.Status.RANGE_NOT_SATISFIABLE, "text/plain", "")
+        }
+
+        val contentLength = end - start + 1
+
+        val inputStream = viewModel.getSFTPFileStream(uri,start)
+        val bufferedStream = BufferedInputStream(inputStream, 1024 * 1024)
+        return newFixedLengthResponse(
+            Response.Status.PARTIAL_CONTENT,
+            MimeTypes.getMimeTypes(contentType),
+            bufferedStream,
+            contentLength
+        ).apply {
+            addHeader("Accept-Ranges", "bytes")
+            addHeader("Content-Length", contentLength.toString())
+            addHeader("Content-Range", "bytes $start-$end/$fileLength")
+            addHeader("Connection", "keep-alive")
+        }
+    }
+
+    private fun handleRangeRequestFTPServer(rangeHeader: String?, fileLength: Long, uri: String = "", contentType: String): Response {
+        var start: Long = 0
         var end = fileLength - 1
         val url = Helpers.createUrl(connectionTypes, server = serverIp, path = uri, port = machinePort)
         if (rangeHeader != null && rangeHeader.startsWith("bytes=")) {
