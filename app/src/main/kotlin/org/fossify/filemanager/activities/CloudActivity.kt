@@ -2,13 +2,11 @@ package org.fossify.filemanager.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -26,11 +24,26 @@ import org.fossify.filemanager.helpers.PORT_SFTP
 import org.fossify.filemanager.helpers.PORT_WEBDAV
 import org.fossify.filemanager.models.NetworkConnection
 import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
+import java.security.Security
+import org.bouncycastle.jce.provider.BouncyCastleProvider
+import java.security.Provider
 
 
 class CloudActivity : SimpleActivity() {
     private val binding by viewBinding(CloudActivityBinding::inflate)
     private lateinit var viewModel: NetworkBrowserViewModel
+
+    private fun setupBouncyCastle() {
+        val provider: Provider? = Security.getProvider(BouncyCastleProvider.PROVIDER_NAME)
+        if (provider == null) {
+            return
+        }
+        if (provider.javaClass.equals(BouncyCastleProvider::class.java)) {
+            return
+        }
+        Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
+        Security.insertProviderAt(BouncyCastleProvider(), 1)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +55,7 @@ class CloudActivity : SimpleActivity() {
         registerAddConnectionListener()
         val composition = (application as App).appComposition
         val factory = composition.provideNetworkBrowserViewModelFactory()
-
+        setupBouncyCastle()
         viewModel = ViewModelProvider(this, factory)
             .get(NetworkBrowserViewModel::class.java)
         getAllSavedNetworks()
@@ -133,7 +146,7 @@ class CloudActivity : SimpleActivity() {
                 viewModel.verifySFTP.collectLatest {
                     if (it) {
                         viewModel.saveNetwork(
-                            NetworkConnection(host = host, username = user, password = password, connectionType = connectionType.toString(), port = port, displayName = displayName, url = viewModel.getSFTPConn().pwd())
+                            NetworkConnection(host = host, username = user, password = password, connectionType = connectionType.toString(), port = port, displayName = displayName, url = viewModel.getSFTPConn().canonicalize("."))
                         )
                     }
                 }

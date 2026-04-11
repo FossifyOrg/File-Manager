@@ -2,8 +2,6 @@ package org.fossify.filemanager.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jcraft.jsch.ChannelSftp
-import com.jcraft.jsch.SftpATTRS
 import com.thegrizzlylabs.sardineandroid.DavResource
 import jcifs.CIFSContext
 import jcifs.Configuration
@@ -16,6 +14,9 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import net.schmizz.sshj.sftp.FileAttributes
+import net.schmizz.sshj.sftp.RemoteResourceInfo
+import net.schmizz.sshj.sftp.SFTPClient
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryApi
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryDb
 import org.fossify.filemanager.models.NetworkConnection
@@ -30,7 +31,7 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
 
     val verifySFTP = MutableSharedFlow<Boolean>()
 
-    val sftpFiles = MutableStateFlow<List<ChannelSftp.LsEntry>>(emptyList())
+    val sftpFiles = MutableStateFlow<List<RemoteResourceInfo>>(emptyList())
 
     val webDavFiles = MutableStateFlow<List<DavResource>>(emptyList())
     fun saveNetwork(networkConnection: NetworkConnection){
@@ -79,7 +80,7 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
 
     fun getMainSmb(): SmbFile = networkConnectionRepositoryApi.getMainSmbFile()
 
-    fun getSFTPConn():ChannelSftp = networkConnectionRepositoryApi.getSFTPConn()
+    fun getSFTPConn(): SFTPClient = networkConnectionRepositoryApi.getSFTPConn()
 
     fun connectAndAuthenticateWebDav(userName: String = "", password: String = "", url: String){
         viewModelScope.launch(Dispatchers.IO) {
@@ -109,18 +110,25 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
         }
     }
 
-    fun listAllSFTPFile(path: String){
+    fun listAllFilesSFTPRoot(path: String){
         viewModelScope.launch(Dispatchers.IO) {
-            val res = networkConnectionRepositoryApi.listAllSFTPFiles(path)
+            val res = networkConnectionRepositoryApi.listAllFilesSFTPRoot(path)
             sftpFiles.emit(res)
         }
     }
 
-    fun listSFTPFileDetails(path: String):SftpATTRS?{
+    fun listAllFilesSFTPPath(path: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = networkConnectionRepositoryApi.listAllFilesSFTPRoot(path)
+            sftpFiles.emit(res)
+        }
+    }
+
+    fun listSFTPFileDetails(path: String): FileAttributes?{
         return networkConnectionRepositoryApi.listSFTPFileDetails(path)
     }
 
-    fun getSFTPFileStream(path: String): InputStream{
-        return  networkConnectionRepositoryApi.listSFTPFileInputStream(url = path)
+    fun getSFTPFileStream(path: String,startByte: Long): InputStream{
+        return  networkConnectionRepositoryApi.listSFTPFileInputStream(url = path,startByte)
     }
 }

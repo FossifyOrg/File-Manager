@@ -185,27 +185,27 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             }
 
             ItemsAdapter(activity as SimpleActivity, storedItems, this, binding.itemsList, isPickMultipleIntent, binding.itemsSwipeRefresh) {
-                if(connectionType == ConnectionTypes.SMB){
-                    (it as? ListItem)?.let { item ->
-                        FileHelpers.launchSMB(item, this@ItemsFragment.context,viewModel.getMainSmb())
-                    }
-                }
-                else if(connectionType == ConnectionTypes.WebDav){
-                    (it as? ListItem)?.let { item ->
-                        FileHelpers.launchWebDav(connectionType, context = this@ItemsFragment.context, item = item)
-                    }
-                }
 
-                else if(connectionType == ConnectionTypes.SFTP){
-                    (it as? ListItem)?.let { item ->
-                        FileHelpers.launchSFTP(connectionType, context = this@ItemsFragment.context, item = item)
+                if((it as? ListItem)?.mIsDirectory == false) {
+                    if (connectionType == ConnectionTypes.SMB) {
+                        it?.let { item ->
+                            FileHelpers.launchSMB(item, this@ItemsFragment.context, viewModel.getMainSmb())
+                        }
+                    } else if (connectionType == ConnectionTypes.WebDav) {
+                        it?.let { item ->
+                            FileHelpers.launchWebDav(connectionType, context = this@ItemsFragment.context, item = item)
+                        }
+                    } else if (connectionType == ConnectionTypes.SFTP) {
+                        it?.let { item ->
+                            FileHelpers.launchSFTP(connectionType, context = this@ItemsFragment.context, item = item)
+                        }
                     }
                 }
                 else if ((it as? ListItem)?.isSectionTitle == true) {
                     openDirectory(it.mPath)
                     searchClosed()
                 } else {
-                    itemClicked(it as FileDirItem)
+                    itemClicked(it as FileDirItem,connectionType)
                 }
             }.apply {
                 setupZoomListener(zoomListener)
@@ -250,7 +250,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
 
                 else if (connectionType.equals(ConnectionTypes.SFTP)){
                     CoroutineScope(Dispatchers.IO).launch {
-                        viewModel.listAllSFTPFile(path)
+                        viewModel.listAllFilesSFTPRoot(path)
                             viewModel.sftpFiles.collectLatest {
                                 if(it.isNotEmpty()) {
                                     val fileItems = it
@@ -386,19 +386,19 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         return listItems
     }
 
-    private fun itemClicked(item: FileDirItem) {
+    private fun itemClicked(item: FileDirItem, connectionType: ConnectionTypes) {
         if (item.isDirectory) {
-            openDirectory(item.path)
+            openDirectory(item.path,connectionType)
         } else {
             clickedPath(item.path)
         }
     }
 
-    private fun openDirectory(path: String) {
+    private fun openDirectory(path: String, connectionType: ConnectionTypes = ConnectionTypes.Default) {
         (activity as? MainActivity)?.apply {
             openedDirectory()
         }
-        openPath(path)
+        openPath(path, connectionType = connectionType)
     }
 
     override fun searchQueryChanged(text: String) {

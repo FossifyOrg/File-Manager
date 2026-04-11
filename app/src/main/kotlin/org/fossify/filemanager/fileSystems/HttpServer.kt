@@ -7,6 +7,7 @@ import jcifs.smb.SmbFileInputStream
 import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
+import java.io.BufferedInputStream
 
 class HttpServer(
     private val port: Int,
@@ -33,7 +34,7 @@ class HttpServer(
             return handleRangeRequestWebDav(rangeHeader, webDavFile?.contentLength!!, uri = uri, webDavFile.contentType)
         }
         val url = Helpers.createUrl(connectionTypes, server = serverIp, path = "", port = machinePort)
-        val sftFile = viewModel.listSFTPFileDetails(url)
+        val sftFile = viewModel.listSFTPFileDetails(uri)
         return handleRangeRequestSFTPServer(rangeHeader, sftFile?.size!!, uri = uri, url)
     }
 
@@ -118,7 +119,7 @@ class HttpServer(
     }
 
     private fun handleRangeRequestSFTPServer(rangeHeader: String?, fileLength: Long, uri: String = "", contentType: String): Response {
-        var start: Long = 0
+         var start: Long = 0
         var end = fileLength - 1
         val url = Helpers.createUrl(connectionTypes, server = serverIp, path = uri, port = machinePort)
         if (rangeHeader != null && rangeHeader.startsWith("bytes=")) {
@@ -135,17 +136,12 @@ class HttpServer(
 
         val contentLength = end - start + 1
 
-        val inputStream = viewModel.getSFTPFileStream(url)
-        var remaining = start
-        while (remaining > 0) {
-            val skipped = inputStream.skip(remaining)
-            if (skipped <= 0) break
-            remaining -= skipped
-        }
+        val inputStream = viewModel.getSFTPFileStream(uri,start)
+        val bufferedStream = BufferedInputStream(inputStream, 1024 * 1024)
         return newFixedLengthResponse(
             Response.Status.PARTIAL_CONTENT,
             MimeTypes.getMimeTypes(contentType),
-            inputStream,
+            bufferedStream,
             contentLength
         ).apply {
             addHeader("Accept-Ranges", "bytes")

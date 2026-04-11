@@ -1,10 +1,6 @@
 package org.fossify.filemanager.repository
 
 import android.util.Log
-import com.jcraft.jsch.ChannelSftp
-import com.jcraft.jsch.JSch
-import com.jcraft.jsch.Session
-import com.jcraft.jsch.SftpATTRS
 import com.thegrizzlylabs.sardineandroid.DavResource
 import com.thegrizzlylabs.sardineandroid.Sardine
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
@@ -14,16 +10,22 @@ import jcifs.config.PropertyConfiguration
 import jcifs.context.BaseContext
 import jcifs.smb.NtlmPasswordAuthenticator
 import jcifs.smb.SmbFile
+import net.schmizz.sshj.SSHClient
+import net.schmizz.sshj.sftp.FileAttributes
+import net.schmizz.sshj.sftp.SFTPClient
+import net.schmizz.sshj.transport.verification.PromiscuousVerifier
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryApi
 import org.fossify.filemanager.models.NetworkConnection
 import java.io.InputStream
 import java.util.Properties
+import net.schmizz.sshj.sftp.RemoteResourceInfo
 
 class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
     lateinit var dir: SmbFile
     lateinit var sardine: Sardine
-
-    lateinit var sftp: ChannelSftp
+    private val sftpLock = Any()
+    private lateinit var ssh: SSHClient
+    private lateinit var sftp: SFTPClient
     private val defaultProperties: Properties =
         Properties().apply {
             setProperty("jcifs.resolveOrder", "BCAST")
@@ -92,44 +94,49 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
 
     override suspend fun connectToSftp(userName: String, password: String, server: String, port: Int): Boolean {
         try {
-            val jsch = JSch()
-            val session: Session = jsch.getSession(userName, server, port)
-
-            session.setPassword(password)
-            val config = Properties()
-            config["StrictHostKeyChecking"] = "no"
-            session.setConfig(config)
-
-            session.connect()
-            sftp = session.openChannel("sftp") as ChannelSftp
-            sftp.connect()
+            if (!::ssh.isInitialized || !ssh.isConnected || !ssh.isAuthenticated) {
+                ssh = SSHClient()
+                ssh.addHostKeyVerifier(PromiscuousVerifier())
+                ssh.connect(server)
+                ssh.authPassword(userName, password)
+                sftp = ssh.newSFTPClient()
+            }
             return true
-
         } catch (e: Exception) {
             e.printStackTrace()
             return false
         }
     }
 
-    override suspend fun listAllSFTPFiles(path: String): MutableList<ChannelSftp.LsEntry> {
-        val currentPath = sftp.pwd()
-        val files = sftp.ls(currentPath)
-        val allFiles = mutableListOf<ChannelSftp.LsEntry>()
-        for (item in files) {
-            val entry = item as ChannelSftp.LsEntry
-            allFiles.add(entry)
+    override suspend fun listAllFilesSFTPRoot(path: String): List<RemoteResourceInfo> {
+        val files = sftp.ls(path)
+        return files
+    }
+
+    override suspend fun listAllFilesSFTPPath(path: String): List<RemoteResourceInfo> {
+        val files = sftp.ls(path)
+        return files
+    }
+
+    override fun listSFTPFileDetails(path: String): FileAttributes? {
+        synchronized(sftpLock) {
+            return try {
+                val myPath = path.replace("//", "/")
+                sftp.stat(myPath)
+            } catch (e: Exception) {
+                Log.e("SFTP", "Stat failed: ${e.message}")
+                null
+            }
         }
-        return allFiles
     }
 
-    override fun listSFTPFileDetails(path: String): SftpATTRS? {
-        val file = sftp.stat(path)
-        return file
-    }
-
-    override fun listSFTPFileInputStream(url: String): InputStream {
-        return sftp.get(url)
+    override fun listSFTPFileInputStream(url: String, startByte: Long): InputStream {
+        val myPath = url.replace("//", "/")
+        val remoteFile = sftp.open(myPath)
+        val inputStream = remoteFile.RemoteFileInputStream(startByte)
+        return inputStream
     }
 
     override fun getSFTPConn() = sftp
+
 }

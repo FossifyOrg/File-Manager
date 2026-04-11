@@ -1,9 +1,11 @@
 package org.fossify.filemanager.interfaces
 
-import com.jcraft.jsch.ChannelSftp
-import com.jcraft.jsch.SftpATTRS
+
 import com.thegrizzlylabs.sardineandroid.DavResource
 import jcifs.smb.SmbFile
+import net.schmizz.sshj.sftp.FileAttributes
+import net.schmizz.sshj.sftp.RemoteResourceInfo
+import net.schmizz.sshj.sftp.SFTPClient
 import org.fossify.filemanager.models.NetworkConnection
 import java.io.InputStream
 
@@ -24,11 +26,13 @@ interface NetworkConnectionRepositoryApi {
 
     suspend fun connectToSftp(userName: String, password: String,server: String,port: Int): Boolean
 
-    suspend fun listAllSFTPFiles(path: String):MutableList<ChannelSftp.LsEntry>
+    suspend fun listAllFilesSFTPRoot(path: String): List<RemoteResourceInfo>
 
-    fun listSFTPFileDetails(path: String): SftpATTRS?
+    suspend fun listAllFilesSFTPPath(path: String):List<RemoteResourceInfo>
 
-    fun listSFTPFileInputStream(url: String): InputStream
+    fun listSFTPFileDetails(path: String): FileAttributes?
 
-    fun getSFTPConn(): ChannelSftp
+    fun listSFTPFileInputStream(url: String,startByte: Long): InputStream
+
+    fun getSFTPConn(): SFTPClient
 }
