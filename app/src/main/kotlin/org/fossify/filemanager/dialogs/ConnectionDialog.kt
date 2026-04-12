@@ -1,9 +1,7 @@
 package org.fossify.filemanager.dialogs
 
-import android.content.Intent
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import org.fossify.commons.activities.BaseSimpleActivity
 import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.extensions.getAlertDialogBuilder
@@ -12,11 +10,10 @@ import org.fossify.commons.extensions.value
 import org.fossify.filemanager.R
 import org.fossify.filemanager.activities.CloudActivity
 import org.fossify.filemanager.databinding.DialogAddConnectionBinding
-import org.fossify.filemanager.databinding.DialogChangeViewTypeBinding
 
 class ConnectionDialog(val activity: BaseSimpleActivity, dispatch: (String, String, String, String, String, Int, ConnectionTypes) -> Unit) {
     private var binding: DialogAddConnectionBinding
-    val items = listOf(ConnectionTypes.ExternalStorage.type, ConnectionTypes.SMB.type, ConnectionTypes.WebDav.type, ConnectionTypes.SFTP.type, ConnectionTypes.FTP.type)
+    val items = listOf(ConnectionTypes.DAVx5.type, ConnectionTypes.SMB.type, ConnectionTypes.WebDav.type, ConnectionTypes.SFTP.type, ConnectionTypes.FTP.type)
 
     init {
         binding = DialogAddConnectionBinding.inflate(activity.layoutInflater)
@@ -50,7 +47,7 @@ class ConnectionDialog(val activity: BaseSimpleActivity, dispatch: (String, Stri
     private fun dropDownItemSelected() {
         binding.dropdownMenu.setOnItemClickListener { parent, view, position, id ->
             val selectedItem = parent.getItemAtPosition(position).toString()
-            if (selectedItem == ConnectionTypes.ExternalStorage.type) {
+            if (selectedItem == ConnectionTypes.DAVx5.type) {
                 promptUserToSelectStorage()
             }
             Toast.makeText(activity, "Selected: $selectedItem", Toast.LENGTH_SHORT).show()

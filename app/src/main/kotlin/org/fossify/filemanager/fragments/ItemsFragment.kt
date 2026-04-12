@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Parcelable
 import android.util.AttributeSet
+import androidx.activity.viewModels
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -200,6 +201,11 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                             FileHelpers.launchSFTP(connectionType, context = this@ItemsFragment.context, item = item)
                         }
                     }
+                    else if (connectionType == ConnectionTypes.FTP) {
+                        it?.let { item ->
+                            FileHelpers.launchFTP(connectionType, context = this@ItemsFragment.context, item = item)
+                        }
+                    }
                 }
                 else if ((it as? ListItem)?.isSectionTitle == true) {
                     openDirectory(it.mPath)
@@ -290,7 +296,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                     context!!.getOTGItems(path, config.shouldShowHidden(), getProperFileSize) {
                         callback(path, getListItemsFromFileDirItems(it))
                     }
-                } else if (!config.enableRootAccess || !context!!.isPathOnRoot(path) && (connectionType.equals(ConnectionTypes.ExternalStorage) || connectionType.equals(ConnectionTypes.Default))) {
+                } else if (!config.enableRootAccess || !context!!.isPathOnRoot(path) && (connectionType.equals(ConnectionTypes.DAVx5) || connectionType.equals(ConnectionTypes.Default))) {
                     getRegularItemsOf(path, callback,connectionType)
                 } else {
                     RootHelpers(activity!!).getFiles(path, callback)
@@ -303,7 +309,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         val items = ArrayList<ListItem>()
         val getProperChildCount = context!!.config.getFolderViewType(currentPath) == VIEW_TYPE_LIST
 
-        if(connectionType == ConnectionTypes.ExternalStorage){
+        if(connectionType == ConnectionTypes.DAVx5){
             val uri = Uri.parse(path)
             val docFile = DocumentFile.fromTreeUri(context, uri)
             val files = docFile?.listFiles()

@@ -42,5 +42,9 @@ interface NetworkConnectionRepositoryApi {
 
     suspend fun listAllFTPFiles(path: String): List<FTPFile>
 
+    fun getFTPFileDetail(path: String): FTPFile?
+
+    fun getFTPFileInputStream(path: String,start: Long): InputStream
+
     fun getFTPConn(): FTPClient
 }

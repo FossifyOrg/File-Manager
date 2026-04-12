@@ -77,4 +77,24 @@ object FileHelpers {
             Log.e("Activity Launch Failed", exp.toString())
         }
     }
+    fun launchFTP(connectionTypes: ConnectionTypes,item: ListItem,context: Context){
+        try{
+            CoroutineScope(Dispatchers.IO).launch {
+                val port = Helpers.getPortForEachService(connectionTypes)
+                val uri = Helpers.createUrl(connectionTypes, item.mPath, port = port).toUri()
+                val i =
+                    Intent(Intent.ACTION_VIEW)
+                i.setDataAndType(uri, MimeTypes.getMimeTypes(item.mPath))
+
+                val packageManager: PackageManager = context.packageManager
+                val resInfos = packageManager.queryIntentActivities(i, 0)
+                if (resInfos.size > 0) {
+                    context.startActivity(i)
+                }
+            }
+        }
+        catch (exp: Exception){
+            Log.e("Activity Launch Failed", exp.toString())
+        }
+    }
 }

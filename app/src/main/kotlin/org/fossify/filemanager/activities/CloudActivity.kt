@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -78,7 +79,7 @@ class CloudActivity : SimpleActivity() {
                             NetworkConnection(
                                 displayName = s.name!!,
                                 sharedPath = s.uri.toString(),
-                                connectionType = ConnectionTypes.ExternalStorage.toString()
+                                connectionType = ConnectionTypes.DAVx5.toString()
                             )
                         )
                     }
@@ -162,6 +163,26 @@ class CloudActivity : SimpleActivity() {
                     }
                 }
             }
+            else if (connectionType == ConnectionTypes.WebDavMount) {
+                val url = "http://${host}:${port}/${shared}"
+                viewModel.connectAndAuthenticateWebDav(user, password, url)
+                viewModel.verifyWebDav.collectLatest {
+                    if (it) {
+                        viewModel.saveNetwork(
+                            NetworkConnection(
+                                host = host,
+                                username = user,
+                                password = password,
+                                sharedPath = shared,
+                                connectionType = connectionType.toString(),
+                                displayName = displayName,
+                                url = url,
+                                port = port
+                            )
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -195,8 +216,8 @@ class CloudActivity : SimpleActivity() {
                         }
                     }
                 }
-            } else if (itm.connectionType == ConnectionTypes.ExternalStorage.type) {
-                launchMainActivity(ConnectionTypes.ExternalStorage, itm.sharedPath)
+            } else if (itm.connectionType == ConnectionTypes.DAVx5.type) {
+                launchMainActivity(ConnectionTypes.DAVx5, itm.sharedPath)
             } else if (itm.connectionType == ConnectionTypes.WebDav.type) {
                 itm.username?.let { username ->
                     itm.password?.let { password ->

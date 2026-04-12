@@ -153,4 +153,8 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
             ftpFiles.emit(res)
         }
     }
+
+    fun getFTPFileDetail(path: String) = networkConnectionRepositoryApi.getFTPFileDetail(path)
+
+    fun getFTPFileStream(path: String,start: Long) = networkConnectionRepositoryApi.getFTPFileInputStream(path,start)
 }

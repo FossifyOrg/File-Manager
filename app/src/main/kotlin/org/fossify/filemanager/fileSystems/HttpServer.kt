@@ -39,7 +39,7 @@ class HttpServer(
             return handleRangeRequestSFTPServer(rangeHeader, sftFile?.size!!, uri = uri, url)
         }
         val url = Helpers.createUrl(connectionTypes, server = serverIp, path = "", port = machinePort)
-        val sftFile = viewModel.listSFTPFileDetails(uri)
+        val sftFile = viewModel.getFTPFileDetail(uri)
         return handleRangeRequestFTPServer(rangeHeader, sftFile?.size!!, uri = uri, url)
     }
 
@@ -126,7 +126,6 @@ class HttpServer(
     private fun handleRangeRequestSFTPServer(rangeHeader: String?, fileLength: Long, uri: String = "", contentType: String): Response {
          var start: Long = 0
         var end = fileLength - 1
-        val url = Helpers.createUrl(connectionTypes, server = serverIp, path = uri, port = machinePort)
         if (rangeHeader != null && rangeHeader.startsWith("bytes=")) {
             val ranges = rangeHeader.substring(6).split("-")
             try {
@@ -159,7 +158,6 @@ class HttpServer(
     private fun handleRangeRequestFTPServer(rangeHeader: String?, fileLength: Long, uri: String = "", contentType: String): Response {
         var start: Long = 0
         var end = fileLength - 1
-        val url = Helpers.createUrl(connectionTypes, server = serverIp, path = uri, port = machinePort)
         if (rangeHeader != null && rangeHeader.startsWith("bytes=")) {
             val ranges = rangeHeader.substring(6).split("-")
             try {
@@ -174,7 +172,7 @@ class HttpServer(
 
         val contentLength = end - start + 1
 
-        val inputStream = viewModel.getSFTPFileStream(uri,start)
+        val inputStream = viewModel.getFTPFileStream(uri,start)
         val bufferedStream = BufferedInputStream(inputStream, 1024 * 1024)
         return newFixedLengthResponse(
             Response.Status.PARTIAL_CONTENT,

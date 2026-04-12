@@ -19,8 +19,11 @@ import org.fossify.filemanager.models.NetworkConnection
 import java.io.InputStream
 import java.util.Properties
 import net.schmizz.sshj.sftp.RemoteResourceInfo
+import org.apache.commons.net.ftp.FTP
 import org.apache.commons.net.ftp.FTPClient
+import org.apache.commons.net.ftp.FTPCmd
 import org.apache.commons.net.ftp.FTPFile
+import java.io.File
 
 class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
     lateinit var dir: SmbFile
@@ -28,8 +31,10 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
     private val sftpLock = Any()
     private lateinit var ssh: SSHClient
     private lateinit var sftp: SFTPClient
-
+    private lateinit var currentStream: InputStream
     private lateinit var ftp: FTPClient
+    private lateinit var ftpStream: FTPClient
+
     private val defaultProperties: Properties =
         Properties().apply {
             setProperty("jcifs.resolveOrder", "BCAST")
@@ -146,12 +151,18 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
     override suspend fun connectToFTP(userName: String, password: String, server: String, port: Int): Boolean {
         try {
             ftp = FTPClient()
+            ftpStream = FTPClient()
             ftp.connect(server, port)
+            ftpStream.connect(server, port)
+
             val loginSuccess = ftp.login(userName, password)
+            ftpStream.login(userName, password)
+
             if (!loginSuccess) {
                 return false
             }
             ftp.enterLocalPassiveMode()
+            ftpStream.enterLocalPassiveMode()
             return true
         }
         catch (exp: Exception){
@@ -163,6 +174,27 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
         ftp.changeWorkingDirectory(path)
         val files: Array<FTPFile> = ftp.listFiles()
         return files.toList()
+    }
+
+    override fun getFTPFileDetail(path: String):FTPFile? {
+        val myPath = path.replace("//", "/")
+        if(ftp.hasFeature(FTPCmd.MLST)){
+            val file = ftp.mlistFile(myPath)
+            return file
+        }
+        val mP = File(myPath)
+        val files = ftp.listFiles(mP.parent).firstOrNull { it != null && it.name == mP.name }
+        return files
+    }
+
+    override fun getFTPFileInputStream(path: String,start: Long): InputStream {
+        if(::currentStream.isInitialized)
+            currentStream.close()
+        ftpStream.completePendingCommand()
+        ftpStream.setFileType(FTP.BINARY_FILE_TYPE)
+        ftpStream.restartOffset = start
+        currentStream = ftpStream.retrieveFileStream(path)
+        return currentStream
     }
 
     override fun getFTPConn(): FTPClient = ftp

@@ -28,6 +28,9 @@ object Helpers {
         else if(connectionTypes.equals(ConnectionTypes.SFTP)){
             return PORT_SFTP
         }
+        else if(connectionTypes.equals(ConnectionTypes.FTP)){
+            return PORT_FTP
+        }
         return PORT_SMB
     }
 }
