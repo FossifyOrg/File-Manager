@@ -3,4 +3,7 @@
     <string name="app_launcher_name">File Manager</string>
     <string name="invert_colors">Invert colours</string>
     <string name="audio">Audio</string>
+    <string name="press_back_again">Press back again to exit</string>
+    <string name="go_to_home_folder">Go to home folder</string>
+    <string name="set_as_home_folder">Set as home folder</string>
 </resources>
