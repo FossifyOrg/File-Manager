@@ -27,13 +27,18 @@ import org.fossify.filemanager.models.NetworkConnection
 import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
 import java.security.Security
 import org.bouncycastle.jce.provider.BouncyCastleProvider
+import org.fossify.filemanager.dependencies.AppComposition
 import org.fossify.filemanager.helpers.PORT_FTP
+import org.fossify.filemanager.interfaces.ExternalStorageRepositoryDb
+import org.fossify.filemanager.repository.ExternalStorageRepositoryDbImpl
 import java.security.Provider
 
 
 class CloudActivity : SimpleActivity() {
     private val binding by viewBinding(CloudActivityBinding::inflate)
     private lateinit var viewModel: NetworkBrowserViewModel
+
+    private lateinit var composition: AppComposition
 
     private fun setupBouncyCastle() {
         val provider: Provider? = Security.getProvider(BouncyCastleProvider.PROVIDER_NAME)
@@ -55,7 +60,7 @@ class CloudActivity : SimpleActivity() {
         }
         setupToolBar()
         registerAddConnectionListener()
-        val composition = (application as App).appComposition
+        composition = (application as App).appComposition
         val factory = composition.provideNetworkBrowserViewModelFactory()
         setupBouncyCastle()
         viewModel = ViewModelProvider(this, factory)
@@ -166,6 +171,7 @@ class CloudActivity : SimpleActivity() {
             else if (connectionType == ConnectionTypes.WebDavMount) {
                 val url = "http://${host}:${port}/${shared}"
                 viewModel.connectAndAuthenticateWebDav(user, password, url)
+                composition.documentRepository.saveDocumentInfo()
                 viewModel.verifyWebDav.collectLatest {
                     if (it) {
                         viewModel.saveNetwork(

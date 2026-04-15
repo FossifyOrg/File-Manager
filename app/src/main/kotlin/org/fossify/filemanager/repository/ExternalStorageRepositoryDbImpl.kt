@@ -10,7 +10,7 @@ import org.fossify.filemanager.entity.DocumentProviderEntity
 import org.fossify.filemanager.interfaces.ExternalStorageRepositoryDb
 
 class ExternalStorageRepositoryDbImpl(private val dao: DocumentProviderDao): ExternalStorageRepositoryDb {
-    val allDocs = MutableStateFlow<List<DocumentProviderEntity>>()
+    val allDocs = MutableStateFlow<List<DocumentProviderEntity>>(emptyList())
     override fun saveDocumentInfo(doc: DocumentProviderEntity) {
         CoroutineScope(Dispatchers.IO).launch{
             dao.insert(doc)
