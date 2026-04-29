@@ -121,4 +121,23 @@ class Config(context: Context) : BaseConfig(context) {
     var wasStorageAnalysisTabAdded: Boolean
         get() = prefs.getBoolean(WAS_STORAGE_ANALYSIS_TAB_ADDED, false)
         set(wasStorageAnalysisTabAdded) = prefs.edit().putBoolean(WAS_STORAGE_ANALYSIS_TAB_ADDED, wasStorageAnalysisTabAdded).apply()
+
+    var showFolderSize : Boolean
+        get() = prefs.getBoolean(FOLDER_SHOW_SIZE, false)
+        set(showFolderSize) = prefs.edit()
+            .putBoolean(FOLDER_SHOW_SIZE,showFolderSize)
+            .apply()
+
+    var showFolderLastModifiedAt : Boolean
+        get() = prefs.getBoolean(FOLDER_SHOW_LAST_MODIFIED_AT,false)
+        set(folderShowLastModifiedAt) = prefs.edit()
+            .putBoolean(FOLDER_SHOW_LAST_MODIFIED_AT,folderShowLastModifiedAt)
+            .apply()
+
+    var showFolderChildrenCount : Boolean
+        get() = prefs.getBoolean(FOLDER_SHOW_CHILDREN_COUNT,true)
+        set(showFolderChildrenCount) = prefs.edit()
+            .putBoolean(FOLDER_SHOW_CHILDREN_COUNT,showFolderChildrenCount)
+            .apply()
+
 }

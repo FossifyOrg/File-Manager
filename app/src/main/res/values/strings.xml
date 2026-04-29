@@ -56,6 +56,10 @@
     <!-- Settings -->
     <string name="enable_root_access">Enable root access</string>
     <string name="press_back_twice">Require pressing Back twice to leave the app</string>
+    <string name="manage_folder_columns">Manage folder columns</string>
+    <string name="column_folder_size">Size</string>
+    <string name="column_folder_children_count">Children count</string>
+    <string name="column_folder_last_modified_at">Last modified at</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
