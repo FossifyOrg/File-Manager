@@ -96,6 +96,9 @@ class ReadTextActivity : SimpleActivity() {
     override fun onResume() {
         super.onResume()
         setupTopAppBar(binding.readTextAppbar, NavigationIcon.Arrow)
+        binding.readTextToolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
