@@ -8,10 +8,10 @@ import java.util.Locale.getDefault
 
 object Helpers {
     val host: String = "127.0.0.1"
-    fun createUrl(connectionTypes: ConnectionTypes, path: String = "", server: String = "", port: Int): String{
+    fun createUrl(connectionTypes: ConnectionTypes, path: String = "", server: String = "", port: Int,protocols: Protocols = Protocols.HTTP): String{
         var protocol = Protocols.HTTP.toString().lowercase()
         if(connectionTypes.equals(ConnectionTypes.WebDav)){
-            protocol = Protocols.HTTP.toString().lowercase()
+            protocol = protocols.name.lowercase()
         }
         else if(connectionTypes.equals(ConnectionTypes.SMB)){
             protocol = Protocols.SMB.toString().lowercase()

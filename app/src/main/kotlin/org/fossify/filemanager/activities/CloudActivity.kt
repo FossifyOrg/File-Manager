@@ -262,7 +262,7 @@ class CloudActivity : SimpleActivity() {
                         lifecycleScope.launch {
                             viewModel.verifyWebDav.collectLatest {
                                 if (it) {
-                                    startServer(item, PORT_WEBDAV, connectionType = ConnectionTypes.WebDav, machinePort = itm.port)
+                                    startServer(item, PORT_WEBDAV, connectionType = ConnectionTypes.WebDav, machinePort = itm.port, Protocols.valueOf(protocol.uppercase(Locale.getDefault())))
                                     launchMainActivity(ConnectionTypes.WebDav, itm.url)
                                 }
                             }
@@ -312,8 +312,8 @@ class CloudActivity : SimpleActivity() {
         })
     }
 
-    private fun startServer(connection: NetworkConnection, port: Int = 7871, connectionType: ConnectionTypes, machinePort: Int) {
-        val https = HttpServer(port, connection.host, connectionType, composition.networkApiRepository, machinePort)
+    private fun startServer(connection: NetworkConnection, port: Int = 7871, connectionType: ConnectionTypes, machinePort: Int,protocol: Protocols = Protocols.HTTP) {
+        val https = HttpServer(port, connection.host, connectionType, composition.networkApiRepository, machinePort,protocol)
         https.start()
     }
 

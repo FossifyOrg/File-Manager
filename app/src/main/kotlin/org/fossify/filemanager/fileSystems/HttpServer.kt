@@ -5,6 +5,7 @@ import fi.iki.elonen.NanoHTTPD
 import jcifs.smb.SmbFile
 import jcifs.smb.SmbFileInputStream
 import org.fossify.commons.enums.ConnectionTypes
+import org.fossify.filemanager.enums.Protocols
 import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryApi
 import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
@@ -15,7 +16,8 @@ class HttpServer(
     private val serverIp: String,
     private val connectionTypes: ConnectionTypes,
     private val networkConnectionRepository: NetworkConnectionRepositoryApi,
-    private val machinePort: Int
+    private val machinePort: Int,
+    private val protocols: Protocols = Protocols.HTTP
 ) :
     NanoHTTPD(port) {
     override fun serve(session: IHTTPSession): Response {
@@ -30,9 +32,9 @@ class HttpServer(
             return handleRangeRequest(file, rangeHeader, file.length())
         }
         else if(connectionTypes.equals(ConnectionTypes.WebDav)) {
-            val url = Helpers.createUrl(connectionTypes, server = serverIp, path = uri.toString(), port = machinePort)
+            val url = Helpers.createUrl(connectionTypes, server = serverIp, path = uri.toString(), port = machinePort, protocols = protocols)
             val webDavFile = networkConnectionRepository.listWebDavFileDetail(url)
-            return handleRangeRequestWebDav(rangeHeader, webDavFile?.contentLength!!, uri = uri, webDavFile.contentType)
+            return handleRangeRequestWebDav(rangeHeader, webDavFile?.contentLength!!, uri = uri, webDavFile.contentType,protocols)
         }
         else if (connectionTypes.equals(ConnectionTypes.SFTP)) {
             val url = Helpers.createUrl(connectionTypes, server = serverIp, path = "", port = machinePort)
@@ -91,10 +93,10 @@ class HttpServer(
     }
 
 
-    private fun handleRangeRequestWebDav(rangeHeader: String?, fileLength: Long, uri: String = "", contentType: String): Response {
+    private fun handleRangeRequestWebDav(rangeHeader: String?, fileLength: Long, uri: String = "", contentType: String,protocol: Protocols = Protocols.HTTP): Response {
         var start: Long = 0
         var end = fileLength - 1
-        val url = Helpers.createUrl(connectionTypes, server = serverIp, path = uri, port = machinePort)
+        val url = Helpers.createUrl(connectionTypes, server = serverIp, path = uri, port = machinePort, protocols = protocol)
         if (rangeHeader != null && rangeHeader.startsWith("bytes=")) {
             val ranges = rangeHeader.substring(6).split("-")
             try {
