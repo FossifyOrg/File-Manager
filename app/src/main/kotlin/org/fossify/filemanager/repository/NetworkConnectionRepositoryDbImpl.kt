@@ -9,8 +9,8 @@ import org.fossify.filemanager.mapper.toEntity
 import org.fossify.filemanager.models.NetworkConnection
 
 class NetworkConnectionRepositoryDbImpl(private val dao: NetworkConnectionDao): NetworkConnectionRepositoryDb {
-    override suspend fun saveConnection(connection: NetworkConnection) {
-        dao.insert(connection.toEntity())
+    override suspend fun saveConnection(connection: NetworkConnection): Long {
+       return dao.insert(connection.toEntity())
     }
 
     override suspend fun getAllSavedConnections(): Flow<List<NetworkConnection>> {

@@ -1,5 +1,6 @@
 package org.fossify.filemanager.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thegrizzlylabs.sardineandroid.DavResource
@@ -18,10 +19,12 @@ import net.schmizz.sshj.sftp.FileAttributes
 import net.schmizz.sshj.sftp.RemoteResourceInfo
 import net.schmizz.sshj.sftp.SFTPClient
 import org.apache.commons.net.ftp.FTPFile
+import org.fossify.filemanager.enums.Protocols
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryApi
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryDb
 import org.fossify.filemanager.models.NetworkConnection
 import java.io.InputStream
+import java.security.cert.X509Certificate
 
 class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkConnectionRepositoryDb, private val networkConnectionRepositoryApi: NetworkConnectionRepositoryApi): ViewModel() {
 
@@ -40,9 +43,11 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
 
     val ftpFiles = MutableStateFlow<List<FTPFile>>(emptyList())
 
+    val connectionId = MutableSharedFlow<Long>()
+
     fun saveNetwork(networkConnection: NetworkConnection){
         viewModelScope.launch(Dispatchers.IO) {
-            networkConnectionRepository.saveConnection(networkConnection)
+            connectionId.emit(networkConnectionRepository.saveConnection(networkConnection))
         }
     }
 
@@ -88,9 +93,9 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
 
     fun getSFTPConn(): SFTPClient = networkConnectionRepositoryApi.getSFTPConn()
 
-    fun connectAndAuthenticateWebDav(userName: String = "", password: String = "", url: String){
+    fun connectAndAuthenticateWebDav(userName: String = "", password: String = "", url: String, host: String, protocol: Protocols, context: Context){
         viewModelScope.launch(Dispatchers.IO) {
-           val result = networkConnectionRepositoryApi.connectAndVerifyWebDav(userName, password, url)
+           val result = networkConnectionRepositoryApi.connectAndVerifyWebDav(userName, password, url,host,protocol,context)
             verifyWebDav.emit(result)
         }
     }
@@ -102,7 +107,7 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
     }
 
     fun listWebDavFileStream(url: String,start: Long,end: Long): InputStream{
-        return networkConnectionRepositoryApi.listWebDavFileInputStream(url,start,end)
+        return networkConnectionRepositoryApi.getWebDavFileInputStream(url,start,end)
     }
 
     fun listWebDavFileDetail(url: String): DavResource?{
@@ -135,7 +140,7 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
     }
 
     fun getSFTPFileStream(path: String,startByte: Long): InputStream{
-        return  networkConnectionRepositoryApi.listSFTPFileInputStream(url = path,startByte)
+        return  networkConnectionRepositoryApi.getSFTPFileInputStream(url = path,startByte)
     }
 
     fun connectFTP(userName: String, password: String,server: String,port: Int){

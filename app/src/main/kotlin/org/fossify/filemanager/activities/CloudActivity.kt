@@ -1,10 +1,12 @@
 package org.fossify.filemanager.activities
 
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
+import androidx.compose.ui.text.toUpperCase
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -28,16 +30,20 @@ import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
 import java.security.Security
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.fossify.filemanager.dependencies.AppComposition
+import org.fossify.filemanager.enums.Protocols
+import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.helpers.PORT_FTP
-import org.fossify.filemanager.interfaces.ExternalStorageRepositoryDb
-import org.fossify.filemanager.repository.ExternalStorageRepositoryDbImpl
+import org.fossify.filemanager.interfaces.CertificateRepository
 import java.security.Provider
+import java.util.Locale
 
 
 class CloudActivity : SimpleActivity() {
     private val binding by viewBinding(CloudActivityBinding::inflate)
     private lateinit var viewModel: NetworkBrowserViewModel
+    private var onCertPicked: ((Uri) -> Unit)? = null
 
+    private lateinit var certificateRepository: CertificateRepository
     private lateinit var composition: AppComposition
 
     private fun setupBouncyCastle() {
@@ -61,6 +67,7 @@ class CloudActivity : SimpleActivity() {
         setupToolBar()
         registerAddConnectionListener()
         composition = (application as App).appComposition
+        certificateRepository = composition.certificateRepository
         val factory = composition.provideNetworkBrowserViewModelFactory()
         setupBouncyCastle()
         viewModel = ViewModelProvider(this, factory)
@@ -92,8 +99,27 @@ class CloudActivity : SimpleActivity() {
             }
         }
 
+    private val pickCert = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        uri?.let {
+            onCertPicked?.invoke(it)
+//            val stream = contentResolver.openInputStream(it) ?: return@let
+//            val res = viewModel.loadSSLCertificate(inputStream = stream)
+//            res.onSuccess { certificate ->
+//                viewModel.attachCertificate(certificate, "TestUser", "bilal786")
+//            }.onFailure {
+//                Log.d("WebDav HTTPS", it.localizedMessage)
+//            }
+        }
+    }
+
     fun promptUserToSelectStorage() {
         openDocumentTreeLauncher.launch(null)
+    }
+
+
+    fun openFileLink(dispatch: (Uri) -> Unit) {
+        pickCert.launch("*/*")
+        onCertPicked = dispatch
     }
 
     private fun setupToolBar() {
@@ -101,8 +127,8 @@ class CloudActivity : SimpleActivity() {
     }
 
     private fun showConnectionDialog() {
-        ConnectionDialog(this@CloudActivity) { host, user, password, shared, displayName, port, connection ->
-            saveNetwork(host, user, password, shared, displayName, port, connection)
+        ConnectionDialog(this@CloudActivity) { host, user, password, shared, displayName, certPath, port, connection, protocol ->
+            saveNetwork(host, user, password, shared, displayName, certPath, port, connection, protocol)
         }
     }
 
@@ -113,7 +139,17 @@ class CloudActivity : SimpleActivity() {
         }
     }
 
-    private fun saveNetwork(host: String, user: String, password: String, shared: String, displayName: String, port: Int, connectionType: ConnectionTypes) {
+    private fun saveNetwork(
+        host: String,
+        user: String,
+        password: String,
+        shared: String,
+        displayName: String,
+        certUri: Uri?,
+        port: Int,
+        connectionType: ConnectionTypes,
+        protocol: Protocols
+    ) {
         lifecycleScope.launch((Dispatchers.IO)) {
             if (connectionType == ConnectionTypes.SMB) {
                 viewModel.authenticateAndSaveSMBNetwork(
@@ -126,10 +162,12 @@ class CloudActivity : SimpleActivity() {
                         displayName = displayName
                     )
                 )
-            }
-            else if (connectionType == ConnectionTypes.WebDav) {
-                val url = "http://${host}:${port}/${shared}"
-                viewModel.connectAndAuthenticateWebDav(user, password, url)
+            } else if (connectionType == ConnectionTypes.WebDav) {
+                val url = Helpers.createProtocolPath(protocol, host, port, shared)
+                if (protocol == Protocols.HTTPS) {
+                    saveCertificate(certUri,host)
+                }
+                viewModel.connectAndAuthenticateWebDav(user, password, url,host,protocol,this@CloudActivity)
                 viewModel.verifyWebDav.collectLatest {
                     if (it) {
                         viewModel.saveNetwork(
@@ -146,44 +184,36 @@ class CloudActivity : SimpleActivity() {
                         )
                     }
                 }
-            }
-
-            else if (connectionType == ConnectionTypes.SFTP) {
+            } else if (connectionType == ConnectionTypes.SFTP) {
                 viewModel.connectSFTP(user, password, host, port)
                 viewModel.verifySFTP.collectLatest {
-                    if (it) {
-                        viewModel.saveNetwork(
-                            NetworkConnection(host = host, username = user, password = password, connectionType = connectionType.toString(), port = port, displayName = displayName, url = viewModel.getSFTPConn().canonicalize("."))
-                        )
-                    }
-                }
-            }
-            else if (connectionType == ConnectionTypes.FTP) {
-                viewModel.connectFTP(user, password, host, port)
-                viewModel.verifyFTP.collectLatest {
-                    if (it) {
-                        viewModel.saveNetwork(
-                            NetworkConnection(host = host, username = user, password = password, connectionType = connectionType.toString(), port = port, displayName = displayName, url = viewModel.getFTP().printWorkingDirectory())
-                        )
-                    }
-                }
-            }
-            else if (connectionType == ConnectionTypes.WebDavMount) {
-                val url = "http://${host}:${port}/${shared}"
-                viewModel.connectAndAuthenticateWebDav(user, password, url)
-                composition.documentRepository.saveDocumentInfo()
-                viewModel.verifyWebDav.collectLatest {
                     if (it) {
                         viewModel.saveNetwork(
                             NetworkConnection(
                                 host = host,
                                 username = user,
                                 password = password,
-                                sharedPath = shared,
                                 connectionType = connectionType.toString(),
+                                port = port,
                                 displayName = displayName,
-                                url = url,
-                                port = port
+                                url = viewModel.getSFTPConn().canonicalize(".")
+                            )
+                        )
+                    }
+                }
+            } else if (connectionType == ConnectionTypes.FTP) {
+                viewModel.connectFTP(user, password, host, port)
+                viewModel.verifyFTP.collectLatest {
+                    if (it) {
+                        viewModel.saveNetwork(
+                            NetworkConnection(
+                                host = host,
+                                username = user,
+                                password = password,
+                                connectionType = connectionType.toString(),
+                                port = port,
+                                displayName = displayName,
+                                url = viewModel.getFTP().printWorkingDirectory()
                             )
                         )
                     }
@@ -227,7 +257,8 @@ class CloudActivity : SimpleActivity() {
             } else if (itm.connectionType == ConnectionTypes.WebDav.type) {
                 itm.username?.let { username ->
                     itm.password?.let { password ->
-                        viewModel.connectAndAuthenticateWebDav(username, password, itm.url)
+                        val protocol = itm.url.split(':')[0];
+                        viewModel.connectAndAuthenticateWebDav(username, password, itm.url,itm.host, Protocols.valueOf(protocol.uppercase(Locale.getDefault())), this)
                         lifecycleScope.launch {
                             viewModel.verifyWebDav.collectLatest {
                                 if (it) {
@@ -244,26 +275,24 @@ class CloudActivity : SimpleActivity() {
                         viewModel.connectSFTP(username, password, itm.host, itm.port)
                         lifecycleScope.launch(Dispatchers.IO) {
                             viewModel.verifySFTP.collectLatest {
-                                if(it){
+                                if (it) {
                                     startServer(item, PORT_SFTP, connectionType = ConnectionTypes.SFTP, machinePort = itm.port)
-                                    launchMainActivity(ConnectionTypes.SFTP,itm.url)
+                                    launchMainActivity(ConnectionTypes.SFTP, itm.url)
                                 }
                             }
                         }
                     }
                 }
 
-            }
-
-            else if (item.connectionType == ConnectionTypes.FTP.type){
+            } else if (item.connectionType == ConnectionTypes.FTP.type) {
                 itm.username?.let { username ->
                     itm.password?.let { password ->
-                        viewModel.connectFTP(username,password,itm.host,itm.port)
+                        viewModel.connectFTP(username, password, itm.host, itm.port)
                         lifecycleScope.launch(Dispatchers.IO) {
                             viewModel.verifyFTP.collectLatest {
-                                if(it){
-                                    startServer(item,PORT_FTP, connectionType = ConnectionTypes.FTP, machinePort = itm.port)
-                                    launchMainActivity(ConnectionTypes.FTP,itm.url)
+                                if (it) {
+                                    startServer(item, PORT_FTP, connectionType = ConnectionTypes.FTP, machinePort = itm.port)
+                                    launchMainActivity(ConnectionTypes.FTP, itm.url)
                                 }
                             }
                         }
@@ -284,7 +313,14 @@ class CloudActivity : SimpleActivity() {
     }
 
     private fun startServer(connection: NetworkConnection, port: Int = 7871, connectionType: ConnectionTypes, machinePort: Int) {
-        val https = HttpServer(port, connection.host, connectionType, viewModel, machinePort)
+        val https = HttpServer(port, connection.host, connectionType, composition.networkApiRepository, machinePort)
         https.start()
+    }
+
+    private fun saveCertificate(uri: Uri?, name: String) {
+        uri?.let {
+            val cert = certificateRepository.loadCertificate(it, this)
+            certificateRepository.saveCertificate(name, cert, this)
+        }
     }
 }

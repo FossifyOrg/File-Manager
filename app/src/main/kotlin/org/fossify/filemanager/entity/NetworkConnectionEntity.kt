@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 @Entity(tableName = "network_connections")
 data class NetworkConnectionEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val host: String,
     val port: Int = 445,
     val username: String?,

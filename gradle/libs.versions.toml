@@ -1,47 +1,165 @@
 [versions]
-#jetbrains
+# jetbrains & Kotlin
 kotlin = "2.2.21"
-#Detekt
+kotlin-immutable-collections = "0.4.0"
+kotlinxSerializationJson = "1.10.0"
+ksp = "2.2.0-2.0.2"
+
+# Detekt
 detekt = "1.23.8"
 detektCompose = "0.4.28"
-#AndroidX
-androidx-swiperefreshlayout = "1.2.0"
+
+# AndroidX
+androidx-appcompat = "1.7.1"
+androidx-biometricKtx = "1.4.0-alpha02"
+androidx-constraintlayout = "2.2.1"
+androidx-coreKtx = "1.18.0"
+androidx-customView = "1.2.0"
+androidx-customViewPooling = "1.1.0"
 androidx-documentfile = "1.1.0"
-#Fossify
+androidx-exifinterface = "1.4.2"
+androidx-lifecycle = "2.10.0"
+androidx-swiperefreshlayout = "1.2.0"
+
+# Compose
+compose = "1.7.6"
+composeActivity = "1.13.0"
+composeMaterial3 = "1.4.0"
+
+# Material
+material = "1.13.0"
+
+# Databases & Networking
+room = "2.8.4"
+jcifs = "2.1.10"
+gson = "2.13.2"
+
+# Glide
+glide = "5.0.5"
+glideCompose = "4.14.0"
+
+# Helpers & Fossify
 commons = "5.12.0"
-#Other
 autofittextview = "0.2.1"
 gestureviews = "2.8.3"
-roomVersion = "2.8.4"
 rootshell = "bc7e5d398e"
 roottools = "965c154e20"
 zip4j = "2.11.5"
-jcifs = "2.1.10"
-#Gradle
+patternLockView = "a90b0d4bf0"
+reprint = "2cb206415d"
+recyclerviewFastscroller = "5a95285b1f"
+rtlViewpager = "2.0.2"
+ezVcard = "0.12.2"
+jodaTime = "2.14.1"
+
+# Gradle & Build
 gradlePlugins-agp = "8.11.1"
-#build
 app-build-compileSDKVersion = "36"
 app-build-targetSDK = "36"
 app-build-minimumSDK = "26"
 app-build-javaVersion = "VERSION_17"
 app-build-kotlinJVMTarget = "17"
+
 [libraries]
-#AndroidX
-androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
-androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "androidx-swiperefreshlayout" }
+# AndroidX Core
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+androidx-biometric-ktx = { module = "androidx.biometric:biometric-ktx", version.ref = "androidx-biometricKtx" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-coreKtx" }
+androidx-customView = { module = "androidx.customview:customview", version.ref = "androidx-customView" }
+androidx-customViewPooling = { module = "androidx.customview:customview-poolingcontainer", version.ref = "androidx-customViewPooling" }
 androidx-documentfile = { module = "androidx.documentfile:documentfile", version.ref = "androidx-documentfile" }
-#Compose
+androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "androidx-exifinterface" }
+androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "androidx-swiperefreshlayout" }
+
+# AndroidX Lifecycle
+androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewModel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidx-lifecycle" }
+
+# Room
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+# Compose
+compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3" }
+compose-material2 = { module = "androidx.compose.material:material", version.ref = "compose" }
+compose-material-icons = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
+compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
+compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
+compose-uiTooling-debug = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-uiTooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose-view-binding = { module = "androidx.compose.ui:ui-viewbinding", version.ref = "compose" }
 compose-detekt = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektCompose" }
-#Fossify
+
+# Glide
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "glideCompose" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+
+# Material
+material = { module = "com.google.android.material:material", version.ref = "material" }
+
+# Fossify & Others
 fossify-commons = { module = "org.fossify:commons", version.ref = "commons" }
-#Other
 autofittextview = { module = "me.grantland:autofittextview", version.ref = "autofittextview" }
 gestureviews = { module = "com.alexvasilkov:gesture-views", version.ref = "gestureviews" }
 rootshell = { module = "com.github.naveensingh:RootShell", version.ref = "rootshell" }
 roottools = { module = "com.github.naveensingh:RootTools", version.ref = "roottools" }
 zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
 jcifs-ng = { module = "eu.agno3.jcifs:jcifs-ng", version.ref = "jcifs" }
+patternLockView = { module = "com.github.aritraroy:patternLockView", version.ref = "patternLockView" }
+reprint = { module = "com.github.tibbi:reprint", version.ref = "reprint" }
+recyclerView-fastScroller = { module = "com.github.tibbi:RecyclerView-FastScroller", version.ref = "recyclerviewFastscroller" }
+rtl-viewpager = { module = "com.github.naveensingh:rtl-viewpager", version.ref = "rtlViewpager" }
+ez-vcard = { module = "com.googlecode.ez-vcard:ez-vcard", version.ref = "ezVcard" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+joda-time = { module = "joda-time:joda-time", version.ref = "jodaTime" }
+# Kotlin
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlin-immutable-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-immutable-collections" }
+
+[bundles]
+compose = [
+    "compose-activity",
+    "compose-animation",
+    "compose-foundation",
+    "compose-material-icons",
+    "compose-material3",
+    "compose-runtime",
+    "compose-ui",
+    "compose-uiTooling-preview",
+]
+compose-preview = [
+    "androidx-customView",
+    "androidx-customViewPooling",
+    "compose-uiTooling-debug",
+]
+room = [
+    "androidx-room-ktx",
+    "androidx-room-runtime",
+]
+lifecycle = [
+    "androidx-lifecycle-compose",
+    "androidx-lifecycle-runtime",
+    "androidx-lifecycle-viewModel",
+    "androidx-lifecycle-viewModel-compose",
+]
+
 [plugins]
 android = { id = "com.android.application", version.ref = "gradlePlugins-agp" }
+library = { id = "com.android.library", version.ref = "gradlePlugins-agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+
+

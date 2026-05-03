@@ -14,5 +14,5 @@ interface NetworkConnectionDao {
     fun getAll(): Flow<List<NetworkConnectionEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(connection: NetworkConnectionEntity)
+    suspend fun insert(connection: NetworkConnectionEntity): Long
 }

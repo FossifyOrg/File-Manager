@@ -6,6 +6,7 @@ import jcifs.smb.SmbFile
 import jcifs.smb.SmbFileInputStream
 import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.helpers.Helpers
+import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryApi
 import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
 import java.io.BufferedInputStream
 
@@ -13,7 +14,7 @@ class HttpServer(
     private val port: Int,
     private val serverIp: String,
     private val connectionTypes: ConnectionTypes,
-    private val viewModel: NetworkBrowserViewModel,
+    private val networkConnectionRepository: NetworkConnectionRepositoryApi,
     private val machinePort: Int
 ) :
     NanoHTTPD(port) {
@@ -30,16 +31,16 @@ class HttpServer(
         }
         else if(connectionTypes.equals(ConnectionTypes.WebDav)) {
             val url = Helpers.createUrl(connectionTypes, server = serverIp, path = uri.toString(), port = machinePort)
-            val webDavFile = viewModel.listWebDavFileDetail(url)
+            val webDavFile = networkConnectionRepository.listWebDavFileDetail(url)
             return handleRangeRequestWebDav(rangeHeader, webDavFile?.contentLength!!, uri = uri, webDavFile.contentType)
         }
         else if (connectionTypes.equals(ConnectionTypes.SFTP)) {
             val url = Helpers.createUrl(connectionTypes, server = serverIp, path = "", port = machinePort)
-            val sftFile = viewModel.listSFTPFileDetails(uri)
+            val sftFile = networkConnectionRepository.listSFTPFileDetails(uri)
             return handleRangeRequestSFTPServer(rangeHeader, sftFile?.size!!, uri = uri, url)
         }
         val url = Helpers.createUrl(connectionTypes, server = serverIp, path = "", port = machinePort)
-        val sftFile = viewModel.getFTPFileDetail(uri)
+        val sftFile = networkConnectionRepository.getFTPFileDetail(uri)
         return handleRangeRequestFTPServer(rangeHeader, sftFile?.size!!, uri = uri, url)
     }
 
@@ -108,7 +109,7 @@ class HttpServer(
 
         val contentLength = end - start + 1
 
-        val inputStream = viewModel.listWebDavFileStream(url = url,start,end)
+        val inputStream = networkConnectionRepository.getWebDavFileInputStream(url = url,start,end)
 
         return newFixedLengthResponse(
             Response.Status.PARTIAL_CONTENT,
@@ -140,7 +141,7 @@ class HttpServer(
 
         val contentLength = end - start + 1
 
-        val inputStream = viewModel.getSFTPFileStream(uri,start)
+        val inputStream = networkConnectionRepository.getSFTPFileInputStream(uri,start)
         val bufferedStream = BufferedInputStream(inputStream, 1024 * 1024)
         return newFixedLengthResponse(
             Response.Status.PARTIAL_CONTENT,
@@ -172,7 +173,7 @@ class HttpServer(
 
         val contentLength = end - start + 1
 
-        val inputStream = viewModel.getFTPFileStream(uri,start)
+        val inputStream = networkConnectionRepository.getFTPFileInputStream(uri,start)
         val bufferedStream = BufferedInputStream(inputStream, 1024 * 1024)
         return newFixedLengthResponse(
             Response.Status.PARTIAL_CONTENT,

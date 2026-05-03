@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import org.fossify.filemanager.database.Database
 import org.fossify.filemanager.factory.NetworkBrowserViewModelFactory
-import org.fossify.filemanager.repository.ExternalStorageRepositoryDbImpl
+import org.fossify.filemanager.repository.CertificateRepositoryImpl
 import org.fossify.filemanager.repository.NetworkConnectionRepositoryApiImpl
 import org.fossify.filemanager.repository.NetworkConnectionRepositoryDbImpl
 
@@ -22,12 +22,13 @@ class AppComposition (private val context: Context) {
         NetworkConnectionRepositoryDbImpl(database.networkConnectionDao())
     }
 
-    val documentRepository by lazy {
-        ExternalStorageRepositoryDbImpl(database.docDao())
-    }
 
     val networkApiRepository by lazy {
         NetworkConnectionRepositoryApiImpl()
+    }
+
+    val certificateRepository by lazy {
+        CertificateRepositoryImpl()
     }
 
     fun provideNetworkBrowserViewModelFactory(): NetworkBrowserViewModelFactory{

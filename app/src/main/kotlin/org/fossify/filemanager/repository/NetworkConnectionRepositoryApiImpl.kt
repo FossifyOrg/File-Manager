@@ -1,5 +1,7 @@
 package org.fossify.filemanager.repository
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import com.thegrizzlylabs.sardineandroid.DavResource
 import com.thegrizzlylabs.sardineandroid.Sardine
@@ -19,11 +21,21 @@ import org.fossify.filemanager.models.NetworkConnection
 import java.io.InputStream
 import java.util.Properties
 import net.schmizz.sshj.sftp.RemoteResourceInfo
+import okhttp3.OkHttpClient
 import org.apache.commons.net.ftp.FTP
 import org.apache.commons.net.ftp.FTPClient
 import org.apache.commons.net.ftp.FTPCmd
 import org.apache.commons.net.ftp.FTPFile
+import org.fossify.filemanager.enums.Protocols
+import org.fossify.filemanager.keyStores.CertificateStore
 import java.io.File
+import java.security.KeyStore
+import java.security.cert.CertificateException
+import java.security.cert.CertificateFactory
+import java.security.cert.X509Certificate
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManagerFactory
+import javax.net.ssl.X509TrustManager
 
 class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
     lateinit var dir: SmbFile
@@ -70,9 +82,20 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
 
     override fun getMainSmbFile(): SmbFile = dir
 
-    override suspend fun connectAndVerifyWebDav(userName: String, password: String, url: String): Boolean {
+    override suspend fun connectAndVerifyWebDav(
+        userName: String,
+        password: String,
+        url: String,
+        host: String,
+        protocols: Protocols,
+        context: Context
+    ): Boolean {
         try {
-            sardine = OkHttpSardine()
+            sardine = if (protocols == Protocols.HTTP) {
+                OkHttpSardine()
+            } else {
+                createHTTPSSardine(context,host)
+            }
             sardine.setCredentials(userName, password)
             return sardine.exists(url)
         } catch (exp: Exception) {
@@ -86,7 +109,7 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
         return resources
     }
 
-    override fun listWebDavFileInputStream(url: String, start: Long, end: Long): InputStream {
+    override fun getWebDavFileInputStream(url: String, start: Long, end: Long): InputStream {
         val rangeHeader = "bytes=$start-$end"
         val headers = mapOf("Range" to rangeHeader)
         return sardine.get(url, headers)
@@ -100,6 +123,18 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
         }
         return null
     }
+
+    override fun loadCertificate(stream: InputStream): Result<X509Certificate> {
+        return try {
+            val cf = CertificateFactory.getInstance("X.509")
+            val cert = cf.generateCertificate(stream) as X509Certificate
+            cert.checkValidity()
+            Result.success(cert)
+        } catch (exp: Exception) {
+            Result.failure(Exception(exp.message))
+        }
+    }
+
 
     override suspend fun connectToSftp(userName: String, password: String, server: String, port: Int): Boolean {
         try {
@@ -139,7 +174,7 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
         }
     }
 
-    override fun listSFTPFileInputStream(url: String, startByte: Long): InputStream {
+    override fun getSFTPFileInputStream(url: String, startByte: Long): InputStream {
         val myPath = url.replace("//", "/")
         val remoteFile = sftp.open(myPath)
         val inputStream = remoteFile.RemoteFileInputStream(startByte)
@@ -164,8 +199,7 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
             ftp.enterLocalPassiveMode()
             ftpStream.enterLocalPassiveMode()
             return true
-        }
-        catch (exp: Exception){
+        } catch (exp: Exception) {
             return false
         }
     }
@@ -176,9 +210,9 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
         return files.toList()
     }
 
-    override fun getFTPFileDetail(path: String):FTPFile? {
+    override fun getFTPFileDetail(path: String): FTPFile? {
         val myPath = path.replace("//", "/")
-        if(ftp.hasFeature(FTPCmd.MLST)){
+        if (ftp.hasFeature(FTPCmd.MLST)) {
             val file = ftp.mlistFile(myPath)
             return file
         }
@@ -187,8 +221,8 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
         return files
     }
 
-    override fun getFTPFileInputStream(path: String,start: Long): InputStream {
-        if(::currentStream.isInitialized)
+    override fun getFTPFileInputStream(path: String, start: Long): InputStream {
+        if (::currentStream.isInitialized)
             currentStream.close()
         ftpStream.completePendingCommand()
         ftpStream.setFileType(FTP.BINARY_FILE_TYPE)
@@ -198,5 +232,44 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
     }
 
     override fun getFTPConn(): FTPClient = ftp
+
+    private fun createHTTPSSardine(context: Context, host: String): Sardine {
+        return buildSardineWithUserCert(context, host)
+    }
+
+    private fun buildSardineWithUserCert(
+        context: Context,
+        host: String
+    ): Sardine {
+        val cert = CertificateStore.loadCert(context, host)
+
+        val trustManager = @SuppressLint("CustomX509TrustManager")
+        object : X509TrustManager {
+            override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf(cert)
+
+            @SuppressLint("TrustAllX509TrustManager")
+            override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) {
+            }
+
+            override fun checkServerTrusted(chain: Array<X509Certificate>, authType: String) {
+                if (!chain[0].encoded.contentEquals(cert.encoded)) {
+                    throw CertificateException("Untrusted certificate")
+                }
+            }
+        }
+
+        val sslContext = SSLContext.getInstance("TLS").apply {
+            init(null, arrayOf(trustManager), null)
+        }
+
+        val okHttpClient = OkHttpClient.Builder()
+            .sslSocketFactory(sslContext.socketFactory, trustManager)
+            .hostnameVerifier { hostname, _ ->
+                hostname == host
+            }
+            .build()
+
+        return OkHttpSardine(okHttpClient)
+    }
 
 }

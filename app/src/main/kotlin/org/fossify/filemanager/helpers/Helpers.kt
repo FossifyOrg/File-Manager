@@ -3,6 +3,8 @@ package org.fossify.filemanager.helpers
 import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.enums.Protocols
 import java.nio.file.Path
+import java.util.Locale
+import java.util.Locale.getDefault
 
 object Helpers {
     val host: String = "127.0.0.1"
@@ -32,5 +34,9 @@ object Helpers {
             return PORT_FTP
         }
         return PORT_SMB
+    }
+
+    fun createProtocolPath(protocol: Protocols, server: String, port:Int, path:String): String{
+        return "${protocol.name.lowercase(getDefault())}://${server}:${port}/${path}"
     }
 }

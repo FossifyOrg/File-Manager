@@ -17,6 +17,9 @@ const val PORT_SFTP = 7860
 
 const val PORT_FTP = 7850
 
+const val PORT_WEBDAV_MOUNT = 7840
+
+
 // shared preferences
 const val SHOW_HIDDEN = "show_hidden"
 const val PRESS_BACK_TWICE = "press_back_twice"

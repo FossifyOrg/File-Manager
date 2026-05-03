@@ -29,18 +29,6 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <provider
-            android:name=".documentProvider.ExternalStorageProvider"
-            android:authorities="org.fossify.filemanager.App"
-            android:exported="true"
-            android:grantUriPermissions="true"
-            android:permission="android.permission.MANAGE_DOCUMENTS">
-            <intent-filter>
-                <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
-            </intent-filter>
-
-        </provider>
         <activity
             android:name=".activities.SplashActivity"
             android:exported="false"
