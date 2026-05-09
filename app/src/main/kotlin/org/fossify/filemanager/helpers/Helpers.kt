@@ -14,7 +14,7 @@ object Helpers {
             protocol = protocols.name.lowercase()
         }
         else if(connectionTypes.equals(ConnectionTypes.SMB)){
-            protocol = Protocols.SMB.toString().lowercase()
+            protocol = ConnectionTypes.SMB.toString().lowercase()
         }
         val url = "${protocol}://${if (server.isEmpty()) host else server }:${port}/${path}"
         return url

@@ -17,7 +17,7 @@ import org.fossify.filemanager.activities.CloudActivity
 import org.fossify.filemanager.databinding.DialogAddConnectionBinding
 import org.fossify.filemanager.enums.Protocols
 
-class ConnectionDialog(val activity: BaseSimpleActivity, dispatch: (String, String, String, String, String, Uri?, Int, ConnectionTypes, Protocols) -> Unit) {
+class ConnectionDialog(val activity: BaseSimpleActivity, dispatch: (String, String, String, String, String, Uri?, Int, ConnectionTypes, Protocols?) -> Unit) {
     private var binding: DialogAddConnectionBinding
     val items = listOf(ConnectionTypes.DAVx5.type, ConnectionTypes.SMB.type, ConnectionTypes.WebDav.type, ConnectionTypes.SFTP.type, ConnectionTypes.FTP.type)
     private var certUri: Uri? = null
@@ -36,7 +36,10 @@ class ConnectionDialog(val activity: BaseSimpleActivity, dispatch: (String, Stri
                     certUri,
                     binding.portEt.value.toIntOrNull() ?: 0,
                     ConnectionTypes.fromType(binding.dropdownMenu.value),
-                    Protocols.valueOf(binding.dropdownMenuProtocol.text.toString())
+                    binding.dropdownMenuProtocol.text
+                        ?.toString()
+                        ?.takeIf { it.isNotBlank() }
+                        ?.let { Protocols.valueOf(it) }
                 )
             }
             .setNegativeButton(R.string.cancel, null)

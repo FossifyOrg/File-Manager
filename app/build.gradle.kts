@@ -25,7 +25,11 @@ fun hasSigningVars(): Boolean {
 
 android {
     compileSdk = project.libs.versions.app.build.compileSDKVersion.get().toInt()
-
+    packaging {
+        resources {
+            excludes += listOf("META-INF/**")
+        }
+    }
     defaultConfig {
         applicationId = project.property("APP_ID").toString()
         minSdk = project.libs.versions.app.build.minimumSDK.get().toInt()
@@ -135,7 +139,7 @@ detekt {
 }
 
 dependencies {
-    implementation(libs.fossify.commons)
+    api(project(":commons"))
     implementation(libs.androidx.documentfile)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.roottools)
@@ -143,13 +147,24 @@ dependencies {
     implementation(libs.gestureviews)
     implementation(libs.autofittextview)
     implementation(libs.zip4j)
-    implementation(libs.jcifs.ng)
+    implementation(libs.jcifs.ng){
+        exclude(group = "org.bouncycastle", module = "bcprov-jdk18on")
+        exclude(group = "org.bouncycastle", module = "bcpkix-jdk18on")
+    }
     detektPlugins(libs.compose.detekt)
 
     val roomVersion = "2.7.0-alpha11"
     implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
     implementation (libs.androidx.room.ktx)
-    //noinspection UseTomlInstead
     implementation("org.nanohttpd:nanohttpd:2.3.1")
-    implementation("com.github.thegrizzlylabs:sardine-android:0.9")}
+    implementation("com.github.thegrizzlylabs:sardine-android:0.9")
+    implementation("com.hierynomus:sshj:0.40.0") {
+        exclude(group = "org.bouncycastle", module = "bcprov-jdk18on")
+        exclude(group = "org.bouncycastle", module = "bcpkix-jdk18on")
+    }
+    val bouncy_castle_version = "1.81"
+    implementation("org.bouncycastle:bcprov-jdk15to18:$bouncy_castle_version")
+    implementation("org.bouncycastle:bcpkix-jdk15to18:${bouncy_castle_version}")
+    implementation("commons-net:commons-net:3.10.0")
+}

@@ -22,19 +22,22 @@ import org.apache.commons.net.ftp.FTPFile
 import org.fossify.filemanager.enums.Protocols
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryApi
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryDb
+import org.fossify.filemanager.models.ConnectionResult
 import org.fossify.filemanager.models.NetworkConnection
 import java.io.InputStream
-import java.security.cert.X509Certificate
 
-class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkConnectionRepositoryDb, private val networkConnectionRepositoryApi: NetworkConnectionRepositoryApi): ViewModel() {
+class NetworkBrowserViewModel(
+    private val networkConnectionRepository: NetworkConnectionRepositoryDb,
+    private val networkConnectionRepositoryApi: NetworkConnectionRepositoryApi
+) : ViewModel() {
 
     val savedNetworks = MutableStateFlow<List<NetworkConnection>>(emptyList())
-    val verifyNetwork = MutableSharedFlow<Boolean>()
+    val verifyNetwork = MutableSharedFlow<ConnectionResult>()
 
-    val verifyWebDav = MutableSharedFlow<Boolean>()
+    val verifyWebDav = MutableSharedFlow<ConnectionResult>()
 
-    val verifySFTP = MutableSharedFlow<Boolean>()
-    val verifyFTP = MutableSharedFlow<Boolean>()
+    val verifySFTP = MutableSharedFlow<ConnectionResult>()
+    val verifyFTP = MutableSharedFlow<ConnectionResult>()
 
 
     val sftpFiles = MutableStateFlow<List<RemoteResourceInfo>>(emptyList())
@@ -43,116 +46,109 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
 
     val ftpFiles = MutableStateFlow<List<FTPFile>>(emptyList())
 
-    val connectionId = MutableSharedFlow<Long>()
 
-    fun saveNetwork(networkConnection: NetworkConnection){
+    fun saveNetwork(networkConnection: NetworkConnection) {
         viewModelScope.launch(Dispatchers.IO) {
-            connectionId.emit(networkConnectionRepository.saveConnection(networkConnection))
+           networkConnectionRepository.saveConnection(networkConnection)
         }
     }
 
-    fun authenticateAndSaveSMBNetwork(networkConnection: NetworkConnection){
+    fun getAllSavedNetworks() {
         viewModelScope.launch(Dispatchers.IO) {
-            val config: Configuration = PropertyConfiguration(System.getProperties())
-            val context: CIFSContext = BaseContext(config)
-            val auth = NtlmPasswordAuthenticator(
-                "",
-                networkConnection.username,
-                networkConnection.password
-            )
-            val authContext = context.withCredentials(auth)
-            val smbUrl = "smb://${networkConnection.host}/${networkConnection.sharedPath}"
-
-            val dir = SmbFile(smbUrl, authContext)
-            if (dir.exists()) {
-                saveNetwork(networkConnection)
-            }
-        }
-    }
-
-    fun getAllSavedNetworks(){
-        viewModelScope.launch(Dispatchers.IO){
             val connections = networkConnectionRepository.getAllSavedConnections().collectLatest { value ->
                 savedNetworks.emit(value)
             }
         }
     }
 
-    fun verifyNetwork(connection: NetworkConnection){
+    fun verifyNetwork(connection: NetworkConnection,saveInfo: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             val value = networkConnectionRepositoryApi.verifyConnection(connection)
-            verifyNetwork.emit(value)
+            verifyNetwork.emit(ConnectionResult(connection, value, saveInfo = saveInfo))
         }
     }
 
-    fun getFilesFromNetworkPath():Array<SmbFile>{
-        return  networkConnectionRepositoryApi.getFilesFromNetworkPath()
+    fun getFilesFromNetworkPath(): Array<SmbFile> {
+        return networkConnectionRepositoryApi.getFilesFromNetworkPath()
     }
 
     fun getMainSmb(): SmbFile = networkConnectionRepositoryApi.getMainSmbFile()
 
     fun getSFTPConn(): SFTPClient = networkConnectionRepositoryApi.getSFTPConn()
 
-    fun connectAndAuthenticateWebDav(userName: String = "", password: String = "", url: String, host: String, protocol: Protocols, context: Context){
+    fun connectAndAuthenticateWebDav(connection: NetworkConnection, protocol: Protocols,saveInfo: Boolean, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-           val result = networkConnectionRepositoryApi.connectAndVerifyWebDav(userName, password, url,host,protocol,context)
-            verifyWebDav.emit(result)
+            connection.username?.let { username ->
+                connection.password?.let { password ->
+                    val result = networkConnectionRepositoryApi.connectAndVerifyWebDav(username, password, connection.url, connection.host, protocol, context)
+                    verifyWebDav.emit(ConnectionResult(connection, result,saveInfo))
+                }
+            }
         }
     }
 
-    fun listWebDavFiles(url: String){
+    fun listWebDavFiles(url: String) {
         viewModelScope.launch(Dispatchers.IO) {
-          webDavFiles.emit(networkConnectionRepositoryApi.listAllFilesOnWebDav(url))
+            webDavFiles.emit(networkConnectionRepositoryApi.listAllFilesOnWebDav(url))
         }
     }
 
-    fun listWebDavFileStream(url: String,start: Long,end: Long): InputStream{
-        return networkConnectionRepositoryApi.getWebDavFileInputStream(url,start,end)
+    fun listWebDavFileStream(url: String, start: Long, end: Long): InputStream {
+        return networkConnectionRepositoryApi.getWebDavFileInputStream(url, start, end)
     }
 
-    fun listWebDavFileDetail(url: String): DavResource?{
+    fun listWebDavFileDetail(url: String): DavResource? {
         return networkConnectionRepositoryApi.listWebDavFileDetail(url)
     }
 
-    fun connectSFTP(userName: String, password: String,server: String,port: Int){
+    fun connectSFTP(connection: NetworkConnection,saveInfo: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-           val res = networkConnectionRepositoryApi.connectToSftp(userName,password,server,port)
-            verifySFTP.emit(res)
+            connection.username?.let { username ->
+                connection.password?.let { password ->
+                    val res = networkConnectionRepositoryApi.connectToSftp(username, password, connection.host, connection.port)
+                    verifySFTP.emit(ConnectionResult(connection, res,saveInfo))
+                }
+            }
+
         }
     }
 
-    fun listAllFilesSFTPRoot(path: String){
-        viewModelScope.launch(Dispatchers.IO) {
-            val res = networkConnectionRepositoryApi.listAllFilesSFTPRoot(path)
-            sftpFiles.emit(res)
-        }
-    }
-
-    fun listAllFilesSFTPPath(path: String){
+    fun listAllFilesSFTPRoot(path: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = networkConnectionRepositoryApi.listAllFilesSFTPRoot(path)
             sftpFiles.emit(res)
         }
     }
 
-    fun listSFTPFileDetails(path: String): FileAttributes?{
+    fun listAllFilesSFTPPath(path: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = networkConnectionRepositoryApi.listAllFilesSFTPRoot(path)
+            sftpFiles.emit(res)
+        }
+    }
+
+    fun listSFTPFileDetails(path: String): FileAttributes? {
         return networkConnectionRepositoryApi.listSFTPFileDetails(path)
     }
 
-    fun getSFTPFileStream(path: String,startByte: Long): InputStream{
-        return  networkConnectionRepositoryApi.getSFTPFileInputStream(url = path,startByte)
+    fun getSFTPFileStream(path: String, startByte: Long): InputStream {
+        return networkConnectionRepositoryApi.getSFTPFileInputStream(url = path, startByte)
     }
 
-    fun connectFTP(userName: String, password: String,server: String,port: Int){
+    fun connectFTP(connection: NetworkConnection,saveInfo: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = networkConnectionRepositoryApi.connectToFTP(userName,password,server,port)
-            verifyFTP.emit(res)
+            connection.username?.let { username ->
+                connection.password?.let { password ->
+                    val res = networkConnectionRepositoryApi.connectToFTP(username, password, connection.host, connection.port)
+                    verifyFTP.emit(ConnectionResult(connection, res,saveInfo))
+                }
+            }
         }
     }
 
     fun getFTP() = networkConnectionRepositoryApi.getFTPConn()
 
-    fun listAllFTPFiles(path: String){
+    fun listAllFTPFiles(path: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = networkConnectionRepositoryApi.listAllFTPFiles(path)
             ftpFiles.emit(res)
@@ -161,5 +157,5 @@ class NetworkBrowserViewModel(private val networkConnectionRepository: NetworkCo
 
     fun getFTPFileDetail(path: String) = networkConnectionRepositoryApi.getFTPFileDetail(path)
 
-    fun getFTPFileStream(path: String,start: Long) = networkConnectionRepositoryApi.getFTPFileInputStream(path,start)
+    fun getFTPFileStream(path: String, start: Long) = networkConnectionRepositoryApi.getFTPFileInputStream(path, start)
 }
