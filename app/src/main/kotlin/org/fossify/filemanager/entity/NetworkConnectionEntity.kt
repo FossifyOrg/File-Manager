@@ -2,6 +2,8 @@ package org.fossify.filemanager.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import org.fossify.filemanager.enums.Authentication
+
 @Entity(tableName = "network_connections")
 data class NetworkConnectionEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
@@ -12,5 +14,6 @@ data class NetworkConnectionEntity(
     val displayName: String,
     val connectionType: String,
     val sharedPath: String,
-    val url: String
+    val url: String,
+    val authentication: String
 )

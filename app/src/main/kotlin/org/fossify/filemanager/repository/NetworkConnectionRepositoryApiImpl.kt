@@ -7,7 +7,6 @@ import com.thegrizzlylabs.sardineandroid.DavResource
 import com.thegrizzlylabs.sardineandroid.Sardine
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
 import jcifs.CIFSContext
-import jcifs.Configuration
 import jcifs.config.PropertyConfiguration
 import jcifs.context.BaseContext
 import jcifs.smb.NtlmPasswordAuthenticator
@@ -26,15 +25,16 @@ import org.apache.commons.net.ftp.FTP
 import org.apache.commons.net.ftp.FTPClient
 import org.apache.commons.net.ftp.FTPCmd
 import org.apache.commons.net.ftp.FTPFile
+import org.fossify.commons.enums.ConnectionTypes
+import org.fossify.filemanager.enums.Authentication
 import org.fossify.filemanager.enums.Protocols
+import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.keyStores.CertificateStore
 import java.io.File
-import java.security.KeyStore
 import java.security.cert.CertificateException
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 import javax.net.ssl.SSLContext
-import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 
 class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
@@ -57,16 +57,20 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
 
     override suspend fun verifyConnection(connection: NetworkConnection): Boolean {
         try {
-            val config: Configuration = PropertyConfiguration(System.getProperties())
             val p = Properties(defaultProperties)
-            var context: CIFSContext = BaseContext(PropertyConfiguration(p))
-            val auth = NtlmPasswordAuthenticator(
-                "",
-                connection.username,
-                connection.password
-            )
-            val authContext = context.withCredentials(auth)
-            val smbUrl = "smb://${connection.host}/${connection.sharedPath}"
+            val context: CIFSContext = BaseContext(PropertyConfiguration(p))
+            var authContext: CIFSContext? = null
+            if (connection.authentication == Authentication.Password) {
+                val auth = NtlmPasswordAuthenticator(
+                    "",
+                    connection.username,
+                    connection.password
+                )
+                authContext = context.withCredentials(auth)
+            } else if (connection.authentication == Authentication.Anonymous) {
+                authContext = context.withGuestCrendentials()
+            }
+            val smbUrl = Helpers.createUrl(ConnectionTypes.SMB, connection.sharedPath, connection.host)
             dir = SmbFile(smbUrl, authContext)
             return dir.exists()
         } catch (exp: Exception) {
@@ -83,10 +87,7 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
     override fun getMainSmbFile(): SmbFile = dir
 
     override suspend fun connectAndVerifyWebDav(
-        userName: String,
-        password: String,
-        url: String,
-        host: String,
+        connection: NetworkConnection,
         protocols: Protocols,
         context: Context
     ): Boolean {
@@ -94,10 +95,13 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
             sardine = if (protocols == Protocols.HTTP) {
                 OkHttpSardine()
             } else {
-                createHTTPSSardine(context,host)
+                createHTTPSSardine(context,connection.host)
             }
-            sardine.setCredentials(userName, password)
-            return sardine.exists(url)
+            if(connection.authentication == Authentication.Anonymous){
+                return sardine.exists(connection.url)
+            }
+            sardine.setCredentials(connection.username, connection.password)
+            return sardine.exists(connection.url)
         } catch (exp: Exception) {
             Log.d("WebDav", exp.toString())
             return false
@@ -105,7 +109,7 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
     }
 
     override suspend fun listAllFilesOnWebDav(url: String): List<DavResource> {
-        val resources = sardine.list(url)
+        val resources = sardine.list("http://192.168.18.86:8090/WebDav/")
         return resources
     }
 
@@ -136,13 +140,13 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
     }
 
 
-    override suspend fun connectToSftp(userName: String, password: String, server: String, port: Int): Boolean {
+    override suspend fun connectToSftp(connection: NetworkConnection): Boolean {
         try {
             if (!::ssh.isInitialized || !ssh.isConnected || !ssh.isAuthenticated) {
                 ssh = SSHClient()
                 ssh.addHostKeyVerifier(PromiscuousVerifier())
-                ssh.connect(server)
-                ssh.authPassword(userName, password)
+                ssh.connect(connection.host)
+                ssh.authPassword(connection.username, connection.password)
                 sftp = ssh.newSFTPClient()
             }
             return true
@@ -183,15 +187,15 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
 
     override fun getSFTPConn() = sftp
 
-    override suspend fun connectToFTP(userName: String, password: String, server: String, port: Int): Boolean {
+    override suspend fun connectToFTP(connection: NetworkConnection): Boolean {
         try {
             ftp = FTPClient()
             ftpStream = FTPClient()
-            ftp.connect(server, port)
-            ftpStream.connect(server, port)
+            ftp.connect(connection.host, connection.port)
+            ftpStream.connect(connection.host, connection.port)
 
-            val loginSuccess = ftp.login(userName, password)
-            ftpStream.login(userName, password)
+            val loginSuccess = ftp.login(connection.username, connection.password)
+            ftpStream.login(connection.username,connection.password)
 
             if (!loginSuccess) {
                 return false

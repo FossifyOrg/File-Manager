@@ -8,7 +8,6 @@ import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.enums.Protocols
 import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryApi
-import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
 import java.io.BufferedInputStream
 
 class HttpServer(
@@ -32,16 +31,16 @@ class HttpServer(
             return handleRangeRequest(file, rangeHeader, file.length())
         }
         else if(connectionTypes.equals(ConnectionTypes.WebDav)) {
-            val url = Helpers.createUrl(connectionTypes, server = serverIp, path = uri.toString(), port = machinePort, protocols = protocols)
+            val url = Helpers.createNanoHttpdUrl(connectionTypes, server = serverIp, path = uri.toString(), port = machinePort, protocols = protocols)
             val webDavFile = networkConnectionRepository.listWebDavFileDetail(url)
             return handleRangeRequestWebDav(rangeHeader, webDavFile?.contentLength!!, uri = uri, webDavFile.contentType,protocols)
         }
         else if (connectionTypes.equals(ConnectionTypes.SFTP)) {
-            val url = Helpers.createUrl(connectionTypes, server = serverIp, path = "", port = machinePort)
+            val url = Helpers.createNanoHttpdUrl(connectionTypes, server = serverIp, path = "", port = machinePort)
             val sftFile = networkConnectionRepository.listSFTPFileDetails(uri)
             return handleRangeRequestSFTPServer(rangeHeader, sftFile?.size!!, uri = uri, url)
         }
-        val url = Helpers.createUrl(connectionTypes, server = serverIp, path = "", port = machinePort)
+        val url = Helpers.createNanoHttpdUrl(connectionTypes, server = serverIp, path = "", port = machinePort)
         val sftFile = networkConnectionRepository.getFTPFileDetail(uri)
         return handleRangeRequestFTPServer(rangeHeader, sftFile?.size!!, uri = uri, url)
     }
@@ -96,7 +95,7 @@ class HttpServer(
     private fun handleRangeRequestWebDav(rangeHeader: String?, fileLength: Long, uri: String = "", contentType: String,protocol: Protocols = Protocols.HTTP): Response {
         var start: Long = 0
         var end = fileLength - 1
-        val url = Helpers.createUrl(connectionTypes, server = serverIp, path = uri, port = machinePort, protocols = protocol)
+        val url = Helpers.createNanoHttpdUrl(connectionTypes, server = serverIp, path = uri, port = machinePort, protocols = protocol)
         if (rangeHeader != null && rangeHeader.startsWith("bytes=")) {
             val ranges = rangeHeader.substring(6).split("-")
             try {

@@ -23,7 +23,7 @@ interface NetworkConnectionRepositoryApi {
 
     ///WebDav
 
-   suspend fun connectAndVerifyWebDav(userName: String = "", password: String = "", url: String,host:String,protocols: Protocols, context: Context): Boolean
+   suspend fun connectAndVerifyWebDav(connection: NetworkConnection,protocols: Protocols, context: Context): Boolean
 
     suspend fun listAllFilesOnWebDav(url: String): List<DavResource>
 
@@ -34,7 +34,7 @@ interface NetworkConnectionRepositoryApi {
     fun loadCertificate(stream: InputStream):Result<X509Certificate>
     //SFTP
 
-    suspend fun connectToSftp(userName: String, password: String,server: String,port: Int): Boolean
+    suspend fun connectToSftp(connection: NetworkConnection): Boolean
 
     suspend fun listAllFilesSFTPRoot(path: String): List<RemoteResourceInfo>
 
@@ -46,7 +46,7 @@ interface NetworkConnectionRepositoryApi {
 
     fun getSFTPConn(): SFTPClient
 
-    suspend fun connectToFTP(userName: String, password: String,server: String,port: Int): Boolean
+    suspend fun connectToFTP(connection: NetworkConnection): Boolean
 
     suspend fun listAllFTPFiles(path: String): List<FTPFile>
 

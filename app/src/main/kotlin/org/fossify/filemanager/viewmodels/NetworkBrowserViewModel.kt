@@ -49,7 +49,7 @@ class NetworkBrowserViewModel(
 
     fun saveNetwork(networkConnection: NetworkConnection) {
         viewModelScope.launch(Dispatchers.IO) {
-           networkConnectionRepository.saveConnection(networkConnection)
+            networkConnectionRepository.saveConnection(networkConnection)
         }
     }
 
@@ -61,7 +61,7 @@ class NetworkBrowserViewModel(
         }
     }
 
-    fun verifyNetwork(connection: NetworkConnection,saveInfo: Boolean) {
+    fun verifyNetwork(connection: NetworkConnection, saveInfo: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             val value = networkConnectionRepositoryApi.verifyConnection(connection)
             verifyNetwork.emit(ConnectionResult(connection, value, saveInfo = saveInfo))
@@ -76,14 +76,10 @@ class NetworkBrowserViewModel(
 
     fun getSFTPConn(): SFTPClient = networkConnectionRepositoryApi.getSFTPConn()
 
-    fun connectAndAuthenticateWebDav(connection: NetworkConnection, protocol: Protocols,saveInfo: Boolean, context: Context) {
+    fun connectAndAuthenticateWebDav(connection: NetworkConnection, protocol: Protocols, saveInfo: Boolean, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            connection.username?.let { username ->
-                connection.password?.let { password ->
-                    val result = networkConnectionRepositoryApi.connectAndVerifyWebDav(username, password, connection.url, connection.host, protocol, context)
-                    verifyWebDav.emit(ConnectionResult(connection, result,saveInfo))
-                }
-            }
+            val result = networkConnectionRepositoryApi.connectAndVerifyWebDav(connection, protocol, context)
+            verifyWebDav.emit(ConnectionResult(connection, result, saveInfo))
         }
     }
 
@@ -101,15 +97,10 @@ class NetworkBrowserViewModel(
         return networkConnectionRepositoryApi.listWebDavFileDetail(url)
     }
 
-    fun connectSFTP(connection: NetworkConnection,saveInfo: Boolean) {
+    fun connectSFTP(connection: NetworkConnection, saveInfo: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            connection.username?.let { username ->
-                connection.password?.let { password ->
-                    val res = networkConnectionRepositoryApi.connectToSftp(username, password, connection.host, connection.port)
-                    verifySFTP.emit(ConnectionResult(connection, res,saveInfo))
-                }
-            }
-
+            val res = networkConnectionRepositoryApi.connectToSftp(connection)
+            verifySFTP.emit(ConnectionResult(connection, res, saveInfo))
         }
     }
 
@@ -135,14 +126,11 @@ class NetworkBrowserViewModel(
         return networkConnectionRepositoryApi.getSFTPFileInputStream(url = path, startByte)
     }
 
-    fun connectFTP(connection: NetworkConnection,saveInfo: Boolean) {
+    fun connectFTP(connection: NetworkConnection, saveInfo: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            connection.username?.let { username ->
-                connection.password?.let { password ->
-                    val res = networkConnectionRepositoryApi.connectToFTP(username, password, connection.host, connection.port)
-                    verifyFTP.emit(ConnectionResult(connection, res,saveInfo))
-                }
-            }
+            val res = networkConnectionRepositoryApi.connectToFTP(connection)
+            verifyFTP.emit(ConnectionResult(connection, res, saveInfo))
+
         }
     }
 

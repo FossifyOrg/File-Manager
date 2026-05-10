@@ -1,10 +1,8 @@
 package org.fossify.filemanager.fileSystems
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
 import jcifs.smb.SmbFile
@@ -14,7 +12,6 @@ import kotlinx.coroutines.launch
 import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.models.ListItem
-import java.io.File
 
 object FileHelpers {
     val URL: String = "http://127.0.0.1:7871/"
@@ -40,7 +37,7 @@ object FileHelpers {
         try {
             CoroutineScope(Dispatchers.IO).launch {
                 val port = Helpers.getPortForEachService(connectionTypes)
-                val uri = Helpers.createUrl(connectionTypes, item.mPath, port = port).toUri()
+                val uri = Helpers.createNanoHttpdUrl(connectionTypes, item.mPath, port = port).toUri()
                 val i =
                     Intent(Intent.ACTION_VIEW)
                 i.setDataAndType(uri, MimeTypes.getMimeTypes(item.mPath))
@@ -61,7 +58,7 @@ object FileHelpers {
         try{
             CoroutineScope(Dispatchers.IO).launch {
                 val port = Helpers.getPortForEachService(connectionTypes)
-                val uri = Helpers.createUrl(connectionTypes, item.mPath, port = port).toUri()
+                val uri = Helpers.createNanoHttpdUrl(connectionTypes, item.mPath, port = port).toUri()
                 val i =
                     Intent(Intent.ACTION_VIEW)
                 i.setDataAndType(uri, MimeTypes.getMimeTypes(item.mPath))
@@ -81,7 +78,7 @@ object FileHelpers {
         try{
             CoroutineScope(Dispatchers.IO).launch {
                 val port = Helpers.getPortForEachService(connectionTypes)
-                val uri = Helpers.createUrl(connectionTypes, item.mPath, port = port).toUri()
+                val uri = Helpers.createNanoHttpdUrl(connectionTypes, item.mPath, port = port).toUri()
                 val i =
                     Intent(Intent.ACTION_VIEW)
                 i.setDataAndType(uri, MimeTypes.getMimeTypes(item.mPath))

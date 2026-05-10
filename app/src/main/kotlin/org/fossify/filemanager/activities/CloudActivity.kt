@@ -30,6 +30,7 @@ import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
 import java.security.Security
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.fossify.filemanager.dependencies.AppComposition
+import org.fossify.filemanager.enums.Authentication
 import org.fossify.filemanager.enums.Protocols
 import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.helpers.PORT_FTP
@@ -45,8 +46,6 @@ class CloudActivity : SimpleActivity() {
 
     private lateinit var certificateRepository: CertificateRepository
     private lateinit var composition: AppComposition
-    private var networkJob: Job? = null
-
     private var https: HttpServer? = null
 
     private fun setupBouncyCastle() {
@@ -103,7 +102,7 @@ class CloudActivity : SimpleActivity() {
                             NetworkConnection(
                                 displayName = s.name!!,
                                 sharedPath = s.uri.toString(),
-                                connectionType = ConnectionTypes.DAVx5.toString()
+                                connectionType = ConnectionTypes.DAVx5
                             )
                         )
                     }
@@ -132,8 +131,8 @@ class CloudActivity : SimpleActivity() {
     }
 
     private fun showConnectionDialog() {
-        ConnectionDialog(this@CloudActivity) { host, user, password, shared, displayName, certPath, port, connection, protocol ->
-            saveNetwork(host, user, password, shared, displayName, certPath, port, connection, protocol)
+        ConnectionDialog(this@CloudActivity) { host, user, password, shared, displayName, certPath, port, connection, protocol, auth ->
+            saveNetwork(host, user, password, shared, displayName, certPath, port, connection, protocol, auth)
         }
     }
 
@@ -153,7 +152,8 @@ class CloudActivity : SimpleActivity() {
         certUri: Uri?,
         port: Int,
         connectionType: ConnectionTypes,
-        protocol: Protocols?
+        protocol: Protocols?,
+        authentication: Authentication
     ) {
         lifecycleScope.launch((Dispatchers.IO)) {
             if (connectionType == ConnectionTypes.SMB) {
@@ -163,21 +163,25 @@ class CloudActivity : SimpleActivity() {
                         username = user,
                         password = password,
                         sharedPath = shared,
-                        connectionType = connectionType.toString(),
-                        displayName = displayName
+                        connectionType = connectionType,
+                        displayName = displayName,
+                        authentication = authentication
                     ), true
                 )
             } else if (connectionType == ConnectionTypes.WebDav) {
                 if (protocol == Protocols.HTTPS) {
                     saveCertificate(certUri, host)
                 }
+                val url = Helpers.createProtocolPath(protocol,host,port,shared)
                 val network = NetworkConnection(
                     host = host,
                     username = user,
                     password = password,
-                    connectionType = connectionType.toString(),
+                    connectionType = connectionType,
                     port = port,
                     displayName = displayName,
+                    authentication = authentication,
+                    url = url
                 )
                 viewModel.connectAndAuthenticateWebDav(network, protocol!!, true, this@CloudActivity)
             } else if (connectionType == ConnectionTypes.SFTP) {
@@ -185,9 +189,10 @@ class CloudActivity : SimpleActivity() {
                     host = host,
                     username = user,
                     password = password,
-                    connectionType = connectionType.toString(),
+                    connectionType = connectionType,
                     port = port,
                     displayName = displayName,
+                    authentication = authentication
                 )
                 viewModel.connectSFTP(network, true)
             } else if (connectionType == ConnectionTypes.FTP) {
@@ -197,7 +202,8 @@ class CloudActivity : SimpleActivity() {
                         password = password,
                         host = host,
                         port = port,
-                        connectionType = ConnectionTypes.FTP.type
+                        connectionType = ConnectionTypes.FTP,
+                        authentication = authentication
                     ), true
                 )
             }
@@ -255,18 +261,7 @@ class CloudActivity : SimpleActivity() {
         ConnectionItemsAdapter(this, listItems, binding.connectionsList) { item ->
             lifecycleScope.launch {
                 val itm = item as NetworkConnection
-                if (itm.connectionType == ConnectionTypes.SMB.type) {
-                    handleConnection(itm, ConnectionTypes.SMB)
-                } else if (itm.connectionType == ConnectionTypes.DAVx5.type) {
-                    handleConnection(itm, ConnectionTypes.DAVx5)
-                } else if (itm.connectionType == ConnectionTypes.WebDav.type) {
-                    handleConnection(itm, ConnectionTypes.WebDav)
-                } else if (item.connectionType == ConnectionTypes.SFTP.type) {
-                    handleConnection(itm, ConnectionTypes.SFTP)
-                } else if (item.connectionType == ConnectionTypes.FTP.type) {
-                    handleConnection(itm, ConnectionTypes.FTP)
-                }
-
+                handleConnection(itm,itm.connectionType)
             }
         }.apply {
             binding.connectionsList.adapter = this
@@ -290,7 +285,6 @@ class CloudActivity : SimpleActivity() {
     ) {
         https = HttpServer(port, connection.host, connectionType, composition.networkApiRepository, machinePort, protocol)
         https?.start()
-        networkJob?.cancel()
     }
 
     private fun stopServer() {
@@ -341,10 +335,11 @@ class CloudActivity : SimpleActivity() {
                                     username = it.item.username,
                                     password = it.item.password,
                                     sharedPath = it.item.sharedPath,
-                                    connectionType = connectionType.toString(),
+                                    connectionType = connectionType,
                                     displayName = it.item.displayName,
                                     url = it.item.url,
-                                    port = it.item.port
+                                    port = it.item.port,
+                                    authentication = it.item.authentication
                                 )
                             )
                         }
@@ -366,9 +361,10 @@ class CloudActivity : SimpleActivity() {
                                     host = it.item.host,
                                     username = it.item.username,
                                     password = it.item.password,
-                                    connectionType = connectionType.toString(),
+                                    connectionType = connectionType,
                                     displayName = it.item.displayName,
-                                    sharedPath = it.item.sharedPath
+                                    sharedPath = it.item.sharedPath,
+                                    authentication = it.item.authentication
                                 )
                             )
                         }
@@ -388,10 +384,11 @@ class CloudActivity : SimpleActivity() {
                                     host = it.item.host,
                                     username = it.item.username,
                                     password = it.item.password,
-                                    connectionType = connectionType.toString(),
+                                    connectionType = connectionType,
                                     port = it.item.port,
                                     displayName = it.item.displayName,
-                                    url = viewModel.getSFTPConn().canonicalize(".")
+                                    url = viewModel.getSFTPConn().canonicalize("."),
+                                    authentication = it.item.authentication
                                 )
                             )
                         }
@@ -411,10 +408,11 @@ class CloudActivity : SimpleActivity() {
                                     host = it.item.host,
                                     username = it.item.username,
                                     password = it.item.password,
-                                    connectionType = connectionType.toString(),
+                                    connectionType = connectionType,
                                     port = it.item.port,
                                     displayName = it.item.displayName,
-                                    url = viewModel.getFTP().printWorkingDirectory()
+                                    url = viewModel.getFTP().printWorkingDirectory(),
+                                    authentication = it.item.authentication
                                 )
                             )
                         }

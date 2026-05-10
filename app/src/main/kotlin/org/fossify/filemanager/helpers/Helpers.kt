@@ -2,13 +2,11 @@ package org.fossify.filemanager.helpers
 
 import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.enums.Protocols
-import java.nio.file.Path
-import java.util.Locale
 import java.util.Locale.getDefault
 
 object Helpers {
     val host: String = "127.0.0.1"
-    fun createUrl(connectionTypes: ConnectionTypes, path: String = "", server: String = "", port: Int,protocols: Protocols = Protocols.HTTP): String{
+    fun createNanoHttpdUrl(connectionTypes: ConnectionTypes, path: String = "", server: String = "", port: Int, protocols: Protocols = Protocols.HTTP): String{
         var protocol = Protocols.HTTP.toString().lowercase()
         if(connectionTypes.equals(ConnectionTypes.WebDav)){
             protocol = protocols.name.lowercase()
@@ -18,6 +16,13 @@ object Helpers {
         }
         val url = "${protocol}://${if (server.isEmpty()) host else server }:${port}/${path}"
         return url
+    }
+
+    fun createUrl(connectionTypes: ConnectionTypes,path: String,server: String,port: Int = 0): String{
+        if(connectionTypes == ConnectionTypes.SMB){
+            return "${connectionTypes.toString().lowercase()}://${server}/${path}"
+        }
+        return ""
     }
 
     fun getPortForEachService(connectionTypes: ConnectionTypes): Int{
@@ -36,7 +41,7 @@ object Helpers {
         return PORT_SMB
     }
 
-    fun createProtocolPath(protocol: Protocols, server: String, port:Int, path:String): String{
-        return "${protocol.name.lowercase(getDefault())}://${server}:${port}/${path}"
+    fun createProtocolPath(protocol: Protocols?, server: String, port:Int, path:String): String{
+        return "${protocol?.name?.lowercase(getDefault())}://${server}:${port}/${path}"
     }
 }

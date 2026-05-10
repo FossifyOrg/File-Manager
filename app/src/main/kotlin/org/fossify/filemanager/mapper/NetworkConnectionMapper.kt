@@ -5,8 +5,10 @@ import com.thegrizzlylabs.sardineandroid.DavResource
 import jcifs.smb.SmbFile
 import net.schmizz.sshj.sftp.RemoteResourceInfo
 import org.apache.commons.net.ftp.FTPFile
+import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.models.FileDirItem
 import org.fossify.filemanager.entity.NetworkConnectionEntity
+import org.fossify.filemanager.enums.Authentication
 import org.fossify.filemanager.models.NetworkConnection
 
 fun NetworkConnectionEntity.toDomain(): NetworkConnection {
@@ -16,9 +18,10 @@ fun NetworkConnectionEntity.toDomain(): NetworkConnection {
         username = username,
         password = password,
         displayName = displayName,
-        connectionType = connectionType,
+        connectionType = ConnectionTypes.valueOf(connectionType),
         sharedPath = sharedPath,
-        url = url
+        url = url,
+        authentication = Authentication.valueOf(authentication)
     )
 }
 
@@ -29,9 +32,10 @@ fun NetworkConnection.toEntity(): NetworkConnectionEntity {
         username = username,
         password = password,
         displayName = displayName,
-        connectionType = connectionType,
+        connectionType = connectionType.toString(),
         sharedPath = sharedPath,
-        url = url
+        url = url,
+        authentication = authentication.toString()
     )
 }
 

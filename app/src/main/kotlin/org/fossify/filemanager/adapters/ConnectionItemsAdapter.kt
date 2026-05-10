@@ -72,7 +72,7 @@ class ConnectionItemsAdapter(activity: SimpleActivity, var listItems: MutableLis
     private fun setupView(view: View, listItem: NetworkConnection) {
         ItemNetworkConnectionBinding.bind(view).apply {
             tvHost.text = listItem.host
-            tvType.text = listItem.connectionType
+            tvType.text = listItem.connectionType.toString()
             tvDisplayName.text = listItem.displayName
             tvSharedPath.text = listItem.sharedPath
         }

@@ -1,12 +1,9 @@
 package org.fossify.filemanager.dialogs
 
 import android.net.Uri
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import org.fossify.commons.activities.BaseSimpleActivity
 import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.extensions.getAlertDialogBuilder
@@ -15,13 +12,16 @@ import org.fossify.commons.extensions.value
 import org.fossify.filemanager.R
 import org.fossify.filemanager.activities.CloudActivity
 import org.fossify.filemanager.databinding.DialogAddConnectionBinding
+import org.fossify.filemanager.enums.Authentication
 import org.fossify.filemanager.enums.Protocols
 
-class ConnectionDialog(val activity: BaseSimpleActivity, dispatch: (String, String, String, String, String, Uri?, Int, ConnectionTypes, Protocols?) -> Unit) {
+class ConnectionDialog(val activity: BaseSimpleActivity, dispatch: (String, String, String, String, String, Uri?, Int, ConnectionTypes, Protocols?, Authentication) -> Unit) {
     private var binding: DialogAddConnectionBinding
     val items = listOf(ConnectionTypes.DAVx5.type, ConnectionTypes.SMB.type, ConnectionTypes.WebDav.type, ConnectionTypes.SFTP.type, ConnectionTypes.FTP.type)
     private var certUri: Uri? = null
     val protocols = listOf(Protocols.HTTP, Protocols.HTTPS)
+
+    val authentications = listOf(Authentication.Password, Authentication.Anonymous)
 
     init {
         binding = DialogAddConnectionBinding.inflate(activity.layoutInflater)
@@ -39,7 +39,8 @@ class ConnectionDialog(val activity: BaseSimpleActivity, dispatch: (String, Stri
                     binding.dropdownMenuProtocol.text
                         ?.toString()
                         ?.takeIf { it.isNotBlank() }
-                        ?.let { Protocols.valueOf(it) }
+                        ?.let { Protocols.valueOf(it) },
+                    Authentication.valueOf(binding.authDropDownMenu.text.toString())
                 )
             }
             .setNegativeButton(R.string.cancel, null)
@@ -48,17 +49,50 @@ class ConnectionDialog(val activity: BaseSimpleActivity, dispatch: (String, Stri
             }
         initializeDropDownList()
         dropDownItemSelected()
+        registerAuthClickListener()
         attachCertBtnClickListener()
     }
 
 
     private fun initializeDropDownList() {
-        val adapter = ArrayAdapter(activity, android.R.layout.simple_list_item_1, items)
-        binding.dropdownMenu.setAdapter(adapter)
-        val protocolsAdapter = ArrayAdapter(activity,android.R.layout.simple_list_item_1, protocols)
-        binding.dropdownMenuProtocol.setAdapter(protocolsAdapter)
+        initializeConnectionsDropDown()
+        initializeAuthDropdown()
+        initializeProtocolDropDown()
     }
 
+    private fun initializeConnectionsDropDown(){
+        val adapter = ArrayAdapter(activity, android.R.layout.simple_list_item_1, items)
+        binding.dropdownMenu.setAdapter(adapter)
+        binding.dropdownMenu.setText(items[1],false)
+    }
+
+    private fun initializeProtocolDropDown(){
+        val protocolsAdapter = ArrayAdapter(activity,android.R.layout.simple_list_item_1, protocols)
+        binding.dropdownMenuProtocol.setAdapter(protocolsAdapter)
+        binding.dropdownMenuProtocol.setText(protocols[0].toString(),false)
+    }
+    private fun initializeAuthDropdown(){
+        val authAdapter = ArrayAdapter(activity,android.R.layout.simple_list_item_1, authentications)
+        binding.authDropDownMenu.setAdapter(authAdapter)
+        binding.authDropDownMenu.setText(authentications[0].toString(),false)
+    }
+
+    private fun registerAuthClickListener(){
+        binding.authDropDownMenu.setOnItemClickListener { parent, view, position, id ->
+            val selectedItem = parent.getItemAtPosition(position).toString()
+            if(Authentication.valueOf(selectedItem) == Authentication.Anonymous){
+                toggleCredentialsVisibility(View.GONE)
+            }
+            else{
+                toggleCredentialsVisibility(View.VISIBLE)
+            }
+        }
+    }
+
+    private fun toggleCredentialsVisibility(visibility: Int){
+        binding.userTf.visibility = visibility
+        binding.passwordTf.visibility = visibility
+    }
 
     private fun promptUserToSelectStorage() {
         (activity as CloudActivity).promptUserToSelectStorage()
