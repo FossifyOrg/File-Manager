@@ -20,7 +20,7 @@ object Helpers {
 
     fun createUrl(connectionTypes: ConnectionTypes,path: String,server: String,port: Int = 0): String{
         if(connectionTypes == ConnectionTypes.SMB){
-            return "${connectionTypes.toString().lowercase()}://${server}/${path}"
+            return "${connectionTypes.toString().lowercase()}://${server}:${port}/${path}"
         }
         return ""
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/add_connection_dialog"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -14,155 +14,165 @@
         android:paddingEnd="@dimen/activity_margin">
 
         <LinearLayout
-            android:orientation="vertical"
             android:id="@+id/change_view_type_dialog_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/medium_margin">
+            android:layout_marginBottom="@dimen/medium_margin"
+            android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dropdownLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/dropdownLayout"
                 android:hint="Select Option">
 
                 <AutoCompleteTextView
                     android:id="@+id/dropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
+                    android:clickable="true"
                     android:focusable="false"
-                    android:clickable="true"/>
+                    android:inputType="none" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            <LinearLayout
+                android:id="@+id/all_fields_except_connection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/dropdownProtocol"
-                android:visibility="gone"
-                android:hint="Select Protocol">
+                android:layout_marginBottom="@dimen/medium_margin"
+                android:orientation="vertical"
+                android:visibility="visible">
 
-                <AutoCompleteTextView
-                    android:id="@+id/dropdownMenuProtocol"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownProtocol"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:focusable="false"
-                    android:clickable="true"/>
+                    android:hint="Select Protocol"
+                    android:visibility="gone">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownMenuProtocol"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:inputType="none" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/host_tf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Host">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/host_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/authDropDownLayout"
-                android:hint="Authentication">
-
-                <AutoCompleteTextView
-                    android:id="@+id/authDropDownMenu"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/host_tf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:focusable="false"
-                    android:clickable="true"/>
+                    android:hint="Host">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/host_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/user_tf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Username">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/user_et"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/authDropDownLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:hint="Authentication"
+                    >
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <AutoCompleteTextView
+                        android:id="@+id/authDropDownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:inputType="none" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/display_tf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Display Name">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/display_et"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/user_tf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:hint="Username">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/user_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/password_tf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Password">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/password_et"
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_tf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:hint="Password">
 
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/sharedPath_tf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Shared Path">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/sharedPath_et"
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/display_tf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:hint="Display Name">
 
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/port_tf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Port">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/display_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/port_et"
-                    android:inputType="number"
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/sharedPath_tf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:hint="Shared Path">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/sharedPath_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/port_tf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Port">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/port_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/port_smb"
+                        android:inputType="number" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/cert_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/medium_margin"
             android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/medium_margin">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/cert_status_tv"
@@ -178,25 +188,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/medium_margin"
-                android:src="@drawable/baseline_attach_file_24"
                 android:contentDescription="Attach certificate"
-               />
+                android:padding="@dimen/medium_margin"
+                android:src="@drawable/baseline_attach_file_24" />
 
         </LinearLayout>
-
-        <include
-            android:id="@+id/use_for_this_folder_divider"
-            layout="@layout/divider" />
-
-        <org.fossify.commons.views.MyAppCompatCheckbox
-            android:id="@+id/change_view_type_dialog_use_for_this_folder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/medium_margin"
-            android:paddingTop="@dimen/medium_margin"
-            android:paddingBottom="@dimen/medium_margin"
-            android:text="@string/use_for_this_folder" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

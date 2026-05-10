@@ -155,58 +155,57 @@ class CloudActivity : SimpleActivity() {
         protocol: Protocols?,
         authentication: Authentication
     ) {
-        lifecycleScope.launch((Dispatchers.IO)) {
-            if (connectionType == ConnectionTypes.SMB) {
-                viewModel.verifyNetwork(
-                    NetworkConnection(
-                        host = host,
-                        username = user,
-                        password = password,
-                        sharedPath = shared,
-                        connectionType = connectionType,
-                        displayName = displayName,
-                        authentication = authentication
-                    ), true
-                )
-            } else if (connectionType == ConnectionTypes.WebDav) {
-                if (protocol == Protocols.HTTPS) {
-                    saveCertificate(certUri, host)
-                }
-                val url = Helpers.createProtocolPath(protocol,host,port,shared)
-                val network = NetworkConnection(
+        if (connectionType == ConnectionTypes.SMB) {
+            viewModel.verifyNetwork(
+                NetworkConnection(
                     host = host,
                     username = user,
                     password = password,
+                    sharedPath = shared,
                     connectionType = connectionType,
-                    port = port,
                     displayName = displayName,
                     authentication = authentication,
-                    url = url
-                )
-                viewModel.connectAndAuthenticateWebDav(network, protocol!!, true, this@CloudActivity)
-            } else if (connectionType == ConnectionTypes.SFTP) {
-                val network = NetworkConnection(
-                    host = host,
+                    port = port
+                ), true
+            )
+        } else if (connectionType == ConnectionTypes.WebDav) {
+            if (protocol == Protocols.HTTPS) {
+                saveCertificate(certUri, host)
+            }
+            val url = Helpers.createProtocolPath(protocol, host, port, shared)
+            val network = NetworkConnection(
+                host = host,
+                username = user,
+                password = password,
+                connectionType = connectionType,
+                port = port,
+                displayName = displayName,
+                authentication = authentication,
+                url = url
+            )
+            viewModel.connectAndAuthenticateWebDav(network, protocol!!, true, this@CloudActivity)
+        } else if (connectionType == ConnectionTypes.SFTP) {
+            val network = NetworkConnection(
+                host = host,
+                username = user,
+                password = password,
+                connectionType = connectionType,
+                port = port,
+                displayName = displayName,
+                authentication = authentication
+            )
+            viewModel.connectSFTP(network, true)
+        } else if (connectionType == ConnectionTypes.FTP) {
+            viewModel.connectFTP(
+                NetworkConnection(
                     username = user,
                     password = password,
-                    connectionType = connectionType,
+                    host = host,
                     port = port,
-                    displayName = displayName,
+                    connectionType = ConnectionTypes.FTP,
                     authentication = authentication
-                )
-                viewModel.connectSFTP(network, true)
-            } else if (connectionType == ConnectionTypes.FTP) {
-                viewModel.connectFTP(
-                    NetworkConnection(
-                        username = user,
-                        password = password,
-                        host = host,
-                        port = port,
-                        connectionType = ConnectionTypes.FTP,
-                        authentication = authentication
-                    ), true
-                )
-            }
+                ), true
+            )
         }
     }
 
@@ -261,7 +260,7 @@ class CloudActivity : SimpleActivity() {
         ConnectionItemsAdapter(this, listItems, binding.connectionsList) { item ->
             lifecycleScope.launch {
                 val itm = item as NetworkConnection
-                handleConnection(itm,itm.connectionType)
+                handleConnection(itm, itm.connectionType)
             }
         }.apply {
             binding.connectionsList.adapter = this
@@ -387,7 +386,7 @@ class CloudActivity : SimpleActivity() {
                                     connectionType = connectionType,
                                     port = it.item.port,
                                     displayName = it.item.displayName,
-                                    url = viewModel.getSFTPConn().canonicalize("."),
+                                    url = "/",
                                     authentication = it.item.authentication
                                 )
                             )

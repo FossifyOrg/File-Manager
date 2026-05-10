@@ -38,7 +38,7 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.X509TrustManager
 
 class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
-    lateinit var dir: SmbFile
+    lateinit var smbClient: SmbFile
     lateinit var sardine: Sardine
     private val sftpLock = Any()
     private lateinit var ssh: SSHClient
@@ -70,9 +70,9 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
             } else if (connection.authentication == Authentication.Anonymous) {
                 authContext = context.withGuestCrendentials()
             }
-            val smbUrl = Helpers.createUrl(ConnectionTypes.SMB, connection.sharedPath, connection.host)
-            dir = SmbFile(smbUrl, authContext)
-            return dir.exists()
+            val smbUrl = Helpers.createUrl(ConnectionTypes.SMB, connection.sharedPath, connection.host,connection.port)
+            smbClient = SmbFile(smbUrl, authContext)
+            return smbClient.exists()
         } catch (exp: Exception) {
             Log.e("Exception", exp.toString())
         }
@@ -80,11 +80,11 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
     }
 
     override fun getFilesFromNetworkPath(): Array<SmbFile> {
-        val files = dir.listFiles()
+        val files = smbClient.listFiles()
         return files
     }
 
-    override fun getMainSmbFile(): SmbFile = dir
+    override fun getMainSmbFile(): SmbFile = smbClient
 
     override suspend fun connectAndVerifyWebDav(
         connection: NetworkConnection,
@@ -97,9 +97,6 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
             } else {
                 createHTTPSSardine(context,connection.host)
             }
-            if(connection.authentication == Authentication.Anonymous){
-                return sardine.exists(connection.url)
-            }
             sardine.setCredentials(connection.username, connection.password)
             return sardine.exists(connection.url)
         } catch (exp: Exception) {
@@ -109,7 +106,7 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
     }
 
     override suspend fun listAllFilesOnWebDav(url: String): List<DavResource> {
-        val resources = sardine.list("http://192.168.18.86:8090/WebDav/")
+        val resources = sardine.list(url)
         return resources
     }
 
@@ -145,7 +142,7 @@ class NetworkConnectionRepositoryApiImpl : NetworkConnectionRepositoryApi {
             if (!::ssh.isInitialized || !ssh.isConnected || !ssh.isAuthenticated) {
                 ssh = SSHClient()
                 ssh.addHostKeyVerifier(PromiscuousVerifier())
-                ssh.connect(connection.host)
+                ssh.connect(connection.host,connection.port)
                 ssh.authPassword(connection.username, connection.password)
                 sftp = ssh.newSFTPClient()
             }
