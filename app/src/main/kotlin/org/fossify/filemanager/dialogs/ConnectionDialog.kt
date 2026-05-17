@@ -23,7 +23,7 @@ import java.io.File
 
 class ConnectionDialog(
     val activity: BaseSimpleActivity,
-    dispatch: (String, String, String, String, String, Uri?, String,String, Int, ConnectionTypes, Protocols?, Authentication) -> Unit
+    dispatch: (String, String, String, String, String, Uri?, String, String, Int, ConnectionTypes, Protocols?, Authentication) -> Unit
 ) {
     private var binding: DialogAddConnectionBinding
     val items = listOf(ConnectionTypes.DAVx5.type, ConnectionTypes.SMB.type, ConnectionTypes.WebDav.type, ConnectionTypes.SFTP.type, ConnectionTypes.FTP.type)
@@ -95,27 +95,38 @@ class ConnectionDialog(
         binding.authDropDownMenu.setText(authentications[0].toString(), false)
     }
 
-    private fun registerAuthClickListener() {
-        binding.authDropDownMenu.setOnItemClickListener { parent, view, position, id ->
-            val selectedItem = parent.getItemAtPosition(position).toString()
+    private fun onAuthSelected(selectedItem: String){
+        if (binding.dropdownMenu.value == ConnectionTypes.SMB.type) {
             if (Authentication.valueOf(selectedItem) == Authentication.Anonymous) {
                 toggleCredentialsVisibility(View.GONE)
                 toggleSFTPAuthVisibility(View.GONE)
-            }
-            else if(Authentication.valueOf(selectedItem) == Authentication.PrivateKey && binding.dropdownMenu.value == ConnectionTypes.SFTP.type){
-                binding.userTf.visibility = View.VISIBLE
-                binding.passwordTf.visibility = View.GONE
-                toggleSFTPAuthVisibility(View.VISIBLE)
-            }
-            else if(Authentication.valueOf(selectedItem) == Authentication.Password && binding.dropdownMenu.value == ConnectionTypes.SFTP.type){
-                binding.userTf.visibility = View.VISIBLE
-                binding.passwordTf.visibility = View.VISIBLE
-                toggleSFTPAuthVisibility(View.GONE)
-            }
-            else {
+            } else {
                 toggleCredentialsVisibility(View.VISIBLE)
                 toggleSFTPAuthVisibility(View.GONE)
             }
+        } else if (binding.dropdownMenu.value == ConnectionTypes.SFTP.type) {
+            if (Authentication.valueOf(selectedItem) == Authentication.PrivateKey) {
+                binding.userTf.visibility = View.VISIBLE
+                binding.passwordTf.visibility = View.GONE
+                toggleSFTPAuthVisibility(View.VISIBLE)
+            } else {
+                toggleCredentialsVisibility(View.VISIBLE)
+                toggleSFTPAuthVisibility(View.GONE)
+            }
+        } else if (binding.dropdownMenu.value == ConnectionTypes.FTP.type) {
+            if (Authentication.valueOf(selectedItem) == Authentication.Password) {
+                toggleCredentialsVisibility(View.VISIBLE)
+                toggleSFTPAuthVisibility(View.GONE)
+            } else {
+                toggleCredentialsVisibility(View.GONE)
+                toggleSFTPAuthVisibility(View.GONE)
+            }
+        }
+    }
+    private fun registerAuthClickListener() {
+        binding.authDropDownMenu.setOnItemClickListener { parent, view, position, id ->
+            val selectedItem = parent.getItemAtPosition(position).toString()
+            onAuthSelected(selectedItem)
         }
     }
 
@@ -137,7 +148,10 @@ class ConnectionDialog(
     private fun dropDownItemSelected() {
         binding.dropdownMenu.setOnItemClickListener { parent, view, position, id ->
             val selectedItem = parent.getItemAtPosition(position).toString()
-            togglePortValue(ConnectionTypes.valueOf(selectedItem), if(binding.dropdownMenuProtocol.value != "") Protocols.valueOf(binding.dropdownMenuProtocol.value) else Protocols.HTTP)
+            togglePortValue(
+                ConnectionTypes.valueOf(selectedItem),
+                if (binding.dropdownMenuProtocol.value != "") Protocols.valueOf(binding.dropdownMenuProtocol.value) else Protocols.HTTP
+            )
             if (selectedItem == ConnectionTypes.DAVx5.type) {
                 binding.allFieldsExceptConnection.visibility = View.GONE
                 promptUserToSelectStorage()
@@ -147,27 +161,43 @@ class ConnectionDialog(
                 binding.authDropDownLayout.visibility = View.GONE
                 toggleSFTPAuthVisibility(View.GONE)
                 toggleCredentialsVisibility(View.VISIBLE)
-            }
-            else if(selectedItem == ConnectionTypes.SMB.type){
+            } else if (selectedItem == ConnectionTypes.SMB.type) {
                 binding.dropdownProtocol.visibility = View.GONE
                 binding.certRow.visibility = View.GONE
                 binding.allFieldsExceptConnection.visibility = View.VISIBLE
                 binding.authDropDownLayout.visibility = View.VISIBLE
                 toggleSFTPAuthVisibility(View.GONE)
                 binding.authDropDownMenu.setAdapter(ArrayAdapter(activity, android.R.layout.simple_list_item_1, authentications))
-            }
-            else if(selectedItem == ConnectionTypes.FTP.type || selectedItem == ConnectionTypes.SFTP.type){
+                binding.authDropDownMenu.setText(authentications[0].toString(), false)
+                onAuthSelected(authentications[0].toString())
+            } else if (selectedItem == ConnectionTypes.SFTP.type) {
                 binding.allFieldsExceptConnection.visibility = View.VISIBLE
                 binding.authDropDownLayout.visibility = View.VISIBLE
                 binding.dropdownProtocol.visibility = View.GONE
                 binding.certRow.visibility = View.GONE
-                if(Authentication.valueOf(binding.authDropDownMenu.value) == Authentication.Password && selectedItem == ConnectionTypes.SFTP.type){
+                if (Authentication.valueOf(binding.authDropDownMenu.value) == Authentication.Password) {
                     toggleSFTPAuthVisibility(View.GONE)
-                }
-                else{
+                } else {
                     toggleSFTPAuthVisibility(View.VISIBLE)
                 }
                 binding.authDropDownMenu.setAdapter(ArrayAdapter(activity, android.R.layout.simple_list_item_1, sftpAuthentications))
+                binding.authDropDownMenu.setText(sftpAuthentications[0].toString(), false)
+                onAuthSelected(sftpAuthentications[0].toString())
+
+            } else if (selectedItem == ConnectionTypes.FTP.type) {
+                binding.allFieldsExceptConnection.visibility = View.VISIBLE
+                binding.authDropDownLayout.visibility = View.VISIBLE
+                binding.dropdownProtocol.visibility = View.GONE
+                binding.certRow.visibility = View.GONE
+                toggleSFTPAuthVisibility(View.GONE)
+                if (Authentication.valueOf(binding.authDropDownMenu.value) == Authentication.Password) {
+                    toggleCredentialsVisibility(View.VISIBLE)
+                } else {
+                    toggleCredentialsVisibility(View.GONE)
+                }
+                binding.authDropDownMenu.setAdapter(ArrayAdapter(activity, android.R.layout.simple_list_item_1, authentications))
+                binding.authDropDownMenu.setText(authentications[0].toString(), false)
+                onAuthSelected(authentications[0].toString())
             }
         }
     }
@@ -185,19 +215,19 @@ class ConnectionDialog(
         }
     }
 
-    private fun togglePortValue(connectionTypes: ConnectionTypes,protocols: Protocols){
-        when(connectionTypes){
+    private fun togglePortValue(connectionTypes: ConnectionTypes, protocols: Protocols) {
+        when (connectionTypes) {
             ConnectionTypes.SMB -> binding.portEt.setText(DEFAULT_SMB_PORT.toString())
             ConnectionTypes.FTP -> binding.portEt.setText(DEFAULT_FTP_PORT.toString())
             ConnectionTypes.SFTP -> binding.portEt.setText(DEFAULT_SFTP_PORT.toString())
             ConnectionTypes.WebDav -> {
-                if(protocols == Protocols.HTTP){
+                if (protocols == Protocols.HTTP) {
                     binding.portEt.setText(DEFAULT_WEBDAV_HTTP_PORT.toString())
-                }
-                else{
+                } else {
                     binding.portEt.setText(DEFAULT_WEBDAV_HTTPS_PORT.toString())
                 }
             }
+
             else -> Unit
         }
     }
@@ -213,10 +243,10 @@ class ConnectionDialog(
     }
 
     private fun attachPrivateKeyBtnClickListener() {
-        binding.privateKeyTf.setEndIconOnClickListener  {
-            (activity as CloudActivity).openFileLinkForPrivateKey{
+        binding.privateKeyTf.setEndIconOnClickListener {
+            (activity as CloudActivity).openFileLinkForPrivateKey {
                 privateKeyUri = it
-                privateKeyUri?.let {path->
+                privateKeyUri?.let { path ->
                     val inputStream = activity.contentResolver.openInputStream(path)
                     val keyText = inputStream?.bufferedReader().use { it?.readText() } ?: ""
                     binding.privateKeyEt.setText(keyText)

@@ -219,7 +219,8 @@ class CloudActivity : SimpleActivity() {
                     host = host,
                     port = port,
                     connectionType = ConnectionTypes.FTP,
-                    authentication = authentication
+                    authentication = authentication,
+                    displayName = displayName,
                 ), true
             )
         }
@@ -443,7 +444,7 @@ class CloudActivity : SimpleActivity() {
                                     connectionType = connectionType,
                                     port = it.item.port,
                                     displayName = it.item.displayName,
-                                    url = viewModel.getFTP().printWorkingDirectory(),
+                                    url = "/",
                                     authentication = it.item.authentication
                                 )
                             )

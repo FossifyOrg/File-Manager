@@ -4,6 +4,7 @@ import org.apache.commons.net.ftp.FTP
 import org.apache.commons.net.ftp.FTPClient
 import org.apache.commons.net.ftp.FTPCmd
 import org.apache.commons.net.ftp.FTPFile
+import org.fossify.filemanager.enums.Authentication
 import org.fossify.filemanager.interfaces.FTPApi
 import org.fossify.filemanager.models.ApiResponse
 import org.fossify.filemanager.models.NetworkConnection
@@ -15,18 +16,22 @@ class FTPApiImpl: FTPApi {
     private lateinit var ftp: FTPClient
     private lateinit var ftpStream: FTPClient
     override suspend fun connectToFTP(connection: NetworkConnection): Pair<Boolean, Exception?> {
-       return try {
+        return try {
             ftp = FTPClient()
             ftpStream = FTPClient()
             ftp.connect(connection.host, connection.port)
             ftpStream.connect(connection.host, connection.port)
 
-            val loginSuccess = ftp.login(connection.username, connection.password)
-            ftpStream.login(connection.username,connection.password)
-
-            if (!loginSuccess) {
-                Pair(false, Exception("Login failed"))
+            val (username, password) = if (connection.authentication == Authentication.Anonymous) {
+                "anonymous" to "anonymous"
+            } else {
+                connection.username to connection.password
             }
+            val loginSuccess = ftp.login(username, password)
+            ftpStream.login(username, password)
+
+            if (!loginSuccess) return Pair(false, Exception("Login failed"))
+
             ftp.enterLocalPassiveMode()
             ftpStream.enterLocalPassiveMode()
             Pair(true, null)
