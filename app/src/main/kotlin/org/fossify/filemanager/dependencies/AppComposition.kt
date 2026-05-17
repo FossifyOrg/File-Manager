@@ -5,8 +5,11 @@ import androidx.room.Room
 import org.fossify.filemanager.database.Database
 import org.fossify.filemanager.factory.NetworkBrowserViewModelFactory
 import org.fossify.filemanager.repository.CertificateRepositoryImpl
-import org.fossify.filemanager.repository.NetworkConnectionRepositoryApiImpl
+import org.fossify.filemanager.repository.FTPApiImpl
 import org.fossify.filemanager.repository.NetworkConnectionRepositoryDbImpl
+import org.fossify.filemanager.repository.SFTPApiImpl
+import org.fossify.filemanager.repository.SMBApiImpl
+import org.fossify.filemanager.repository.WebDavApiImpl
 
 class AppComposition (private val context: Context) {
 
@@ -23,15 +26,28 @@ class AppComposition (private val context: Context) {
     }
 
 
-    val networkApiRepository by lazy {
-        NetworkConnectionRepositoryApiImpl()
+    val webDavApiRepository by lazy {
+        WebDavApiImpl()
     }
+
+    val smbApiRepository by lazy {
+        SMBApiImpl()
+    }
+
+    val sftpApiRepository by lazy {
+        SFTPApiImpl()
+    }
+
+    val ftpApiRepository by lazy {
+        FTPApiImpl()
+    }
+
 
     val certificateRepository by lazy {
         CertificateRepositoryImpl()
     }
 
     fun provideNetworkBrowserViewModelFactory(): NetworkBrowserViewModelFactory{
-        return NetworkBrowserViewModelFactory(networkDbRepository,networkApiRepository)
+        return NetworkBrowserViewModelFactory(networkDbRepository,webDavApiRepository,sftpApiRepository,ftpApiRepository,smbApiRepository)
     }
 }

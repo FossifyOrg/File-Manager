@@ -20,15 +20,21 @@ import net.schmizz.sshj.sftp.RemoteResourceInfo
 import net.schmizz.sshj.sftp.SFTPClient
 import org.apache.commons.net.ftp.FTPFile
 import org.fossify.filemanager.enums.Protocols
-import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryApi
+import org.fossify.filemanager.interfaces.FTPApi
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryDb
+import org.fossify.filemanager.interfaces.SFTPApi
+import org.fossify.filemanager.interfaces.SMBApi
+import org.fossify.filemanager.interfaces.WebDavApi
 import org.fossify.filemanager.models.ConnectionResult
 import org.fossify.filemanager.models.NetworkConnection
 import java.io.InputStream
 
 class NetworkBrowserViewModel(
     private val networkConnectionRepository: NetworkConnectionRepositoryDb,
-    private val networkConnectionRepositoryApi: NetworkConnectionRepositoryApi
+    private val webDavApi: WebDavApi,
+    private val ftpApi: FTPApi,
+    private val sftpApi: SFTPApi,
+    private val smbApi: SMBApi
 ) : ViewModel() {
 
     val savedNetworks = MutableStateFlow<List<NetworkConnection>>(emptyList())
@@ -63,87 +69,86 @@ class NetworkBrowserViewModel(
 
     fun verifyNetwork(connection: NetworkConnection, saveInfo: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            val value = networkConnectionRepositoryApi.verifyConnection(connection)
+            val value = smbApi.verifyConnection(connection)
             verifyNetwork.emit(ConnectionResult(connection, value, saveInfo = saveInfo))
         }
     }
 
     fun getFilesFromNetworkPath(): Array<SmbFile> {
-        return networkConnectionRepositoryApi.getFilesFromNetworkPath()
+        return smbApi.getFilesFromNetworkPath()
     }
 
-    fun getMainSmb(): SmbFile = networkConnectionRepositoryApi.getMainSmbFile()
+    fun getMainSmb(): SmbFile = smbApi.getMainSmbFile()
 
-    fun getSFTPConn(): SFTPClient = networkConnectionRepositoryApi.getSFTPConn()
+    fun getSFTPConn(): SFTPClient = sftpApi.getSFTPConn()
 
     fun connectAndAuthenticateWebDav(connection: NetworkConnection, protocol: Protocols, saveInfo: Boolean, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = networkConnectionRepositoryApi.connectAndVerifyWebDav(connection, protocol, context)
+            val result = webDavApi.connectAndVerifyWebDav(connection, protocol, context)
             verifyWebDav.emit(ConnectionResult(connection, result, saveInfo))
         }
     }
 
     fun listWebDavFiles(url: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            webDavFiles.emit(networkConnectionRepositoryApi.listAllFilesOnWebDav(url))
+            webDavFiles.emit(webDavApi.listAllFilesOnWebDav(url))
         }
     }
 
-    fun listWebDavFileStream(url: String, start: Long, end: Long): InputStream {
-        return networkConnectionRepositoryApi.getWebDavFileInputStream(url, start, end)
-    }
+//    fun listWebDavFileStream(url: String, start: Long, end: Long): InputStream {
+//        return webDavApi.getWebDavFileInputStream(url, start, end)
+//    }
 
-    fun listWebDavFileDetail(url: String): DavResource? {
-        return networkConnectionRepositoryApi.listWebDavFileDetail(url)
-    }
+//    fun listWebDavFileDetail(url: String): DavResource? {
+//        return webDavApi.listWebDavFileDetail(url)
+//    }
 
     fun connectSFTP(connection: NetworkConnection, saveInfo: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = networkConnectionRepositoryApi.connectToSftp(connection)
+            val res = sftpApi.connectToSftp(connection)
             verifySFTP.emit(ConnectionResult(connection, res, saveInfo))
         }
     }
 
     fun listAllFilesSFTPRoot(path: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = networkConnectionRepositoryApi.listAllFilesSFTPRoot(path)
+            val res = sftpApi.listAllFilesSFTPRoot(path)
             sftpFiles.emit(res)
         }
     }
 
-    fun listAllFilesSFTPPath(path: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val res = networkConnectionRepositoryApi.listAllFilesSFTPRoot(path)
-            sftpFiles.emit(res)
-        }
-    }
-
-    fun listSFTPFileDetails(path: String): FileAttributes? {
-        return networkConnectionRepositoryApi.listSFTPFileDetails(path)
-    }
-
-    fun getSFTPFileStream(path: String, startByte: Long): InputStream {
-        return networkConnectionRepositoryApi.getSFTPFileInputStream(url = path, startByte)
-    }
+//    fun listAllFilesSFTPPath(path: String) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val res = sftpApi.listAllFilesSFTPRoot(path)
+//            sftpFiles.emit(res)
+//        }
+//    }
+//
+//    fun listSFTPFileDetails(path: String): FileAttributes? {
+//        return sftpApi.listSFTPFileDetails(path)
+//    }
+//
+//    fun getSFTPFileStream(path: String, startByte: Long): InputStream {
+//        return sftpApi.getSFTPFileInputStream(url = path, startByte)
+//    }
 
     fun connectFTP(connection: NetworkConnection, saveInfo: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = networkConnectionRepositoryApi.connectToFTP(connection)
+            val res = ftpApi.connectToFTP(connection)
             verifyFTP.emit(ConnectionResult(connection, res, saveInfo))
-
         }
     }
 
-    fun getFTP() = networkConnectionRepositoryApi.getFTPConn()
+    fun getFTP() = ftpApi.getFTPConn()
 
     fun listAllFTPFiles(path: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = networkConnectionRepositoryApi.listAllFTPFiles(path)
+            val res = ftpApi.listAllFTPFiles(path)
             ftpFiles.emit(res)
         }
     }
 
-    fun getFTPFileDetail(path: String) = networkConnectionRepositoryApi.getFTPFileDetail(path)
+    fun getFTPFileDetail(path: String) = ftpApi.getFTPFileDetail(path)
 
-    fun getFTPFileStream(path: String, start: Long) = networkConnectionRepositoryApi.getFTPFileInputStream(path, start)
+    fun getFTPFileStream(path: String, start: Long) = ftpApi.getFTPFileInputStream(path, start)
 }

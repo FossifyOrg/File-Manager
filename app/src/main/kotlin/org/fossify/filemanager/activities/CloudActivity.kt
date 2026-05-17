@@ -9,8 +9,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.fossify.commons.enums.ConnectionTypes
@@ -43,6 +41,7 @@ class CloudActivity : SimpleActivity() {
     private val binding by viewBinding(CloudActivityBinding::inflate)
     private lateinit var viewModel: NetworkBrowserViewModel
     private var onCertPicked: ((Uri) -> Unit)? = null
+    private var onPrivateKeyPicked: ((Uri) -> Unit)? = null
 
     private lateinit var certificateRepository: CertificateRepository
     private lateinit var composition: AppComposition
@@ -116,14 +115,25 @@ class CloudActivity : SimpleActivity() {
         }
     }
 
+    private val pickPrivateKey = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        uri?.let {
+            onPrivateKeyPicked?.invoke(it)
+        }
+    }
+
     fun promptUserToSelectStorage() {
         openDocumentTreeLauncher.launch(null)
     }
 
 
-    fun openFileLink(dispatch: (Uri) -> Unit) {
+    fun openFileLinkForCert(dispatch: (Uri) -> Unit) {
         pickCert.launch("*/*")
         onCertPicked = dispatch
+    }
+
+    fun openFileLinkForPrivateKey(dispatch: (Uri) -> Unit) {
+        pickPrivateKey.launch("*/*")
+        onPrivateKeyPicked = dispatch
     }
 
     private fun setupToolBar() {
@@ -131,8 +141,8 @@ class CloudActivity : SimpleActivity() {
     }
 
     private fun showConnectionDialog() {
-        ConnectionDialog(this@CloudActivity) { host, user, password, shared, displayName, certPath, port, connection, protocol, auth ->
-            saveNetwork(host, user, password, shared, displayName, certPath, port, connection, protocol, auth)
+        ConnectionDialog(this@CloudActivity) { host, user, password, shared, displayName, certPath,privateKeyText,privateKeyPass, port, connection, protocol, auth ->
+            saveNetwork(host, user, password, shared, displayName,privateKeyText ,privateKeyPass,certPath, port, connection, protocol, auth)
         }
     }
 
@@ -149,6 +159,8 @@ class CloudActivity : SimpleActivity() {
         password: String,
         shared: String,
         displayName: String,
+        privateKeyText: String,
+        privateKeyPass: String,
         certUri: Uri?,
         port: Int,
         connectionType: ConnectionTypes,
@@ -192,7 +204,9 @@ class CloudActivity : SimpleActivity() {
                 connectionType = connectionType,
                 port = port,
                 displayName = displayName,
-                authentication = authentication
+                authentication = authentication,
+                privateKeyText = privateKeyText,
+                privateKeyPass = privateKeyPass
             )
             viewModel.connectSFTP(network, true)
         } else if (connectionType == ConnectionTypes.FTP) {
@@ -282,7 +296,7 @@ class CloudActivity : SimpleActivity() {
         machinePort: Int,
         protocol: Protocols = Protocols.HTTP
     ) {
-        https = HttpServer(port, connection.host, connectionType, composition.networkApiRepository, machinePort, protocol)
+        https = HttpServer(port, connection.host, connectionType, composition, machinePort, protocol)
         https?.start()
     }
 
@@ -387,7 +401,9 @@ class CloudActivity : SimpleActivity() {
                                     port = it.item.port,
                                     displayName = it.item.displayName,
                                     url = "/",
-                                    authentication = it.item.authentication
+                                    authentication = it.item.authentication,
+                                    privateKeyText = it.item.privateKeyText,
+                                    privateKeyPass = it.item.privateKeyPass
                                 )
                             )
                         }

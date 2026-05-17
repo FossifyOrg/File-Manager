@@ -21,7 +21,9 @@ fun NetworkConnectionEntity.toDomain(): NetworkConnection {
         connectionType = ConnectionTypes.valueOf(connectionType),
         sharedPath = sharedPath,
         url = url,
-        authentication = Authentication.valueOf(authentication)
+        authentication = Authentication.valueOf(authentication),
+        privateKeyText = privateKey,
+        privateKeyPass = privateKeyPass
     )
 }
 
@@ -35,7 +37,9 @@ fun NetworkConnection.toEntity(): NetworkConnectionEntity {
         connectionType = connectionType.toString(),
         sharedPath = sharedPath,
         url = url,
-        authentication = authentication.toString()
+        authentication = authentication.toString(),
+        privateKey = privateKeyText,
+        privateKeyPass = privateKeyPass
     )
 }
 

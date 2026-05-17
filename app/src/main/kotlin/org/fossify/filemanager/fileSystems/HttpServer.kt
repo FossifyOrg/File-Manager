@@ -5,16 +5,17 @@ import fi.iki.elonen.NanoHTTPD
 import jcifs.smb.SmbFile
 import jcifs.smb.SmbFileInputStream
 import org.fossify.commons.enums.ConnectionTypes
+import org.fossify.filemanager.dependencies.AppComposition
 import org.fossify.filemanager.enums.Protocols
+import org.fossify.filemanager.helpers.DEFAULT_SMB_PORT
 import org.fossify.filemanager.helpers.Helpers
-import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryApi
 import java.io.BufferedInputStream
 
 class HttpServer(
     private val port: Int,
     private val serverIp: String,
     private val connectionTypes: ConnectionTypes,
-    private val networkConnectionRepository: NetworkConnectionRepositoryApi,
+    private val composition: AppComposition,
     private val machinePort: Int,
     private val protocols: Protocols = Protocols.HTTP
 ) :
@@ -32,16 +33,16 @@ class HttpServer(
         }
         else if(connectionTypes.equals(ConnectionTypes.WebDav)) {
             val url = Helpers.createNanoHttpdUrl(connectionTypes, server = serverIp, path = uri.toString(), port = machinePort, protocols = protocols)
-            val webDavFile = networkConnectionRepository.listWebDavFileDetail(url)
+            val webDavFile = composition.webDavApiRepository.listWebDavFileDetail(url)
             return handleRangeRequestWebDav(rangeHeader, webDavFile?.contentLength!!, uri = uri, webDavFile.contentType,protocols)
         }
         else if (connectionTypes.equals(ConnectionTypes.SFTP)) {
             val url = Helpers.createNanoHttpdUrl(connectionTypes, server = serverIp, path = "", port = machinePort)
-            val sftFile = networkConnectionRepository.listSFTPFileDetails(uri)
+            val sftFile = composition.sftpApiRepository.listSFTPFileDetails(uri)
             return handleRangeRequestSFTPServer(rangeHeader, sftFile?.size!!, uri = uri, url)
         }
         val url = Helpers.createNanoHttpdUrl(connectionTypes, server = serverIp, path = "", port = machinePort)
-        val sftFile = networkConnectionRepository.getFTPFileDetail(uri)
+        val sftFile = composition.ftpApiRepository.getFTPFileDetail(uri)
         return handleRangeRequestFTPServer(rangeHeader, sftFile?.size!!, uri = uri, url)
     }
 
@@ -110,7 +111,7 @@ class HttpServer(
 
         val contentLength = end - start + 1
 
-        val inputStream = networkConnectionRepository.getWebDavFileInputStream(url = url,start,end)
+        val inputStream = composition.webDavApiRepository.getWebDavFileInputStream(url = url,start,end)
 
         return newFixedLengthResponse(
             Response.Status.PARTIAL_CONTENT,
@@ -142,7 +143,7 @@ class HttpServer(
 
         val contentLength = end - start + 1
 
-        val inputStream = networkConnectionRepository.getSFTPFileInputStream(uri,start)
+        val inputStream = composition.sftpApiRepository.getSFTPFileInputStream(uri,start)
         val bufferedStream = BufferedInputStream(inputStream, 1024 * 1024)
         return newFixedLengthResponse(
             Response.Status.PARTIAL_CONTENT,
@@ -174,7 +175,7 @@ class HttpServer(
 
         val contentLength = end - start + 1
 
-        val inputStream = networkConnectionRepository.getFTPFileInputStream(uri,start)
+        val inputStream = composition.ftpApiRepository.getFTPFileInputStream(uri,start)
         val bufferedStream = BufferedInputStream(inputStream, 1024 * 1024)
         return newFixedLengthResponse(
             Response.Status.PARTIAL_CONTENT,

@@ -1,9 +1,9 @@
 package org.fossify.filemanager.dialogs
 
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import org.fossify.commons.activities.BaseSimpleActivity
 import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.extensions.getAlertDialogBuilder
@@ -19,18 +19,22 @@ import org.fossify.filemanager.helpers.DEFAULT_SFTP_PORT
 import org.fossify.filemanager.helpers.DEFAULT_SMB_PORT
 import org.fossify.filemanager.helpers.DEFAULT_WEBDAV_HTTPS_PORT
 import org.fossify.filemanager.helpers.DEFAULT_WEBDAV_HTTP_PORT
-import org.fossify.filemanager.helpers.PORT_SMB
+import java.io.File
 
 class ConnectionDialog(
     val activity: BaseSimpleActivity,
-    dispatch: (String, String, String, String, String, Uri?, Int, ConnectionTypes, Protocols?, Authentication) -> Unit
+    dispatch: (String, String, String, String, String, Uri?, String,String, Int, ConnectionTypes, Protocols?, Authentication) -> Unit
 ) {
     private var binding: DialogAddConnectionBinding
     val items = listOf(ConnectionTypes.DAVx5.type, ConnectionTypes.SMB.type, ConnectionTypes.WebDav.type, ConnectionTypes.SFTP.type, ConnectionTypes.FTP.type)
     private var certUri: Uri? = null
+    private var privateKeyUri: Uri? = null
+
     val protocols = listOf(Protocols.HTTP, Protocols.HTTPS)
 
     val authentications = listOf(Authentication.Password, Authentication.Anonymous)
+    val sftpAuthentications = listOf(Authentication.Password, Authentication.PrivateKey)
+
 
     init {
         binding = DialogAddConnectionBinding.inflate(activity.layoutInflater)
@@ -43,6 +47,8 @@ class ConnectionDialog(
                     binding.sharedPathEt.value,
                     binding.displayEt.value,
                     certUri,
+                    binding.privateKeyEt.value.trimIndent(),
+                    binding.privateKeyPassEt.value,
                     binding.portEt.value.toIntOrNull() ?: 0,
                     ConnectionTypes.fromType(binding.dropdownMenu.value),
                     binding.dropdownMenuProtocol.text
@@ -60,6 +66,7 @@ class ConnectionDialog(
         initializeDropDownList()
         registerAuthClickListener()
         attachCertBtnClickListener()
+        attachPrivateKeyBtnClickListener()
         dropDownMenuProtocolItemClickListener()
     }
 
@@ -93,10 +100,28 @@ class ConnectionDialog(
             val selectedItem = parent.getItemAtPosition(position).toString()
             if (Authentication.valueOf(selectedItem) == Authentication.Anonymous) {
                 toggleCredentialsVisibility(View.GONE)
-            } else {
+                toggleSFTPAuthVisibility(View.GONE)
+            }
+            else if(Authentication.valueOf(selectedItem) == Authentication.PrivateKey && binding.dropdownMenu.value == ConnectionTypes.SFTP.type){
+                binding.userTf.visibility = View.VISIBLE
+                binding.passwordTf.visibility = View.GONE
+                toggleSFTPAuthVisibility(View.VISIBLE)
+            }
+            else if(Authentication.valueOf(selectedItem) == Authentication.Password && binding.dropdownMenu.value == ConnectionTypes.SFTP.type){
+                binding.userTf.visibility = View.VISIBLE
+                binding.passwordTf.visibility = View.VISIBLE
+                toggleSFTPAuthVisibility(View.GONE)
+            }
+            else {
                 toggleCredentialsVisibility(View.VISIBLE)
+                toggleSFTPAuthVisibility(View.GONE)
             }
         }
+    }
+
+    private fun toggleSFTPAuthVisibility(visibility: Int) {
+        binding.privateKeyTf.visibility = visibility
+        binding.privateKeyPassTf.visibility = visibility
     }
 
     private fun toggleCredentialsVisibility(visibility: Int) {
@@ -120,12 +145,29 @@ class ConnectionDialog(
                 binding.allFieldsExceptConnection.visibility = View.VISIBLE
                 binding.dropdownProtocol.visibility = View.VISIBLE
                 binding.authDropDownLayout.visibility = View.GONE
+                toggleSFTPAuthVisibility(View.GONE)
+                toggleCredentialsVisibility(View.VISIBLE)
             }
-            else if(selectedItem == ConnectionTypes.FTP.type || selectedItem == ConnectionTypes.SFTP.type || selectedItem == ConnectionTypes.SMB.type){
+            else if(selectedItem == ConnectionTypes.SMB.type){
+                binding.dropdownProtocol.visibility = View.GONE
+                binding.certRow.visibility = View.GONE
+                binding.allFieldsExceptConnection.visibility = View.VISIBLE
+                binding.authDropDownLayout.visibility = View.VISIBLE
+                toggleSFTPAuthVisibility(View.GONE)
+                binding.authDropDownMenu.setAdapter(ArrayAdapter(activity, android.R.layout.simple_list_item_1, authentications))
+            }
+            else if(selectedItem == ConnectionTypes.FTP.type || selectedItem == ConnectionTypes.SFTP.type){
                 binding.allFieldsExceptConnection.visibility = View.VISIBLE
                 binding.authDropDownLayout.visibility = View.VISIBLE
                 binding.dropdownProtocol.visibility = View.GONE
                 binding.certRow.visibility = View.GONE
+                if(Authentication.valueOf(binding.authDropDownMenu.value) == Authentication.Password && selectedItem == ConnectionTypes.SFTP.type){
+                    toggleSFTPAuthVisibility(View.GONE)
+                }
+                else{
+                    toggleSFTPAuthVisibility(View.VISIBLE)
+                }
+                binding.authDropDownMenu.setAdapter(ArrayAdapter(activity, android.R.layout.simple_list_item_1, sftpAuthentications))
             }
         }
     }
@@ -162,11 +204,25 @@ class ConnectionDialog(
 
     private fun attachCertBtnClickListener() {
         binding.certAttachBtn.setOnClickListener {
-            (activity as CloudActivity).openFileLink {
+            (activity as CloudActivity).openFileLinkForCert {
                 certUri = it
                 binding.certStatusTv.text = it.path
             }
 
+        }
+    }
+
+    private fun attachPrivateKeyBtnClickListener() {
+        binding.privateKeyTf.setEndIconOnClickListener  {
+            (activity as CloudActivity).openFileLinkForPrivateKey{
+                privateKeyUri = it
+                privateKeyUri?.let {path->
+                    val inputStream = activity.contentResolver.openInputStream(path)
+                    val keyText = inputStream?.bufferedReader().use { it?.readText() } ?: ""
+                    binding.privateKeyEt.setText(keyText)
+                }
+
+            }
         }
     }
 
