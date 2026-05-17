@@ -10,6 +10,7 @@ import okhttp3.OkHttpClient
 import org.fossify.filemanager.enums.Protocols
 import org.fossify.filemanager.interfaces.WebDavApi
 import org.fossify.filemanager.keyStores.CertificateStore
+import org.fossify.filemanager.models.ApiResponse
 import org.fossify.filemanager.models.NetworkConnection
 import java.io.InputStream
 import java.security.cert.CertificateException
@@ -23,39 +24,56 @@ class WebDavApiImpl: WebDavApi {
         connection: NetworkConnection,
         protocols: Protocols,
         context: Context
-    ): Boolean {
-        try {
+    ): Pair<Boolean, Exception?> {
+        return try {
             sardine = if (protocols == Protocols.HTTP) {
                 OkHttpSardine()
             } else {
                 createHTTPSSardine(context,connection.host)
             }
             sardine.setCredentials(connection.username, connection.password)
-            return sardine.exists(connection.url)
+            Pair(sardine.exists(connection.url),null)
         } catch (exp: Exception) {
             Log.d("WebDav", exp.toString())
-            return false
+            Pair(false,exp)
         }
     }
 
-    override suspend fun listAllFilesOnWebDav(url: String): List<DavResource> {
-        val resources = sardine.list(url)
-        return resources
-    }
-
-    override fun getWebDavFileInputStream(url: String, start: Long, end: Long): InputStream {
-        val rangeHeader = "bytes=$start-$end"
-        val headers = mapOf("Range" to rangeHeader)
-        return sardine.get(url, headers)
-    }
-
-    override fun listWebDavFileDetail(url: String): DavResource? {
-        val resources = sardine.list(url)
-
-        if (resources.isNotEmpty()) {
-            return resources[0]
+    override suspend fun listAllFilesOnWebDav(url: String): ApiResponse<List<DavResource>> {
+        return try {
+            val resources = sardine.list(url)
+            ApiResponse(resources,null)
         }
-        return null
+        catch (exp: Exception){
+            ApiResponse(null,exp)
+        }
+    }
+
+    override fun getWebDavFileInputStream(url: String, start: Long, end: Long): ApiResponse<InputStream> {
+        return try {
+            val rangeHeader = "bytes=$start-$end"
+            val headers = mapOf("Range" to rangeHeader)
+            val stream = sardine.get(url, headers)
+            ApiResponse(stream,null)
+        }
+        catch (exp: Exception){
+            ApiResponse(null,exp)
+        }
+    }
+
+    override fun listWebDavFileDetail(url: String): ApiResponse<DavResource?> {
+
+        return try {
+            val resources = sardine.list(url)
+            var resource:DavResource? = null
+            if (resources.isNotEmpty()) {
+                resource = resources[0]
+            }
+            ApiResponse(resource,null)
+        }
+        catch (exp: Exception){
+            ApiResponse(null,exp)
+        }
     }
 
     private fun createHTTPSSardine(context: Context, host: String): Sardine {

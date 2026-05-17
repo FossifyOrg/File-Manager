@@ -5,14 +5,19 @@ import android.content.Context
 import android.net.Uri
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.thegrizzlylabs.sardineandroid.DavResource
+import jcifs.smb.SmbFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import net.schmizz.sshj.sftp.RemoteResourceInfo
+import org.apache.commons.net.ftp.FTPFile
 import org.fossify.commons.activities.BaseSimpleActivity
 import org.fossify.commons.dialogs.StoragePickerDialog
 import org.fossify.commons.enums.ConnectionTypes
@@ -36,6 +41,7 @@ import org.fossify.filemanager.helpers.MAX_COLUMN_COUNT
 import org.fossify.filemanager.helpers.RootHelpers
 import org.fossify.filemanager.interfaces.ItemOperationsListener
 import org.fossify.filemanager.mapper.toFileItem
+import org.fossify.filemanager.models.ApiResponse
 import org.fossify.filemanager.models.ListItem
 import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
 import java.io.File
@@ -123,7 +129,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         getRecyclerAdapter()?.finishActMode()
     }
 
-    fun openPath(path: String, forceRefresh: Boolean = false, isNetworkPath: Boolean = false, connectionType: ConnectionTypes =  ConnectionTypes.Default) {
+    fun openPath(path: String, forceRefresh: Boolean = false, isNetworkPath: Boolean = false, connectionType: ConnectionTypes = ConnectionTypes.Default) {
         if ((activity as? BaseSimpleActivity)?.isAskingPermissions == true) {
             return
         }
@@ -143,7 +149,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             }
 
             FileDirItem.sorting = context!!.config.getFolderSorting(currentPath)
-            if(connectionType != ConnectionTypes.Default){
+            if (connectionType != ConnectionTypes.Default) {
                 listItems.forEach {
                     it.parent = originalPath.substringAfter('/')
                 }
@@ -163,7 +169,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             itemsIgnoringSearch = listItems
             activity?.runOnUiThread {
                 (activity as? MainActivity)?.refreshMenuItems()
-                addItems(listItems, forceRefresh,isNetworkPath,connectionType)
+                addItems(listItems, forceRefresh, isNetworkPath, connectionType)
                 if (context != null && currentViewType != context!!.config.getFolderViewType(currentPath)) {
                     setupLayoutManager(connectionType)
                 }
@@ -175,19 +181,19 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
     private fun addItems(items: ArrayList<ListItem>, forceRefresh: Boolean = false, isNetworkPath: Boolean = false, connectionType: ConnectionTypes) {
         activity?.runOnUiThread {
             binding.itemsSwipeRefresh.isRefreshing = false
-            binding.breadcrumbs.setBreadcrumb(currentPath,connectionType)
+            binding.breadcrumbs.setBreadcrumb(currentPath, connectionType)
             if (!forceRefresh && items.hashCode() == storedItems.hashCode()) {
                 return@runOnUiThread
             }
 
             storedItems = items
             if (binding.itemsList.adapter == null) {
-                binding.breadcrumbs.updateFontSize(context!!.getTextSize(), true,connectionType)
+                binding.breadcrumbs.updateFontSize(context!!.getTextSize(), true, connectionType)
             }
 
             ItemsAdapter(activity as SimpleActivity, storedItems, this, binding.itemsList, isPickMultipleIntent, binding.itemsSwipeRefresh) {
 
-                if((it as? ListItem)?.mIsDirectory == false) {
+                if ((it as? ListItem)?.mIsDirectory == false) {
                     if (connectionType == ConnectionTypes.SMB) {
                         it?.let { item ->
                             FileHelpers.launchSMB(item, this@ItemsFragment.context, viewModel.getMainSmb())
@@ -200,18 +206,16 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                         it?.let { item ->
                             FileHelpers.launchSFTP(connectionType, context = this@ItemsFragment.context, item = item)
                         }
-                    }
-                    else if (connectionType == ConnectionTypes.FTP) {
+                    } else if (connectionType == ConnectionTypes.FTP) {
                         it?.let { item ->
                             FileHelpers.launchFTP(connectionType, context = this@ItemsFragment.context, item = item)
                         }
                     }
-                }
-                else if ((it as? ListItem)?.isSectionTitle == true) {
+                } else if ((it as? ListItem)?.isSectionTitle == true) {
                     openDirectory(it.mPath)
                     searchClosed()
                 } else {
-                    itemClicked(it as FileDirItem,connectionType)
+                    itemClicked(it as FileDirItem, connectionType)
                 }
             }.apply {
                 setupZoomListener(zoomListener)
@@ -231,55 +235,41 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
     private fun getRecyclerLayoutManager() = (binding.itemsList.layoutManager as MyGridLayoutManager)
 
     @SuppressLint("NewApi")
-    private fun getItems(path: String, isNetworkPath: Boolean = false,connectionType: ConnectionTypes, callback: (originalPath: String, items: ArrayList<ListItem>) -> Unit) {
+    private fun getItems(
+        path: String,
+        isNetworkPath: Boolean = false,
+        connectionType: ConnectionTypes,
+        callback: (originalPath: String, items: ArrayList<ListItem>) -> Unit
+    ) {
         ensureBackgroundThread {
             if (activity?.isDestroyed == false && activity?.isFinishing == false) {
                 val config = context!!.config
-
                 if (connectionType.equals(ConnectionTypes.SMB)) {
                     val fileItems = viewModel.getFilesFromNetworkPath()
-                    val items = fileItems.map { it -> it.toFileItem() }
-                    callback(path, getListItemsFromFileDirItems(ArrayList(items.toList())))
-                }
-                else if(connectionType.equals(ConnectionTypes.WebDav)){
+                    handleApiResponse(fileItems, path, connectionType, callback)
+                } else if (connectionType.equals(ConnectionTypes.WebDav)) {
                     CoroutineScope(Dispatchers.IO).launch {
                         viewModel.listWebDavFiles(path)
                         viewModel.webDavFiles.collectLatest {
-                            if(it.isNotEmpty()) {
-                                val fileItems = it
-                                val items = fileItems.map { it -> it.toFileItem() }
-                                callback(path, getListItemsFromFileDirItems(ArrayList(items.toList())))
-                            }
+                            handleApiResponse(it, path, connectionType, callback)
                         }
                     }
-                }
 
-                else if (connectionType.equals(ConnectionTypes.SFTP)){
+                } else if (connectionType.equals(ConnectionTypes.SFTP)) {
                     CoroutineScope(Dispatchers.IO).launch {
                         viewModel.listAllFilesSFTPRoot(path)
-                            viewModel.sftpFiles.collectLatest {
-                                if(it.isNotEmpty()) {
-                                    val fileItems = it
-                                    val items = fileItems.map { it -> it.toFileItem(path) }
-                                    callback(path, getListItemsFromFileDirItems(ArrayList(items.toList())))
-                                }
+                        viewModel.sftpFiles.collectLatest {
+                            handleApiResponse(it, path, connectionType, callback)
                         }
                     }
-                }
-
-                else if (connectionType.equals(ConnectionTypes.FTP)){
+                } else if (connectionType.equals(ConnectionTypes.FTP)) {
                     CoroutineScope(Dispatchers.IO).launch {
                         viewModel.listAllFTPFiles(path)
                         viewModel.ftpFiles.collectLatest {
-                            if(it.isNotEmpty()) {
-                                val fileItems = it
-                                val items = fileItems.map { it -> it.toFileItem(path) }
-                                callback(path, getListItemsFromFileDirItems(ArrayList(items.toList())))
-                            }
+                            handleApiResponse(it, path, connectionType, callback)
                         }
                     }
-                }
-                else if (context.isRestrictedSAFOnlyRoot(path)) {
+                } else if (context.isRestrictedSAFOnlyRoot(path)) {
                     activity?.runOnUiThread { hideProgressBar() }
                     activity?.handleAndroidSAFDialog(path, openInSystemAppAllowed = true) {
                         if (!it) {
@@ -296,8 +286,11 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                     context!!.getOTGItems(path, config.shouldShowHidden(), getProperFileSize) {
                         callback(path, getListItemsFromFileDirItems(it))
                     }
-                } else if (!config.enableRootAccess || !context!!.isPathOnRoot(path) && (connectionType.equals(ConnectionTypes.DAVx5) || connectionType.equals(ConnectionTypes.Default))) {
-                    getRegularItemsOf(path, callback,connectionType)
+                } else if (!config.enableRootAccess || !context!!.isPathOnRoot(path) && (connectionType.equals(ConnectionTypes.DAVx5) || connectionType.equals(
+                        ConnectionTypes.Default
+                    ))
+                ) {
+                    getRegularItemsOf(path, callback, connectionType)
                 } else {
                     RootHelpers(activity!!).getFiles(path, callback)
                 }
@@ -309,7 +302,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         val items = ArrayList<ListItem>()
         val getProperChildCount = context!!.config.getFolderViewType(currentPath) == VIEW_TYPE_LIST
 
-        if(connectionType == ConnectionTypes.DAVx5){
+        if (connectionType == ConnectionTypes.DAVx5) {
             val uri = Uri.parse(path)
             val docFile = DocumentFile.fromTreeUri(context, uri)
             val files = docFile?.listFiles()
@@ -329,8 +322,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                     )
                 )
             }
-        }
-        else {
+        } else {
             val files = File(path).listFiles()?.filterNotNull()
             if (context == null || files == null) {
                 callback(path, items)
@@ -350,21 +342,21 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             }
         }
 
-            // send out the initial item list asap, get proper child count asynchronously as it can be slow
-            callback(path, items)
+        // send out the initial item list asap, get proper child count asynchronously as it can be slow
+        callback(path, items)
 
-            if (getProperChildCount) {
-                items.filter { it.mIsDirectory }.forEach {
-                    if (context != null) {
-                        val childrenCount = it.getDirectChildrenCount(activity as BaseSimpleActivity, showHidden)
-                        if (childrenCount != 0) {
-                            activity?.runOnUiThread {
-                                getRecyclerAdapter()?.updateChildCount(it.mPath, childrenCount)
-                            }
+        if (getProperChildCount) {
+            items.filter { it.mIsDirectory }.forEach {
+                if (context != null) {
+                    val childrenCount = it.getDirectChildrenCount(activity as BaseSimpleActivity, showHidden)
+                    if (childrenCount != 0) {
+                        activity?.runOnUiThread {
+                            getRecyclerAdapter()?.updateChildCount(it.mPath, childrenCount)
                         }
                     }
                 }
             }
+        }
     }
 
     private fun getListItemFromFile(file: File, isSortingBySize: Boolean, lastModifieds: HashMap<String, Long>, getProperChildCount: Boolean): ListItem? {
@@ -407,7 +399,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
 
     private fun itemClicked(item: FileDirItem, connectionType: ConnectionTypes) {
         if (item.isDirectory) {
-            openDirectory(item.path,connectionType)
+            openDirectory(item.path, connectionType)
         } else {
             clickedPath(item.path)
         }
@@ -620,50 +612,90 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         }
     }
 
-    override fun columnCountChanged() {
-        (binding.itemsList.layoutManager as MyGridLayoutManager).spanCount = context!!.config.fileColumnCnt
-        (activity as? MainActivity)?.refreshMenuItems()
-        getRecyclerAdapter()?.apply {
-            notifyItemRangeChanged(0, listItems.size)
-        }
-    }
-
-    fun showProgressBar() {
-        binding.progressBar.show()
-    }
-
-    private fun hideProgressBar() {
-        binding.progressBar.hide()
-    }
-
-    fun getBreadcrumbs() = binding.breadcrumbs
-
-    override fun toggleFilenameVisibility() {
-        getRecyclerAdapter()?.updateDisplayFilenamesInGrid()
-    }
-
-    override fun breadcrumbClicked(id: Int) {
-        if (id == 0) {
-            StoragePickerDialog(activity as SimpleActivity, currentPath, context!!.config.enableRootAccess, true) {
-                getRecyclerAdapter()?.finishActMode()
-                openPath(it)
+    private fun <T> handleApiResponse(
+        apiResponse: ApiResponse<T>?,
+        path: String,
+        connectionType: ConnectionTypes,
+        callback: (originalPath: String, items: ArrayList<ListItem>) -> Unit
+    ) {
+        if (apiResponse?.exception != null) {
+            apiResponse.exception.message?.let { exp ->
+                activity?.toast(exp)
             }
         } else {
-            val item = binding.breadcrumbs.getItem(id)
-            openPath(item.path, connectionType = item.connectionType)
+            if (connectionType == ConnectionTypes.SMB) {
+                apiResponse?.response?.let { item ->
+                    val fileItems = item as Array<SmbFile>
+                    val items = fileItems.map { it -> it.toFileItem() }
+                    callback(path, getListItemsFromFileDirItems(ArrayList(items?.toList())))
+                }
+            } else if (connectionType == ConnectionTypes.WebDav) {
+                apiResponse?.response?.let { item ->
+                    val fileItems = item as List<DavResource>
+                    val items = fileItems.map { it -> it.toFileItem() }
+                    callback(path, getListItemsFromFileDirItems(ArrayList(items?.toList())))
+                }
+            } else if (connectionType == ConnectionTypes.SFTP) {
+                apiResponse?.response?.let { item ->
+                    val fileItems = item as List<RemoteResourceInfo>
+                    val items = fileItems?.map { it -> it.toFileItem(path) }
+                    callback(path, getListItemsFromFileDirItems(ArrayList(items?.toList())))
+                }
+
+            } else if (connectionType == ConnectionTypes.FTP) {
+                apiResponse?.response?.let { item ->
+                    val fileItems = item as List<FTPFile>
+                    val items = fileItems?.map { it -> it.toFileItem(path) }
+                    callback(path, getListItemsFromFileDirItems(ArrayList(items?.toList())))
+                }
+            }
         }
     }
 
-    override fun refreshFragment() {
-        openPath(currentPath)
-    }
+        override fun columnCountChanged() {
+            (binding.itemsList.layoutManager as MyGridLayoutManager).spanCount = context!!.config.fileColumnCnt
+            (activity as? MainActivity)?.refreshMenuItems()
+            getRecyclerAdapter()?.apply {
+                notifyItemRangeChanged(0, listItems.size)
+            }
+        }
 
-    override fun deleteFiles(files: ArrayList<FileDirItem>) {
-        val hasFolder = files.any { it.isDirectory }
-        handleFileDeleting(files, hasFolder)
-    }
+        fun showProgressBar() {
+            binding.progressBar.show()
+        }
 
-    override fun selectedPaths(paths: ArrayList<String>) {
-        (activity as MainActivity).pickedPaths(paths)
+        private fun hideProgressBar() {
+            binding.progressBar.hide()
+        }
+
+        fun getBreadcrumbs() = binding.breadcrumbs
+
+        override fun toggleFilenameVisibility() {
+            getRecyclerAdapter()?.updateDisplayFilenamesInGrid()
+        }
+
+        override fun breadcrumbClicked(id: Int) {
+            if (id == 0) {
+                StoragePickerDialog(activity as SimpleActivity, currentPath, context!!.config.enableRootAccess, true) {
+                    getRecyclerAdapter()?.finishActMode()
+                    openPath(it)
+                }
+            } else {
+                val item = binding.breadcrumbs.getItem(id)
+                openPath(item.path, connectionType = item.connectionType)
+            }
+        }
+
+        override fun refreshFragment() {
+            openPath(currentPath)
+        }
+
+        override fun deleteFiles(files: ArrayList<FileDirItem>) {
+            val hasFolder = files.any { it.isDirectory }
+            handleFileDeleting(files, hasFolder)
+        }
+
+        override fun selectedPaths(paths: ArrayList<String>) {
+            (activity as MainActivity).pickedPaths(paths)
+        }
     }
-}

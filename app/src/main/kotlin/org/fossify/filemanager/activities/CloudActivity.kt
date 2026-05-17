@@ -3,6 +3,7 @@ package org.fossify.filemanager.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.Lifecycle
@@ -27,6 +28,7 @@ import org.fossify.filemanager.models.NetworkConnection
 import org.fossify.filemanager.viewmodels.NetworkBrowserViewModel
 import java.security.Security
 import org.bouncycastle.jce.provider.BouncyCastleProvider
+import org.fossify.commons.extensions.toast
 import org.fossify.filemanager.dependencies.AppComposition
 import org.fossify.filemanager.enums.Authentication
 import org.fossify.filemanager.enums.Protocols
@@ -141,8 +143,8 @@ class CloudActivity : SimpleActivity() {
     }
 
     private fun showConnectionDialog() {
-        ConnectionDialog(this@CloudActivity) { host, user, password, shared, displayName, certPath,privateKeyText,privateKeyPass, port, connection, protocol, auth ->
-            saveNetwork(host, user, password, shared, displayName,privateKeyText ,privateKeyPass,certPath, port, connection, protocol, auth)
+        ConnectionDialog(this@CloudActivity) { host, user, password, shared, displayName, certPath, privateKeyText, privateKeyPass, port, connection, protocol, auth ->
+            saveNetwork(host, user, password, shared, displayName, privateKeyText, privateKeyPass, certPath, port, connection, protocol, auth)
         }
     }
 
@@ -296,7 +298,11 @@ class CloudActivity : SimpleActivity() {
         machinePort: Int,
         protocol: Protocols = Protocols.HTTP
     ) {
-        https = HttpServer(port, connection.host, connectionType, composition, machinePort, protocol)
+        https = HttpServer(port, connection.host, connectionType, composition, machinePort, protocol) {
+            it?.message?.let { exp ->
+                toast(exp, Toast.LENGTH_LONG)
+            }
+        }
         https?.start()
     }
 
@@ -356,8 +362,11 @@ class CloudActivity : SimpleActivity() {
                                 )
                             )
                         }
+                    } else {
+                        it.exception?.let { exception ->
+                            toast(exception.message.toString())
+                        }
                     }
-
                 }
             }
 
@@ -380,6 +389,10 @@ class CloudActivity : SimpleActivity() {
                                     authentication = it.item.authentication
                                 )
                             )
+                        }
+                    } else {
+                        it.exception?.let { exception ->
+                            toast(exception.message.toString())
                         }
                     }
                 }
@@ -407,6 +420,10 @@ class CloudActivity : SimpleActivity() {
                                 )
                             )
                         }
+                    } else {
+                        it.exception?.let { exception ->
+                            toast(exception.message.toString())
+                        }
                     }
                 }
             }
@@ -430,6 +447,10 @@ class CloudActivity : SimpleActivity() {
                                     authentication = it.item.authentication
                                 )
                             )
+                        }
+                    } else {
+                        it.exception?.let { exception ->
+                            toast(exception.message.toString())
                         }
                     }
                 }

@@ -10,6 +10,7 @@ import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.enums.Authentication
 import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.interfaces.SMBApi
+import org.fossify.filemanager.models.ApiResponse
 import org.fossify.filemanager.models.NetworkConnection
 import java.util.Properties
 
@@ -23,8 +24,8 @@ class SMBApiImpl : SMBApi {
             setProperty("jcifs.netbios.retryTimeout", "5000")
             setProperty("jcifs.netbios.cachePolicy", "-1")
         }
-    override suspend fun verifyConnection(connection: NetworkConnection): Boolean {
-        try {
+    override suspend fun verifyConnection(connection: NetworkConnection): Pair<Boolean,Exception?> {
+       return try {
             val p = Properties(defaultProperties)
             val context: CIFSContext = BaseContext(PropertyConfiguration(p))
             var authContext: CIFSContext? = null
@@ -40,16 +41,20 @@ class SMBApiImpl : SMBApi {
             }
             val smbUrl = Helpers.createUrl(ConnectionTypes.SMB, connection.sharedPath, connection.host, connection.port)
             smbClient = SmbFile(smbUrl, authContext)
-            return smbClient.exists()
+            Pair(smbClient.exists(),null)
         } catch (exp: Exception) {
-            Log.e("Exception", exp.toString())
+            Pair(false,exp)
         }
-        return false
     }
 
-    override fun getFilesFromNetworkPath(): Array<SmbFile> {
-        val files = smbClient.listFiles()
-        return files
+    override fun getFilesFromNetworkPath(): ApiResponse<Array<SmbFile>> {
+        return try {
+            val files = smbClient.listFiles()
+            ApiResponse(files,null)
+        }
+        catch (exp: Exception){
+            ApiResponse(null,exp)
+        }
     }
 
     override fun getMainSmbFile(): SmbFile = smbClient

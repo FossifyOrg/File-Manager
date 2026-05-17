@@ -14,6 +14,7 @@ import net.schmizz.sshj.userauth.method.AuthPublickey
 import net.schmizz.sshj.userauth.password.PasswordUtils
 import org.fossify.filemanager.enums.Authentication
 import org.fossify.filemanager.interfaces.SFTPApi
+import org.fossify.filemanager.models.ApiResponse
 import org.fossify.filemanager.models.NetworkConnection
 import java.io.IOException
 import java.io.InputStream
@@ -23,8 +24,8 @@ class SFTPApiImpl: SFTPApi {
     private lateinit var sftp: SFTPClient
     private val sftpLock = Any()
 
-    override suspend fun connectToSftp(connection: NetworkConnection): Boolean {
-        try {
+    override suspend fun connectToSftp(connection: NetworkConnection): Pair<Boolean, Exception?> {
+        return try {
             if (!::ssh.isInitialized || !ssh.isConnected || !ssh.isAuthenticated) {
                 ssh = SSHClient()
                 ssh.addHostKeyVerifier(PromiscuousVerifier())
@@ -37,41 +38,46 @@ class SFTPApiImpl: SFTPApi {
                 }
                 sftp = ssh.newSFTPClient()
             }
-            return true
+             Pair(true,null)
         } catch (e: Exception) {
-            Log.e("SFTP", "Connect failed: ${e.message}")
             e.printStackTrace()
-            return false
+             Pair(false,e)
         }
     }
 
-    override suspend fun listAllFilesSFTPRoot(path: String): List<RemoteResourceInfo> {
-        val files = sftp.ls(path)
-        return files
-    }
-
-    override suspend fun listAllFilesSFTPPath(path: String): List<RemoteResourceInfo> {
-        val files = sftp.ls(path)
-        return files
-    }
-
-    override fun listSFTPFileDetails(path: String): FileAttributes? {
-        synchronized(sftpLock) {
-            return try {
-                val myPath = path.replace("//", "/")
-                sftp.stat(myPath)
-            } catch (e: Exception) {
-                Log.e("SFTP", "Stat failed: ${e.message}")
-                null
-            }
+    override suspend fun listAllFilesSFTPRoot(path: String): ApiResponse<List<RemoteResourceInfo>> {
+        return try {
+            val files = sftp.ls(path)
+            ApiResponse(files,null)
+        }
+        catch (exp: Exception){
+            ApiResponse(null,exp)
         }
     }
 
-    override fun getSFTPFileInputStream(url: String, startByte: Long): InputStream {
-        val myPath = url.replace("//", "/")
-        val remoteFile = sftp.open(myPath)
-        val inputStream = remoteFile.RemoteFileInputStream(startByte)
-        return inputStream
+    override fun listSFTPFileDetails(path: String): ApiResponse<FileAttributes?> {
+
+        return try {
+            val myPath = path.replace("//", "/")
+            val attributes = sftp.stat(myPath)
+            ApiResponse(attributes,null)
+        }
+        catch (exp: Exception){
+            ApiResponse(null,exp)
+        }
+    }
+
+    override fun getSFTPFileInputStream(url: String, startByte: Long):ApiResponse<InputStream> {
+        return try {
+            val myPath = url.replace("//", "/")
+            val remoteFile = sftp.open(myPath)
+            val inputStream = remoteFile.RemoteFileInputStream(startByte)
+            ApiResponse(inputStream,null)
+        }
+        catch (exp: Exception){
+            ApiResponse(null,exp)
+        }
+
     }
 
     override fun getSFTPConn() = sftp

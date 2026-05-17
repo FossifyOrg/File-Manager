@@ -25,6 +25,7 @@ import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryDb
 import org.fossify.filemanager.interfaces.SFTPApi
 import org.fossify.filemanager.interfaces.SMBApi
 import org.fossify.filemanager.interfaces.WebDavApi
+import org.fossify.filemanager.models.ApiResponse
 import org.fossify.filemanager.models.ConnectionResult
 import org.fossify.filemanager.models.NetworkConnection
 import java.io.InputStream
@@ -46,11 +47,11 @@ class NetworkBrowserViewModel(
     val verifyFTP = MutableSharedFlow<ConnectionResult>()
 
 
-    val sftpFiles = MutableStateFlow<List<RemoteResourceInfo>>(emptyList())
+    val sftpFiles = MutableStateFlow<ApiResponse<List<RemoteResourceInfo>>?>(null)
 
-    val webDavFiles = MutableStateFlow<List<DavResource>>(emptyList())
+    val webDavFiles = MutableStateFlow< ApiResponse<List<DavResource>>?>(null)
 
-    val ftpFiles = MutableStateFlow<List<FTPFile>>(emptyList())
+    val ftpFiles = MutableStateFlow<ApiResponse<List<FTPFile>>?>(null)
 
 
     fun saveNetwork(networkConnection: NetworkConnection) {
@@ -70,11 +71,11 @@ class NetworkBrowserViewModel(
     fun verifyNetwork(connection: NetworkConnection, saveInfo: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             val value = smbApi.verifyConnection(connection)
-            verifyNetwork.emit(ConnectionResult(connection, value, saveInfo = saveInfo))
+            verifyNetwork.emit(ConnectionResult(connection, value.first, saveInfo = saveInfo,value.second))
         }
     }
 
-    fun getFilesFromNetworkPath(): Array<SmbFile> {
+    fun getFilesFromNetworkPath(): ApiResponse<Array<SmbFile>> {
         return smbApi.getFilesFromNetworkPath()
     }
 
@@ -85,7 +86,7 @@ class NetworkBrowserViewModel(
     fun connectAndAuthenticateWebDav(connection: NetworkConnection, protocol: Protocols, saveInfo: Boolean, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = webDavApi.connectAndVerifyWebDav(connection, protocol, context)
-            verifyWebDav.emit(ConnectionResult(connection, result, saveInfo))
+            verifyWebDav.emit(ConnectionResult(connection, result.first, saveInfo,result.second))
         }
     }
 
@@ -106,7 +107,7 @@ class NetworkBrowserViewModel(
     fun connectSFTP(connection: NetworkConnection, saveInfo: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = sftpApi.connectToSftp(connection)
-            verifySFTP.emit(ConnectionResult(connection, res, saveInfo))
+            verifySFTP.emit(ConnectionResult(connection, res.first, saveInfo,res.second))
         }
     }
 
@@ -135,7 +136,7 @@ class NetworkBrowserViewModel(
     fun connectFTP(connection: NetworkConnection, saveInfo: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = ftpApi.connectToFTP(connection)
-            verifyFTP.emit(ConnectionResult(connection, res, saveInfo))
+            verifyFTP.emit(ConnectionResult(connection, res.first, saveInfo,res.second))
         }
     }
 
