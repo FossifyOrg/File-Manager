@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.documentfile.provider.DocumentFile
@@ -58,6 +59,8 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
     private var storedItems = ArrayList<ListItem>()
     private var itemsIgnoringSearch = ArrayList<ListItem>()
     private lateinit var binding: ItemsFragmentBinding
+    private var connectionType: ConnectionTypes = ConnectionTypes.Default
+
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -107,7 +110,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             progressBar.trackColor = properPrimaryColor.adjustAlpha(LOWER_ALPHA)
 
             if (currentPath != "") {
-                breadcrumbs.updateColor(textColor)
+                breadcrumbs.updateColor(textColor,connectionType)
             }
 
             itemsSwipeRefresh.isEnabled = lastSearchedText.isEmpty() && activity?.config?.enablePullToRefresh != false
@@ -138,7 +141,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         if (realPath.isEmpty()) {
             realPath = "/"
         }
-
+        this.connectionType = connectionType
         scrollStates[currentPath] = getScrollState()!!
         currentPath = realPath
         showHidden = context!!.config.shouldShowHidden()
@@ -675,13 +678,19 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         }
 
         override fun breadcrumbClicked(id: Int) {
+            val item = binding.breadcrumbs.getItem(id)
             if (id == 0) {
+                Log.d("BreadcrumbClicked", binding.breadcrumbs.getAllItems().toString())
                 StoragePickerDialog(activity as SimpleActivity, currentPath, context!!.config.enableRootAccess, true) {
                     getRecyclerAdapter()?.finishActMode()
-                    openPath(it)
+                    if (item.connectionType != ConnectionTypes.Default){
+                        openPath(item.path, connectionType = item.connectionType)
+                    }
+                    else{
+                        openPath(item.path)
+                    }
                 }
             } else {
-                val item = binding.breadcrumbs.getItem(id)
                 openPath(item.path, connectionType = item.connectionType)
             }
         }

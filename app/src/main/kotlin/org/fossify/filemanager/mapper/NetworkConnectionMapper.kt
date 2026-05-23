@@ -57,7 +57,7 @@ fun SmbFile.toFileItem(): FileDirItem {
 
 fun DavResource.toFileItem(): FileDirItem {
     return FileDirItem(
-        path = this.path,
+        path = this.href.toString(),
         name = this.name.trimEnd('/'),
         isDirectory = this.isDirectory,
         size = if (!this.isDirectory) (this.contentLength ?: 0L) else 0L,

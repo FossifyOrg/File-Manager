@@ -2,6 +2,7 @@ package org.fossify.filemanager.repository
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import com.thegrizzlylabs.sardineandroid.DavResource
 import com.thegrizzlylabs.sardineandroid.Sardine
@@ -17,6 +18,7 @@ import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
 import javax.net.ssl.SSLContext
 import javax.net.ssl.X509TrustManager
+import androidx.core.net.toUri
 
 class WebDavApiImpl: WebDavApi {
     lateinit var sardine: Sardine
@@ -42,7 +44,12 @@ class WebDavApiImpl: WebDavApi {
     override suspend fun listAllFilesOnWebDav(url: String): ApiResponse<List<DavResource>> {
         return try {
             val resources = sardine.list(url)
-            ApiResponse(resources,null)
+            val b = Uri.decode(url.toUri().encodedPath?.trimEnd('/'))
+            val filteredItems = resources.filter { resource ->
+                val a = Uri.decode(resource.href.toString().toUri().encodedPath?.trimEnd('/'))
+                a != b 
+            }
+            ApiResponse(filteredItems,null)
         }
         catch (exp: Exception){
             ApiResponse(null,exp)

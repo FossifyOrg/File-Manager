@@ -85,12 +85,9 @@ class MainActivity : SimpleActivity() {
         private const val BACK_PRESS_TIMEOUT = 5000
         private const val PICKED_PATH = "picked_path"
     }
-
     private val binding by viewBinding(ActivityMainBinding::inflate)
-
     private var wasBackJustPressed = false
     private var mTabsToShow = ArrayList<Int>()
-
     private var mStoredFontSize = 0
     private var mStoredDateFormat = ""
     private var mStoredTimeFormat = ""
@@ -195,7 +192,22 @@ class MainActivity : SimpleActivity() {
             }
         } else {
             currentFragment.getBreadcrumbs().removeBreadcrumb()
-            openPath(currentFragment.getBreadcrumbs().getLastItem().path)
+            var path = ""
+            val lastItem = currentFragment.getBreadcrumbs().getLastItem()
+            if (lastItem.connectionType == ConnectionTypes.WebDav){
+                val fileItems = currentFragment.getBreadcrumbs().getAllItems()
+                fileItems.forEach {
+                    path += "${it.path}/"
+                }
+
+            }
+            else{
+                path = lastItem.path
+            }
+            openPath(
+                path,
+                connectionType = lastItem.connectionType
+            )
             return true
         }
     }
