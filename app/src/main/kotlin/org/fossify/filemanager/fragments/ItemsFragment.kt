@@ -680,7 +680,6 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         override fun breadcrumbClicked(id: Int) {
             val item = binding.breadcrumbs.getItem(id)
             if (id == 0) {
-                Log.d("BreadcrumbClicked", binding.breadcrumbs.getAllItems().toString())
                 StoragePickerDialog(activity as SimpleActivity, currentPath, context!!.config.enableRootAccess, true) {
                     getRecyclerAdapter()?.finishActMode()
                     if (item.connectionType != ConnectionTypes.Default){
@@ -691,12 +690,22 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                     }
                 }
             } else {
-                openPath(item.path, connectionType = item.connectionType)
+                var path = ""
+                if (item.connectionType == ConnectionTypes.WebDav){
+                    val items = binding.breadcrumbs.getItemsTillIndex(id)
+                    items.forEach { item ->
+                        path += "${item.path}/"
+                    }
+                }
+                else
+                    path = item.path
+
+                openPath(path, connectionType = item.connectionType)
             }
         }
 
         override fun refreshFragment() {
-            openPath(currentPath)
+            openPath(currentPath,connectionType = connectionType)
         }
 
         override fun deleteFiles(files: ArrayList<FileDirItem>) {

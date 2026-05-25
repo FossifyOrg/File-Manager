@@ -47,7 +47,7 @@ class WebDavApiImpl: WebDavApi {
             val b = Uri.decode(url.toUri().encodedPath?.trimEnd('/'))
             val filteredItems = resources.filter { resource ->
                 val a = Uri.decode(resource.href.toString().toUri().encodedPath?.trimEnd('/'))
-                a != b 
+                a != b
             }
             ApiResponse(filteredItems,null)
         }
@@ -79,7 +79,7 @@ class WebDavApiImpl: WebDavApi {
             ApiResponse(resource,null)
         }
         catch (exp: Exception){
-            ApiResponse(null,exp)
+            ApiResponse(null,null)
         }
     }
 

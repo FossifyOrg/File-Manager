@@ -35,7 +35,7 @@ class HttpServer(
     }
 
     private fun handleSmb(uri: String, rangeHeader: String?): Response {
-        val file = SmbFile("smb://$serverIp/$uri")
+        val file = SmbFile(uri)
         if (!file.exists()) return notFound()
 
         val fileLength = file.length()
@@ -53,7 +53,10 @@ class HttpServer(
     }
 
     private fun handleWebDav(uri: String, rangeHeader: String?): Response {
-        val url = buildUrl(uri)
+
+        val extractedPath = Helpers.retrievePath(uri)
+        val url = Helpers. createNanoHttpdUrl(connectionType, extractedPath, server = serverIp, port = machinePort, protocols = protocol)
+
         val apiResponse = composition.webDavApiRepository.listWebDavFileDetail(url)
         return handleResponse(apiResponse) {
             val file = apiResponse.response ?: return@handleResponse notFound()

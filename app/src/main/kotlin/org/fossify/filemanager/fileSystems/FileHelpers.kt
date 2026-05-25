@@ -14,7 +14,7 @@ import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.models.ListItem
 
 object FileHelpers {
-    val URL: String = "http://127.0.0.1:7871/"
+    val URL: String = "http://127.0.0.1:7871"
     fun launchSMB(item: ListItem, context: Context, smb: SmbFile) {
         try {
             CoroutineScope(Dispatchers.IO).launch {
@@ -36,11 +36,11 @@ object FileHelpers {
     fun launchWebDav(connectionTypes: ConnectionTypes, item: ListItem, context: Context){
         try {
             CoroutineScope(Dispatchers.IO).launch {
-                val port = Helpers.getPortForEachService(connectionTypes)
-                val uri = Helpers.createNanoHttpdUrl(connectionTypes, item.mPath, port = port).toUri()
                 val i =
                     Intent(Intent.ACTION_VIEW)
-                i.setDataAndType(uri, MimeTypes.getMimeTypes(item.mPath))
+                val extractedPath = Helpers.retrievePath(item.mPath)
+                val uri = "${URL}${extractedPath}"
+                i.setDataAndType(uri.toUri(), MimeTypes.getMimeTypes(item.mPath))
 
                 val packageManager: PackageManager = context.packageManager
                 val resInfos = packageManager.queryIntentActivities(i, 0)

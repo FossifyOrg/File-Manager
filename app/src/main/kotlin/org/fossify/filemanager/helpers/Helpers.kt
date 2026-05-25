@@ -1,12 +1,13 @@
 package org.fossify.filemanager.helpers
 
+import android.net.Uri
 import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.enums.Protocols
 import java.util.Locale.getDefault
 
 object Helpers {
     val host: String = "127.0.0.1"
-    fun createNanoHttpdUrl(connectionTypes: ConnectionTypes, path: String = "", server: String = "", port: Int, protocols: Protocols = Protocols.HTTP): String{
+    fun createNanoHttpdUrl(connectionTypes: ConnectionTypes, path: String? = "", server: String = "", port: Int, protocols: Protocols = Protocols.HTTP): String{
         var protocol = Protocols.HTTP.toString().lowercase()
         if(connectionTypes.equals(ConnectionTypes.WebDav)){
             protocol = protocols.name.lowercase()
@@ -14,7 +15,7 @@ object Helpers {
         else if(connectionTypes.equals(ConnectionTypes.SMB)){
             protocol = ConnectionTypes.SMB.toString().lowercase()
         }
-        val url = "${protocol}://${if (server.isEmpty()) host else server }:${port}/${path}"
+        val url = "${protocol}://${if (server.isEmpty()) host else server }:${port}${path}"
         return url
     }
 
@@ -40,8 +41,12 @@ object Helpers {
         }
         return PORT_SMB
     }
-
     fun createProtocolPath(protocol: Protocols?, server: String, port:Int, path:String): String{
         return "${protocol?.name?.lowercase(getDefault())}://${server}:${port}/${path}"
+    }
+
+    fun retrievePath(url: String): String?{
+        val uri = Uri.parse(url)
+       return uri.path
     }
 }
