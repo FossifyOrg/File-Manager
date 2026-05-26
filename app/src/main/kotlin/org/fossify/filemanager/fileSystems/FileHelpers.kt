@@ -11,17 +11,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.helpers.Helpers
+import org.fossify.filemanager.helpers.PORT_SMB
+import org.fossify.filemanager.helpers.PORT_WEBDAV
 import org.fossify.filemanager.models.ListItem
 
 object FileHelpers {
-    val URL: String = "http://127.0.0.1:7871"
+    val URL: String = "http://127.0.0.1"
     fun launchSMB(item: ListItem, context: Context, smb: SmbFile) {
         try {
             CoroutineScope(Dispatchers.IO).launch {
-                val uri = "${URL}${item.parent}${(item.path.toUri()).path}".toUri()
+                val extractedPath = Helpers.retrievePath(item.mPath)
+                val uri = "${URL}:${PORT_SMB}${extractedPath}"
                 val i =
                     Intent(Intent.ACTION_VIEW)
-                i.setDataAndType(uri, MimeTypes.getMimeTypes(item.mPath))
+                i.setDataAndType(uri.toUri(), MimeTypes.getMimeTypes(item.mPath))
                 val packageManager: PackageManager = context.packageManager
                 val resInfos = packageManager.queryIntentActivities(i, 0)
                 if (resInfos.size > 0) {
@@ -39,7 +42,7 @@ object FileHelpers {
                 val i =
                     Intent(Intent.ACTION_VIEW)
                 val extractedPath = Helpers.retrievePath(item.mPath)
-                val uri = "${URL}${extractedPath}"
+                val uri = "${URL}:${PORT_WEBDAV}/${extractedPath}"
                 i.setDataAndType(uri.toUri(), MimeTypes.getMimeTypes(item.mPath))
 
                 val packageManager: PackageManager = context.packageManager

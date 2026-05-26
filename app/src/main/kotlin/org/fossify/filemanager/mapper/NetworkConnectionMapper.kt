@@ -44,9 +44,12 @@ fun NetworkConnection.toEntity(): NetworkConnectionEntity {
 }
 
 fun SmbFile.toFileItem(): FileDirItem {
+
+    val normalizedPath = this.path.trimEnd('/')
+    val fileName = normalizedPath.substringAfterLast('/')
     return FileDirItem(
-        path = this.path,
-        name = this.name.trimEnd('/'),
+        path = this.canonicalPath,
+        name = fileName.ifEmpty { "/" },
         isDirectory = this.isDirectory,
         size = if (!this.isDirectory) this.length() else 0L,
         modified = this.lastModified(),

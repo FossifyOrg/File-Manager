@@ -75,8 +75,8 @@ class NetworkBrowserViewModel(
         }
     }
 
-    fun getFilesFromNetworkPath(): ApiResponse<Array<SmbFile>> {
-        return smbApi.getFilesFromNetworkPath()
+    fun getFilesFromNetworkPath(path: String): ApiResponse<Array<SmbFile>> {
+        return smbApi.getFilesFromNetworkPath(path)
     }
 
     fun getMainSmb(): SmbFile = smbApi.getMainSmbFile()

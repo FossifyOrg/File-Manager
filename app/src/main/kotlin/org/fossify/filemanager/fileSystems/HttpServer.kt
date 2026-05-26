@@ -35,7 +35,8 @@ class HttpServer(
     }
 
     private fun handleSmb(uri: String, rangeHeader: String?): Response {
-        val file = SmbFile(uri)
+        val url = Helpers. createNanoHttpdUrl(connectionType, uri, server = serverIp, port = machinePort, protocols = protocol)
+        val file = SmbFile(url)
         if (!file.exists()) return notFound()
 
         val fileLength = file.length()

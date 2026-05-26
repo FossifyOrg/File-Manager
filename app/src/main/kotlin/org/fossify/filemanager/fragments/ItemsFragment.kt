@@ -248,7 +248,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             if (activity?.isDestroyed == false && activity?.isFinishing == false) {
                 val config = context!!.config
                 if (connectionType.equals(ConnectionTypes.SMB)) {
-                    val fileItems = viewModel.getFilesFromNetworkPath()
+                    val fileItems = viewModel.getFilesFromNetworkPath(path)
                     handleApiResponse(fileItems, path, connectionType, callback)
                 } else if (connectionType.equals(ConnectionTypes.WebDav)) {
                     CoroutineScope(Dispatchers.IO).launch {
@@ -691,7 +691,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                 }
             } else {
                 var path = ""
-                if (item.connectionType == ConnectionTypes.WebDav){
+                if (item.connectionType == ConnectionTypes.WebDav || item.connectionType == ConnectionTypes.SMB){
                     val items = binding.breadcrumbs.getItemsTillIndex(id)
                     items.forEach { item ->
                         path += "${item.path}/"

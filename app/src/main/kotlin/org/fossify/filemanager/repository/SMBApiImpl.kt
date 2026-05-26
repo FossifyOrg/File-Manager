@@ -47,10 +47,14 @@ class SMBApiImpl : SMBApi {
         }
     }
 
-    override fun getFilesFromNetworkPath(): ApiResponse<Array<SmbFile>> {
+    override fun getFilesFromNetworkPath(path: String): ApiResponse<Array<SmbFile>> {
         return try {
-            val files = smbClient.listFiles()
-            ApiResponse(files,null)
+            if ("$path/" == smbClient.canonicalPath){
+                val files = smbClient.listFiles()
+                return ApiResponse(files,null)
+            }
+            val subDir = SmbFile("$path/", smbClient.context)
+            ApiResponse(subDir.listFiles(),null)
         }
         catch (exp: Exception){
             ApiResponse(null,exp)

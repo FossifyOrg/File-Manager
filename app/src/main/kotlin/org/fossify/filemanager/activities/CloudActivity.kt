@@ -375,7 +375,7 @@ class CloudActivity : SimpleActivity() {
                 viewModel.verifyNetwork.collectLatest {
                     if (it.success) {
                         if (!it.saveInfo) {
-                            val path = "${it.item.host.trimEnd('/')}/${it.item.sharedPath.trimStart('/')}"
+                            val path = "smb://${it.item.host.trimEnd('/')}:${it.item.port}/${it.item.sharedPath.trimStart('/')}"
                             startServer(it.item, connectionType = ConnectionTypes.SMB, machinePort = it.item.port)
                             launchMainActivity(ConnectionTypes.SMB, path)
                         } else {
