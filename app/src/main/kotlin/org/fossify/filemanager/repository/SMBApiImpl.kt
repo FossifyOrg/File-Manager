@@ -1,6 +1,5 @@
 package org.fossify.filemanager.repository
 
-import android.util.Log
 import jcifs.CIFSContext
 import jcifs.config.PropertyConfiguration
 import jcifs.context.BaseContext
@@ -55,6 +54,17 @@ class SMBApiImpl : SMBApi {
             }
             val subDir = SmbFile("$path/", smbClient.context)
             ApiResponse(subDir.listFiles(),null)
+        }
+        catch (exp: Exception){
+            ApiResponse(null,exp)
+        }
+    }
+
+    override fun createFolderOrFile(path: String, isFolder: Boolean, name: String): ApiResponse<Boolean> {
+        return try {
+            val file = SmbFile("$path/$name", smbClient.context)
+            if (isFolder) file.mkdir() else file.createNewFile()
+            ApiResponse(true,null)
         }
         catch (exp: Exception){
             ApiResponse(null,exp)

@@ -14,5 +14,7 @@ interface WebDavApi {
 
     fun getWebDavFileInputStream(url: String, start: Long, end: Long): ApiResponse<InputStream>
 
+    fun createItem(path: String, isFolder: Boolean, name: String): ApiResponse<Boolean>
+
     fun listWebDavFileDetail(url: String): ApiResponse<DavResource?>
 }

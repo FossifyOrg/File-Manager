@@ -5,9 +5,6 @@ import android.content.Context
 import android.net.Uri
 import android.os.Parcelable
 import android.util.AttributeSet
-import android.util.Log
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import net.schmizz.sshj.sftp.RemoteResourceInfo
 import org.apache.commons.net.ftp.FTPFile
 import org.fossify.commons.activities.BaseSimpleActivity
@@ -110,7 +108,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             progressBar.trackColor = properPrimaryColor.adjustAlpha(LOWER_ALPHA)
 
             if (currentPath != "") {
-                breadcrumbs.updateColor(textColor,connectionType)
+                breadcrumbs.updateColor(textColor, connectionType)
             }
 
             itemsSwipeRefresh.isEnabled = lastSearchedText.isEmpty() && activity?.config?.enablePullToRefresh != false
@@ -163,7 +161,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                 if (listItems.any { it.mIsDirectory } && listItems.any { !it.mIsDirectory }) {
                     val firstFileIndex = listItems.indexOfFirst { !it.mIsDirectory }
                     if (firstFileIndex != -1) {
-                        val sectionTitle = ListItem("", "", false, 0, 0, 0, false, true)
+                        val sectionTitle = ListItem("", "", false, 0, 0, 0, false, true, mConnectionType = connectionType)
                         listItems.add(firstFileIndex, sectionTitle)
                     }
                 }
@@ -213,11 +211,14 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                         it?.let { item ->
                             FileHelpers.launchFTP(connectionType, context = this@ItemsFragment.context, item = item)
                         }
+                    } else {
+                        itemClicked(it as FileDirItem, connectionType)
                     }
                 } else if ((it as? ListItem)?.isSectionTitle == true) {
                     openDirectory(it.mPath)
                     searchClosed()
-                } else {
+                }
+                else {
                     itemClicked(it as FileDirItem, connectionType)
                 }
             }.apply {
@@ -392,7 +393,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
     private fun getListItemsFromFileDirItems(fileDirItems: ArrayList<FileDirItem>): ArrayList<ListItem> {
         val listItems = ArrayList<ListItem>()
         fileDirItems.forEach {
-            val listItem = ListItem(it.path, it.name, it.isDirectory, it.children, it.size, it.modified, false, false)
+            val listItem = ListItem(it.path, it.name, it.isDirectory, it.children, it.size, it.modified, false, false, mConnectionType = it.connectionType)
             if (wantedMimeTypes.any { mimeType -> isProperMimeType(mimeType, it.path, it.isDirectory) }) {
                 listItems.add(listItem)
             }
@@ -532,7 +533,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
     }
 
     private fun createNewItem() {
-        CreateNewItemDialog(activity as SimpleActivity, currentPath) {
+        CreateNewItemDialog(activity as SimpleActivity, currentPath, connectionType, viewModel) {
             if (it) {
                 refreshFragment()
             } else {
@@ -629,91 +630,89 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             if (connectionType == ConnectionTypes.SMB) {
                 apiResponse?.response?.let { item ->
                     val fileItems = item as Array<SmbFile>
-                    val items = fileItems.map { it -> it.toFileItem() }
+                    val items = fileItems.map { it -> it.toFileItem(connectionType) }
                     callback(path, getListItemsFromFileDirItems(ArrayList(items?.toList())))
                 }
             } else if (connectionType == ConnectionTypes.WebDav) {
                 apiResponse?.response?.let { item ->
                     val fileItems = item as List<DavResource>
-                    val items = fileItems.map { it -> it.toFileItem() }
+                    val items = fileItems.map { it -> it.toFileItem(connectionType) }
                     callback(path, getListItemsFromFileDirItems(ArrayList(items?.toList())))
                 }
             } else if (connectionType == ConnectionTypes.SFTP) {
                 apiResponse?.response?.let { item ->
                     val fileItems = item as List<RemoteResourceInfo>
-                    val items = fileItems?.map { it -> it.toFileItem(path) }
+                    val items = fileItems?.map { it -> it.toFileItem(path, connectionType) }
                     callback(path, getListItemsFromFileDirItems(ArrayList(items?.toList())))
                 }
 
             } else if (connectionType == ConnectionTypes.FTP) {
                 apiResponse?.response?.let { item ->
                     val fileItems = item as List<FTPFile>
-                    val items = fileItems?.map { it -> it.toFileItem(path) }
+                    val items = fileItems?.map { it -> it.toFileItem(path, connectionType) }
                     callback(path, getListItemsFromFileDirItems(ArrayList(items?.toList())))
                 }
             }
         }
     }
 
-        override fun columnCountChanged() {
-            (binding.itemsList.layoutManager as MyGridLayoutManager).spanCount = context!!.config.fileColumnCnt
-            (activity as? MainActivity)?.refreshMenuItems()
-            getRecyclerAdapter()?.apply {
-                notifyItemRangeChanged(0, listItems.size)
-            }
-        }
-
-        fun showProgressBar() {
-            binding.progressBar.show()
-        }
-
-        private fun hideProgressBar() {
-            binding.progressBar.hide()
-        }
-
-        fun getBreadcrumbs() = binding.breadcrumbs
-
-        override fun toggleFilenameVisibility() {
-            getRecyclerAdapter()?.updateDisplayFilenamesInGrid()
-        }
-
-        override fun breadcrumbClicked(id: Int) {
-            val item = binding.breadcrumbs.getItem(id)
-            if (id == 0) {
-                StoragePickerDialog(activity as SimpleActivity, currentPath, context!!.config.enableRootAccess, true) {
-                    getRecyclerAdapter()?.finishActMode()
-                    if (item.connectionType != ConnectionTypes.Default){
-                        openPath(item.path, connectionType = item.connectionType)
-                    }
-                    else{
-                        openPath(item.path)
-                    }
-                }
-            } else {
-                var path = ""
-                if (item.connectionType == ConnectionTypes.WebDav || item.connectionType == ConnectionTypes.SMB){
-                    val items = binding.breadcrumbs.getItemsTillIndex(id)
-                    items.forEach { item ->
-                        path += "${item.path}/"
-                    }
-                }
-                else
-                    path = item.path
-
-                openPath(path, connectionType = item.connectionType)
-            }
-        }
-
-        override fun refreshFragment() {
-            openPath(currentPath,connectionType = connectionType)
-        }
-
-        override fun deleteFiles(files: ArrayList<FileDirItem>) {
-            val hasFolder = files.any { it.isDirectory }
-            handleFileDeleting(files, hasFolder)
-        }
-
-        override fun selectedPaths(paths: ArrayList<String>) {
-            (activity as MainActivity).pickedPaths(paths)
+    override fun columnCountChanged() {
+        (binding.itemsList.layoutManager as MyGridLayoutManager).spanCount = context!!.config.fileColumnCnt
+        (activity as? MainActivity)?.refreshMenuItems()
+        getRecyclerAdapter()?.apply {
+            notifyItemRangeChanged(0, listItems.size)
         }
     }
+
+    fun showProgressBar() {
+        binding.progressBar.show()
+    }
+
+    private fun hideProgressBar() {
+        binding.progressBar.hide()
+    }
+
+    fun getBreadcrumbs() = binding.breadcrumbs
+
+    override fun toggleFilenameVisibility() {
+        getRecyclerAdapter()?.updateDisplayFilenamesInGrid()
+    }
+
+    override fun breadcrumbClicked(id: Int) {
+        val item = binding.breadcrumbs.getItem(id)
+        if (id == 0) {
+            StoragePickerDialog(activity as SimpleActivity, currentPath, context!!.config.enableRootAccess, true) {
+                getRecyclerAdapter()?.finishActMode()
+                if (item.connectionType != ConnectionTypes.Default) {
+                    openPath(item.path, connectionType = item.connectionType)
+                } else {
+                    openPath(item.path)
+                }
+            }
+        } else {
+            var path = ""
+            if (item.connectionType == ConnectionTypes.WebDav || item.connectionType == ConnectionTypes.SMB) {
+                val items = binding.breadcrumbs.getItemsTillIndex(id)
+                items.forEach { item ->
+                    path += "${item.path}/"
+                }
+            } else
+                path = item.path
+
+            openPath(path, connectionType = item.connectionType)
+        }
+    }
+
+    override fun refreshFragment() {
+        openPath(currentPath, connectionType = connectionType)
+    }
+
+    override fun deleteFiles(files: ArrayList<FileDirItem>) {
+        val hasFolder = files.any { it.isDirectory }
+        handleFileDeleting(files, hasFolder)
+    }
+
+    override fun selectedPaths(paths: ArrayList<String>) {
+        (activity as MainActivity).pickedPaths(paths)
+    }
+}

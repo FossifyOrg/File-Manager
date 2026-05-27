@@ -8,6 +8,7 @@ import org.fossify.filemanager.enums.Authentication
 import org.fossify.filemanager.interfaces.FTPApi
 import org.fossify.filemanager.models.ApiResponse
 import org.fossify.filemanager.models.NetworkConnection
+import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.InputStream
 
@@ -80,6 +81,17 @@ class FTPApiImpl: FTPApi {
         }
         catch (exp: Exception){
             ApiResponse(null,exp)
+        }
+    }
+
+    override fun createItem(path: String, isFolder: Boolean, name: String): ApiResponse<Boolean> {
+        return try {
+            val uri = "$path/$name"
+            if (isFolder) ftp.makeDirectory(uri) else ftp.storeFile(uri, ByteArrayInputStream(ByteArray(0)))
+            ApiResponse(true,null)
+        }
+        catch (exp: Exception){
+            ApiResponse(false,exp)
         }
     }
 

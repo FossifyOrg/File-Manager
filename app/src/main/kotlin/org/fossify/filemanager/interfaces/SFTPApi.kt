@@ -16,5 +16,7 @@ interface SFTPApi {
 
     fun getSFTPFileInputStream(url: String, startByte: Long): ApiResponse<InputStream>
 
+    fun createItem(path: String, isFolder: Boolean, name: String): ApiResponse<Boolean>
+
     fun getSFTPConn(): SFTPClient
 }

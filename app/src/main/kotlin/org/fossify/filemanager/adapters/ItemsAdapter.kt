@@ -9,6 +9,8 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.graphics.drawable.LayerDrawable
 import android.net.Uri
+import android.provider.Settings.Global.getString
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.Menu
@@ -42,6 +44,7 @@ import org.fossify.commons.dialogs.RadioGroupDialog
 import org.fossify.commons.dialogs.RenameDialog
 import org.fossify.commons.dialogs.RenameItemDialog
 import org.fossify.commons.dialogs.RenameItemsDialog
+import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.extensions.applyColorFilter
 import org.fossify.commons.extensions.beGone
 import org.fossify.commons.extensions.beVisible
@@ -1071,7 +1074,12 @@ class ItemsAdapter(
 
                 if (listItem.isDirectory) {
                     itemIcon?.setImageDrawable(folderDrawable)
-                    itemDetails?.text = getChildrenCnt(listItem)
+                    if(listItem.connectionType == ConnectionTypes.Default || listItem.connectionType == ConnectionTypes.SMB){
+                        itemDetails?.text = getChildrenCnt(listItem)
+                    }
+                    else{
+                        itemDetails?.text = noItemsText()
+                    }
                     itemDate?.beGone()
                 } else {
                     itemDetails?.text = listItem.size.formatSize()
@@ -1104,6 +1112,10 @@ class ItemsAdapter(
     private fun getChildrenCnt(item: FileDirItem): String {
         val children = item.children
         return activity.resources.getQuantityString(R.plurals.items, children, children)
+    }
+
+    private fun noItemsText(): String {
+        return activity.resources.getString(R.string.unknown_items)
     }
 
     private fun getOTGPublicPath(itemToLoad: String): String {

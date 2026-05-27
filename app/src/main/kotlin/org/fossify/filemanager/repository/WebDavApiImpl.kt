@@ -36,7 +36,6 @@ class WebDavApiImpl: WebDavApi {
             sardine.setCredentials(connection.username, connection.password)
             Pair(sardine.exists(connection.url),null)
         } catch (exp: Exception) {
-            Log.d("WebDav", exp.toString())
             Pair(false,exp)
         }
     }
@@ -65,6 +64,17 @@ class WebDavApiImpl: WebDavApi {
         }
         catch (exp: Exception){
             ApiResponse(null,exp)
+        }
+    }
+
+    override fun createItem(path: String, isFolder: Boolean, name: String): ApiResponse<Boolean> {
+        return try {
+            val uri = "$path/$name"
+            if (isFolder) sardine.createDirectory(uri) else sardine.put(uri, ByteArray(0))
+            ApiResponse(true,null)
+        }
+        catch (exp: Exception){
+            ApiResponse(false,exp)
         }
     }
 

@@ -5,6 +5,7 @@ import net.schmizz.sshj.DefaultConfig
 import net.schmizz.sshj.SSHClient
 import net.schmizz.sshj.common.Factory
 import net.schmizz.sshj.sftp.FileAttributes
+import net.schmizz.sshj.sftp.OpenMode
 import net.schmizz.sshj.sftp.RemoteResourceInfo
 import net.schmizz.sshj.sftp.SFTPClient
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier
@@ -19,7 +20,7 @@ import org.fossify.filemanager.models.NetworkConnection
 import java.io.IOException
 import java.io.InputStream
 
-class SFTPApiImpl: SFTPApi {
+class SFTPApiImpl : SFTPApi {
     private lateinit var ssh: SSHClient
     private lateinit var sftp: SFTPClient
     private val sftpLock = Any()
@@ -29,29 +30,30 @@ class SFTPApiImpl: SFTPApi {
             if (!::ssh.isInitialized || !ssh.isConnected || !ssh.isAuthenticated) {
                 ssh = SSHClient()
                 ssh.addHostKeyVerifier(PromiscuousVerifier())
-                ssh.connect(connection.host,connection.port)
-                if(connection.authentication == Authentication.PrivateKey){
-                    ssh.auth(connection.username, AuthPublickey(createKeyProvider(connection.privateKeyText,connection.privateKeyPass.takeIf { it.isNotBlank() })))
-                }
-                else{
+                ssh.connect(connection.host, connection.port)
+                if (connection.authentication == Authentication.PrivateKey) {
+                    ssh.auth(
+                        connection.username,
+                        AuthPublickey(createKeyProvider(connection.privateKeyText, connection.privateKeyPass.takeIf { it.isNotBlank() }))
+                    )
+                } else {
                     ssh.authPassword(connection.username, connection.password)
                 }
                 sftp = ssh.newSFTPClient()
             }
-             Pair(true,null)
+            Pair(true, null)
         } catch (e: Exception) {
             e.printStackTrace()
-             Pair(false,e)
+            Pair(false, e)
         }
     }
 
     override suspend fun listAllFilesSFTPRoot(path: String): ApiResponse<List<RemoteResourceInfo>> {
         return try {
             val files = sftp.ls(path)
-            ApiResponse(files,null)
-        }
-        catch (exp: Exception){
-            ApiResponse(null,exp)
+            ApiResponse(files, null)
+        } catch (exp: Exception) {
+            ApiResponse(null, exp)
         }
     }
 
@@ -60,24 +62,32 @@ class SFTPApiImpl: SFTPApi {
         return try {
             val myPath = path.replace("//", "/")
             val attributes = sftp.stat(myPath)
-            ApiResponse(attributes,null)
-        }
-        catch (exp: Exception){
-            ApiResponse(null,exp)
+            ApiResponse(attributes, null)
+        } catch (exp: Exception) {
+            ApiResponse(null, exp)
         }
     }
 
-    override fun getSFTPFileInputStream(url: String, startByte: Long):ApiResponse<InputStream> {
+    override fun getSFTPFileInputStream(url: String, startByte: Long): ApiResponse<InputStream> {
         return try {
             val myPath = url.replace("//", "/")
             val remoteFile = sftp.open(myPath)
             val inputStream = remoteFile.RemoteFileInputStream(startByte)
-            ApiResponse(inputStream,null)
-        }
-        catch (exp: Exception){
-            ApiResponse(null,exp)
+            ApiResponse(inputStream, null)
+        } catch (exp: Exception) {
+            ApiResponse(null, exp)
         }
 
+    }
+
+    override fun createItem(path: String, isFolder: Boolean, name: String): ApiResponse<Boolean> {
+        return try {
+            val uri = "$path/$name"
+            if (isFolder) sftp.mkdir(uri) else sftp.open(uri, setOf(OpenMode.CREAT))
+            ApiResponse(true, null)
+        } catch (exp: Exception) {
+            ApiResponse(false, exp)
+        }
     }
 
     override fun getSFTPConn() = sftp

@@ -15,5 +15,6 @@ interface FTPApi {
 
     fun getFTPFileInputStream(path: String,start: Long): ApiResponse<InputStream>
 
+    fun createItem(path: String, isFolder: Boolean, name: String): ApiResponse<Boolean>
     fun getFTPConn(): FTPClient
 }

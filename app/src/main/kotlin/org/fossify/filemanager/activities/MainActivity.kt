@@ -194,7 +194,7 @@ class MainActivity : SimpleActivity() {
             currentFragment.getBreadcrumbs().removeBreadcrumb()
             var path = ""
             val lastItem = currentFragment.getBreadcrumbs().getLastItem()
-            if (lastItem.connectionType == ConnectionTypes.WebDav){
+            if (lastItem.connectionType == ConnectionTypes.WebDav || lastItem.connectionType == ConnectionTypes.SMB){
                 val fileItems = currentFragment.getBreadcrumbs().getAllItems()
                 fileItems.forEach {
                     path += "${it.path}/"

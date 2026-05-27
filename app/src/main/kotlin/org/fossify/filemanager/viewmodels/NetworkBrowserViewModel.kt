@@ -4,18 +4,12 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thegrizzlylabs.sardineandroid.DavResource
-import jcifs.CIFSContext
-import jcifs.Configuration
-import jcifs.config.PropertyConfiguration
-import jcifs.context.BaseContext
-import jcifs.smb.NtlmPasswordAuthenticator
 import jcifs.smb.SmbFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import net.schmizz.sshj.sftp.FileAttributes
 import net.schmizz.sshj.sftp.RemoteResourceInfo
 import net.schmizz.sshj.sftp.SFTPClient
 import org.apache.commons.net.ftp.FTPFile
@@ -28,7 +22,6 @@ import org.fossify.filemanager.interfaces.WebDavApi
 import org.fossify.filemanager.models.ApiResponse
 import org.fossify.filemanager.models.ConnectionResult
 import org.fossify.filemanager.models.NetworkConnection
-import java.io.InputStream
 
 class NetworkBrowserViewModel(
     private val networkConnectionRepository: NetworkConnectionRepositoryDb,
@@ -40,6 +33,7 @@ class NetworkBrowserViewModel(
 
     val savedNetworks = MutableStateFlow<List<NetworkConnection>>(emptyList())
     val verifyNetwork = MutableSharedFlow<ConnectionResult>()
+    val smbFolderOrFile = MutableSharedFlow<ApiResponse<Boolean>>()
 
     val verifyWebDav = MutableSharedFlow<ConnectionResult>()
 
@@ -48,10 +42,14 @@ class NetworkBrowserViewModel(
 
 
     val sftpFiles = MutableStateFlow<ApiResponse<List<RemoteResourceInfo>>?>(null)
+    val sftpFolderOrFile = MutableSharedFlow<ApiResponse<Boolean>>()
 
     val webDavFiles = MutableStateFlow< ApiResponse<List<DavResource>>?>(null)
+    val webDavFolderOrFile = MutableSharedFlow<ApiResponse<Boolean>>()
 
     val ftpFiles = MutableStateFlow<ApiResponse<List<FTPFile>>?>(null)
+    val ftpFolderOrFile = MutableSharedFlow<ApiResponse<Boolean>>()
+
 
 
     fun saveNetwork(networkConnection: NetworkConnection) {
@@ -79,6 +77,13 @@ class NetworkBrowserViewModel(
         return smbApi.getFilesFromNetworkPath(path)
     }
 
+    fun createFolderOrFileSMB(path: String, isFolder: Boolean, name: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            smbFolderOrFile.emit(smbApi.createFolderOrFile(path, isFolder,name))
+        }
+    }
+
+
     fun getMainSmb(): SmbFile = smbApi.getMainSmbFile()
 
     fun getSFTPConn(): SFTPClient = sftpApi.getSFTPConn()
@@ -93,6 +98,12 @@ class NetworkBrowserViewModel(
     fun listWebDavFiles(url: String) {
         viewModelScope.launch(Dispatchers.IO) {
             webDavFiles.emit(webDavApi.listAllFilesOnWebDav(url))
+        }
+    }
+
+    fun createItem(path: String, isFolder: Boolean, name: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            webDavFolderOrFile.emit(webDavApi.createItem(path, isFolder,name))
         }
     }
 
@@ -115,6 +126,12 @@ class NetworkBrowserViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val res = sftpApi.listAllFilesSFTPRoot(path)
             sftpFiles.emit(res)
+        }
+    }
+
+    fun createItemSFTP(path: String, isFolder: Boolean, name: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            sftpFolderOrFile.emit(sftpApi.createItem(path, isFolder,name))
         }
     }
 
@@ -146,6 +163,12 @@ class NetworkBrowserViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val res = ftpApi.listAllFTPFiles(path)
             ftpFiles.emit(res)
+        }
+    }
+
+    fun createItemFTP(path: String, isFolder: Boolean, name: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            ftpFolderOrFile.emit(sftpApi.createItem(path, isFolder,name))
         }
     }
 

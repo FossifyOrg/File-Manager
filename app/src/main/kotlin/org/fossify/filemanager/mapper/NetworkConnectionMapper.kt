@@ -43,22 +43,36 @@ fun NetworkConnection.toEntity(): NetworkConnectionEntity {
     )
 }
 
-fun SmbFile.toFileItem(): FileDirItem {
+fun SmbFile.toFileItem(connectionTypes: ConnectionTypes = ConnectionTypes.Default): FileDirItem {
 
     val normalizedPath = this.path.trimEnd('/')
     val fileName = normalizedPath.substringAfterLast('/')
+
+    val isDir = this.isDirectory
+
+    val childrenCount = if (isDir) {
+        try {
+            this.listFiles()?.size ?: 0
+        } catch (e: Exception) {
+            0
+        }
+    } else {
+        0
+    }
+
     return FileDirItem(
         path = this.canonicalPath,
         name = fileName.ifEmpty { "/" },
-        isDirectory = this.isDirectory,
+        isDirectory = isDir,
         size = if (!this.isDirectory) this.length() else 0L,
         modified = this.lastModified(),
-        children = 0,
-        mediaStoreId = 0L
+        children = childrenCount,
+        mediaStoreId = 0L,
+        connectionType = connectionTypes
     )
 }
 
-fun DavResource.toFileItem(): FileDirItem {
+fun DavResource.toFileItem(connectionTypes: ConnectionTypes = ConnectionTypes.Default): FileDirItem {
     return FileDirItem(
         path = this.href.toString(),
         name = this.name.trimEnd('/'),
@@ -66,12 +80,13 @@ fun DavResource.toFileItem(): FileDirItem {
         size = if (!this.isDirectory) (this.contentLength ?: 0L) else 0L,
         modified = this.modified?.time ?: 0L,
         children = 0,
-        mediaStoreId = 0L
+        mediaStoreId = 0L,
+        connectionType = connectionTypes
     )
 }
 
 
-fun RemoteResourceInfo.toFileItem(parentPath: String): FileDirItem {
+fun RemoteResourceInfo.toFileItem(parentPath: String,connectionType: ConnectionTypes = ConnectionTypes.Default): FileDirItem {
     val attrs = this.attributes
     val cleanParent = parentPath.trimEnd('/')
 
@@ -82,11 +97,12 @@ fun RemoteResourceInfo.toFileItem(parentPath: String): FileDirItem {
         size = if (this.isRegularFile) attrs.size else 0L,
         modified = attrs.mtime * 1000L,
         children = 0,
-        mediaStoreId = 0L
+        mediaStoreId = 0L,
+        connectionType = connectionType
     )
 }
 
-fun FTPFile.toFileItem(parentPath: String): FileDirItem {
+fun FTPFile.toFileItem(parentPath: String,connectionType: ConnectionTypes = ConnectionTypes.Default): FileDirItem {
     val cleanParent = parentPath.trimEnd('/')
     return FileDirItem(
         path = "$cleanParent/${this.name}",
@@ -95,6 +111,7 @@ fun FTPFile.toFileItem(parentPath: String): FileDirItem {
         size = if (this.isFile) this.size else 0L,
         modified = this.timestamp?.timeInMillis ?: 0L,
         children = 0,
-        mediaStoreId = 0L
+        mediaStoreId = 0L,
+        connectionType = connectionType
     )
 }
