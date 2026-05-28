@@ -1,6 +1,10 @@
 package org.fossify.filemanager.repository
 
+import android.content.Context
 import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.schmizz.sshj.DefaultConfig
 import net.schmizz.sshj.SSHClient
 import net.schmizz.sshj.common.Factory
@@ -17,13 +21,14 @@ import org.fossify.filemanager.enums.Authentication
 import org.fossify.filemanager.interfaces.SFTPApi
 import org.fossify.filemanager.models.ApiResponse
 import org.fossify.filemanager.models.NetworkConnection
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 
 class SFTPApiImpl : SFTPApi {
     private lateinit var ssh: SSHClient
     private lateinit var sftp: SFTPClient
-    private val sftpLock = Any()
+    val scope = CoroutineScope(Dispatchers.IO)
 
     override suspend fun connectToSftp(connection: NetworkConnection): Pair<Boolean, Exception?> {
         return try {
@@ -87,6 +92,34 @@ class SFTPApiImpl : SFTPApi {
             ApiResponse(true, null)
         } catch (exp: Exception) {
             ApiResponse(false, exp)
+        }
+    }
+
+    override fun deleteItem(path: String,isFolder: Boolean): ApiResponse<Boolean> {
+        return try {
+            if (isFolder) sftp.rmdir(path) else sftp.rm(path)
+            ApiResponse(true, null)
+        } catch (exp: Exception) {
+            ApiResponse(false, exp)
+        }
+    }
+
+    override fun writeFileToCache(path: String,context: Context): ApiResponse<File>{
+        return try {
+            val fileName = path.substringAfterLast('/')
+            val localFile = File(context.cacheDir, fileName)
+            scope.launch(Dispatchers.IO) {
+                sftp.open(path).use { remoteFile ->
+                    remoteFile.RemoteFileInputStream().use { input ->
+                        localFile.outputStream().use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+                }
+            }
+            ApiResponse(localFile, null)
+        } catch (exp: Exception) {
+            ApiResponse(null, exp)
         }
     }
 

@@ -1,5 +1,9 @@
 package org.fossify.filemanager.repository
 
+import android.content.Context
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.apache.commons.net.ftp.FTP
 import org.apache.commons.net.ftp.FTPClient
 import org.apache.commons.net.ftp.FTPCmd
@@ -12,10 +16,13 @@ import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.InputStream
 
-class FTPApiImpl: FTPApi {
+class FTPApiImpl : FTPApi {
     private lateinit var currentStream: InputStream
     private lateinit var ftp: FTPClient
     private lateinit var ftpStream: FTPClient
+
+    val scope = CoroutineScope(Dispatchers.IO)
+
     override suspend fun connectToFTP(connection: NetworkConnection): Pair<Boolean, Exception?> {
         return try {
             ftp = FTPClient()
@@ -46,10 +53,9 @@ class FTPApiImpl: FTPApi {
             ftp.changeWorkingDirectory(path)
             val files: Array<FTPFile> = ftp.listFiles()
             val theFiles = files.toList()
-            ApiResponse(theFiles,null)
-        }
-        catch (exp: Exception){
-            ApiResponse(null,exp)
+            ApiResponse(theFiles, null)
+        } catch (exp: Exception) {
+            ApiResponse(null, exp)
         }
     }
 
@@ -58,14 +64,13 @@ class FTPApiImpl: FTPApi {
             val myPath = path.replace("//", "/")
             if (ftp.hasFeature(FTPCmd.MLST)) {
                 val file = ftp.mlistFile(myPath)
-                ApiResponse(file,null)
+                ApiResponse(file, null)
             }
             val mP = File(myPath)
             val files = ftp.listFiles(mP.parent).firstOrNull { it != null && it.name == mP.name }
-            ApiResponse(files,null)
-        }
-        catch (exp: Exception){
-            ApiResponse(null,exp)
+            ApiResponse(files, null)
+        } catch (exp: Exception) {
+            ApiResponse(null, exp)
         }
     }
 
@@ -77,10 +82,18 @@ class FTPApiImpl: FTPApi {
             ftpStream.setFileType(FTP.BINARY_FILE_TYPE)
             ftpStream.restartOffset = start
             currentStream = ftpStream.retrieveFileStream(path)
-            ApiResponse(currentStream,null)
+            ApiResponse(currentStream, null)
+        } catch (exp: Exception) {
+            ApiResponse(null, exp)
         }
-        catch (exp: Exception){
-            ApiResponse(null,exp)
+    }
+
+    override fun deleteItem(path: String, isFolder: Boolean): ApiResponse<Boolean> {
+        return try {
+            if (isFolder) ftp.removeDirectory(path) else ftp.deleteFile(path)
+            ApiResponse(true, null)
+        } catch (exp: Exception) {
+            ApiResponse(false, exp)
         }
     }
 
@@ -88,10 +101,35 @@ class FTPApiImpl: FTPApi {
         return try {
             val uri = "$path/$name"
             if (isFolder) ftp.makeDirectory(uri) else ftp.storeFile(uri, ByteArrayInputStream(ByteArray(0)))
-            ApiResponse(true,null)
+            ApiResponse(true, null)
+        } catch (exp: Exception) {
+            ApiResponse(false, exp)
         }
-        catch (exp: Exception){
-            ApiResponse(false,exp)
+    }
+
+    override fun writeFileToCache(path: String, context: Context): ApiResponse<File> {
+        return try {
+
+            val fileName = path.substringAfterLast('/')
+            val localFile = File(context.cacheDir, fileName)
+
+            scope.launch(Dispatchers.IO) {
+                try {
+                    ftp.retrieveFileStream(path).use { input ->
+                        localFile.outputStream().use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+                    ftp.completePendingCommand()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            ApiResponse(localFile, null)
+
+        } catch (exp: Exception) {
+            ApiResponse(null, exp)
         }
     }
 

@@ -1,20 +1,26 @@
 package org.fossify.filemanager.repository
 
+import android.content.Context
 import jcifs.CIFSContext
 import jcifs.config.PropertyConfiguration
 import jcifs.context.BaseContext
 import jcifs.smb.NtlmPasswordAuthenticator
 import jcifs.smb.SmbFile
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.enums.Authentication
 import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.interfaces.SMBApi
 import org.fossify.filemanager.models.ApiResponse
 import org.fossify.filemanager.models.NetworkConnection
+import java.io.File
 import java.util.Properties
 
 class SMBApiImpl : SMBApi {
     lateinit var smbClient: SmbFile
+    val scope = CoroutineScope(Dispatchers.IO)
 
     private val defaultProperties: Properties =
         Properties().apply {
@@ -65,6 +71,35 @@ class SMBApiImpl : SMBApi {
             val file = SmbFile("$path/$name", smbClient.context)
             if (isFolder) file.mkdir() else file.createNewFile()
             ApiResponse(true,null)
+        }
+        catch (exp: Exception){
+            ApiResponse(null,exp)
+        }
+    }
+
+    override fun deleteItem(path: String): ApiResponse<Boolean> {
+        return try {
+            val file = SmbFile(path, smbClient.context)
+            file.delete()
+            ApiResponse(true,null)
+        }
+        catch (exp: Exception){
+            ApiResponse(null,exp)
+        }
+    }
+
+    override fun writeFileToCache(path: String,context: Context): ApiResponse<File> {
+        return try {
+            val smbFile = SmbFile(path, smbClient.context)
+            val localFile = File(context.cacheDir, smbFile.name)
+            scope.launch {
+                smbFile.inputStream.use { input ->
+                    localFile.outputStream().use { output ->
+                        input.copyTo(output)
+                    }
+                }
+            }
+            ApiResponse(localFile,null)
         }
         catch (exp: Exception){
             ApiResponse(null,exp)

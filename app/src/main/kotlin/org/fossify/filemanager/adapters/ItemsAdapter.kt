@@ -9,8 +9,6 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.graphics.drawable.LayerDrawable
 import android.net.Uri
-import android.provider.Settings.Global.getString
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.Menu
@@ -108,6 +106,7 @@ import org.fossify.filemanager.extensions.setLastModified
 import org.fossify.filemanager.extensions.sharePaths
 import org.fossify.filemanager.extensions.toggleItemVisibility
 import org.fossify.filemanager.extensions.tryOpenPathIntent
+import org.fossify.filemanager.fileSystems.MimeTypes
 import org.fossify.filemanager.helpers.OPEN_AS_AUDIO
 import org.fossify.filemanager.helpers.OPEN_AS_IMAGE
 import org.fossify.filemanager.helpers.OPEN_AS_OTHER
@@ -356,7 +355,13 @@ class ItemsAdapter(
         selectedItems.forEach {
             addFileUris(it.path, paths)
         }
-        activity.sharePaths(paths)
+
+        if (selectedItems.first().connectionType != ConnectionTypes.Default){
+            listener?.shareFile(paths)
+        }
+        else{
+            activity.sharePaths(paths)
+        }
     }
 
     private fun toggleFileVisibility(hide: Boolean) {
@@ -481,11 +486,23 @@ class ItemsAdapter(
     }
 
     private fun setAs() {
-        activity.setAs(getFirstSelectedItemPath())
+        val item = getSelectedFileDirItems().first()
+        if (item.connectionType != ConnectionTypes.Default){
+            listener?.setAs(item.path)
+        }
+        else {
+            activity.setAs(item.path)
+        }
     }
 
     private fun openWith() {
-        activity.tryOpenPathIntent(getFirstSelectedItemPath(), true)
+        val item = getSelectedFileDirItems().first()
+        if (item.connectionType != ConnectionTypes.Default){
+            listener?.openWith(item.path)
+        }
+        else {
+            activity.tryOpenPathIntent(item.path, true)
+        }
     }
 
     private fun openAs() {
@@ -498,8 +515,15 @@ class ItemsAdapter(
             RadioItem(OPEN_AS_OTHER, res.getString(R.string.other_file))
         )
 
+        val item = getSelectedFileDirItems().first()
+
         RadioGroupDialog(activity, items) {
-            activity.tryOpenPathIntent(getFirstSelectedItemPath(), false, it as Int)
+            if (item.connectionType != ConnectionTypes.Default){
+                listener?.openWith(item.path, MimeTypes.getMimeType(it as Int))
+            }
+            else {
+                activity.tryOpenPathIntent(item.path, false,it as Int)
+            }
         }
     }
 
@@ -910,7 +934,6 @@ class ItemsAdapter(
             } else {
                 resources.getQuantityString(R.plurals.delete_items, itemsCnt, itemsCnt)
             }
-
             val question = String.format(resources.getString(R.string.deletion_confirmation), items)
             ConfirmationDialog(activity, question) {
                 deleteFiles()
@@ -924,7 +947,8 @@ class ItemsAdapter(
         }
 
         val SAFPath = getFirstSelectedItemPath()
-        if (activity.isPathOnRoot(SAFPath) && !RootTools.isRootAvailable()) {
+        val firstSelectedItem = getSelectedFileDirItems().first()
+        if (activity.isPathOnRoot(SAFPath) && !RootTools.isRootAvailable() && firstSelectedItem.connectionType == ConnectionTypes.Default) {
             activity.toast(R.string.rooted_device_only)
             return
         }

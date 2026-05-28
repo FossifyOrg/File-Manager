@@ -5,6 +5,7 @@ import com.thegrizzlylabs.sardineandroid.DavResource
 import org.fossify.filemanager.enums.Protocols
 import org.fossify.filemanager.models.ApiResponse
 import org.fossify.filemanager.models.NetworkConnection
+import java.io.File
 import java.io.InputStream
 
 interface WebDavApi {
@@ -15,6 +16,8 @@ interface WebDavApi {
     fun getWebDavFileInputStream(url: String, start: Long, end: Long): ApiResponse<InputStream>
 
     fun createItem(path: String, isFolder: Boolean, name: String): ApiResponse<Boolean>
+    fun deleteItem(path: String): ApiResponse<Boolean>
+    fun writeFileToCache(url: String, context: Context): ApiResponse<File>
 
     fun listWebDavFileDetail(url: String): ApiResponse<DavResource?>
 }

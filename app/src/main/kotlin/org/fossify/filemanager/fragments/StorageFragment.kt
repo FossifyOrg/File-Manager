@@ -509,4 +509,16 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
     override fun finishActMode() {
         getRecyclerAdapter()?.finishActMode()
     }
+
+    override fun shareFile(paths: ArrayList<String>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun openWith(path: String,mimType: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun setAs(path: String) {
+        TODO("Not yet implemented")
+    }
 }

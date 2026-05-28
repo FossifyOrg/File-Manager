@@ -19,9 +19,14 @@ import java.security.cert.X509Certificate
 import javax.net.ssl.SSLContext
 import javax.net.ssl.X509TrustManager
 import androidx.core.net.toUri
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.File
 
 class WebDavApiImpl: WebDavApi {
     lateinit var sardine: Sardine
+    val scope = CoroutineScope(Dispatchers.IO)
     override suspend fun connectAndVerifyWebDav(
         connection: NetworkConnection,
         protocols: Protocols,
@@ -75,6 +80,37 @@ class WebDavApiImpl: WebDavApi {
         }
         catch (exp: Exception){
             ApiResponse(false,exp)
+        }
+    }
+
+    override fun deleteItem(path: String): ApiResponse<Boolean> {
+        return try {
+            sardine.delete(path)
+            ApiResponse(true,null)
+        }
+        catch (exp: Exception){
+            ApiResponse(false,exp)
+        }
+    }
+
+    override fun writeFileToCache(url: String, context: Context): ApiResponse<File> {
+        return try {
+            val localFile = File(context.cacheDir, Uri.parse(url).lastPathSegment)
+            scope.launch(Dispatchers.IO) {
+                try {
+                    sardine.get(url).use { input ->
+                        localFile.outputStream().use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            ApiResponse(localFile, null)
+
+        } catch (exp: Exception) {
+            ApiResponse(null, exp)
         }
     }
 

@@ -17,14 +17,21 @@ import org.fossify.filemanager.models.ListItem
 
 object FileHelpers {
     val URL: String = "http://127.0.0.1"
-    fun launchSMB(item: ListItem, context: Context, smb: SmbFile) {
+    fun launchSMB(mPath: String, context: Context, mimType: String? = null) {
         try {
             CoroutineScope(Dispatchers.IO).launch {
-                val extractedPath = Helpers.retrievePath(item.mPath)
+                val extractedPath = Helpers.retrievePath(mPath)
                 val uri = "${URL}:${PORT_SMB}${extractedPath}"
-                val i =
-                    Intent(Intent.ACTION_VIEW)
-                i.setDataAndType(uri.toUri(), MimeTypes.getMimeTypes(item.mPath))
+                var i: Intent
+                if (mimType != null) {
+                    i =
+                        Intent(Intent.ACTION_VIEW)
+                    i.setDataAndType(uri.toUri(), mimType)
+                } else {
+                    i =
+                        Intent(Intent.ACTION_VIEW)
+                    i.setDataAndType(uri.toUri(), MimeTypes.getMimeTypes(mPath))
+                }
                 val packageManager: PackageManager = context.packageManager
                 val resInfos = packageManager.queryIntentActivities(i, 0)
                 if (resInfos.size > 0) {
@@ -36,35 +43,49 @@ object FileHelpers {
         }
     }
 
-    fun launchWebDav(connectionTypes: ConnectionTypes, item: ListItem, context: Context){
+    fun launchWebDav(mPath: String, context: Context, mimType: String? = null) {
         try {
             CoroutineScope(Dispatchers.IO).launch {
-                val i =
-                    Intent(Intent.ACTION_VIEW)
-                val extractedPath = Helpers.retrievePath(item.mPath)
+
+                val extractedPath = Helpers.retrievePath(mPath)
                 val uri = "${URL}:${PORT_WEBDAV}/${extractedPath}"
-                i.setDataAndType(uri.toUri(), MimeTypes.getMimeTypes(item.mPath))
 
+                var i: Intent
+                if (mimType != null) {
+                    i =
+                        Intent(Intent.ACTION_VIEW)
+                    i.setDataAndType(uri.toUri(), mimType)
+                } else {
+                    i =
+                        Intent(Intent.ACTION_VIEW)
+                    i.setDataAndType(uri.toUri(), MimeTypes.getMimeTypes(mPath))
+                }
                 val packageManager: PackageManager = context.packageManager
                 val resInfos = packageManager.queryIntentActivities(i, 0)
                 if (resInfos.size > 0) {
                     context.startActivity(i)
                 }
             }
-        }
-        catch (exp: Exception){
+        } catch (exp: Exception) {
             Log.e("Activity Launch Failed", exp.toString())
         }
     }
 
-    fun launchSFTP(connectionTypes: ConnectionTypes,item: ListItem,context: Context){
-        try{
+    fun launchSFTP(connectionTypes: ConnectionTypes, mPath: String, context: Context,mimType: String? = null) {
+        try {
             CoroutineScope(Dispatchers.IO).launch {
                 val port = Helpers.getPortForEachService(connectionTypes)
-                val uri = Helpers.createNanoHttpdUrl(connectionTypes, item.mPath, port = port).toUri()
-                val i =
-                    Intent(Intent.ACTION_VIEW)
-                i.setDataAndType(uri, MimeTypes.getMimeTypes(item.mPath))
+                val uri = Helpers.createNanoHttpdUrl(connectionTypes, mPath, port = port).toUri()
+                var i: Intent
+                if (mimType != null) {
+                    i =
+                        Intent(Intent.ACTION_VIEW)
+                    i.setDataAndType(uri, mimType)
+                } else {
+                    i =
+                        Intent(Intent.ACTION_VIEW)
+                    i.setDataAndType(uri, MimeTypes.getMimeTypes(mPath))
+                }
 
                 val packageManager: PackageManager = context.packageManager
                 val resInfos = packageManager.queryIntentActivities(i, 0)
@@ -72,19 +93,26 @@ object FileHelpers {
                     context.startActivity(i)
                 }
             }
-        }
-        catch (exp: Exception){
+        } catch (exp: Exception) {
             Log.e("Activity Launch Failed", exp.toString())
         }
     }
-    fun launchFTP(connectionTypes: ConnectionTypes,item: ListItem,context: Context){
-        try{
+
+    fun launchFTP(connectionTypes: ConnectionTypes, mPath: String, context: Context,mimType: String? = null) {
+        try {
             CoroutineScope(Dispatchers.IO).launch {
                 val port = Helpers.getPortForEachService(connectionTypes)
-                val uri = Helpers.createNanoHttpdUrl(connectionTypes, item.mPath, port = port).toUri()
-                val i =
-                    Intent(Intent.ACTION_VIEW)
-                i.setDataAndType(uri, MimeTypes.getMimeTypes(item.mPath))
+                val uri = Helpers.createNanoHttpdUrl(connectionTypes, mPath, port = port).toUri()
+                var i: Intent
+                if (mimType != null) {
+                    i =
+                        Intent(Intent.ACTION_VIEW)
+                    i.setDataAndType(uri,mimType)
+                } else {
+                    i =
+                        Intent(Intent.ACTION_VIEW)
+                    i.setDataAndType(uri, MimeTypes.getMimeTypes(mPath))
+                }
 
                 val packageManager: PackageManager = context.packageManager
                 val resInfos = packageManager.queryIntentActivities(i, 0)
@@ -92,8 +120,7 @@ object FileHelpers {
                     context.startActivity(i)
                 }
             }
-        }
-        catch (exp: Exception){
+        } catch (exp: Exception) {
             Log.e("Activity Launch Failed", exp.toString())
         }
     }

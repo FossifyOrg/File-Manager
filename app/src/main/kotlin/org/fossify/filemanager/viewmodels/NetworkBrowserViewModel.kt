@@ -22,6 +22,7 @@ import org.fossify.filemanager.interfaces.WebDavApi
 import org.fossify.filemanager.models.ApiResponse
 import org.fossify.filemanager.models.ConnectionResult
 import org.fossify.filemanager.models.NetworkConnection
+import java.io.File
 
 class NetworkBrowserViewModel(
     private val networkConnectionRepository: NetworkConnectionRepositoryDb,
@@ -34,6 +35,8 @@ class NetworkBrowserViewModel(
     val savedNetworks = MutableStateFlow<List<NetworkConnection>>(emptyList())
     val verifyNetwork = MutableSharedFlow<ConnectionResult>()
     val smbFolderOrFile = MutableSharedFlow<ApiResponse<Boolean>>()
+    val smbDelete = MutableSharedFlow<ApiResponse<Boolean>>()
+    val smbFileShare = MutableSharedFlow<ApiResponse<File>>()
 
     val verifyWebDav = MutableSharedFlow<ConnectionResult>()
 
@@ -43,12 +46,18 @@ class NetworkBrowserViewModel(
 
     val sftpFiles = MutableStateFlow<ApiResponse<List<RemoteResourceInfo>>?>(null)
     val sftpFolderOrFile = MutableSharedFlow<ApiResponse<Boolean>>()
+    val sftpDelete = MutableSharedFlow<ApiResponse<Boolean>>()
+    val sftpFileShare = MutableSharedFlow<ApiResponse<File>>()
 
     val webDavFiles = MutableStateFlow< ApiResponse<List<DavResource>>?>(null)
     val webDavFolderOrFile = MutableSharedFlow<ApiResponse<Boolean>>()
+    val webDavDelete = MutableSharedFlow<ApiResponse<Boolean>>()
+    val webDavFileShare = MutableSharedFlow<ApiResponse<File>>()
 
     val ftpFiles = MutableStateFlow<ApiResponse<List<FTPFile>>?>(null)
     val ftpFolderOrFile = MutableSharedFlow<ApiResponse<Boolean>>()
+    val ftpDelete = MutableSharedFlow<ApiResponse<Boolean>>()
+    val ftpFileShare = MutableSharedFlow<ApiResponse<File>>()
 
 
 
@@ -83,6 +92,18 @@ class NetworkBrowserViewModel(
         }
     }
 
+    fun deleteItemSMB(path: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            smbDelete.emit(smbApi.deleteItem(path))
+        }
+    }
+
+    fun writeSmbFileToCache(path: String,context: Context) {
+        viewModelScope.launch(Dispatchers.IO) {
+            smbFileShare.emit(smbApi.writeFileToCache(path,context))
+        }
+    }
+
 
     fun getMainSmb(): SmbFile = smbApi.getMainSmbFile()
 
@@ -104,6 +125,18 @@ class NetworkBrowserViewModel(
     fun createItem(path: String, isFolder: Boolean, name: String) {
         viewModelScope.launch(Dispatchers.IO) {
             webDavFolderOrFile.emit(webDavApi.createItem(path, isFolder,name))
+        }
+    }
+
+    fun deleteItemWebDav(path: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            webDavDelete.emit(webDavApi.deleteItem(path))
+        }
+    }
+
+    fun writeWebDavFileToCache(url: String,context: Context) {
+        viewModelScope.launch(Dispatchers.IO) {
+            webDavFileShare.emit(webDavApi.writeFileToCache(url,context))
         }
     }
 
@@ -132,6 +165,18 @@ class NetworkBrowserViewModel(
     fun createItemSFTP(path: String, isFolder: Boolean, name: String) {
         viewModelScope.launch(Dispatchers.IO) {
             sftpFolderOrFile.emit(sftpApi.createItem(path, isFolder,name))
+        }
+    }
+
+    fun deleteItemSFTP(path: String,isFolder: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            sftpDelete.emit(sftpApi.deleteItem(path,isFolder))
+        }
+    }
+
+    fun writeSftpFileToCache(path: String,context: Context){
+        viewModelScope.launch(Dispatchers.IO) {
+            sftpFileShare.emit(sftpApi.writeFileToCache(path,context))
         }
     }
 
@@ -171,6 +216,20 @@ class NetworkBrowserViewModel(
             ftpFolderOrFile.emit(sftpApi.createItem(path, isFolder,name))
         }
     }
+
+    fun deleteItemFTP(path: String,isFolder: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            ftpDelete.emit(sftpApi.deleteItem(path,isFolder))
+        }
+    }
+
+    fun writeFtpFileToCache(path: String,context: Context){
+        viewModelScope.launch(Dispatchers.IO) {
+            ftpFileShare.emit(sftpApi.writeFileToCache(path,context))
+        }
+    }
+
+
 
     fun getFTPFileDetail(path: String) = ftpApi.getFTPFileDetail(path)
 

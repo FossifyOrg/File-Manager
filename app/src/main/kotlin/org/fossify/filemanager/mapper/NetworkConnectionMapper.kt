@@ -61,7 +61,7 @@ fun SmbFile.toFileItem(connectionTypes: ConnectionTypes = ConnectionTypes.Defaul
     }
 
     return FileDirItem(
-        path = this.canonicalPath,
+        path = this.canonicalPath.trimEnd('/'),
         name = fileName.ifEmpty { "/" },
         isDirectory = isDir,
         size = if (!this.isDirectory) this.length() else 0L,
@@ -74,7 +74,7 @@ fun SmbFile.toFileItem(connectionTypes: ConnectionTypes = ConnectionTypes.Defaul
 
 fun DavResource.toFileItem(connectionTypes: ConnectionTypes = ConnectionTypes.Default): FileDirItem {
     return FileDirItem(
-        path = this.href.toString(),
+        path = this.href.toString().trimEnd('/'),
         name = this.name.trimEnd('/'),
         isDirectory = this.isDirectory,
         size = if (!this.isDirectory) (this.contentLength ?: 0L) else 0L,
