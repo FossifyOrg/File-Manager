@@ -171,18 +171,18 @@ class DecompressActivity : SimpleActivity() {
                         }
                     }
 
-                    if (entry.isDirectory) {
-                        val dir = File(newPath)
-                        if (!dir.exists()) {
-                            dir.mkdirs()
-                        }
-                        foldersTimestamp.add(Pair(dir, entry))
-                        continue
-                    }
                     val outputFile = File(newPath)
 
                     val isVulnerableForZipPathTraversal = !outputFile.canonicalPath.startsWith(parent)
                     if (isVulnerableForZipPathTraversal) {
+                        continue
+                    }
+
+                    if (entry.isDirectory) {
+                        if (!outputFile.exists()) {
+                            outputFile.mkdirs()
+                        }
+                        foldersTimestamp.add(Pair(outputFile, entry))
                         continue
                     }
 
@@ -199,8 +199,8 @@ class DecompressActivity : SimpleActivity() {
                     fos!!.close()
                     outputFile.setLastModified(entry)
                 }
-                for ((dir, entry) in foldersTimestamp.asReversed()) {
-                    dir.setLastModified(entry)
+                for ((outputFile, entry) in foldersTimestamp.asReversed()) {
+                    outputFile.setLastModified(entry)
                 }
                 toast(R.string.decompression_successful)
                 finish()
