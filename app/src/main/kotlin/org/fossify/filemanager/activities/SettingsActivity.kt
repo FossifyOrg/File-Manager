@@ -11,6 +11,7 @@ import org.fossify.commons.helpers.*
 import org.fossify.commons.models.RadioItem
 import org.fossify.filemanager.R
 import org.fossify.filemanager.databinding.ActivitySettingsBinding
+import org.fossify.filemanager.dialogs.ManageFolderColumnsDialog
 import org.fossify.filemanager.dialogs.ManageVisibleTabsDialog
 import org.fossify.filemanager.extensions.config
 import org.fossify.filemanager.helpers.RootHelpers
@@ -38,6 +39,7 @@ class SettingsActivity : SimpleActivity() {
         setupLanguage()
         setupManageFavorites()
         setupManageShownTabs()
+        setupCustomizeFolderOptions()
         setupChangeDateTimeFormat()
         setupFontSize()
         setupShowHidden()
@@ -185,6 +187,12 @@ class SettingsActivity : SimpleActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private fun setupCustomizeFolderOptions(){
+        binding.settingsManageFolderColumnsHolder.setOnClickListener {
+            ManageFolderColumnsDialog(this)
         }
     }
 

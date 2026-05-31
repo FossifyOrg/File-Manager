@@ -22,6 +22,9 @@ const val FILE_LANDSCAPE_COLUMN_CNT = "file_landscape_column_cnt"
 const val DISPLAY_FILE_NAMES = "display_file_names"
 const val SHOW_TABS = "show_tabs"
 const val WAS_STORAGE_ANALYSIS_TAB_ADDED = "was_storage_analysis_tab_added"
+const val FOLDER_SHOW_SIZE = "show_folder_size"
+const val FOLDER_SHOW_LAST_MODIFIED_AT = "show_folder_last_modified_at"
+const val FOLDER_SHOW_CHILDREN_COUNT = "show_folder_children_count"
 
 // open as
 const val OPEN_AS_DEFAULT = 0
