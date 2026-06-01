@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="6" by="lint 9.2.0" type="baseline" client="gradle" dependencies="false" name="AGP (9.2.0)" variant="all" version="9.2.0">
+<issues format="6" by="lint 9.2.1" type="baseline" client="gradle" dependencies="false" name="AGP (9.2.1)" variant="all" version="9.2.1">
 
     <issue
         id="ScopedStorage"
@@ -46,17 +46,6 @@
     </issue>
 
     <issue
-        id="AndroidGradlePluginVersion"
-        message="A newer version of Gradle than 9.4.1 is available: 9.5.0"
-        errorLine1="distributionUrl=https\://services.gradle.org/distributions/gradle-9.4.1-bin.zip"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="$HOME/work/File-Manager/File-Manager/gradle/wrapper/gradle-wrapper.properties"
-            line="3"
-            column="17"/>
-    </issue>
-
-    <issue
         id="GradleDependency"
         message="A newer version of `app-build-compileSDKVersion` than 36 is available: 37"
         errorLine1="app-build-compileSDKVersion = &quot;36&quot;"
@@ -69,13 +58,24 @@
 
     <issue
         id="NewerVersionAvailable"
-        message="A newer version of io.nlopez.compose.rules:detekt than 0.4.28 is available: 0.5.8"
+        message="A newer version of io.nlopez.compose.rules:detekt than 0.4.28 is available: 0.5.9"
         errorLine1="detektCompose = &quot;0.4.28&quot;"
         errorLine2="                ~~~~~~~~">
         <location
             file="$HOME/work/File-Manager/File-Manager/gradle/libs.versions.toml"
             line="6"
             column="17"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of com.alexvasilkov:gesture-views than 2.9.0 is available: 2.10.0"
+        errorLine1="gestureviews = &quot;2.9.0&quot;"
+        errorLine2="               ~~~~~~~">
+        <location
+            file="$HOME/work/File-Manager/File-Manager/gradle/libs.versions.toml"
+            line="14"
+            column="16"/>
     </issue>
 
     <issue
