@@ -32,6 +32,7 @@ import org.fossify.commons.extensions.toast
 import org.fossify.filemanager.dependencies.AppComposition
 import org.fossify.filemanager.enums.Authentication
 import org.fossify.filemanager.enums.Protocols
+import org.fossify.filemanager.helpers.DAVX5_PATH_NAME
 import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.helpers.PORT_FTP
 import org.fossify.filemanager.interfaces.CertificateRepository
@@ -247,7 +248,7 @@ class CloudActivity : SimpleActivity() {
             }
 
             ConnectionTypes.DAVx5 -> {
-                launchMainActivity(ConnectionTypes.DAVx5, item.sharedPath)
+                launchMainActivity(ConnectionTypes.DAVx5, item.sharedPath,item.displayName)
             }
 
             ConnectionTypes.WebDav -> {
@@ -284,10 +285,13 @@ class CloudActivity : SimpleActivity() {
         }
     }
 
-    private fun launchMainActivity(connectionType: ConnectionTypes, path: String) {
+    private fun launchMainActivity(connectionType: ConnectionTypes, path: String, name: String = "") {
         val intent = Intent(this@CloudActivity, MainActivity::class.java).apply {
             putExtra(PATH, path)
             putExtra(CONNECTION_TYPE, connectionType)
+            if (name != ""){
+                putExtra(DAVX5_PATH_NAME, name)
+            }
         }
         launcher.launch(intent)
     }

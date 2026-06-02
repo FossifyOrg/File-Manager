@@ -69,6 +69,8 @@ const val NETWORK_PATH = "network_path"
 
 const val CONNECTION_TYPE = "connection_type"
 
+const val DAVX5_PATH_NAME = "davx5_path_name"
+
 // what else should we count as an audio except "audio/*" mimetype
 val extraAudioMimeTypes = arrayListOf("application/ogg")
 val extraDocumentMimeTypes = arrayListOf(

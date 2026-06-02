@@ -71,6 +71,7 @@ import org.fossify.filemanager.fragments.MyViewPagerFragment
 import org.fossify.filemanager.fragments.RecentsFragment
 import org.fossify.filemanager.fragments.StorageFragment
 import org.fossify.filemanager.helpers.CONNECTION_TYPE
+import org.fossify.filemanager.helpers.DAVX5_PATH_NAME
 import org.fossify.filemanager.helpers.MAX_COLUMN_COUNT
 import org.fossify.filemanager.helpers.NETWORK_PATH
 import org.fossify.filemanager.helpers.PATH
@@ -129,6 +130,10 @@ class MainActivity : SimpleActivity() {
         val isNetworkPath = intent.getBooleanExtra(NETWORK_PATH, false)
         val connectionType = intent.getSerializableExtra(CONNECTION_TYPE) as? ConnectionTypes ?: ConnectionTypes.Default
         return Triple(path ?: "",isNetworkPath,connectionType)
+    }
+
+    private fun getDavX5PathName(): String{
+        return intent.getStringExtra(DAVX5_PATH_NAME) ?: ""
     }
 
     override fun onResume() {
@@ -340,17 +345,17 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun initFileManager(refreshRecents: Boolean, path: String, isNetworkPath: Boolean, connectionType: ConnectionTypes) {
-        Log.d("File Path",path)
+        val pathName = getDavX5PathName()
         if (intent.action == Intent.ACTION_VIEW && intent.data != null) {
             val data = intent.data
             if (data?.scheme == "file") {
-                openPath(data.path!!, connectionType = connectionType)
+                openPath(data.path!!, connectionType = connectionType, pathName = pathName)
             } else {
                 val path = getRealPathFromURI(data!!)
                 if (path != null) {
-                    openPath(path, connectionType = connectionType)
+                    openPath(path, connectionType = connectionType, pathName = pathName)
                 } else {
-                    openPath(config.homeFolder, connectionType = connectionType)
+                    openPath(config.homeFolder, connectionType = connectionType, pathName = pathName)
                 }
             }
 
@@ -360,7 +365,7 @@ class MainActivity : SimpleActivity() {
 
             binding.mainViewPager.currentItem = 0
         } else {
-            openPath(if(path.isNotEmpty()) path else config.homeFolder,isNetworkPath = isNetworkPath, connectionType = connectionType)
+            openPath(if(path.isNotEmpty()) path else config.homeFolder,isNetworkPath = isNetworkPath, connectionType = connectionType, pathName = pathName)
         }
 
         if (refreshRecents) {
@@ -486,7 +491,7 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-    private fun openPath(path: String, forceRefresh: Boolean = false, isNetworkPath: Boolean = false,connectionType: ConnectionTypes = ConnectionTypes.Default) {
+    private fun openPath(path: String, forceRefresh: Boolean = false, isNetworkPath: Boolean = false, pathName: String = "",connectionType: ConnectionTypes = ConnectionTypes.Default) {
         var newPath = path
         val file = File(path)
         if (config.OTGPath.isNotEmpty() && config.OTGPath == path.trimEnd('/')) {
@@ -497,7 +502,7 @@ class MainActivity : SimpleActivity() {
             newPath = internalStoragePath
         }
 
-        getItemsFragment()?.openPath(newPath, forceRefresh, isNetworkPath,connectionType=connectionType)
+        getItemsFragment()?.openPath(newPath, forceRefresh, isNetworkPath,connectionType=connectionType, pathName = pathName)
     }
 
     private fun goHome() {

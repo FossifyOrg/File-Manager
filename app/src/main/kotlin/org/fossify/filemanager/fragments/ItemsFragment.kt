@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -132,7 +133,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
     }
 
 
-    fun openPath(path: String, forceRefresh: Boolean = false, isNetworkPath: Boolean = false, connectionType: ConnectionTypes = ConnectionTypes.Default) {
+    fun openPath(path: String, forceRefresh: Boolean = false, isNetworkPath: Boolean = false, pathName: String = "", connectionType: ConnectionTypes = ConnectionTypes.Default) {
         if ((activity as? BaseSimpleActivity)?.isAskingPermissions == true) {
             return
         }
@@ -172,7 +173,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             itemsIgnoringSearch = listItems
             activity?.runOnUiThread {
                 (activity as? MainActivity)?.refreshMenuItems()
-                addItems(listItems, forceRefresh, isNetworkPath, connectionType)
+                addItems(listItems, forceRefresh, isNetworkPath,pathName = pathName, connectionType)
                 if (context != null && currentViewType != context!!.config.getFolderViewType(currentPath)) {
                     setupLayoutManager(connectionType)
                 }
@@ -181,10 +182,12 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         }
     }
 
-    private fun addItems(items: ArrayList<ListItem>, forceRefresh: Boolean = false, isNetworkPath: Boolean = false, connectionType: ConnectionTypes) {
+    private fun addItems(items: ArrayList<ListItem>, forceRefresh: Boolean = false, isNetworkPath: Boolean = false,pathName: String = "", connectionType: ConnectionTypes) {
         activity?.runOnUiThread {
             binding.itemsSwipeRefresh.isRefreshing = false
-            binding.breadcrumbs.setBreadcrumb(currentPath, connectionType)
+            if (connectionType != ConnectionTypes.DAVx5){
+                binding.breadcrumbs.setBreadcrumb(currentPath, connectionType)
+            }
             if (!forceRefresh && items.hashCode() == storedItems.hashCode()) {
                 return@runOnUiThread
             }
@@ -193,9 +196,9 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             if (binding.itemsList.adapter == null) {
                 binding.breadcrumbs.updateFontSize(context!!.getTextSize(), true, connectionType)
             }
-
+            var lastClickedItem: ListItem? = null
             ItemsAdapter(activity as SimpleActivity, storedItems, this, binding.itemsList, isPickMultipleIntent, binding.itemsSwipeRefresh) {
-
+                lastClickedItem = it as? ListItem
                 if ((it as? ListItem)?.mIsDirectory == false) {
                     if (connectionType == ConnectionTypes.SMB) {
                         it?.let { item ->
@@ -207,11 +210,11 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                         }
                     } else if (connectionType == ConnectionTypes.SFTP) {
                         it?.let { item ->
-                            FileHelpers.launchSFTP(connectionType,item.mPath, context = this@ItemsFragment.context, )
+                            FileHelpers.launchSFTP(connectionType, item.mPath, context = this@ItemsFragment.context)
                         }
                     } else if (connectionType == ConnectionTypes.FTP) {
                         it?.let { item ->
-                            FileHelpers.launchFTP(connectionType,item.mPath, context = this@ItemsFragment.context)
+                            FileHelpers.launchFTP(connectionType, item.mPath, context = this@ItemsFragment.context)
                         }
                     } else {
                         itemClicked(it as FileDirItem, connectionType)
@@ -222,11 +225,19 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                 } else {
                     itemClicked(it as FileDirItem, connectionType)
                 }
+                if (connectionType == ConnectionTypes.DAVx5){
+                    if (lastClickedItem != null){
+                        binding.breadcrumbs.setBreadcrumbWithName(lastClickedItem!!.mPath,lastClickedItem?.mName,connectionType)
+                    }
+                }
             }.apply {
                 setupZoomListener(zoomListener)
                 binding.itemsList.adapter = this
             }
 
+            if (lastClickedItem == null && connectionType == ConnectionTypes.DAVx5){
+                binding.breadcrumbs.setBreadcrumbWithName(currentPath,pathName, connectionType)
+            }
             if (context.areSystemAnimationsEnabled) {
                 binding.itemsList.scheduleLayoutAnimation()
             }
@@ -274,7 +285,11 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                             handleApiResponse(it, path, connectionType, callback)
                         }
                     }
-                } else if (context.isRestrictedSAFOnlyRoot(path)) {
+                }
+                else if (connectionType.equals(ConnectionTypes.DAVx5)){
+                    handleApiResponse<Object>(null, path, connectionType, callback)
+                }
+                else if (context.isRestrictedSAFOnlyRoot(path)) {
                     activity?.runOnUiThread { hideProgressBar() }
                     activity?.handleAndroidSAFDialog(path, openInSystemAppAllowed = true) {
                         if (!it) {
@@ -654,286 +669,315 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                     callback(path, getListItemsFromFileDirItems(ArrayList(items?.toList())))
                 }
             }
+            else if (connectionType == ConnectionTypes.DAVx5) {
+                val items = ArrayList<ListItem>()
+                val uri = Uri.parse(path)
+                val docFile = DocumentFile.fromTreeUri(context, uri)
+                val files = docFile?.listFiles()
+
+                files?.forEach { file ->
+                    items.add(
+                        ListItem(
+                            mConnectionType = connectionType,
+                            mPath = file.uri.toString(),
+                            mName = file.name ?: "",
+                            mIsDirectory = file.isDirectory,
+                            mChildren = if (file.isDirectory) 1 else 0,
+                            mSize = if (file.isFile) file.length() else 0L,
+                            mModified = file.lastModified(),
+                            isSectionTitle = false,
+                            isGridTypeDivider = false,
+                            parent = path
+                        )
+                    )
+                }
+                callback(path,items)
+            }
         }
     }
 
-    override fun columnCountChanged() {
-        (binding.itemsList.layoutManager as MyGridLayoutManager).spanCount = context!!.config.fileColumnCnt
-        (activity as? MainActivity)?.refreshMenuItems()
-        getRecyclerAdapter()?.apply {
-            notifyItemRangeChanged(0, listItems.size)
+        override fun columnCountChanged() {
+            (binding.itemsList.layoutManager as MyGridLayoutManager).spanCount = context!!.config.fileColumnCnt
+            (activity as? MainActivity)?.refreshMenuItems()
+            getRecyclerAdapter()?.apply {
+                notifyItemRangeChanged(0, listItems.size)
+            }
         }
-    }
 
-    fun showProgressBar() {
-        binding.progressBar.show()
-    }
-
-    private fun hideProgressBar() {
-        binding.progressBar.hide()
-    }
-
-    fun getBreadcrumbs() = binding.breadcrumbs
-
-    override fun toggleFilenameVisibility() {
-        getRecyclerAdapter()?.updateDisplayFilenamesInGrid()
-    }
-
-    override fun breadcrumbClicked(id: Int) {
-        val item = binding.breadcrumbs.getItem(id)
-        if (id == 0) {
-            StoragePickerDialog(activity as SimpleActivity, currentPath, context!!.config.enableRootAccess, true) {
-                getRecyclerAdapter()?.finishActMode()
-                if (item.connectionType != ConnectionTypes.Default) {
-                    openPath(item.path, connectionType = item.connectionType)
-                } else {
-                    openPath(item.path)
-                }
-            }
-        } else {
-            var path = ""
-            if (item.connectionType == ConnectionTypes.WebDav || item.connectionType == ConnectionTypes.SMB) {
-                val items = binding.breadcrumbs.getItemsTillIndex(id)
-                items.forEach { item ->
-                    path += "${item.path}/"
-                }
-            } else
-                path = item.path
-
-            openPath(path, connectionType = item.connectionType)
+        fun showProgressBar() {
+            binding.progressBar.show()
         }
-    }
 
-    override fun refreshFragment() {
-        openPath(currentPath, connectionType = connectionType)
-    }
-
-    override fun deleteFiles(files: ArrayList<FileDirItem>) {
-        if (connectionType != ConnectionTypes.Default) {
-            collectLatest()
+        private fun hideProgressBar() {
+            binding.progressBar.hide()
         }
-        val hasFolder = files.any { it.isDirectory }
-        deleteFileOrFolder(files, hasFolder)
-    }
 
+        fun getBreadcrumbs() = binding.breadcrumbs
 
-    private fun deleteFileOrFolder(files: ArrayList<FileDirItem>, hasFolder: Boolean) {
-        when (connectionType) {
-            ConnectionTypes.SMB -> {
-                files.forEach {
-                    viewModel.deleteItemSMB(it.path)
-                }
-            }
-
-            ConnectionTypes.WebDav -> {
-                files.forEach {
-                    viewModel.deleteItemWebDav(it.path)
-                }
-            }
-
-            ConnectionTypes.SFTP -> {
-                files.forEach {
-                    viewModel.deleteItemSFTP(it.path, it.isDirectory)
-                }
-            }
-
-            ConnectionTypes.FTP -> {
-                files.forEach {
-                    viewModel.deleteItemFTP(it.path, it.isDirectory)
-                }
-            }
-
-            ConnectionTypes.Default -> {
-                handleFileDeleting(files, hasFolder)
-            }
-
-            else -> Unit
+        override fun toggleFilenameVisibility() {
+            getRecyclerAdapter()?.updateDisplayFilenamesInGrid()
         }
-    }
 
-    private fun collectLatest() {
-        CoroutineScope(Dispatchers.IO).launch {
+        override fun breadcrumbClicked(id: Int) {
+            val item = binding.breadcrumbs.getItem(id)
+            if (id == 0) {
+                StoragePickerDialog(activity as SimpleActivity, currentPath, context!!.config.enableRootAccess, true) {
+                    getRecyclerAdapter()?.finishActMode()
+                    if (item.connectionType != ConnectionTypes.Default) {
+                        openPath(item.path, connectionType = item.connectionType)
+                    } else {
+                        openPath(item.path)
+                    }
+                }
+            } else {
+                var path = ""
+                if (item.connectionType == ConnectionTypes.WebDav || item.connectionType == ConnectionTypes.SMB) {
+                    val items = binding.breadcrumbs.getItemsTillIndex(id)
+                    items.forEach { item ->
+                        path += "${item.path}/"
+                    }
+                }
+                else
+                    path = item.path
+
+                openPath(path, connectionType = item.connectionType)
+            }
+        }
+
+        override fun refreshFragment() {
+            openPath(currentPath, connectionType = connectionType)
+        }
+
+        override fun deleteFiles(files: ArrayList<FileDirItem>) {
+            if (connectionType != ConnectionTypes.Default) {
+                collectLatest()
+            }
+            val hasFolder = files.any { it.isDirectory }
+            deleteFileOrFolder(files, hasFolder)
+        }
+
+
+        private fun deleteFileOrFolder(files: ArrayList<FileDirItem>, hasFolder: Boolean) {
             when (connectionType) {
                 ConnectionTypes.SMB -> {
-                    viewModel.smbDelete.collectLatest {
-                        it.exception?.message?.let { msg ->
-                            activity?.toast(msg)
-                        }
+                    files.forEach {
+                        viewModel.deleteItemSMB(it.path)
                     }
                 }
 
                 ConnectionTypes.WebDav -> {
-                    viewModel.webDavDelete.collectLatest {
-                        it.exception?.message?.let { msg ->
-                            activity?.toast(msg)
-                        }
+                    files.forEach {
+                        viewModel.deleteItemWebDav(it.path)
                     }
                 }
 
                 ConnectionTypes.SFTP -> {
-                    viewModel.sftpDelete.collectLatest {
-                        it.exception?.message?.let { msg ->
-                            activity?.toast(msg)
-                        }
+                    files.forEach {
+                        viewModel.deleteItemSFTP(it.path, it.isDirectory)
                     }
                 }
 
                 ConnectionTypes.FTP -> {
-                    viewModel.ftpDelete.collectLatest {
-                        it.exception?.message?.let { msg ->
-                            activity?.toast(msg)
-                        }
+                    files.forEach {
+                        viewModel.deleteItemFTP(it.path, it.isDirectory)
                     }
+                }
+
+                ConnectionTypes.Default -> {
+                    handleFileDeleting(files, hasFolder)
                 }
 
                 else -> Unit
             }
         }
-    }
 
-    override fun selectedPaths(paths: ArrayList<String>) {
-        (activity as MainActivity).pickedPaths(paths)
-    }
+        private fun collectLatest() {
+            CoroutineScope(Dispatchers.IO).launch {
+                when (connectionType) {
+                    ConnectionTypes.SMB -> {
+                        viewModel.smbDelete.collectLatest {
+                            it.exception?.message?.let { msg ->
+                                activity?.toast(msg)
+                            }
+                        }
+                    }
 
-    override fun shareFile(paths: ArrayList<String>) {
-        collectFileShared(paths)
-        if (connectionType == ConnectionTypes.SMB) {
-            paths.forEach {
-                viewModel.writeSmbFileToCache(it, context)
-            }
-        } else if (connectionType == ConnectionTypes.WebDav) {
-            paths.forEach {
-                viewModel.writeWebDavFileToCache(it, context)
-            }
-        } else if (connectionType == ConnectionTypes.SFTP) {
-            paths.forEach {
-                viewModel.writeSftpFileToCache(it, context)
-            }
-        } else if (connectionType == ConnectionTypes.FTP) {
-            paths.forEach {
-                viewModel.writeFtpFileToCache(it, context)
+                    ConnectionTypes.WebDav -> {
+                        viewModel.webDavDelete.collectLatest {
+                            it.exception?.message?.let { msg ->
+                                activity?.toast(msg)
+                            }
+                        }
+                    }
+
+                    ConnectionTypes.SFTP -> {
+                        viewModel.sftpDelete.collectLatest {
+                            it.exception?.message?.let { msg ->
+                                activity?.toast(msg)
+                            }
+                        }
+                    }
+
+                    ConnectionTypes.FTP -> {
+                        viewModel.ftpDelete.collectLatest {
+                            it.exception?.message?.let { msg ->
+                                activity?.toast(msg)
+                            }
+                        }
+                    }
+
+                    else -> Unit
+                }
             }
         }
-    }
 
-    override fun openWith(path: String, mimType: String?) {
-        when(connectionType){
-            ConnectionTypes.SMB -> {
-                FileHelpers.launchSMB(path, context,mimType)
-            }
-            ConnectionTypes.WebDav -> {
-                FileHelpers.launchWebDav( path, context,mimType)
-            }
-            ConnectionTypes.SFTP -> {
-                FileHelpers.launchSFTP(connectionType, path, context,mimType)
-            }
-            ConnectionTypes.FTP -> {
-                FileHelpers.launchFTP(connectionType, path, context,mimType)
-            }
-            else -> Unit
+        override fun selectedPaths(paths: ArrayList<String>) {
+            (activity as MainActivity).pickedPaths(paths)
         }
-    }
 
+        override fun shareFile(paths: ArrayList<String>) {
+            collectFileShared(paths)
+            if (connectionType == ConnectionTypes.SMB) {
+                paths.forEach {
+                    viewModel.writeSmbFileToCache(it, context)
+                }
+            } else if (connectionType == ConnectionTypes.WebDav) {
+                paths.forEach {
+                    viewModel.writeWebDavFileToCache(it, context)
+                }
+            } else if (connectionType == ConnectionTypes.SFTP) {
+                paths.forEach {
+                    viewModel.writeSftpFileToCache(it, context)
+                }
+            } else if (connectionType == ConnectionTypes.FTP) {
+                paths.forEach {
+                    viewModel.writeFtpFileToCache(it, context)
+                }
+            }
+        }
 
-    private fun collectFileShared(paths: ArrayList<String>) {
-        CoroutineScope(Dispatchers.IO).launch {
+        override fun openWith(path: String, mimType: String?) {
             when (connectionType) {
                 ConnectionTypes.SMB -> {
-                    viewModel.smbFileShare.collectLatest {
-                        handleFileSharedResponse(it, paths)
-                    }
+                    FileHelpers.launchSMB(path, context, mimType)
                 }
 
                 ConnectionTypes.WebDav -> {
-                    viewModel.webDavFileShare.collectLatest {
-                        handleFileSharedResponse(it, paths)
-                    }
+                    FileHelpers.launchWebDav(path, context, mimType)
                 }
 
                 ConnectionTypes.SFTP -> {
-                    viewModel.sftpFileShare.collectLatest {
-                        handleFileSharedResponse(it, paths)
-                    }
+                    FileHelpers.launchSFTP(connectionType, path, context, mimType)
                 }
 
                 ConnectionTypes.FTP -> {
-                    viewModel.ftpFileShare.collectLatest {
-                        handleFileSharedResponse(it, paths)
-                    }
+                    FileHelpers.launchFTP(connectionType, path, context, mimType)
                 }
 
                 else -> Unit
             }
         }
-    }
-
-    private fun handleFileSharedResponse(response: ApiResponse<File>, paths: ArrayList<String>) {
-        if (response.exception != null) {
-            response.exception?.message?.let { msg ->
-                activity?.toast(msg)
-            }
-        } else {
-            activity?.networkSharePaths(paths, response.response as File)
-        }
-    }
-
-    private fun handleFileWriteResponse(response: ApiResponse<File>, paths: String) {
-        if (response.exception != null) {
-            response.exception?.message?.let { msg ->
-                activity?.toast(msg)
-            }
-        } else {
-            activity?.setAsNetworkPath(paths, response.response as File)
-        }
-    }
 
 
-    override fun setAs(path: String) {
-        collectFileCopied(path)
-        if (connectionType == ConnectionTypes.SMB) {
-            viewModel.writeSmbFileToCache(path, context)
-
-        } else if (connectionType == ConnectionTypes.WebDav) {
-            viewModel.writeWebDavFileToCache(path, context)
-
-        } else if (connectionType == ConnectionTypes.SFTP) {
-            viewModel.writeSftpFileToCache(path, context)
-
-        } else if (connectionType == ConnectionTypes.FTP) {
-            viewModel.writeFtpFileToCache(path, context)
-        }
-    }
-
-    private fun collectFileCopied(path: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            when (connectionType) {
-                ConnectionTypes.SMB -> {
-                    viewModel.smbFileShare.collectLatest {
-                        handleFileWriteResponse(it, path)
+        private fun collectFileShared(paths: ArrayList<String>) {
+            CoroutineScope(Dispatchers.IO).launch {
+                when (connectionType) {
+                    ConnectionTypes.SMB -> {
+                        viewModel.smbFileShare.collectLatest {
+                            handleFileSharedResponse(it, paths)
+                        }
                     }
-                }
 
-                ConnectionTypes.WebDav -> {
-                    viewModel.webDavFileShare.collectLatest {
-                        handleFileWriteResponse(it, path)
+                    ConnectionTypes.WebDav -> {
+                        viewModel.webDavFileShare.collectLatest {
+                            handleFileSharedResponse(it, paths)
+                        }
                     }
-                }
 
-                ConnectionTypes.SFTP -> {
-                    viewModel.sftpFileShare.collectLatest {
-                        handleFileWriteResponse(it, path)
+                    ConnectionTypes.SFTP -> {
+                        viewModel.sftpFileShare.collectLatest {
+                            handleFileSharedResponse(it, paths)
+                        }
                     }
-                }
 
-                ConnectionTypes.FTP -> {
-                    viewModel.ftpFileShare.collectLatest {
-                        handleFileWriteResponse(it, path)
+                    ConnectionTypes.FTP -> {
+                        viewModel.ftpFileShare.collectLatest {
+                            handleFileSharedResponse(it, paths)
+                        }
                     }
-                }
 
-                else -> Unit
+                    else -> Unit
+                }
             }
         }
-    }
 
-}
+        private fun handleFileSharedResponse(response: ApiResponse<File>, paths: ArrayList<String>) {
+            if (response.exception != null) {
+                response.exception?.message?.let { msg ->
+                    activity?.toast(msg)
+                }
+            } else {
+                activity?.networkSharePaths(paths, response.response as File)
+            }
+        }
+
+        private fun handleFileWriteResponse(response: ApiResponse<File>, paths: String) {
+            if (response.exception != null) {
+                response.exception?.message?.let { msg ->
+                    activity?.toast(msg)
+                }
+            } else {
+                activity?.setAsNetworkPath(paths, response.response as File)
+            }
+        }
+
+
+        override fun setAs(path: String) {
+            collectFileCopied(path)
+            if (connectionType == ConnectionTypes.SMB) {
+                viewModel.writeSmbFileToCache(path, context)
+
+            } else if (connectionType == ConnectionTypes.WebDav) {
+                viewModel.writeWebDavFileToCache(path, context)
+
+            } else if (connectionType == ConnectionTypes.SFTP) {
+                viewModel.writeSftpFileToCache(path, context)
+
+            } else if (connectionType == ConnectionTypes.FTP) {
+                viewModel.writeFtpFileToCache(path, context)
+            }
+        }
+
+        private fun collectFileCopied(path: String) {
+            CoroutineScope(Dispatchers.IO).launch {
+                when (connectionType) {
+                    ConnectionTypes.SMB -> {
+                        viewModel.smbFileShare.collectLatest {
+                            handleFileWriteResponse(it, path)
+                        }
+                    }
+
+                    ConnectionTypes.WebDav -> {
+                        viewModel.webDavFileShare.collectLatest {
+                            handleFileWriteResponse(it, path)
+                        }
+                    }
+
+                    ConnectionTypes.SFTP -> {
+                        viewModel.sftpFileShare.collectLatest {
+                            handleFileWriteResponse(it, path)
+                        }
+                    }
+
+                    ConnectionTypes.FTP -> {
+                        viewModel.ftpFileShare.collectLatest {
+                            handleFileWriteResponse(it, path)
+                        }
+                    }
+
+                    else -> Unit
+                }
+            }
+        }
+
+    }
