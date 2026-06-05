@@ -8,39 +8,74 @@
     app:cardElevation="6dp"
     app:cardBackgroundColor="?attr/colorSurface">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvDisplayName"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Display Name"
-            android:textAppearance="?attr/textAppearanceHeadline6"/>
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:paddingEnd="88dp">
 
-        <TextView
-            android:id="@+id/tvHost"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Host: 192.168.1.1" />
+            <TextView
+                android:id="@+id/tvDisplayName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Display Name"
+                android:textAppearance="?attr/textAppearanceHeadline6"/>
 
-        <TextView
-            android:id="@+id/tvType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SMB"
-            android:layout_marginTop="2dp"
-            android:textStyle="italic"/>
+            <TextView
+                android:id="@+id/tvHost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Host: 192.168.1.1"/>
 
-        <TextView
-            android:id="@+id/tvSharedPath"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Shared Path: /Shared"
-            android:layout_marginTop="2dp"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tvType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SMB"
+                android:layout_marginTop="2dp"
+                android:textStyle="italic"/>
+
+            <TextView
+                android:id="@+id/tvSharedPath"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Shared Path: /Shared"
+                android:layout_marginTop="2dp"/>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnEdit"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="52dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Edit"
+            android:padding="4dp"
+            app:srcCompat="@drawable/ic_edit_vector"
+            />
+
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Delete"
+            android:padding="4dp"
+            app:srcCompat="@drawable/ic_delete_vector"
+            />
+
+    </FrameLayout>
+
 </com.google.android.material.card.MaterialCardView>

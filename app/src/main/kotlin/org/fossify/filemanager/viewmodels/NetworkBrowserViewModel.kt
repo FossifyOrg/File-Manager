@@ -61,9 +61,9 @@ class NetworkBrowserViewModel(
 
 
 
-    fun saveNetwork(networkConnection: NetworkConnection) {
+    fun insertUpdateConnection(networkConnection: NetworkConnection) {
         viewModelScope.launch(Dispatchers.IO) {
-            networkConnectionRepository.saveConnection(networkConnection)
+            networkConnectionRepository.insertUpdateConnection(networkConnection)
         }
     }
 
@@ -72,6 +72,12 @@ class NetworkBrowserViewModel(
             val connections = networkConnectionRepository.getAllSavedConnections().collectLatest { value ->
                 savedNetworks.emit(value)
             }
+        }
+    }
+
+    fun deleteConnection(connection: NetworkConnection){
+        viewModelScope.launch(Dispatchers.IO) {
+            networkConnectionRepository.deleteConnection(connection)
         }
     }
 

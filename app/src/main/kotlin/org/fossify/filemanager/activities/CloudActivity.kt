@@ -100,7 +100,7 @@ class CloudActivity : SimpleActivity() {
                 val storage = DocumentFile.fromTreeUri(this, it)
                 storage?.let { s ->
                     if (s.name != null && it.path != null) {
-                        viewModel.saveNetwork(
+                        viewModel.insertUpdateConnection(
                             NetworkConnection(
                                 displayName = s.name!!,
                                 sharedPath = s.uri.toString(),
@@ -275,13 +275,23 @@ class CloudActivity : SimpleActivity() {
     }
 
     private fun updateAdapter(listItems: MutableList<NetworkConnection>) {
-        ConnectionItemsAdapter(this, listItems, binding.connectionsList) { item ->
+        ConnectionItemsAdapter(this, listItems, binding.connectionsList,::deleteConnection,::updateConnection) { item ->
             lifecycleScope.launch {
                 val itm = item as NetworkConnection
                 handleConnection(itm, itm.connectionType)
             }
         }.apply {
             binding.connectionsList.adapter = this
+        }
+    }
+
+    private fun deleteConnection(connection: NetworkConnection){
+        viewModel.deleteConnection(connection)
+    }
+
+    private fun updateConnection(connection: NetworkConnection){
+        ConnectionDialog(this@CloudActivity,connection) { host, user, password, shared, displayName, certPath, privateKeyText, privateKeyPass, port, connection, protocol, auth ->
+            saveNetwork(host, user, password, shared, displayName, privateKeyText, privateKeyPass, certPath, port, connection, protocol, auth)
         }
     }
 
@@ -353,7 +363,7 @@ class CloudActivity : SimpleActivity() {
                             )
                             launchMainActivity(ConnectionTypes.WebDav, it.item.url)
                         } else {
-                            viewModel.saveNetwork(
+                            viewModel.insertUpdateConnection(
                                 NetworkConnection(
                                     host = it.item.host,
                                     username = it.item.username,
@@ -383,7 +393,7 @@ class CloudActivity : SimpleActivity() {
                             startServer(it.item, connectionType = ConnectionTypes.SMB, machinePort = it.item.port)
                             launchMainActivity(ConnectionTypes.SMB, path)
                         } else {
-                            viewModel.saveNetwork(
+                            viewModel.insertUpdateConnection(
                                 NetworkConnection(
                                     host = it.item.host,
                                     username = it.item.username,
@@ -410,7 +420,7 @@ class CloudActivity : SimpleActivity() {
                             startServer(it.item, PORT_SFTP, connectionType = ConnectionTypes.SFTP, machinePort = it.item.port)
                             launchMainActivity(ConnectionTypes.SFTP, it.item.url)
                         } else {
-                            viewModel.saveNetwork(
+                            viewModel.insertUpdateConnection(
                                 NetworkConnection(
                                     host = it.item.host,
                                     username = it.item.username,
@@ -440,7 +450,7 @@ class CloudActivity : SimpleActivity() {
                             startServer(it.item, PORT_FTP, connectionType = ConnectionTypes.FTP, machinePort = it.item.port)
                             launchMainActivity(ConnectionTypes.FTP, it.item.url)
                         } else {
-                            viewModel.saveNetwork(
+                            viewModel.insertUpdateConnection(
                                 NetworkConnection(
                                     host = it.item.host,
                                     username = it.item.username,

@@ -17,7 +17,14 @@ import org.fossify.filemanager.models.ListItem
 import org.fossify.filemanager.models.NetworkConnection
 import java.util.Locale
 
-class ConnectionItemsAdapter(activity: SimpleActivity, var listItems: MutableList<NetworkConnection>, recyclerView: MyRecyclerView, itemClick: (Any) -> Unit) :
+class ConnectionItemsAdapter(
+    activity: SimpleActivity,
+    var listItems: MutableList<NetworkConnection>,
+    recyclerView: MyRecyclerView,
+    val deleteClick: (NetworkConnection) -> Unit,
+    val updateConnection: (NetworkConnection) -> Unit,
+    itemClick: (Any) -> Unit
+) :
     MyRecyclerViewAdapter(activity, recyclerView, itemClick) {
     override fun getActionMenuId(): Int {
         TODO("Not yet implemented")
@@ -75,6 +82,8 @@ class ConnectionItemsAdapter(activity: SimpleActivity, var listItems: MutableLis
             tvType.text = listItem.connectionType.toString()
             tvDisplayName.text = listItem.displayName
             tvSharedPath.text = listItem.sharedPath
+            btnDelete.setOnClickListener { deleteClick(listItem) }
+            btnEdit.setOnClickListener { updateConnection(listItem) }
         }
     }
 }

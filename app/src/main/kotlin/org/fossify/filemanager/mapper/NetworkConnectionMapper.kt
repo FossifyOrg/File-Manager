@@ -23,7 +23,9 @@ fun NetworkConnectionEntity.toDomain(): NetworkConnection {
         url = url,
         authentication = Authentication.valueOf(authentication),
         privateKeyText = privateKey,
-        privateKeyPass = privateKeyPass
+        privateKeyPass = privateKeyPass,
+        id = id
+
     )
 }
 
@@ -39,7 +41,8 @@ fun NetworkConnection.toEntity(): NetworkConnectionEntity {
         url = url,
         authentication = authentication.toString(),
         privateKey = privateKeyText,
-        privateKeyPass = privateKeyPass
+        privateKeyPass = privateKeyPass,
+        id = id
     )
 }
 

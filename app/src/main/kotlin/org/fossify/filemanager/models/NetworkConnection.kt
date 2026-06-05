@@ -4,6 +4,7 @@ import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.enums.Authentication
 
 data class NetworkConnection(
+    val id: Long = 0,
     val host: String = "",
     val port: Int = 445,
     val username: String? = "",
