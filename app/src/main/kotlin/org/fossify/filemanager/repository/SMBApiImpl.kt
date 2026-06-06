@@ -106,5 +106,15 @@ class SMBApiImpl : SMBApi {
         }
     }
 
+    override fun getSmbFile(path: String): ApiResponse<SmbFile> {
+        return try {
+            val smbFile = SmbFile(path, smbClient.context)
+            ApiResponse(smbFile,null)
+        }
+        catch (exp: Exception){
+            ApiResponse(null,exp)
+        }
+    }
+
     override fun getMainSmbFile(): SmbFile = smbClient
 }

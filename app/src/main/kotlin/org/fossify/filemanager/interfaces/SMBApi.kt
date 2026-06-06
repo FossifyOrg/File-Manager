@@ -17,5 +17,7 @@ interface SMBApi {
 
     fun writeFileToCache(path: String,context: Context): ApiResponse<File>
 
+    fun getSmbFile(path: String):  ApiResponse<SmbFile>
+
     fun getMainSmbFile(): SmbFile
 }
