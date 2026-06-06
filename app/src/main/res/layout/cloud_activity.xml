@@ -18,7 +18,6 @@
             app:title="Cloud Connection"
             app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle"/>
 
-        <!-- Sticky Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_button"
             android:layout_width="match_parent"
@@ -33,9 +32,7 @@
     <RelativeLayout
         android:id="@+id/connection_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true"
-        android:scrollbars="none"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <org.fossify.commons.views.MyRecyclerView
@@ -47,8 +44,13 @@
             android:scrollbars="none"
             app:layoutManager="org.fossify.commons.views.MyLinearLayoutManager" />
 
+        <ProgressBar
+            android:id="@+id/loader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
     </RelativeLayout>
-
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

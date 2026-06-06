@@ -118,18 +118,17 @@ class MainActivity : SimpleActivity() {
             config.temporarilyShowHidden = false
             initFragments()
             val data = getIntentDataIfAny()
-            tryInitFileManager(data.first,data.second, connectionType = data.third)
+            tryInitFileManager(data.first, connectionType = data.second)
             checkWhatsNewDialog()
             checkIfRootAvailable()
             checkInvalidFavorites()
         }
     }
 
-    private fun getIntentDataIfAny(): Triple<String, Boolean, ConnectionTypes> {
+    private fun getIntentDataIfAny(): Pair<String, ConnectionTypes> {
         val path = intent.getStringExtra(PATH)
-        val isNetworkPath = intent.getBooleanExtra(NETWORK_PATH, false)
         val connectionType = intent.getSerializableExtra(CONNECTION_TYPE) as? ConnectionTypes ?: ConnectionTypes.Default
-        return Triple(path ?: "",isNetworkPath,connectionType)
+        return Pair(path ?: "",connectionType)
     }
 
     private fun getDavX5PathName(): String{
@@ -325,7 +324,7 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-    private fun tryInitFileManager(path: String, isNetworkPath : Boolean = false, connectionType: ConnectionTypes = ConnectionTypes.Default) {
+    private fun tryInitFileManager(path: String, connectionType: ConnectionTypes = ConnectionTypes.Default) {
         val hadPermission = hasStoragePermission()
         handleStoragePermission {
             checkOTGPath()
@@ -335,7 +334,7 @@ class MainActivity : SimpleActivity() {
                 }
 
                 binding.mainViewPager.onGlobalLayout {
-                    initFileManager(!hadPermission,path,isNetworkPath,connectionType)
+                    initFileManager(!hadPermission,path,connectionType)
                 }
             } else {
                 toast(R.string.no_storage_permissions)
@@ -344,7 +343,7 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-    private fun initFileManager(refreshRecents: Boolean, path: String, isNetworkPath: Boolean, connectionType: ConnectionTypes) {
+    private fun initFileManager(refreshRecents: Boolean, path: String, connectionType: ConnectionTypes) {
         val pathName = getDavX5PathName()
         if (intent.action == Intent.ACTION_VIEW && intent.data != null) {
             val data = intent.data
@@ -365,7 +364,7 @@ class MainActivity : SimpleActivity() {
 
             binding.mainViewPager.currentItem = 0
         } else {
-            openPath(if(path.isNotEmpty()) path else config.homeFolder,isNetworkPath = isNetworkPath, connectionType = connectionType, pathName = pathName)
+            openPath(if(path.isNotEmpty()) path else config.homeFolder, connectionType = connectionType, pathName = pathName)
         }
 
         if (refreshRecents) {
@@ -491,18 +490,18 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-    private fun openPath(path: String, forceRefresh: Boolean = false, isNetworkPath: Boolean = false, pathName: String = "",connectionType: ConnectionTypes = ConnectionTypes.Default) {
+    private fun openPath(path: String, forceRefresh: Boolean = false, pathName: String = "",connectionType: ConnectionTypes = ConnectionTypes.Default) {
         var newPath = path
         val file = File(path)
         if (config.OTGPath.isNotEmpty() && config.OTGPath == path.trimEnd('/')) {
             newPath = path
-        } else if (file.exists() && !file.isDirectory && !isNetworkPath) {
+        } else if (file.exists() && !file.isDirectory && connectionType == ConnectionTypes.Default) {
             newPath = file.parent
         } else if (!file.exists() && !isPathOnOTG(newPath) && connectionType.equals(ConnectionTypes.Default)) {
             newPath = internalStoragePath
         }
 
-        getItemsFragment()?.openPath(newPath, forceRefresh, isNetworkPath,connectionType=connectionType, pathName = pathName)
+        getItemsFragment()?.openPath(newPath, forceRefresh,connectionType=connectionType, pathName = pathName)
     }
 
     private fun goHome() {

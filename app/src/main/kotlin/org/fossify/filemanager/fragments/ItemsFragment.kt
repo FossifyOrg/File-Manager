@@ -133,7 +133,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
     }
 
 
-    fun openPath(path: String, forceRefresh: Boolean = false, isNetworkPath: Boolean = false, pathName: String = "", connectionType: ConnectionTypes = ConnectionTypes.Default) {
+    fun openPath(path: String, forceRefresh: Boolean = false, pathName: String = "", connectionType: ConnectionTypes = ConnectionTypes.Default) {
         if ((activity as? BaseSimpleActivity)?.isAskingPermissions == true) {
             return
         }
@@ -147,7 +147,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         currentPath = realPath
         showHidden = context!!.config.shouldShowHidden()
         showProgressBar()
-        getItems(currentPath, isNetworkPath, connectionType = connectionType) { originalPath, listItems ->
+        getItems(currentPath, connectionType = connectionType) { originalPath, listItems ->
             if (currentPath != originalPath) {
                 return@getItems
             }
@@ -173,7 +173,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
             itemsIgnoringSearch = listItems
             activity?.runOnUiThread {
                 (activity as? MainActivity)?.refreshMenuItems()
-                addItems(listItems, forceRefresh, isNetworkPath,pathName = pathName, connectionType)
+                addItems(listItems, forceRefresh,pathName = pathName, connectionType)
                 if (context != null && currentViewType != context!!.config.getFolderViewType(currentPath)) {
                     setupLayoutManager(connectionType)
                 }
@@ -182,7 +182,7 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
         }
     }
 
-    private fun addItems(items: ArrayList<ListItem>, forceRefresh: Boolean = false, isNetworkPath: Boolean = false,pathName: String = "", connectionType: ConnectionTypes) {
+    private fun addItems(items: ArrayList<ListItem>, forceRefresh: Boolean = false,pathName: String = "", connectionType: ConnectionTypes) {
         activity?.runOnUiThread {
             binding.itemsSwipeRefresh.isRefreshing = false
             if (connectionType != ConnectionTypes.DAVx5){
@@ -253,7 +253,6 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
     @SuppressLint("NewApi")
     private fun getItems(
         path: String,
-        isNetworkPath: Boolean = false,
         connectionType: ConnectionTypes,
         callback: (originalPath: String, items: ArrayList<ListItem>) -> Unit
     ) {

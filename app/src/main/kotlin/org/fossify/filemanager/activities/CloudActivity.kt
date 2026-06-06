@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
 import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.extensions.viewBinding
 import org.fossify.commons.helpers.NavigationIcon
@@ -49,7 +51,7 @@ class CloudActivity : SimpleActivity() {
     private lateinit var certificateRepository: CertificateRepository
     private lateinit var composition: AppComposition
     private var https: HttpServer? = null
-
+    private var isConnecting: Boolean = false
     private fun setupBouncyCastle() {
         val provider: Provider? = Security.getProvider(BouncyCastleProvider.PROVIDER_NAME)
         if (provider == null) {
@@ -205,7 +207,6 @@ class CloudActivity : SimpleActivity() {
             }
 
             ConnectionTypes.WebDav -> {
-                val protocol = item.url.split(':')[0];
                 viewModel.connectAndAuthenticateWebDav(
                     item,
                     false,
@@ -227,7 +228,11 @@ class CloudActivity : SimpleActivity() {
     }
 
     private fun updateAdapter(listItems: MutableList<NetworkConnection>) {
+        if (isConnecting) return
         ConnectionItemsAdapter(this, listItems, binding.connectionsList, ::deleteConnection, ::updateConnection) { item ->
+            if (isConnecting) return@ConnectionItemsAdapter
+            isConnecting = true
+            binding.loader.isVisible = true
             lifecycleScope.launch {
                 val itm = item as NetworkConnection
                 handleConnection(itm, itm.connectionType)
@@ -324,6 +329,7 @@ class CloudActivity : SimpleActivity() {
                             toast(exception.message.toString())
                         }
                     }
+                    hideLoader()
                 }
             }
 
@@ -344,6 +350,7 @@ class CloudActivity : SimpleActivity() {
                             toast(exception.message.toString())
                         }
                     }
+                    hideLoader()
                 }
             }
 
@@ -364,6 +371,7 @@ class CloudActivity : SimpleActivity() {
                             toast(exception.message.toString())
                         }
                     }
+                    hideLoader()
                 }
             }
 
@@ -382,14 +390,21 @@ class CloudActivity : SimpleActivity() {
                         }
                     } else {
                         it.exception?.let { exception ->
+                            toast(exception.message.toString())
                         }
                     }
+                    hideLoader()
                 }
             }
 
             ConnectionTypes.DAVx5 -> Unit
             else -> Unit
         }
+    }
+
+    private fun hideLoader() {
+        binding.loader.isVisible = false
+        isConnecting = false
     }
 
 
