@@ -29,11 +29,10 @@ class WebDavApiImpl: WebDavApi {
     val scope = CoroutineScope(Dispatchers.IO)
     override suspend fun connectAndVerifyWebDav(
         connection: NetworkConnection,
-        protocols: Protocols,
         context: Context
     ): Pair<Boolean, Exception?> {
         return try {
-            sardine = if (protocols == Protocols.HTTP) {
+            sardine = if (connection.protocols == Protocols.HTTP) {
                 OkHttpSardine()
             } else {
                 createHTTPSSardine(context,connection.host)

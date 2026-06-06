@@ -55,8 +55,8 @@ class HttpServer(
 
     private fun handleWebDav(uri: String, rangeHeader: String?): Response {
 
-        val extractedPath = Helpers.retrievePath(uri)
-        val url = Helpers. createNanoHttpdUrl(connectionType, extractedPath, server = serverIp, port = machinePort, protocols = protocol)
+//        val extractedPath = Helpers.retrievePath(uri)
+        val url = Helpers. createNanoHttpdUrl(connectionType, uri, server = serverIp, port = machinePort, protocols = protocol)
 
         val apiResponse = composition.webDavApiRepository.listWebDavFileDetail(url)
         return handleResponse(apiResponse) {

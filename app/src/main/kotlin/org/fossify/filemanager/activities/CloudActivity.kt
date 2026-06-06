@@ -144,8 +144,8 @@ class CloudActivity : SimpleActivity() {
     }
 
     private fun showConnectionDialog() {
-        ConnectionDialog(this@CloudActivity) { host, user, password, shared, displayName, certPath, privateKeyText, privateKeyPass, port, connection, protocol, auth ->
-            saveNetwork(host, user, password, shared, displayName, privateKeyText, privateKeyPass, certPath, port, connection, protocol, auth)
+        ConnectionDialog(this@CloudActivity) { connection, certUri ->
+            saveNetwork(connection, certUri)
         }
     }
 
@@ -157,72 +157,25 @@ class CloudActivity : SimpleActivity() {
     }
 
     private fun saveNetwork(
-        host: String,
-        user: String,
-        password: String,
-        shared: String,
-        displayName: String,
-        privateKeyText: String,
-        privateKeyPass: String,
-        certUri: Uri?,
-        port: Int,
-        connectionType: ConnectionTypes,
-        protocol: Protocols?,
-        authentication: Authentication
+        connection: NetworkConnection,
+        certUri: Uri?
     ) {
-        if (connectionType == ConnectionTypes.SMB) {
+        if (connection.connectionType == ConnectionTypes.SMB) {
             viewModel.verifyNetwork(
-                NetworkConnection(
-                    host = host,
-                    username = user,
-                    password = password,
-                    sharedPath = shared,
-                    connectionType = connectionType,
-                    displayName = displayName,
-                    authentication = authentication,
-                    port = port
-                ), true
+                connection, true
             )
-        } else if (connectionType == ConnectionTypes.WebDav) {
-            if (protocol == Protocols.HTTPS) {
-                saveCertificate(certUri, host)
+        } else if (connection.connectionType == ConnectionTypes.WebDav) {
+            if (connection.protocols == Protocols.HTTPS) {
+                saveCertificate(certUri, connection.host)
             }
-            val url = Helpers.createProtocolPath(protocol, host, port, shared)
-            val network = NetworkConnection(
-                host = host,
-                username = user,
-                password = password,
-                connectionType = connectionType,
-                port = port,
-                displayName = displayName,
-                authentication = authentication,
-                url = url
-            )
-            viewModel.connectAndAuthenticateWebDav(network, protocol!!, true, this@CloudActivity)
-        } else if (connectionType == ConnectionTypes.SFTP) {
-            val network = NetworkConnection(
-                host = host,
-                username = user,
-                password = password,
-                connectionType = connectionType,
-                port = port,
-                displayName = displayName,
-                authentication = authentication,
-                privateKeyText = privateKeyText,
-                privateKeyPass = privateKeyPass
-            )
-            viewModel.connectSFTP(network, true)
-        } else if (connectionType == ConnectionTypes.FTP) {
+            val url = Helpers.createProtocolPath(connection.protocols, connection.host, connection.port, connection.sharedPath)
+            connection.url = url
+            viewModel.connectAndAuthenticateWebDav(connection, true, this@CloudActivity)
+        } else if (connection.connectionType == ConnectionTypes.SFTP) {
+            viewModel.connectSFTP(connection, true)
+        } else if (connection.connectionType == ConnectionTypes.FTP) {
             viewModel.connectFTP(
-                NetworkConnection(
-                    username = user,
-                    password = password,
-                    host = host,
-                    port = port,
-                    connectionType = ConnectionTypes.FTP,
-                    authentication = authentication,
-                    displayName = displayName,
-                ), true
+                connection, true
             )
         }
     }
@@ -248,14 +201,13 @@ class CloudActivity : SimpleActivity() {
             }
 
             ConnectionTypes.DAVx5 -> {
-                launchMainActivity(ConnectionTypes.DAVx5, item.sharedPath,item.displayName)
+                launchMainActivity(ConnectionTypes.DAVx5, item.sharedPath, item.displayName)
             }
 
             ConnectionTypes.WebDav -> {
                 val protocol = item.url.split(':')[0];
                 viewModel.connectAndAuthenticateWebDav(
                     item,
-                    Protocols.valueOf(protocol.uppercase(Locale.getDefault())),
                     false,
                     this@CloudActivity
 
@@ -275,7 +227,7 @@ class CloudActivity : SimpleActivity() {
     }
 
     private fun updateAdapter(listItems: MutableList<NetworkConnection>) {
-        ConnectionItemsAdapter(this, listItems, binding.connectionsList,::deleteConnection,::updateConnection) { item ->
+        ConnectionItemsAdapter(this, listItems, binding.connectionsList, ::deleteConnection, ::updateConnection) { item ->
             lifecycleScope.launch {
                 val itm = item as NetworkConnection
                 handleConnection(itm, itm.connectionType)
@@ -285,13 +237,13 @@ class CloudActivity : SimpleActivity() {
         }
     }
 
-    private fun deleteConnection(connection: NetworkConnection){
+    private fun deleteConnection(connection: NetworkConnection) {
         viewModel.deleteConnection(connection)
     }
 
-    private fun updateConnection(connection: NetworkConnection){
-        ConnectionDialog(this@CloudActivity,connection) { host, user, password, shared, displayName, certPath, privateKeyText, privateKeyPass, port, connection, protocol, auth ->
-            saveNetwork(host, user, password, shared, displayName, privateKeyText, privateKeyPass, certPath, port, connection, protocol, auth)
+    private fun updateConnection(connection: NetworkConnection) {
+        ConnectionDialog(this@CloudActivity, connection) { con, uri ->
+            saveNetwork(con, uri)
         }
     }
 
@@ -299,7 +251,7 @@ class CloudActivity : SimpleActivity() {
         val intent = Intent(this@CloudActivity, MainActivity::class.java).apply {
             putExtra(PATH, path)
             putExtra(CONNECTION_TYPE, connectionType)
-            if (name != ""){
+            if (name != "") {
                 putExtra(DAVX5_PATH_NAME, name)
             }
         }
@@ -353,28 +305,18 @@ class CloudActivity : SimpleActivity() {
                 viewModel.verifyWebDav.collectLatest {
                     if (it.success) {
                         if (!it.saveInfo) {
-                            val protocol = it.item.url.split(':')[0];
                             startServer(
                                 it.item,
                                 PORT_WEBDAV,
                                 connectionType = ConnectionTypes.WebDav,
                                 machinePort = it.item.port,
-                                Protocols.valueOf(protocol.uppercase(Locale.getDefault()))
+                                it.item.protocols!!
                             )
                             launchMainActivity(ConnectionTypes.WebDav, it.item.url)
                         } else {
+                            it.item.connectionType = connectionType
                             viewModel.insertUpdateConnection(
-                                NetworkConnection(
-                                    host = it.item.host,
-                                    username = it.item.username,
-                                    password = it.item.password,
-                                    sharedPath = it.item.sharedPath,
-                                    connectionType = connectionType,
-                                    displayName = it.item.displayName,
-                                    url = it.item.url,
-                                    port = it.item.port,
-                                    authentication = it.item.authentication
-                                )
+                                it.item
                             )
                         }
                     } else {
@@ -394,15 +336,7 @@ class CloudActivity : SimpleActivity() {
                             launchMainActivity(ConnectionTypes.SMB, path)
                         } else {
                             viewModel.insertUpdateConnection(
-                                NetworkConnection(
-                                    host = it.item.host,
-                                    username = it.item.username,
-                                    password = it.item.password,
-                                    connectionType = connectionType,
-                                    displayName = it.item.displayName,
-                                    sharedPath = it.item.sharedPath,
-                                    authentication = it.item.authentication
-                                )
+                                it.item
                             )
                         }
                     } else {
@@ -420,19 +354,9 @@ class CloudActivity : SimpleActivity() {
                             startServer(it.item, PORT_SFTP, connectionType = ConnectionTypes.SFTP, machinePort = it.item.port)
                             launchMainActivity(ConnectionTypes.SFTP, it.item.url)
                         } else {
+                            it.item.url = "/"
                             viewModel.insertUpdateConnection(
-                                NetworkConnection(
-                                    host = it.item.host,
-                                    username = it.item.username,
-                                    password = it.item.password,
-                                    connectionType = connectionType,
-                                    port = it.item.port,
-                                    displayName = it.item.displayName,
-                                    url = "/",
-                                    authentication = it.item.authentication,
-                                    privateKeyText = it.item.privateKeyText,
-                                    privateKeyPass = it.item.privateKeyPass
-                                )
+                                it.item
                             )
                         }
                     } else {
@@ -450,22 +374,14 @@ class CloudActivity : SimpleActivity() {
                             startServer(it.item, PORT_FTP, connectionType = ConnectionTypes.FTP, machinePort = it.item.port)
                             launchMainActivity(ConnectionTypes.FTP, it.item.url)
                         } else {
+                            it.item.url = "/"
                             viewModel.insertUpdateConnection(
-                                NetworkConnection(
-                                    host = it.item.host,
-                                    username = it.item.username,
-                                    password = it.item.password,
-                                    connectionType = connectionType,
-                                    port = it.item.port,
-                                    displayName = it.item.displayName,
-                                    url = "/",
-                                    authentication = it.item.authentication
-                                )
+                                it.item
+
                             )
                         }
                     } else {
                         it.exception?.let { exception ->
-                            toast(exception.message.toString())
                         }
                     }
                 }

@@ -9,7 +9,7 @@ import java.io.File
 import java.io.InputStream
 
 interface WebDavApi {
-    suspend fun connectAndVerifyWebDav(connection: NetworkConnection,protocols: Protocols, context: Context): Pair<Boolean, Exception?>
+    suspend fun connectAndVerifyWebDav(connection: NetworkConnection, context: Context): Pair<Boolean, Exception?>
 
     suspend fun listAllFilesOnWebDav(url: String): ApiResponse<List<DavResource>>
 

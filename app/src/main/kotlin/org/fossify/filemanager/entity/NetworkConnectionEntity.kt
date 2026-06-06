@@ -17,5 +17,6 @@ data class NetworkConnectionEntity(
     val url: String,
     val authentication: String,
     val privateKey: String = "",
-    val privateKeyPass: String = ""
+    val privateKeyPass: String = "",
+    val protocols: String? = null
 )

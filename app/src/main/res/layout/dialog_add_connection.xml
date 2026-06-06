@@ -72,6 +72,7 @@
                     android:id="@+id/host_tf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:errorTextColor="@color/md_red"
                     android:hint="Host">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -103,6 +104,7 @@
                     android:id="@+id/user_tf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:errorTextColor="@color/md_red"
                     android:hint="Username">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -117,6 +119,7 @@
                     android:id="@+id/password_tf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:errorTextColor="@color/md_red"
                     android:hint="Password">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -133,6 +136,7 @@
                     app:endIconMode="custom"
                     android:visibility="gone"
                     app:endIconDrawable="@drawable/baseline_insert_drive_file_24"
+                    app:errorTextColor="@color/md_red"
                     android:hint="Private Key">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -147,6 +151,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
+                    app:errorTextColor="@color/md_red"
                     android:hint="Password Private Key">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -160,6 +165,7 @@
                     android:id="@+id/display_tf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:errorTextColor="@color/md_red"
                     android:hint="Display Name">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -173,6 +179,7 @@
                     android:id="@+id/sharedPath_tf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:errorTextColor="@color/md_red"
                     android:hint="Shared Path">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -186,6 +193,7 @@
                     android:id="@+id/port_tf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:errorTextColor="@color/md_red"
                     android:hint="Port">
 
                     <com.google.android.material.textfield.TextInputEditText

@@ -9,6 +9,7 @@ import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.models.FileDirItem
 import org.fossify.filemanager.entity.NetworkConnectionEntity
 import org.fossify.filemanager.enums.Authentication
+import org.fossify.filemanager.enums.Protocols
 import org.fossify.filemanager.models.NetworkConnection
 
 fun NetworkConnectionEntity.toDomain(): NetworkConnection {
@@ -24,8 +25,8 @@ fun NetworkConnectionEntity.toDomain(): NetworkConnection {
         authentication = Authentication.valueOf(authentication),
         privateKeyText = privateKey,
         privateKeyPass = privateKeyPass,
-        id = id
-
+        id = id,
+        protocols = Protocols.valueOf(protocols ?: "")
     )
 }
 
@@ -42,7 +43,8 @@ fun NetworkConnection.toEntity(): NetworkConnectionEntity {
         authentication = authentication.toString(),
         privateKey = privateKeyText,
         privateKeyPass = privateKeyPass,
-        id = id
+        id = id,
+        protocols = protocols?.toString()
     )
 }
 

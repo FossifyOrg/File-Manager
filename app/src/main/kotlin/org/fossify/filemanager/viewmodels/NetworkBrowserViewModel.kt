@@ -115,9 +115,9 @@ class NetworkBrowserViewModel(
 
     fun getSFTPConn(): SFTPClient = sftpApi.getSFTPConn()
 
-    fun connectAndAuthenticateWebDav(connection: NetworkConnection, protocol: Protocols, saveInfo: Boolean, context: Context) {
+    fun connectAndAuthenticateWebDav(connection: NetworkConnection, saveInfo: Boolean, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = webDavApi.connectAndVerifyWebDav(connection, protocol, context)
+            val result = webDavApi.connectAndVerifyWebDav(connection, context)
             verifyWebDav.emit(ConnectionResult(connection, result.first, saveInfo,result.second))
         }
     }

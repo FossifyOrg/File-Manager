@@ -9,7 +9,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import org.fossify.commons.adapters.MyRecyclerViewAdapter
+import org.fossify.commons.dialogs.ConfirmationDialog
 import org.fossify.commons.views.MyRecyclerView
+import org.fossify.filemanager.R
 import org.fossify.filemanager.activities.SimpleActivity
 import org.fossify.filemanager.databinding.ItemDecompressionListFileDirBinding
 import org.fossify.filemanager.databinding.ItemNetworkConnectionBinding
@@ -82,7 +84,12 @@ class ConnectionItemsAdapter(
             tvType.text = listItem.connectionType.toString()
             tvDisplayName.text = listItem.displayName
             tvSharedPath.text = listItem.sharedPath
-            btnDelete.setOnClickListener { deleteClick(listItem) }
+            btnDelete.setOnClickListener {
+                val question = String.format(resources.getString(R.string.deletion_confirmation_connection),listItem.displayName)
+                ConfirmationDialog(activity, question) {
+                    deleteClick(listItem)
+                }
+            }
             btnEdit.setOnClickListener { updateConnection(listItem) }
         }
     }
