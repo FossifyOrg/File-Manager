@@ -46,7 +46,6 @@ import org.fossify.filemanager.adapters.ItemsAdapter
 import org.fossify.filemanager.databinding.ItemStorageVolumeBinding
 import org.fossify.filemanager.databinding.StorageFragmentBinding
 import org.fossify.filemanager.extensions.config
-import org.fossify.filemanager.extensions.formatSizeThousand
 import org.fossify.filemanager.extensions.getAllVolumeNames
 import org.fossify.filemanager.helpers.ARCHIVES
 import org.fossify.filemanager.helpers.AUDIO
@@ -65,8 +64,10 @@ import org.fossify.filemanager.interfaces.ItemOperationsListener
 import org.fossify.filemanager.models.ListItem
 import java.util.Locale
 
-class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerFragment<MyViewPagerFragment.StorageInnerBinding>(context, attributeSet),
-    ItemOperationsListener {
+class StorageFragment(
+    context: Context,
+    attributeSet: AttributeSet
+) : MyViewPagerFragment<MyViewPagerFragment.StorageInnerBinding>(context, attributeSet), ItemOperationsListener {
     private val SIZE_DIVIDER = 100000
     private var allDeviceListItems = ArrayList<ListItem>()
     private var lastSearchedText = ""
@@ -252,7 +253,8 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
         try {
             context.queryCursor(uri, projection) { cursor ->
                 try {
-                    val mimeType = cursor.getStringValue(MediaStore.Files.FileColumns.MIME_TYPE)?.lowercase(Locale.getDefault())
+                    val mimeType =
+                        cursor.getStringValue(MediaStore.Files.FileColumns.MIME_TYPE)?.lowercase(Locale.getDefault())
                     val size = cursor.getLongValue(MediaStore.Files.FileColumns.SIZE)
                     if (mimeType == null) {
                         if (size > 0 && size != 4096L) {
@@ -309,7 +311,8 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
             if (storageVolume.isPrimary) {
                 // internal storage
                 volumeName = PRIMARY_VOLUME_NAME
-                val storageStatsManager = context.getSystemService(AppCompatActivity.STORAGE_STATS_SERVICE) as StorageStatsManager
+                val storageStatsManager =
+                    context.getSystemService(AppCompatActivity.STORAGE_STATS_SERVICE) as StorageStatsManager
                 val uuid = StorageManager.UUID_DEFAULT
                 totalStorageSpace = storageStatsManager.getTotalBytes(uuid)
                 freeStorageSpace = storageStatsManager.getFreeBytes(uuid)
@@ -322,17 +325,24 @@ class StorageFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
             post {
                 volumes[volumeName]?.apply {
                     arrayOf(
-                        mainStorageUsageProgressbar, imagesProgressbar, videosProgressbar, audioProgressbar, documentsProgressbar,
-                        archivesProgressbar, othersProgressbar
+                        mainStorageUsageProgressbar,
+                        imagesProgressbar,
+                        videosProgressbar,
+                        audioProgressbar,
+                        documentsProgressbar,
+                        archivesProgressbar,
+                        othersProgressbar
                     ).forEach {
                         it.max = (totalStorageSpace / SIZE_DIVIDER).toInt()
                     }
 
-                    mainStorageUsageProgressbar.progress = ((totalStorageSpace - freeStorageSpace) / SIZE_DIVIDER).toInt()
+                    mainStorageUsageProgressbar.progress =
+                        ((totalStorageSpace - freeStorageSpace) / SIZE_DIVIDER).toInt()
 
                     mainStorageUsageProgressbar.beVisible()
-                    freeSpaceValue.text = freeStorageSpace.formatSizeThousand()
-                    totalSpace.text = String.format(context.getString(R.string.total_storage), totalStorageSpace.formatSizeThousand())
+                    freeSpaceValue.text = freeStorageSpace.formatSize()
+                    totalSpace.text =
+                        String.format(context.getString(R.string.total_storage), totalStorageSpace.formatSize())
                     freeSpaceLabel.beVisible()
                     getSizes(volumeName)
                 }

@@ -1,3 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="images">รูปภาพ</string>
+    <string name="videos">วิดีโอ</string>
+    <string name="audio">เสียง</string>
 </resources>

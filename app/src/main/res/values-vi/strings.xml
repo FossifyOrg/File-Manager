@@ -2,7 +2,7 @@
 <resources>
     <string name="images">Hình ảnh</string>
     <string name="home_folder_updated">Đã cập nhật thư mục chính</string>
-    <string name="app_launcher_name">Quản lý tập tin</string>
+    <string name="app_launcher_name">Quản lý tệp</string>
     <string name="recents">Gần đây</string>
     <string name="path_copied">Đã sao chép đường dẫn</string>
     <string name="rooted_device_only">Thao tác này chỉ hiệu quả trên các thiết bị đã root</string>
@@ -14,7 +14,7 @@
     <string name="decompression_successful">Giải nén thành công</string>
     <string name="compressing_failed">Không thể nén</string>
     <string name="decompressing_failed">Không thể giải nén</string>
-    <string name="manage_favorites">Mục yêu thích</string>
+    <string name="manage_favorites">Những mục yêu thích</string>
     <string name="go_to_favorite">Mục yêu thích</string>
     <string name="go_to_home_folder">Đến thư mục chính</string>
     <string name="set_as_home_folder">Đặt làm thư mục chính</string>
@@ -23,11 +23,11 @@
     <string name="documents">Tài liệu</string>
     <string name="downloads">Tải xuống</string>
     <string name="videos">Video</string>
-    <string name="archives">File nén</string>
+    <string name="archives">Tệp nén</string>
     <string name="others">Khác</string>
     <string name="press_back_again">Nhấn quay lại để thoát</string>
     <string name="search_folder">Tìm kiếm thư mục</string>
-    <string name="select_audio_file">Hãy chọn một file âm thanh</string>
+    <string name="select_audio_file">Hãy chọn một tệp âm thanh</string>
     <string name="copy_path">Sao chép đường dẫn</string>
     <string name="invert_colors">Đảo màu</string>
     <string name="show_recents">Hiển thị gần đây</string>
@@ -39,9 +39,9 @@
     <string name="decompressing">Đang giải nén…</string>
     <string name="compression_successful">Nén thành công</string>
     <string name="favorites_activity_placeholder">Bạn có thể thêm các thư mục thường xuyên sử dụng vào mục yêu thích để truy cập nhanh hơn.</string>
-    <string name="file_editor">Trình chỉnh sửa file</string>
+    <string name="file_editor">Trình chỉnh sửa tệp</string>
     <string name="storage_free">trống</string>
     <string name="total_storage">Tổng bộ nhớ: %s</string>
     <string name="enable_root_access">Cho phép truy cập root</string>
-    <string name="press_back_twice">Nhấn Quay lại hai lần để thoát ứng dụng</string>
+    <string name="press_back_twice">Nhấn đúp Quay lại để thoát ứng dụng</string>
 </resources>

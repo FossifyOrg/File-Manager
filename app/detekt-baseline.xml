@@ -96,12 +96,6 @@
     <ID>MaxLineLength:SaveAsActivity.kt$SaveAsActivity$FilePickerDialog</ID>
     <ID>MaxLineLength:SaveAsDialog.kt$SaveAsDialog$val title = String.format(activity.getString(R.string.file_already_exists_overwrite), newFilename)</ID>
     <ID>MaxLineLength:SettingsActivity.kt$SettingsActivity$settingsUseEnglishHolder.beVisibleIf((config.wasUseEnglishToggled || Locale.getDefault().language != "en") &amp;&amp; !isTiramisuPlus())</ID>
-    <ID>MaxLineLength:StorageFragment.kt$StorageFragment$class</ID>
-    <ID>MaxLineLength:StorageFragment.kt$StorageFragment$mainStorageUsageProgressbar</ID>
-    <ID>MaxLineLength:StorageFragment.kt$StorageFragment$mainStorageUsageProgressbar.progress = ((totalStorageSpace - freeStorageSpace) / SIZE_DIVIDER).toInt()</ID>
-    <ID>MaxLineLength:StorageFragment.kt$StorageFragment$totalSpace.text = String.format(context.getString(R.string.total_storage), totalStorageSpace.formatSizeThousand())</ID>
-    <ID>MaxLineLength:StorageFragment.kt$StorageFragment$val mimeType = cursor.getStringValue(MediaStore.Files.FileColumns.MIME_TYPE)?.lowercase(Locale.getDefault())</ID>
-    <ID>MaxLineLength:StorageFragment.kt$StorageFragment$val storageStatsManager = context.getSystemService(AppCompatActivity.STORAGE_STATS_SERVICE) as StorageStatsManager</ID>
     <ID>NestedBlockDepth:DecompressActivity.kt$DecompressActivity$private fun decompressTo(destination: String)</ID>
     <ID>NestedBlockDepth:ItemsAdapter.kt$ItemsAdapter$@SuppressLint("NewApi") private fun compressPaths( sourcePaths: List&lt;String&gt;, targetPath: String, password: String? = null ): Boolean</ID>
     <ID>NestedBlockDepth:ItemsAdapter.kt$ItemsAdapter$private fun decompressPaths( paths: List&lt;String&gt;, conflictResolutions: LinkedHashMap&lt;String, Int&gt;, callback: (success: Boolean) -&gt; Unit )</ID>

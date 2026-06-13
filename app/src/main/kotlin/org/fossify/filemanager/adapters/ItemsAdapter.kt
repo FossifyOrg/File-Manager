@@ -747,6 +747,8 @@ class ItemsAdapter(
         paths.forEach { path ->
             val zipInputStream =
                 ZipInputStream(BufferedInputStream(activity.getFileInputStreamSync(path)))
+
+            val foldersTimestamp = mutableListOf<Pair<File, LocalFileHeader>>()
             zipInputStream.use {
                 try {
                     var entry = zipInputStream.nextEntry
@@ -767,7 +769,7 @@ class ItemsAdapter(
                             if (activity.getIsPathDirectory(path)) {
                                 activity.deleteFolderBg(fileDirItem, false) {
                                     if (it) {
-                                        extractEntry(newPath, entry, zipInputStream)
+                                        extractEntry(newPath, entry, zipInputStream, foldersTimestamp)
                                     } else {
                                         callback(false)
                                     }
@@ -775,17 +777,20 @@ class ItemsAdapter(
                             } else {
                                 activity.deleteFileBg(fileDirItem, false, false) {
                                     if (it) {
-                                        extractEntry(newPath, entry, zipInputStream)
+                                        extractEntry(newPath, entry, zipInputStream, foldersTimestamp)
                                     } else {
                                         callback(false)
                                     }
                                 }
                             }
                         } else if (!doesPathExist) {
-                            extractEntry(newPath, entry, zipInputStream)
+                            extractEntry(newPath, entry, zipInputStream, foldersTimestamp)
                         }
 
                         entry = zipInputStream.nextEntry
+                    }
+                    for ((dir, header) in foldersTimestamp.asReversed()) {
+                        dir.setLastModified(header)
                     }
                     callback(true)
                 } catch (e: Exception) {
@@ -799,13 +804,16 @@ class ItemsAdapter(
     private fun extractEntry(
         newPath: String,
         entry: LocalFileHeader,
-        zipInputStream: ZipInputStream
+        zipInputStream: ZipInputStream,
+        foldersTimestamp: MutableList<Pair<File, LocalFileHeader>>
     ) {
         if (entry.isDirectory) {
             if (!activity.createDirectorySync(newPath) && !activity.getDoesFilePathExist(newPath)) {
                 val error =
                     String.format(activity.getString(R.string.could_not_create_file), newPath)
                 activity.showErrorToast(error)
+            } else {
+                foldersTimestamp.add(Pair(File(newPath), entry))
             }
         } else {
             val fos = activity.getFileOutputStreamSync(newPath, newPath.getMimeType())

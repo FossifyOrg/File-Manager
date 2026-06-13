@@ -2,4 +2,5 @@
 <resources>
     <string name="images">تصاویر</string>
     <string name="audio">صدا</string>
+    <string name="app_launcher_name">مدیریت فایل ها</string>
 </resources>

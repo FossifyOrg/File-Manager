@@ -38,7 +38,7 @@
     <string name="audio">שמע</string>
     <string name="documents">מסמכים</string>
     <string name="downloads">הורדות</string>
-    <string name="archives">ארכיון</string>
+    <string name="archives">ארכיונים</string>
     <string name="others">אחרים</string>
     <string name="storage_free">חופשי</string>
     <string name="total_storage">שטח אחסון כולל: %s</string>
