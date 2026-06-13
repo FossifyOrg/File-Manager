@@ -37,7 +37,7 @@ class WebDavApiImpl: WebDavApi {
             } else {
                 createHTTPSSardine(context,connection.host)
             }
-            sardine.setCredentials(connection.username, connection.password)
+            sardine.setCredentials(connection.username, connection.password, true)
             Pair(sardine.exists(connection.url),null)
         } catch (exp: Exception) {
             Pair(false,exp)

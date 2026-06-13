@@ -210,11 +210,11 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                         }
                     } else if (connectionType == ConnectionTypes.SFTP) {
                         it?.let { item ->
-                            FileHelpers.launchSFTP(connectionType, item.mPath, context = this@ItemsFragment.context)
+                            FileHelpers.launchSFTP(item.mPath, context = this@ItemsFragment.context)
                         }
                     } else if (connectionType == ConnectionTypes.FTP) {
                         it?.let { item ->
-                            FileHelpers.launchFTP(connectionType, item.mPath, context = this@ItemsFragment.context)
+                            FileHelpers.launchFTP( item.mPath, context = this@ItemsFragment.context)
                         }
                     } else {
                         itemClicked(it as FileDirItem, connectionType)
@@ -866,11 +866,11 @@ class ItemsFragment(context: Context, attributeSet: AttributeSet) : MyViewPagerF
                 }
 
                 ConnectionTypes.SFTP -> {
-                    FileHelpers.launchSFTP(connectionType, path, context, mimType)
+                    FileHelpers.launchSFTP( path, context, mimType)
                 }
 
                 ConnectionTypes.FTP -> {
-                    FileHelpers.launchFTP(connectionType, path, context, mimType)
+                    FileHelpers.launchFTP( path, context, mimType)
                 }
 
                 else -> Unit

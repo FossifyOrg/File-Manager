@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import net.schmizz.sshj.sftp.RemoteResourceInfo
 import net.schmizz.sshj.sftp.SFTPClient
 import org.apache.commons.net.ftp.FTPFile
-import org.fossify.filemanager.enums.Protocols
 import org.fossify.filemanager.interfaces.FTPApi
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryDb
 import org.fossify.filemanager.interfaces.SFTPApi
@@ -32,7 +31,13 @@ class NetworkBrowserViewModel(
     private val smbApi: SMBApi
 ) : ViewModel() {
 
+
+
+    val addConnection = MutableSharedFlow<ApiResponse<Boolean>>()
+    val updateConnection = MutableSharedFlow<ApiResponse<Boolean>>()
+    val deleteConnection = MutableSharedFlow<ApiResponse<Boolean>>()
     val savedNetworks = MutableStateFlow<List<NetworkConnection>>(emptyList())
+
     val verifyNetwork = MutableSharedFlow<ConnectionResult>()
     val smbFolderOrFile = MutableSharedFlow<ApiResponse<Boolean>>()
     val smbDelete = MutableSharedFlow<ApiResponse<Boolean>>()
@@ -61,9 +66,15 @@ class NetworkBrowserViewModel(
 
 
 
-    fun insertUpdateConnection(networkConnection: NetworkConnection) {
+    fun updateConnection(networkConnection: NetworkConnection) {
         viewModelScope.launch(Dispatchers.IO) {
-            networkConnectionRepository.insertUpdateConnection(networkConnection)
+          updateConnection.emit(networkConnectionRepository.updateConnection(networkConnection))
+        }
+    }
+
+    fun addConnection(networkConnection: NetworkConnection){
+        viewModelScope.launch(Dispatchers.IO) {
+            addConnection.emit(networkConnectionRepository.addConnection(networkConnection))
         }
     }
 
@@ -77,14 +88,14 @@ class NetworkBrowserViewModel(
 
     fun deleteConnection(connection: NetworkConnection){
         viewModelScope.launch(Dispatchers.IO) {
-            networkConnectionRepository.deleteConnection(connection)
+           deleteConnection.emit(networkConnectionRepository.deleteConnection(connection))
         }
     }
 
-    fun verifyNetwork(connection: NetworkConnection, saveInfo: Boolean) {
+    fun verifySMBNetwork(connection: NetworkConnection, saveInfo: Boolean, isAddOperation: Boolean = true) {
         viewModelScope.launch(Dispatchers.IO) {
             val value = smbApi.verifyConnection(connection)
-            verifyNetwork.emit(ConnectionResult(connection, value.first, saveInfo = saveInfo,value.second))
+            verifyNetwork.emit(ConnectionResult(connection, value.first, saveInfo = saveInfo,isAddOperation,value.second))
         }
     }
 
@@ -115,10 +126,10 @@ class NetworkBrowserViewModel(
 
     fun getSFTPConn(): SFTPClient = sftpApi.getSFTPConn()
 
-    fun connectAndAuthenticateWebDav(connection: NetworkConnection, saveInfo: Boolean, context: Context) {
+    fun connectAndAuthenticateWebDav(connection: NetworkConnection, saveInfo: Boolean, context: Context,isAddOperation: Boolean = true) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = webDavApi.connectAndVerifyWebDav(connection, context)
-            verifyWebDav.emit(ConnectionResult(connection, result.first, saveInfo,result.second))
+            verifyWebDav.emit(ConnectionResult(connection, result.first, saveInfo,isAddOperation,result.second))
         }
     }
 
@@ -154,10 +165,10 @@ class NetworkBrowserViewModel(
 //        return webDavApi.listWebDavFileDetail(url)
 //    }
 
-    fun connectSFTP(connection: NetworkConnection, saveInfo: Boolean) {
+    fun connectSFTP(connection: NetworkConnection, saveInfo: Boolean,isAddOperation: Boolean = true) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = sftpApi.connectToSftp(connection)
-            verifySFTP.emit(ConnectionResult(connection, res.first, saveInfo,res.second))
+            verifySFTP.emit(ConnectionResult(connection, res.first, saveInfo,isAddOperation,res.second))
         }
     }
 
@@ -201,10 +212,10 @@ class NetworkBrowserViewModel(
 //        return sftpApi.getSFTPFileInputStream(url = path, startByte)
 //    }
 
-    fun connectFTP(connection: NetworkConnection, saveInfo: Boolean) {
+    fun connectFTP(connection: NetworkConnection, saveInfo: Boolean,isAddOperation: Boolean = true) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = ftpApi.connectToFTP(connection)
-            verifyFTP.emit(ConnectionResult(connection, res.first, saveInfo,res.second))
+            verifyFTP.emit(ConnectionResult(connection, res.first, saveInfo,isAddOperation,res.second))
         }
     }
 

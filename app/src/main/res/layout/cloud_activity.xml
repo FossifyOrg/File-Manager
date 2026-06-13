@@ -44,6 +44,16 @@
             android:scrollbars="none"
             app:layoutManager="org.fossify.commons.views.MyLinearLayoutManager" />
 
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="No connections found"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:visibility="gone" />
+
+
         <ProgressBar
             android:id="@+id/loader"
             android:layout_width="wrap_content"
@@ -52,5 +62,7 @@
             android:visibility="gone" />
 
     </RelativeLayout>
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

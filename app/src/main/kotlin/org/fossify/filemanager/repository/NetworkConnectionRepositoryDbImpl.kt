@@ -6,18 +6,39 @@ import org.fossify.filemanager.dao.NetworkConnectionDao
 import org.fossify.filemanager.interfaces.NetworkConnectionRepositoryDb
 import org.fossify.filemanager.mapper.toDomain
 import org.fossify.filemanager.mapper.toEntity
+import org.fossify.filemanager.models.ApiResponse
 import org.fossify.filemanager.models.NetworkConnection
 
-class NetworkConnectionRepositoryDbImpl(private val dao: NetworkConnectionDao): NetworkConnectionRepositoryDb {
-    override suspend fun insertUpdateConnection(connection: NetworkConnection): Long {
-       return dao.insertUpdateConnection(connection.toEntity())
+class NetworkConnectionRepositoryDbImpl(private val dao: NetworkConnectionDao) : NetworkConnectionRepositoryDb {
+    override suspend fun updateConnection(connection: NetworkConnection): ApiResponse<Boolean> {
+        return try {
+            dao.updateConnection(connection.toEntity())
+            ApiResponse(true, null)
+        } catch (exp: Exception) {
+            ApiResponse(false, exp)
+        }
     }
 
-    override suspend fun getAllSavedConnections(): Flow<List<NetworkConnection>> {
+    override fun getAllSavedConnections(): Flow<List<NetworkConnection>> {
         return dao.getAll().map { value -> value.map { entity -> entity.toDomain() } }
     }
 
-    override suspend fun deleteConnection(connection: NetworkConnection) {
-        dao.delete(connection.toEntity())
+    override suspend fun deleteConnection(connection: NetworkConnection): ApiResponse<Boolean> {
+        return try {
+            dao.delete(connection.toEntity())
+            ApiResponse(true, null)
+        } catch (exp: Exception) {
+            ApiResponse(false, exp)
+        }
+
+    }
+
+    override suspend fun addConnection(connection: NetworkConnection): ApiResponse<Boolean> {
+        return try {
+            dao.addConnection(connection.toEntity())
+            ApiResponse(true, null)
+        } catch (exp: Exception) {
+            ApiResponse(false, exp)
+        }
     }
 }

@@ -3,6 +3,7 @@ package org.fossify.filemanager.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
@@ -13,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
 import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.extensions.viewBinding
 import org.fossify.commons.helpers.NavigationIcon
@@ -32,14 +32,12 @@ import java.security.Security
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.fossify.commons.extensions.toast
 import org.fossify.filemanager.dependencies.AppComposition
-import org.fossify.filemanager.enums.Authentication
 import org.fossify.filemanager.enums.Protocols
 import org.fossify.filemanager.helpers.DAVX5_PATH_NAME
 import org.fossify.filemanager.helpers.Helpers
 import org.fossify.filemanager.helpers.PORT_FTP
 import org.fossify.filemanager.interfaces.CertificateRepository
 import java.security.Provider
-import java.util.Locale
 
 
 class CloudActivity : SimpleActivity() {
@@ -102,7 +100,7 @@ class CloudActivity : SimpleActivity() {
                 val storage = DocumentFile.fromTreeUri(this, it)
                 storage?.let { s ->
                     if (s.name != null && it.path != null) {
-                        viewModel.insertUpdateConnection(
+                        viewModel.updateConnection(
                             NetworkConnection(
                                 displayName = s.name!!,
                                 sharedPath = s.uri.toString(),
@@ -147,7 +145,7 @@ class CloudActivity : SimpleActivity() {
 
     private fun showConnectionDialog() {
         ConnectionDialog(this@CloudActivity) { connection, certUri ->
-            saveNetwork(connection, certUri)
+            saveNetwork(connection, certUri, isAddOperation = true)
         }
     }
 
@@ -160,38 +158,61 @@ class CloudActivity : SimpleActivity() {
 
     private fun saveNetwork(
         connection: NetworkConnection,
-        certUri: Uri?
+        certUri: Uri?,
+        isAddOperation: Boolean = true
     ) {
         if (connection.connectionType == ConnectionTypes.SMB) {
-            viewModel.verifyNetwork(
-                connection, true
-            )
+            viewModel.verifySMBNetwork(connection, true, isAddOperation)
         } else if (connection.connectionType == ConnectionTypes.WebDav) {
             if (connection.protocols == Protocols.HTTPS) {
                 saveCertificate(certUri, connection.host)
             }
             val url = Helpers.createProtocolPath(connection.protocols, connection.host, connection.port, connection.sharedPath)
             connection.url = url
-            viewModel.connectAndAuthenticateWebDav(connection, true, this@CloudActivity)
+            viewModel.connectAndAuthenticateWebDav(connection, true, this@CloudActivity, isAddOperation)
         } else if (connection.connectionType == ConnectionTypes.SFTP) {
-            viewModel.connectSFTP(connection, true)
+            viewModel.connectSFTP(connection, true, isAddOperation)
         } else if (connection.connectionType == ConnectionTypes.FTP) {
-            viewModel.connectFTP(
-                connection, true
-            )
+            viewModel.connectFTP(connection, true, isAddOperation)
         }
     }
 
     private fun getAllSavedNetworks() {
         viewModel.getAllSavedNetworks()
-        collectSavedNetworks()
+        collectDbCalls()
     }
 
-    private fun collectSavedNetworks() {
+    private fun collectDbCalls() {
         lifecycleScope.launch {
-            viewModel.savedNetworks.collectLatest {
-                if (it.isNotEmpty())
-                    updateAdapter(it.toMutableList())
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.savedNetworks.collectLatest {
+                        if (it.isNotEmpty()) {
+                            binding.emptyView.visibility = View.GONE
+                            updateAdapter(it.toMutableList())
+                        }
+                        else {
+                            binding.emptyView.visibility = View.VISIBLE
+                            updateAdapter(mutableListOf())
+                        }
+
+                    }
+                }
+                launch {
+                    viewModel.addConnection.collectLatest {
+                        it.exception?.let { exp -> toast(exp.message.toString()) }
+                    }
+                }
+                launch {
+                    viewModel.deleteConnection.collectLatest {
+                        it.exception?.let { exp -> toast(exp.message.toString()) }
+                    }
+                }
+                launch {
+                    viewModel.updateConnection.collectLatest {
+                        it.exception?.let { exp -> toast(exp.message.toString()) }
+                    }
+                }
             }
         }
     }
@@ -199,7 +220,7 @@ class CloudActivity : SimpleActivity() {
     private fun handleConnection(item: NetworkConnection, connectionType: ConnectionTypes) {
         when (connectionType) {
             ConnectionTypes.SMB -> {
-                viewModel.verifyNetwork(item, false)
+                viewModel.verifySMBNetwork(item, false)
             }
 
             ConnectionTypes.DAVx5 -> {
@@ -248,7 +269,7 @@ class CloudActivity : SimpleActivity() {
 
     private fun updateConnection(connection: NetworkConnection) {
         ConnectionDialog(this@CloudActivity, connection) { con, uri ->
-            saveNetwork(con, uri)
+            saveNetwork(con, uri, isAddOperation = false)
         }
     }
 
@@ -320,9 +341,13 @@ class CloudActivity : SimpleActivity() {
                             launchMainActivity(ConnectionTypes.WebDav, it.item.url)
                         } else {
                             it.item.connectionType = connectionType
-                            viewModel.insertUpdateConnection(
-                                it.item
-                            )
+                            if (it.isAddCallOperation) {
+                                viewModel.addConnection(it.item)
+                            } else {
+                                viewModel.updateConnection(
+                                    it.item
+                                )
+                            }
                         }
                     } else {
                         it.exception?.let { exception ->
@@ -341,9 +366,14 @@ class CloudActivity : SimpleActivity() {
                             startServer(it.item, connectionType = ConnectionTypes.SMB, machinePort = it.item.port)
                             launchMainActivity(ConnectionTypes.SMB, path)
                         } else {
-                            viewModel.insertUpdateConnection(
-                                it.item
-                            )
+                            it.item.connectionType = connectionType
+                            if (it.isAddCallOperation) {
+                                viewModel.addConnection(it.item)
+                            } else {
+                                viewModel.updateConnection(
+                                    it.item
+                                )
+                            }
                         }
                     } else {
                         it.exception?.let { exception ->
@@ -362,9 +392,13 @@ class CloudActivity : SimpleActivity() {
                             launchMainActivity(ConnectionTypes.SFTP, it.item.url)
                         } else {
                             it.item.url = "/"
-                            viewModel.insertUpdateConnection(
-                                it.item
-                            )
+                            if (it.isAddCallOperation) {
+                                viewModel.addConnection(it.item)
+                            } else {
+                                viewModel.updateConnection(
+                                    it.item
+                                )
+                            }
                         }
                     } else {
                         it.exception?.let { exception ->
@@ -383,10 +417,13 @@ class CloudActivity : SimpleActivity() {
                             launchMainActivity(ConnectionTypes.FTP, it.item.url)
                         } else {
                             it.item.url = "/"
-                            viewModel.insertUpdateConnection(
-                                it.item
-
-                            )
+                            if (it.isAddCallOperation) {
+                                viewModel.addConnection(it.item)
+                            } else {
+                                viewModel.updateConnection(
+                                    it.item
+                                )
+                            }
                         }
                     } else {
                         it.exception?.let { exception ->

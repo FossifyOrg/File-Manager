@@ -2,7 +2,6 @@ package org.fossify.filemanager.fileSystems
 
 import fi.iki.elonen.NanoHTTPD
 
-import jcifs.smb.SmbFile
 import jcifs.smb.SmbFileInputStream
 import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.filemanager.dependencies.AppComposition
@@ -35,7 +34,7 @@ class HttpServer(
     }
 
     private fun handleSmb(uri: String, rangeHeader: String?): Response {
-        val url = Helpers. createNanoHttpdUrl(connectionType, uri, server = serverIp, port = machinePort, protocols = protocol)
+        val url = Helpers. createProtocolUrl(connectionType, uri, server = serverIp, port = machinePort, protocols = protocol)
         val file = composition.smbApiRepository.getSmbFile(url).response
         if (file == null) return notFound()
         if (!file.exists()) return notFound()
@@ -56,8 +55,7 @@ class HttpServer(
 
     private fun handleWebDav(uri: String, rangeHeader: String?): Response {
 
-//        val extractedPath = Helpers.retrievePath(uri)
-        val url = Helpers. createNanoHttpdUrl(connectionType, uri, server = serverIp, port = machinePort, protocols = protocol)
+        val url = Helpers. createProtocolUrl(connectionType, uri, server = serverIp, port = machinePort, protocols = protocol)
 
         val apiResponse = composition.webDavApiRepository.listWebDavFileDetail(url)
         return handleResponse(apiResponse) {
@@ -148,7 +146,7 @@ class HttpServer(
     }
 
     private fun buildUrl(path: String) =
-        Helpers.createNanoHttpdUrl(connectionType, server = serverIp, path = path, port = machinePort, protocols = protocol)
+        Helpers.createProtocolUrl(connectionType, server = serverIp, path = path, port = machinePort, protocols = protocol)
 
 
     private fun notFound() =
