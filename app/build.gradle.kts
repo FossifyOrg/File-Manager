@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.android)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.detekt)
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
 }
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -139,7 +139,6 @@ detekt {
 }
 
 dependencies {
-    api(project(":commons"))
     implementation(libs.androidx.documentfile)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.roottools)
@@ -147,24 +146,29 @@ dependencies {
     implementation(libs.gestureviews)
     implementation(libs.autofittextview)
     implementation(libs.zip4j)
-    implementation(libs.jcifs.ng){
+    implementation(libs.fossify.commons)
+    implementation(libs.androidx.documentfile)
+    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.roottools)
+    implementation(libs.rootshell)
+    implementation(libs.gestureviews)
+    implementation(libs.autofittextview)
+    implementation(libs.zip4j)
+    implementation(libs.jcifs.ng) {
         exclude(group = "org.bouncycastle", module = "bcprov-jdk18on")
         exclude(group = "org.bouncycastle", module = "bcpkix-jdk18on")
     }
     detektPlugins(libs.compose.detekt)
-
-    val roomVersion = "2.7.0-alpha11"
-    implementation("androidx.room:room-runtime:$roomVersion")
-    ksp("androidx.room:room-compiler:$roomVersion")
-    implementation (libs.androidx.room.ktx)
-    implementation("org.nanohttpd:nanohttpd:2.3.1")
-    implementation("com.github.thegrizzlylabs:sardine-android:0.9")
-    implementation("com.hierynomus:sshj:0.40.0") {
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.nanohttpd)
+    implementation(libs.sardine.android)
+    implementation(libs.sshj) {
         exclude(group = "org.bouncycastle", module = "bcprov-jdk18on")
         exclude(group = "org.bouncycastle", module = "bcpkix-jdk18on")
     }
-    val bouncy_castle_version = "1.81"
-    implementation("org.bouncycastle:bcprov-jdk15to18:$bouncy_castle_version")
-    implementation("org.bouncycastle:bcpkix-jdk15to18:${bouncy_castle_version}")
-    implementation("commons-net:commons-net:3.10.0")
+    implementation(libs.commons.net)
+    implementation(libs.bouncycastle.provider)
+    implementation(libs.bouncycastle.pkix)
 }

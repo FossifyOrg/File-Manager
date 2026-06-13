@@ -82,5 +82,21 @@
     <string name="host_address">Host: 192.168.1.1</string>
     <string name="smb">SMB</string>
 
+    <!-- Connection Ports -->
+    <string name="port_smb">445</string>
+    <string name="port_ftp">21</string>
+    <string name="port_sftp">22</string>
+    <string name="port_webdav_http">80</string>
+    <string name="port_webdav_https">443</string>
+
+    <string name="host_name_error">Host name cannot be empty</string>
+    <string name="user_name_error">User name cannot be empty</string>
+    <string name="password_error">Password cannot be empty</string>
+    <string name="port_error">Port cannot be empty</string>
+    <string name="display_name_error">Display name cannot be empty</string>
+    <string name="shared_path_error">Shared path cannot be empty</string>
+    <string name="private_key_error">Private key cannot be empty</string>
+    <string name="private_key_pass_error">Private key password cannot be empty</string>
+
 
 </resources>
