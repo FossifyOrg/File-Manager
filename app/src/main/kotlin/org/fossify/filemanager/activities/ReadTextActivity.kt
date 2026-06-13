@@ -158,7 +158,7 @@ class ReadTextActivity : SimpleActivity() {
 
     private fun openSearch() {
         isSearchActive = true
-//        binding.searchWrapper.beVisible()
+        binding.searchWrapper.beVisible()
         showKeyboard(searchQueryET)
 
         binding.readTextView.requestFocus()
@@ -354,7 +354,7 @@ class ReadTextActivity : SimpleActivity() {
             false
         })
 
-//        binding.searchWrapper.setBackgroundColor(getProperPrimaryColor())
+        binding.searchWrapper.setBackgroundColor(getProperPrimaryColor())
         val contrastColor = getProperPrimaryColor().getContrastColor()
         arrayListOf(searchPrevBtn, searchNextBtn, searchClearBtn).forEach {
             it.applyColorFilter(contrastColor)
@@ -402,7 +402,7 @@ class ReadTextActivity : SimpleActivity() {
     private fun closeSearch() {
         searchQueryET.text?.clear()
         isSearchActive = false
-//        binding.searchWrapper.beGone()
+        binding.searchWrapper.beGone()
         hideKeyboard()
     }
 

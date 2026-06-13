@@ -17,14 +17,14 @@ const val PORT_SFTP = 7860
 
 const val PORT_FTP = 7850
 
-const val PORT_WEBDAV_MOUNT = 7840
-
 
 const val DEFAULT_SMB_PORT = 445
 const val DEFAULT_FTP_PORT = 21
 const val DEFAULT_SFTP_PORT = 22
 const val DEFAULT_WEBDAV_HTTP_PORT = 80
 const val DEFAULT_WEBDAV_HTTPS_PORT = 443
+
+const val DB_NAME = "app-db"
 
 
 // shared preferences

@@ -15,14 +15,14 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/color_primary"
-            app:title="Cloud Connection"
+            app:title="@string/cloud_connection"
             app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Connection"
+            android:text="@string/add_connection"
             app:icon="@drawable/ic_plus_vector"
             app:iconGravity="textStart"
             android:layout_margin="8dp"/>
@@ -49,10 +49,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="No connections found"
+            android:text="@string/no_connection"
             android:textAppearance="?android:textAppearanceMedium"
             android:visibility="gone" />
-
 
         <ProgressBar
             android:id="@+id/loader"

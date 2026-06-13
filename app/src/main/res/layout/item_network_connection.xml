@@ -23,7 +23,7 @@
                 android:id="@+id/tvDisplayName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Display Name"
+                android:text="@string/display_name"
                 android:textAppearance="?attr/textAppearanceHeadline6"/>
 
             <TextView
@@ -31,13 +31,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Host: 192.168.1.1"/>
+                android:text="@string/host_address"/>
 
             <TextView
                 android:id="@+id/tvType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SMB"
+                android:text="@string/smb"
                 android:layout_marginTop="2dp"
                 android:textStyle="italic"/>
 
@@ -45,7 +45,7 @@
                 android:id="@+id/tvSharedPath"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Shared Path: /Shared"
+                android:text="@string/shared_path"
                 android:layout_marginTop="2dp"/>
 
         </LinearLayout>

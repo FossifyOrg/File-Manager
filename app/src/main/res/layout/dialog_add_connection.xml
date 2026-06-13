@@ -29,7 +29,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Select Option">
+                android:hint="@string/select_option">
 
                 <AutoCompleteTextView
                     android:id="@+id/dropdownMenu"
@@ -54,7 +54,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Select Protocol"
+                    android:hint="@string/select_protocol"
                     android:visibility="gone">
 
                     <AutoCompleteTextView
@@ -87,7 +87,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Authentication"
+                    android:hint="@string/authentication"
                     >
 
                     <AutoCompleteTextView
@@ -105,7 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:errorTextColor="@color/md_red"
-                    android:hint="Username">
+                    android:hint="@string/username">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/user_et"
@@ -120,7 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:errorTextColor="@color/md_red"
-                    android:hint="Password">
+                    android:hint="@string/password">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password_et"
@@ -137,7 +137,7 @@
                     android:visibility="gone"
                     app:endIconDrawable="@drawable/baseline_insert_drive_file_24"
                     app:errorTextColor="@color/md_red"
-                    android:hint="Private Key">
+                    android:hint="@string/private_key">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/privateKey_et"
@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     app:errorTextColor="@color/md_red"
-                    android:hint="Password Private Key">
+                    android:hint="@string/password_private_key">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/privateKeyPass_et"
@@ -166,7 +166,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:errorTextColor="@color/md_red"
-                    android:hint="Display Name">
+                    android:hint="@string/display_name">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/display_et"
@@ -180,7 +180,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:errorTextColor="@color/md_red"
-                    android:hint="Shared Path">
+                    android:hint="@string/shared_path">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/sharedPath_et"
@@ -221,7 +221,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="No certificate attached"
+                android:text="@string/no_certificate_attached"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -230,7 +230,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Attach certificate"
+                android:contentDescription="@string/attach_certificate"
                 android:padding="@dimen/medium_margin"
                 android:src="@drawable/baseline_attach_file_24" />
 

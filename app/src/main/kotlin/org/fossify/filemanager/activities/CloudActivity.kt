@@ -50,17 +50,6 @@ class CloudActivity : SimpleActivity() {
     private lateinit var composition: AppComposition
     private var https: HttpServer? = null
     private var isConnecting: Boolean = false
-    private fun setupBouncyCastle() {
-        val provider: Provider? = Security.getProvider(BouncyCastleProvider.PROVIDER_NAME)
-        if (provider == null) {
-            return
-        }
-        if (provider.javaClass.equals(BouncyCastleProvider::class.java)) {
-            return
-        }
-        Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
-        Security.insertProviderAt(BouncyCastleProvider(), 1)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +61,6 @@ class CloudActivity : SimpleActivity() {
         registerAddConnectionListener()
         initializeCompositionAndViewModel()
         startConnectionsCollection()
-        setupBouncyCastle()
         getAllSavedNetworks()
     }
 

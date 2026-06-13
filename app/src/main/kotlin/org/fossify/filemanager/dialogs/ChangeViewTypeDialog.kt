@@ -25,7 +25,7 @@ class ChangeViewTypeDialog(val activity: BaseSimpleActivity, val path: String = 
 
             changeViewTypeDialogRadio.check(viewToCheck)
             if (!showFolderCheck) {
-//                useForThisFolderDivider.beGone()
+                useForThisFolderDivider.beGone()
                 changeViewTypeDialogUseForThisFolder.beGone()
             }
 
