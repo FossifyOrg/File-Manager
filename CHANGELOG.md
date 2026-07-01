@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.6.2] - 2026-07-01
+### Changed
+- Updated translations
+
 ### Fixed
 - Fixed the modification of the original timestamp when decompressing folders ([#190])
 
@@ -130,13 +135,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#149]: https://github.com/FossifyOrg/File-Manager/issues/149
 [#150]: https://github.com/FossifyOrg/File-Manager/issues/150
 [#176]: https://github.com/FossifyOrg/File-Manager/issues/176
+[#190]: https://github.com/FossifyOrg/File-Manager/issues/190
 [#217]: https://github.com/FossifyOrg/File-Manager/issues/217
 [#224]: https://github.com/FossifyOrg/File-Manager/issues/224
 [#250]: https://github.com/FossifyOrg/File-Manager/issues/250
 [#251]: https://github.com/FossifyOrg/File-Manager/issues/251
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
 
-[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.6.1...HEAD
+[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.6.2...HEAD
+[1.6.2]: https://github.com/FossifyOrg/File-Manager/compare/1.6.1...1.6.2
 [1.6.1]: https://github.com/FossifyOrg/File-Manager/compare/1.6.0...1.6.1
 [1.6.0]: https://github.com/FossifyOrg/File-Manager/compare/1.5.0...1.6.0
 [1.5.0]: https://github.com/FossifyOrg/File-Manager/compare/1.4.0...1.5.0
