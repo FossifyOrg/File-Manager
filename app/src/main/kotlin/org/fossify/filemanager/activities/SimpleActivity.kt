@@ -81,9 +81,13 @@ open class SimpleActivity : BaseSimpleActivity() {
                             startActivityForResult(intent, MANAGE_STORAGE_RC)
                         } catch (e: android.content.ActivityNotFoundException) {
                             showErrorToast(e)
-                            val intent = Intent()
-                            intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
-                            startActivityForResult(intent, MANAGE_STORAGE_RC)
+                            try {
+                                val intent = Intent()
+                                intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+                                startActivityForResult(intent, MANAGE_STORAGE_RC)
+                            } catch (_: Exception) {
+                                finish()
+                            }
                         } catch (e: SecurityException) {
                             showErrorToast(e)
                             finish()

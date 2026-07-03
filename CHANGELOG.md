@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Fixed the modification of the original timestamp when decompressing folders ([#190])
+- Fixed a crash when requesting storage access on devices without an all-files-access settings screen (e.g. Android TV) ([#295])
 
 ## [1.6.1] - 2026-02-14
 ### Changed
@@ -135,6 +136,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#250]: https://github.com/FossifyOrg/File-Manager/issues/250
 [#251]: https://github.com/FossifyOrg/File-Manager/issues/251
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
+[#295]: https://github.com/FossifyOrg/File-Manager/issues/295
 
 [Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.6.1...HEAD
 [1.6.1]: https://github.com/FossifyOrg/File-Manager/compare/1.6.0...1.6.1
