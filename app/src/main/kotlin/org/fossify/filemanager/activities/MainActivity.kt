@@ -153,6 +153,11 @@ class MainActivity : SimpleActivity() {
         if (binding.mainViewPager.adapter == null) {
             initFragments()
         }
+
+        DecompressActivity.extractedFolderPath?.let { path ->
+            DecompressActivity.extractedFolderPath = null
+            openPath(path, true)
+        }
     }
 
     override fun onPause() {

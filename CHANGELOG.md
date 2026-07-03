@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Fixed the modification of the original timestamp when decompressing folders ([#190])
+- Fixed the Files tab not refreshing after decompressing a ZIP archive from the file preview screen ([#194])
 
 ## [1.6.1] - 2026-02-14
 ### Changed
@@ -130,6 +131,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#149]: https://github.com/FossifyOrg/File-Manager/issues/149
 [#150]: https://github.com/FossifyOrg/File-Manager/issues/150
 [#176]: https://github.com/FossifyOrg/File-Manager/issues/176
+[#194]: https://github.com/FossifyOrg/File-Manager/issues/194
 [#217]: https://github.com/FossifyOrg/File-Manager/issues/217
 [#224]: https://github.com/FossifyOrg/File-Manager/issues/224
 [#250]: https://github.com/FossifyOrg/File-Manager/issues/250

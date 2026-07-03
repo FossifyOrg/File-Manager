@@ -34,6 +34,9 @@ import java.io.File
 class DecompressActivity : SimpleActivity() {
     companion object {
         private const val PASSWORD = "password"
+
+        // set on successful extraction so MainActivity can open the extracted folder on resume
+        var extractedFolderPath: String? = null
     }
 
     private val binding by viewBinding(ActivityDecompressBinding::inflate)
@@ -202,8 +205,12 @@ class DecompressActivity : SimpleActivity() {
                 for ((outputFile, entry) in foldersTimestamp.asReversed()) {
                     outputFile.setLastModified(entry)
                 }
-                toast(R.string.decompression_successful)
-                finish()
+                val extractedFolder = "$destination/${filename.substringBeforeLast(".")}"
+                runOnUiThread {
+                    toast(R.string.decompression_successful)
+                    extractedFolderPath = extractedFolder
+                    finish()
+                }
             }
         } catch (e: Exception) {
             showErrorToast(e)
