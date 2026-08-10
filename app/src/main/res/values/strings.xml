@@ -40,6 +40,7 @@
 
     <!-- File Editor -->
     <string name="file_editor">File Editor</string>
+    <string name="file_too_large">File too large, the limit is 1MB</string>
 
     <!-- Storage analysis -->
     <string name="storage_analysis">Storage analysis</string>
