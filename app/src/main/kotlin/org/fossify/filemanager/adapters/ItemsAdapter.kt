@@ -53,7 +53,7 @@ import org.fossify.commons.extensions.deleteFile
 import org.fossify.commons.extensions.deleteFileBg
 import org.fossify.commons.extensions.deleteFolderBg
 import org.fossify.commons.extensions.formatDate
-import org.fossify.commons.extensions.formatSize
+import org.fossify.filemanager.extensions.formatSize
 import org.fossify.commons.extensions.getAndroidSAFFileItems
 import org.fossify.commons.extensions.getAndroidSAFUri
 import org.fossify.commons.extensions.getColoredDrawableWithColor

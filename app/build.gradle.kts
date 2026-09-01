@@ -146,4 +146,7 @@ dependencies {
     implementation(libs.autofittextview)
     implementation(libs.zip4j)
     detektPlugins(libs.compose.detekt)
+    
+    // Unit testing
+    testImplementation("junit:junit:4.13.2")
 }

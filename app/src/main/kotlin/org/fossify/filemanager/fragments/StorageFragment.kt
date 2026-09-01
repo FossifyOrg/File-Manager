@@ -22,8 +22,8 @@ import org.fossify.commons.extensions.beGone
 import org.fossify.commons.extensions.beVisible
 import org.fossify.commons.extensions.beVisibleIf
 import org.fossify.commons.extensions.fadeIn
-import org.fossify.commons.extensions.formatSize
 import org.fossify.commons.extensions.getIsPathDirectory
+import org.fossify.filemanager.extensions.formatSize
 import org.fossify.commons.extensions.getLongValue
 import org.fossify.commons.extensions.getProperBackgroundColor
 import org.fossify.commons.extensions.getProperPrimaryColor
