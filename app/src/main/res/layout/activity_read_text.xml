@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
+        android:fitsSystemWindows="true"
         android:orientation="vertical"
         android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -38,7 +39,8 @@
             android:id="@+id/read_text_holder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:fillViewport="true"
+            android:fitsSystemWindows="true">
 
             <org.fossify.filemanager.views.GestureEditText
                 android:id="@+id/read_text_view"
