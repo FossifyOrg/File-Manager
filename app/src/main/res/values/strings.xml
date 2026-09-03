@@ -52,6 +52,7 @@
     <string name="others">Others</string>
     <string name="storage_free">free</string>
     <string name="total_storage">Total storage: %s</string>
+    <string name="cloud">Cloud Connection</string>
 
     <!-- Settings -->
     <string name="enable_root_access">Enable root access</string>
@@ -60,4 +61,42 @@
         Haven't found some strings? There's more at
         https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
     -->
+
+    <!-- Cloud -->
+    <string name="cloud_connection">Cloud Connection</string>
+    <string name="add_connection">Add Connection</string>
+    <string name="no_connection">No connections found</string>
+    <!-- Cloud Connection Dialog-->
+    <string name="select_option">Select Option</string>
+    <string name="select_protocol">Select Protocol</string>
+    <string name="authentication">Authentication</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="private_key">Private Key</string>
+    <string name="password_private_key">Password Private Key</string>
+    <string name="display_name">Display Name</string>
+    <string name="shared_path">Shared path</string>
+    <string name="no_certificate_attached">No certificate attached</string>
+    <string name="attach_certificate">Attach certificate</string>
+    <!-- Item Network Connection -->
+    <string name="host_address">Host: 192.168.1.1</string>
+    <string name="smb">SMB</string>
+
+    <!-- Connection Ports -->
+    <string name="port_smb">445</string>
+    <string name="port_ftp">21</string>
+    <string name="port_sftp">22</string>
+    <string name="port_webdav_http">80</string>
+    <string name="port_webdav_https">443</string>
+
+    <string name="host_name_error">Host name cannot be empty</string>
+    <string name="user_name_error">User name cannot be empty</string>
+    <string name="password_error">Password cannot be empty</string>
+    <string name="port_error">Port cannot be empty</string>
+    <string name="display_name_error">Display name cannot be empty</string>
+    <string name="shared_path_error">Shared path cannot be empty</string>
+    <string name="private_key_error">Private key cannot be empty</string>
+    <string name="private_key_pass_error">Private key password cannot be empty</string>
+
+
 </resources>
