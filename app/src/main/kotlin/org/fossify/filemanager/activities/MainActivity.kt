@@ -471,24 +471,24 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun goHome() {
-        if (config.homeFolder != getCurrentFragment()!!.currentPath) {
+        if (config.homeFolder != getCurrentFragment()?.currentPath) {
             openPath(config.homeFolder)
         }
     }
 
     private fun showSortingDialog() {
-        ChangeSortingDialog(this, getCurrentFragment()!!.currentPath) {
+        ChangeSortingDialog(this, getCurrentFragment()?.currentPath) {
             (getCurrentFragment() as? ItemsFragment)?.refreshFragment()
         }
     }
 
     private fun addFavorite() {
-        config.addFavorite(getCurrentFragment()!!.currentPath)
+        config.addFavorite(getCurrentFragment()?.currentPath)
         refreshMenuItems()
     }
 
     private fun removeFavorite() {
-        config.removeFavorite(getCurrentFragment()!!.currentPath)
+        config.removeFavorite(getCurrentFragment()?.currentPath)
         refreshMenuItems()
     }
 
@@ -531,7 +531,7 @@ class MainActivity : SimpleActivity() {
         favorites.forEachIndexed { index, path ->
             val visiblePath = humanizePath(path).replace("/", " / ")
             items.add(RadioItem(index, visiblePath, path))
-            if (path == getCurrentFragment()!!.currentPath) {
+            if (path == getCurrentFragment()?.currentPath) {
                 currFavoriteIndex = index
             }
         }
@@ -542,12 +542,12 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun setAsHome() {
-        config.homeFolder = getCurrentFragment()!!.currentPath
+        config.homeFolder = getCurrentFragment()?.currentPath
         toast(R.string.home_folder_updated)
     }
 
     private fun changeViewType() {
-        ChangeViewTypeDialog(this, getCurrentFragment()!!.currentPath, getCurrentFragment() is ItemsFragment) {
+        ChangeViewTypeDialog(this, getCurrentFragment()?.currentPath, getCurrentFragment() is ItemsFragment) {
             getAllFragments().forEach {
                 it?.refreshFragment()
             }
