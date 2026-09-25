@@ -8,6 +8,25 @@ import org.fossify.filemanager.models.ListItem
 
 const val MAX_COLUMN_COUNT = 15
 
+//Ports
+
+const val PORT_SMB = 7871
+const val PORT_WEBDAV = 7890
+
+const val PORT_SFTP = 7860
+
+const val PORT_FTP = 7850
+
+
+const val DEFAULT_SMB_PORT = 445
+const val DEFAULT_FTP_PORT = 21
+const val DEFAULT_SFTP_PORT = 22
+const val DEFAULT_WEBDAV_HTTP_PORT = 80
+const val DEFAULT_WEBDAV_HTTPS_PORT = 443
+
+const val DB_NAME = "app-db"
+
+
 // shared preferences
 const val SHOW_HIDDEN = "show_hidden"
 const val PRESS_BACK_TWICE = "press_back_twice"
@@ -43,6 +62,14 @@ const val SHOW_MIMETYPE = "show_mimetype"
 
 const val VOLUME_NAME = "volume_name"
 const val PRIMARY_VOLUME_NAME = "external_primary"
+
+const val PATH = "path"
+
+const val NETWORK_PATH = "network_path"
+
+const val CONNECTION_TYPE = "connection_type"
+
+const val DAVX5_PATH_NAME = "davx5_path_name"
 
 // what else should we count as an audio except "audio/*" mimetype
 val extraAudioMimeTypes = arrayListOf("application/ogg")
