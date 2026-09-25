@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Fixed the modification of the original timestamp when decompressing folders ([#190])
+- Fixed a crash when opening very large text files in the built-in editor by adding a 1 MB size limit ([#123])
 
 ## [1.6.1] - 2026-02-14
 ### Changed
@@ -125,6 +126,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#105]: https://github.com/FossifyOrg/File-Manager/issues/105
 [#106]: https://github.com/FossifyOrg/File-Manager/issues/106
 [#120]: https://github.com/FossifyOrg/File-Manager/issues/120
+[#123]: https://github.com/FossifyOrg/File-Manager/issues/123
 [#131]: https://github.com/FossifyOrg/File-Manager/issues/131
 [#136]: https://github.com/FossifyOrg/File-Manager/issues/136
 [#149]: https://github.com/FossifyOrg/File-Manager/issues/149
