@@ -13,8 +13,8 @@
     <string name="recents">Останні</string>
     <string name="show_recents">Показати останні</string>
     <string name="invert_colors">Інвертувати кольори</string>
-    <string name="open_as">Відкрити як файл</string>
-    <string name="text_file">Текстовий</string>
+    <string name="open_as">Відкрити як</string>
+    <string name="text_file">Текст</string>
     <string name="image_file">Зображення</string>
     <string name="audio_file">Аудіо</string>
     <string name="video_file">Відео</string>
@@ -28,7 +28,7 @@
     <string name="decompression_successful">Успішно розпаковано</string>
     <string name="compressing_failed">Не вдалося стиснути</string>
     <string name="decompressing_failed">Не вдалося розпакувати</string>
-    <string name="manage_favorites">Керувати вибраним</string>
+    <string name="manage_favorites">Керувати вибраними</string>
     <string name="go_to_favorite">Перейти у вибране</string>
     <string name="favorites_activity_placeholder">Ви можете додати теки, які часто відкриваєте, у вибране, щоб швидко отримати до них доступ.</string>
     <string name="file_editor">Редактор файлів</string>
@@ -43,5 +43,5 @@
     <string name="storage_free">вільно</string>
     <string name="total_storage">Всього пам\'яті: %s</string>
     <string name="enable_root_access">Активувати root-доступ</string>
-    <string name="press_back_twice">Натисніть «Назад» двічі, щоб вийти зі застосунку</string>
+    <string name="press_back_twice">Вимагати натиснути «Назад» двічі, щоб вийти із застосунку</string>
 </resources>
