@@ -42,6 +42,7 @@ import org.fossify.commons.dialogs.RadioGroupDialog
 import org.fossify.commons.dialogs.RenameDialog
 import org.fossify.commons.dialogs.RenameItemDialog
 import org.fossify.commons.dialogs.RenameItemsDialog
+import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.extensions.applyColorFilter
 import org.fossify.commons.extensions.beGone
 import org.fossify.commons.extensions.beVisible
@@ -105,6 +106,7 @@ import org.fossify.filemanager.extensions.setLastModified
 import org.fossify.filemanager.extensions.sharePaths
 import org.fossify.filemanager.extensions.toggleItemVisibility
 import org.fossify.filemanager.extensions.tryOpenPathIntent
+import org.fossify.filemanager.fileSystems.MimeTypes
 import org.fossify.filemanager.helpers.OPEN_AS_AUDIO
 import org.fossify.filemanager.helpers.OPEN_AS_IMAGE
 import org.fossify.filemanager.helpers.OPEN_AS_OTHER
@@ -353,7 +355,13 @@ class ItemsAdapter(
         selectedItems.forEach {
             addFileUris(it.path, paths)
         }
-        activity.sharePaths(paths)
+
+        if (selectedItems.first().connectionType != ConnectionTypes.Default){
+            listener?.shareFile(paths)
+        }
+        else{
+            activity.sharePaths(paths)
+        }
     }
 
     private fun toggleFileVisibility(hide: Boolean) {
@@ -478,11 +486,23 @@ class ItemsAdapter(
     }
 
     private fun setAs() {
-        activity.setAs(getFirstSelectedItemPath())
+        val item = getSelectedFileDirItems().first()
+        if (item.connectionType != ConnectionTypes.Default){
+            listener?.setAs(item.path)
+        }
+        else {
+            activity.setAs(item.path)
+        }
     }
 
     private fun openWith() {
-        activity.tryOpenPathIntent(getFirstSelectedItemPath(), true)
+        val item = getSelectedFileDirItems().first()
+        if (item.connectionType != ConnectionTypes.Default){
+            listener?.openWith(item.path)
+        }
+        else {
+            activity.tryOpenPathIntent(item.path, true)
+        }
     }
 
     private fun openAs() {
@@ -495,8 +515,15 @@ class ItemsAdapter(
             RadioItem(OPEN_AS_OTHER, res.getString(R.string.other_file))
         )
 
+        val item = getSelectedFileDirItems().first()
+
         RadioGroupDialog(activity, items) {
-            activity.tryOpenPathIntent(getFirstSelectedItemPath(), false, it as Int)
+            if (item.connectionType != ConnectionTypes.Default){
+                listener?.openWith(item.path, MimeTypes.getMimeType(it as Int))
+            }
+            else {
+                activity.tryOpenPathIntent(item.path, false,it as Int)
+            }
         }
     }
 
@@ -915,7 +942,6 @@ class ItemsAdapter(
             } else {
                 resources.getQuantityString(R.plurals.delete_items, itemsCnt, itemsCnt)
             }
-
             val question = String.format(resources.getString(R.string.deletion_confirmation), items)
             ConfirmationDialog(activity, question) {
                 deleteFiles()
@@ -929,7 +955,8 @@ class ItemsAdapter(
         }
 
         val SAFPath = getFirstSelectedItemPath()
-        if (activity.isPathOnRoot(SAFPath) && !RootTools.isRootAvailable()) {
+        val firstSelectedItem = getSelectedFileDirItems().first()
+        if (activity.isPathOnRoot(SAFPath) && !RootTools.isRootAvailable() && firstSelectedItem.connectionType == ConnectionTypes.Default) {
             activity.toast(R.string.rooted_device_only)
             return
         }
@@ -1079,7 +1106,12 @@ class ItemsAdapter(
 
                 if (listItem.isDirectory) {
                     itemIcon?.setImageDrawable(folderDrawable)
-                    itemDetails?.text = getChildrenCnt(listItem)
+                    if(listItem.connectionType == ConnectionTypes.Default || listItem.connectionType == ConnectionTypes.SMB){
+                        itemDetails?.text = getChildrenCnt(listItem)
+                    }
+                    else{
+                        itemDetails?.text = noItemsText()
+                    }
                     itemDate?.beGone()
                 } else {
                     itemDetails?.text = listItem.size.formatSize()
@@ -1112,6 +1144,10 @@ class ItemsAdapter(
     private fun getChildrenCnt(item: FileDirItem): String {
         val children = item.children
         return activity.resources.getQuantityString(R.plurals.items, children, children)
+    }
+
+    private fun noItemsText(): String {
+        return activity.resources.getString(R.string.unknown_items)
     }
 
     private fun getOTGPublicPath(itemToLoad: String): String {

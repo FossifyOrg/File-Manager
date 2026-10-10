@@ -25,6 +25,11 @@
         android:title="@string/change_view_type"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/cloud"
+        android:icon="@drawable/ic_change_view_vector"
+        android:title="@string/cloud"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/temporarily_show_hidden"
         android:showAsAction="never"
         android:title="@string/temporarily_show_hidden"
