@@ -5,7 +5,7 @@
     <string name="go_to_home_folder">Открыть домашнюю папку</string>
     <string name="set_as_home_folder">Сделать домашней</string>
     <string name="home_folder_updated">Домашняя папка установлена</string>
-    <string name="copy_path">Скопировать путь в буфер обмена</string>
+    <string name="copy_path">Копир. путь в буфер обмена</string>
     <string name="path_copied">Путь скопирован</string>
     <string name="select_audio_file">Пожалуйста, выберите звуковой файл</string>
     <string name="search_folder">Искать в папке</string>
@@ -43,5 +43,5 @@
     <string name="storage_free">свободно</string>
     <string name="total_storage">Полный объём: %s</string>
     <string name="enable_root_access">Включить root-доступ</string>
-    <string name="press_back_twice">Двойное нажатие кнопки «Назад» для выхода из приложения</string>
+    <string name="press_back_twice">Двойное нажатие кнопки "назад" для выхода из приложения</string>
 </resources>
