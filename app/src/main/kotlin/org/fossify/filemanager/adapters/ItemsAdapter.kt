@@ -60,14 +60,12 @@ import org.fossify.commons.extensions.getColoredDrawableWithColor
 import org.fossify.commons.extensions.getDefaultCopyDestinationPath
 import org.fossify.commons.extensions.getDocumentFile
 import org.fossify.commons.extensions.getDoesFilePathExist
-import org.fossify.commons.extensions.getFileCount
 import org.fossify.commons.extensions.getFileInputStreamSync
 import org.fossify.commons.extensions.getFileOutputStreamSync
 import org.fossify.commons.extensions.getFilenameFromPath
 import org.fossify.commons.extensions.getIsPathDirectory
 import org.fossify.commons.extensions.getMimeType
 import org.fossify.commons.extensions.getParentPath
-import org.fossify.commons.extensions.getProperSize
 import org.fossify.commons.extensions.getTextSize
 import org.fossify.commons.extensions.getTimeFormat
 import org.fossify.commons.extensions.handleDeletePasswordProtection
@@ -518,60 +516,75 @@ class ItemsAdapter(
             showFAB = true,
             canAddShowHiddenButton = true,
             showFavoritesButton = true
-        ) {
-            config.lastCopyPath = it
-            if (activity.isPathOnRoot(it) || activity.isPathOnRoot(firstFile.path)) {
-                copyMoveRootItems(files, it, isCopyOperation)
+        ) { destination ->
+            config.lastCopyPath = destination
+            if (activity.isPathOnRoot(destination) || activity.isPathOnRoot(firstFile.path)) {
+                copyMoveRootItems(files, destination, isCopyOperation)
             } else {
                 activity.copyMoveFilesTo(
                     fileDirItems = files,
                     source = source,
-                    destination = it,
+                    destination = destination,
                     isCopyOperation = isCopyOperation,
                     copyPhotoVideoOnly = false,
                     copyHidden = config.shouldShowHidden()
                 ) {
                     if (!isCopyOperation) {
-                        files.forEach { sourceFileDir ->
-                            val sourcePath = sourceFileDir.path
-                            if (
-                                activity.isRestrictedSAFOnlyRoot(sourcePath)
-                                && activity.getDoesFilePathExist(sourcePath)
-                            ) {
-                                activity.deleteFile(sourceFileDir, true) {
-                                    listener?.refreshFragment()
-                                    activity.runOnUiThread {
-                                        finishActMode()
-                                    }
-                                }
-                            } else {
-                                val sourceFile = File(sourcePath)
-                                if (
-                                    activity.getDoesFilePathExist(source)
-                                    && activity.getIsPathDirectory(source)
-                                    && sourceFile.list()?.isEmpty() == true
-                                    && sourceFile.getProperSize(true) == 0L
-                                    && sourceFile.getFileCount(true) == 0
-                                ) {
-                                    val sourceFolder = sourceFile.toFileDirItem(activity)
-                                    activity.deleteFile(sourceFolder, true) {
-                                        listener?.refreshFragment()
-                                        activity.runOnUiThread {
-                                            finishActMode()
-                                        }
-                                    }
-                                } else {
-                                    listener?.refreshFragment()
-                                    finishActMode()
-                                }
-                            }
-                        }
+                        cleanupAfterMove(files)
                     } else {
-                        listener?.refreshFragment()
-                        finishActMode()
+                        refreshUI()
                     }
                 }
             }
+        }
+    }
+
+    private fun cleanupAfterMove(files: List<FileDirItem>) {
+        ensureBackgroundThread {
+            val foldersToCheck = HashSet<String>()
+            files.forEach { fileItem ->
+                val path = fileItem.path
+                if (activity.getDoesFilePathExist(path)) {
+                    activity.deleteFile(fileItem, true) {
+                        val parentPath = path.getParentPath()
+                        if (parentPath.isNotEmpty()) {
+                            foldersToCheck.add(parentPath)
+                        }
+                    }
+                }
+            }
+
+            foldersToCheck.forEach { folderPath ->
+                deleteEmptyFoldersRecursively(folderPath)
+            }
+
+            refreshUI()
+        }
+    }
+
+    private fun deleteEmptyFoldersRecursively(folderPath: String) {
+        if (!activity.getDoesFilePathExist(folderPath) || !activity.getIsPathDirectory(folderPath)) {
+            return
+        }
+
+        val folder = File(folderPath)
+        val contents = folder.listFiles() ?: return
+        if (contents.isEmpty()) {
+            val parentPath = folderPath.getParentPath()
+            val folderItem = folder.toFileDirItem(activity)
+
+            activity.deleteFile(folderItem, true) {
+                if (parentPath.isNotEmpty()) {
+                    deleteEmptyFoldersRecursively(parentPath)
+                }
+            }
+        }
+    }
+
+    private fun refreshUI() {
+        activity.runOnUiThread {
+            listener?.refreshFragment()
+            finishActMode()
         }
     }
 
