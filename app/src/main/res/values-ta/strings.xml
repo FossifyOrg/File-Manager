@@ -43,4 +43,5 @@
     <string name="total_storage">மொத்த சேமிப்பிடம்: %s</string>
     <string name="enable_root_access">ரூட் அணுகலை இயக்கு</string>
     <string name="press_back_twice">செயலியை வெளியேற இரண்டு முறை பின் அழுத்த கோரு</string>
+    <string name="invert_colors">தலைகீழாக வண்ணங்கள்</string>
 </resources>

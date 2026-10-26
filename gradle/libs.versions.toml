@@ -8,7 +8,7 @@ detektCompose = "0.4.28"
 androidx-swiperefreshlayout = "1.2.0"
 androidx-documentfile = "1.1.0"
 #Fossify
-commons = "6.1.5"
+commons = "7.1.3"
 #Other
 autofittextview = "0.2.1"
 gestureviews = "2.9.0"
@@ -16,7 +16,7 @@ rootshell = "bc7e5d398e"
 roottools = "965c154e20"
 zip4j = "2.11.6"
 #Gradle
-gradlePlugins-agp = "9.0.1"
+gradlePlugins-agp = "9.4.1"
 #build
 app-build-compileSDKVersion = "36"
 app-build-targetSDK = "36"

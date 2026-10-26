@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Ability to select columns to be shown on folder item ([#321])
 
+## [1.6.3] - 2026-10-20
+### Changed
+- Updated translations
+
+## [1.6.2] - 2026-10-10
+### Changed
+- Updated translations
+
+### Fixed
+- Fixed the modification of the original timestamp when decompressing folders ([#190])
+
 ## [1.6.1] - 2026-02-14
 ### Changed
 - Updated translations
@@ -130,6 +141,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#149]: https://github.com/FossifyOrg/File-Manager/issues/149
 [#150]: https://github.com/FossifyOrg/File-Manager/issues/150
 [#176]: https://github.com/FossifyOrg/File-Manager/issues/176
+[#190]: https://github.com/FossifyOrg/File-Manager/issues/190
 [#217]: https://github.com/FossifyOrg/File-Manager/issues/217
 [#224]: https://github.com/FossifyOrg/File-Manager/issues/224
 [#250]: https://github.com/FossifyOrg/File-Manager/issues/250
@@ -137,7 +149,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
 [#321]: https://github.com/FossifyOrg/File-Manager/issues/321
 
-[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.6.1...HEAD
+[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.6.3...HEAD
+[1.6.3]: https://github.com/FossifyOrg/File-Manager/compare/1.6.2...1.6.3
+[1.6.2]: https://github.com/FossifyOrg/File-Manager/compare/1.6.1...1.6.2
 [1.6.1]: https://github.com/FossifyOrg/File-Manager/compare/1.6.0...1.6.1
 [1.6.0]: https://github.com/FossifyOrg/File-Manager/compare/1.5.0...1.6.0
 [1.5.0]: https://github.com/FossifyOrg/File-Manager/compare/1.4.0...1.5.0

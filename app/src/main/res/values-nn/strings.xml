@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_launcher_name">Filbehandlar</string>
+    <string name="open_as">Opne som</string>
+    <string name="text_file">Tekstfil</string>
+    <string name="audio">Ljod</string>
+</resources>

@@ -33,7 +33,7 @@
     <string name="video_file">비디오 파일</string>
     <string name="other_file">기타 파일</string>
     <string name="total_storage">전체 저장공간: %s</string>
-    <string name="audio">음성</string>
+    <string name="audio">오디오</string>
     <string name="storage_analysis">저장공간 분석</string>
     <string name="documents">문서</string>
     <string name="downloads">다운로드</string>
@@ -43,4 +43,5 @@
     <string name="rooted_device_only">이 작업은 루팅된 기기에서만 작동합니다</string>
     <string name="recents">최근 파일</string>
     <string name="show_recents">최근 파일 보기</string>
+    <string name="storage_free">여유 공간</string>
 </resources>
