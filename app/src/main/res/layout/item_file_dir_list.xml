@@ -49,8 +49,8 @@
             android:alpha="0.6"
             android:paddingStart="@dimen/tiny_margin"
             android:textSize="@dimen/smaller_text_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/item_date"
+            app:layout_constraintBottom_toTopOf="@+id/item_date"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/item_icon"
             app:layout_constraintTop_toBottomOf="@+id/item_name"
             app:layout_constraintVertical_bias="0.5"
@@ -58,14 +58,15 @@
 
         <TextView
             android:id="@+id/item_date"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:alpha="0.6"
-            android:gravity="end"
+            android:paddingStart="@dimen/tiny_margin"
             android:textSize="@dimen/smaller_text_size"
-            app:layout_constraintBottom_toBottomOf="@+id/item_details"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/item_details"
+            app:layout_constraintStart_toEndOf="@id/item_icon"
+            app:layout_constraintTop_toBottomOf="@+id/item_details"
             tools:text="1.1.1970" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
