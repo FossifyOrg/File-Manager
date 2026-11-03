@@ -76,6 +76,13 @@ fun BaseSimpleActivity.toggleItemVisibility(oldPath: String, hide: Boolean, call
         filename.substring(1, filename.length)
     }
 
+    // Unhiding "..." or "." would produce ".." or ".", which name the parent folder or the
+    // current one, so the rename fails and the file is lost. Leave such names as they are.
+    if (filename.isEmpty() || filename == "." || filename == "..") {
+        callback?.invoke(oldPath)
+        return
+    }
+
     val newPath = "$path/$filename"
     if (oldPath != newPath) {
         renameFile(oldPath, newPath, false) { success, useAndroid30Way ->
