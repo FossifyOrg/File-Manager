@@ -6,6 +6,7 @@ import java.io.FileInputStream
 plugins {
     alias(libs.plugins.android)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.ksp)
 }
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -28,7 +29,11 @@ base {
 
 android {
     compileSdk = project.libs.versions.app.build.compileSDKVersion.get().toInt()
-
+    packaging {
+        resources {
+            excludes += listOf("META-INF/**")
+        }
+    }
     defaultConfig {
         applicationId = project.property("APP_ID").toString()
         minSdk = project.libs.versions.app.build.minimumSDK.get().toInt()
@@ -136,6 +141,13 @@ detekt {
 }
 
 dependencies {
+    implementation(libs.androidx.documentfile)
+    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.roottools)
+    implementation(libs.rootshell)
+    implementation(libs.gestureviews)
+    implementation(libs.autofittextview)
+    implementation(libs.zip4j)
     implementation(libs.fossify.commons)
     implementation(libs.androidx.documentfile)
     implementation(libs.androidx.swiperefreshlayout)
@@ -144,5 +156,21 @@ dependencies {
     implementation(libs.gestureviews)
     implementation(libs.autofittextview)
     implementation(libs.zip4j)
+    implementation(libs.jcifs.ng) {
+        exclude(group = "org.bouncycastle", module = "bcprov-jdk18on")
+        exclude(group = "org.bouncycastle", module = "bcpkix-jdk18on")
+    }
     detektPlugins(libs.compose.detekt)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.nanohttpd)
+    implementation(libs.sardine.android)
+    implementation(libs.sshj) {
+        exclude(group = "org.bouncycastle", module = "bcprov-jdk18on")
+        exclude(group = "org.bouncycastle", module = "bcpkix-jdk18on")
+    }
+    implementation(libs.commons.net)
+    implementation(libs.bouncycastle.provider)
+    implementation(libs.bouncycastle.pkix)
 }

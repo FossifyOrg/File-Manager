@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature
         android:name="android.hardware.faketouch"
@@ -24,8 +27,8 @@
         android:label="@string/app_launcher_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher"
-        android:theme="@style/AppTheme">
-
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".activities.SplashActivity"
             android:exported="false"
@@ -77,6 +80,11 @@
             android:configChanges="orientation"
             android:exported="false"
             android:parentActivityName=".activities.MainActivity" />
+        <activity
+            android:name=".activities.CloudActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:parentActivityName=".activities.MainActivity" />
 
         <activity
             android:name=".activities.ReadTextActivity"
@@ -95,6 +103,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/*" />
                 <data android:mimeType="application/json" />
             </intent-filter>

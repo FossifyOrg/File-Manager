@@ -7,12 +7,14 @@ import android.graphics.drawable.Drawable
 import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.stericson.RootTools.RootTools
 import me.grantland.widget.AutofitHelper
 import org.fossify.commons.dialogs.RadioGroupDialog
+import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.extensions.appLaunched
 import org.fossify.commons.extensions.appLockManager
 import org.fossify.commons.extensions.beGoneIf
@@ -21,7 +23,6 @@ import org.fossify.commons.extensions.getBottomNavigationBackgroundColor
 import org.fossify.commons.extensions.getColoredDrawableWithColor
 import org.fossify.commons.extensions.getFilePublicUri
 import org.fossify.commons.extensions.getMimeType
-import org.fossify.commons.extensions.getProperBackgroundColor
 import org.fossify.commons.extensions.getProperTextColor
 import org.fossify.commons.extensions.getRealPathFromURI
 import org.fossify.commons.extensions.getStorageDirectories
@@ -69,24 +70,25 @@ import org.fossify.filemanager.fragments.ItemsFragment
 import org.fossify.filemanager.fragments.MyViewPagerFragment
 import org.fossify.filemanager.fragments.RecentsFragment
 import org.fossify.filemanager.fragments.StorageFragment
+import org.fossify.filemanager.helpers.CONNECTION_TYPE
+import org.fossify.filemanager.helpers.DAVX5_PATH_NAME
 import org.fossify.filemanager.helpers.MAX_COLUMN_COUNT
+import org.fossify.filemanager.helpers.NETWORK_PATH
+import org.fossify.filemanager.helpers.PATH
 import org.fossify.filemanager.helpers.RootHelpers
 import org.fossify.filemanager.interfaces.ItemOperationsListener
 import java.io.File
 
 class MainActivity : SimpleActivity() {
     override var isSearchBarEnabled = true
-    
+
     companion object {
         private const val BACK_PRESS_TIMEOUT = 5000
         private const val PICKED_PATH = "picked_path"
     }
-
     private val binding by viewBinding(ActivityMainBinding::inflate)
-
     private var wasBackJustPressed = false
     private var mTabsToShow = ArrayList<Int>()
-
     private var mStoredFontSize = 0
     private var mStoredDateFormat = ""
     private var mStoredTimeFormat = ""
@@ -115,11 +117,22 @@ class MainActivity : SimpleActivity() {
         if (savedInstanceState == null) {
             config.temporarilyShowHidden = false
             initFragments()
-            tryInitFileManager()
+            val data = getIntentDataIfAny()
+            tryInitFileManager(data.first, connectionType = data.second)
             checkWhatsNewDialog()
             checkIfRootAvailable()
             checkInvalidFavorites()
         }
+    }
+
+    private fun getIntentDataIfAny(): Pair<String, ConnectionTypes> {
+        val path = intent.getStringExtra(PATH)
+        val connectionType = intent.getSerializableExtra(CONNECTION_TYPE) as? ConnectionTypes ?: ConnectionTypes.Default
+        return Pair(path ?: "",connectionType)
+    }
+
+    private fun getDavX5PathName(): String{
+        return intent.getStringExtra(DAVX5_PATH_NAME) ?: ""
     }
 
     override fun onResume() {
@@ -183,7 +196,22 @@ class MainActivity : SimpleActivity() {
             }
         } else {
             currentFragment.getBreadcrumbs().removeBreadcrumb()
-            openPath(currentFragment.getBreadcrumbs().getLastItem().path)
+            var path = ""
+            val lastItem = currentFragment.getBreadcrumbs().getLastItem()
+            if (lastItem.connectionType == ConnectionTypes.WebDav || lastItem.connectionType == ConnectionTypes.SMB){
+                val fileItems = currentFragment.getBreadcrumbs().getAllItems()
+                fileItems.forEach {
+                    path += "${it.path}/"
+                }
+
+            }
+            else{
+                path = lastItem.path
+            }
+            openPath(
+                path,
+                connectionType = lastItem.connectionType
+            )
             return true
         }
     }
@@ -253,11 +281,16 @@ class MainActivity : SimpleActivity() {
                     R.id.more_apps_from_us -> launchMoreAppsFromUsIntent()
                     R.id.settings -> launchSettings()
                     R.id.about -> launchAbout()
+                    R.id.cloud -> launchCloudActivity()
                     else -> return@setOnMenuItemClickListener false
                 }
                 return@setOnMenuItemClickListener true
             }
         }
+    }
+
+    private fun launchCloudActivity() {
+        startActivity(Intent(applicationContext, CloudActivity::class.java))
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -291,7 +324,7 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-    private fun tryInitFileManager() {
+    private fun tryInitFileManager(path: String, connectionType: ConnectionTypes = ConnectionTypes.Default) {
         val hadPermission = hasStoragePermission()
         handleStoragePermission {
             checkOTGPath()
@@ -301,7 +334,7 @@ class MainActivity : SimpleActivity() {
                 }
 
                 binding.mainViewPager.onGlobalLayout {
-                    initFileManager(!hadPermission)
+                    initFileManager(!hadPermission,path,connectionType)
                 }
             } else {
                 toast(R.string.no_storage_permissions)
@@ -310,17 +343,18 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-    private fun initFileManager(refreshRecents: Boolean) {
+    private fun initFileManager(refreshRecents: Boolean, path: String, connectionType: ConnectionTypes) {
+        val pathName = getDavX5PathName()
         if (intent.action == Intent.ACTION_VIEW && intent.data != null) {
             val data = intent.data
             if (data?.scheme == "file") {
-                openPath(data.path!!)
+                openPath(data.path!!, connectionType = connectionType, pathName = pathName)
             } else {
                 val path = getRealPathFromURI(data!!)
                 if (path != null) {
-                    openPath(path)
+                    openPath(path, connectionType = connectionType, pathName = pathName)
                 } else {
-                    openPath(config.homeFolder)
+                    openPath(config.homeFolder, connectionType = connectionType, pathName = pathName)
                 }
             }
 
@@ -330,7 +364,7 @@ class MainActivity : SimpleActivity() {
 
             binding.mainViewPager.currentItem = 0
         } else {
-            openPath(config.homeFolder)
+            openPath(if(path.isNotEmpty()) path else config.homeFolder, connectionType = connectionType, pathName = pathName)
         }
 
         if (refreshRecents) {
@@ -367,8 +401,8 @@ class MainActivity : SimpleActivity() {
         binding.mainTabsHolder.removeAllTabs()
         val action = intent.action
         val isPickFileIntent = action == RingtoneManager.ACTION_RINGTONE_PICKER
-                || action == Intent.ACTION_GET_CONTENT
-                || action == Intent.ACTION_PICK
+            || action == Intent.ACTION_GET_CONTENT
+            || action == Intent.ACTION_PICK
         val isCreateDocumentIntent = action == Intent.ACTION_CREATE_DOCUMENT
 
         if (isPickFileIntent) {
@@ -456,18 +490,18 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-    private fun openPath(path: String, forceRefresh: Boolean = false) {
+    private fun openPath(path: String, forceRefresh: Boolean = false, pathName: String = "",connectionType: ConnectionTypes = ConnectionTypes.Default) {
         var newPath = path
         val file = File(path)
         if (config.OTGPath.isNotEmpty() && config.OTGPath == path.trimEnd('/')) {
             newPath = path
-        } else if (file.exists() && !file.isDirectory) {
+        } else if (file.exists() && !file.isDirectory && connectionType == ConnectionTypes.Default) {
             newPath = file.parent
-        } else if (!file.exists() && !isPathOnOTG(newPath)) {
+        } else if (!file.exists() && !isPathOnOTG(newPath) && connectionType.equals(ConnectionTypes.Default)) {
             newPath = internalStoragePath
         }
 
-        getItemsFragment()?.openPath(newPath, forceRefresh)
+        getItemsFragment()?.openPath(newPath, forceRefresh,connectionType=connectionType, pathName = pathName)
     }
 
     private fun goHome() {
