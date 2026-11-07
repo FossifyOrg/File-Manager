@@ -18,4 +18,10 @@ interface ItemOperationsListener {
     fun columnCountChanged()
 
     fun finishActMode()
+
+    fun shareFile(paths: ArrayList<String>)
+
+    fun openWith(path: String,mimType:String? = null)
+
+    fun setAs(path: String)
 }

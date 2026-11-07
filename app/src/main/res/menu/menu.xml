@@ -24,6 +24,11 @@
         android:title="@string/add_to_favorites"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/cloud"
+        android:icon="@drawable/ic_change_view_vector"
+        android:title="@string/cloud"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/remove_favorite"
         android:icon="@drawable/ic_star_vector"
         android:title="@string/remove_from_favorites"

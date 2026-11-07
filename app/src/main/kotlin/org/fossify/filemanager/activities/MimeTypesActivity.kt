@@ -225,6 +225,17 @@ class MimeTypesActivity : SimpleActivity(), ItemOperationsListener {
     }
 
     override fun finishActMode() {}
+    override fun shareFile(paths: ArrayList<String>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun openWith(path: String,mimType: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun setAs(path: String) {
+        TODO("Not yet implemented")
+    }
 
     private fun setupSearch(menu: Menu) {
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
