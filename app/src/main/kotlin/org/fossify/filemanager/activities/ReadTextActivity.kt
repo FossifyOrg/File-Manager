@@ -34,6 +34,7 @@ class ReadTextActivity : SimpleActivity() {
         private const val SELECT_SAVE_FILE_INTENT = 1
         private const val SELECT_SAVE_FILE_AND_EXIT_INTENT = 2
         private const val KEY_UNSAVED_TEXT = "KEY_UNSAVED_TEXT"
+        private const val FILE_SIZE_LIMIT = 1000 * 1000 // 1 MB, same limit as Fossify Notes
     }
 
     private val binding by viewBinding(ActivityReadTextBinding::inflate)
@@ -285,6 +286,18 @@ class ReadTextActivity : SimpleActivity() {
     }
 
     private fun checkIntent(uri: Uri, savedInstanceState: Bundle?) {
+        val fileSize = if (uri.scheme == "file") {
+            File(uri.path!!).length()
+        } else {
+            getSizeFromContentUri(uri)
+        }
+
+        if (fileSize > FILE_SIZE_LIMIT) {
+            toast(R.string.file_too_large)
+            finish()
+            return
+        }
+
         originalText = if (uri.scheme == "file") {
             filePath = uri.path!!
             val file = File(filePath)
