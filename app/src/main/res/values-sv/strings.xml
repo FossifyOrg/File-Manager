@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_launcher_name">Filhanterare</string>
-    <string name="press_back_again">Tryck på tillbaka igen för att avsluta</string>
+    <string name="press_back_again">Tryck på Tillbaka igen för att avsluta</string>
     <string name="go_to_home_folder">Gå till hemappen</string>
     <string name="set_as_home_folder">Ange som hemapp</string>
     <string name="home_folder_updated">Hemappen har uppdaterats</string>
-    <string name="copy_path">Kopiera sökväg till Urklipp</string>
+    <string name="copy_path">Kopiera sökväg till urklipp</string>
     <string name="path_copied">Sökvägen har kopierats</string>
     <string name="select_audio_file">Välj en ljudfil</string>
     <string name="search_folder">Sök i mappen</string>
-    <string name="rooted_device_only">Åtgärden fungerar bara på rotade enheter</string>
-    <string name="recents">Nyss</string>
-    <string name="show_recents">Visa nyligen</string>
+    <string name="rooted_device_only">Åtgärden fungerar bara på enheter med rootåtkomst</string>
+    <string name="recents">Senaste</string>
+    <string name="show_recents">Visa senaste</string>
     <string name="invert_colors">Invertera färger</string>
     <string name="open_as">Öppna som</string>
     <string name="text_file">Textfil</string>
@@ -42,6 +42,6 @@
     <string name="others">Annat</string>
     <string name="storage_free">ledigt</string>
     <string name="total_storage">Total lagring: %s</string>
-    <string name="enable_root_access">Aktivera rotåtkomst</string>
-    <string name="press_back_twice">Krävs att trycka tillbaka två gånger för att lämna appen</string>
+    <string name="enable_root_access">Aktivera rootåtkomst</string>
+    <string name="press_back_twice">Kräv dubbeltryck på Tillbaka för att lämna appen</string>
 </resources>
