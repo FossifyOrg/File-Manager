@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.core.content.FileProvider
 import org.fossify.commons.activities.BaseSimpleActivity
+import org.fossify.commons.enums.ConnectionTypes
 import org.fossify.commons.extensions.getFilenameFromPath
 import org.fossify.commons.extensions.getMimeTypeFromUri
 import org.fossify.commons.extensions.getParentPath
@@ -11,6 +12,8 @@ import org.fossify.commons.extensions.launchActivityIntent
 import org.fossify.commons.extensions.openPathIntent
 import org.fossify.commons.extensions.renameFile
 import org.fossify.commons.extensions.setAsIntent
+import org.fossify.commons.extensions.setAsNetworkIntent
+import org.fossify.commons.extensions.shareNetworkPathsIntent
 import org.fossify.commons.extensions.sharePathsIntent
 import org.fossify.filemanager.BuildConfig
 import org.fossify.filemanager.helpers.OPEN_AS_AUDIO
@@ -24,6 +27,9 @@ fun Activity.sharePaths(paths: ArrayList<String>) {
     sharePathsIntent(paths, BuildConfig.APPLICATION_ID)
 }
 
+fun Activity.networkSharePaths(paths: ArrayList<String>,file: File) {
+    shareNetworkPathsIntent(paths, BuildConfig.APPLICATION_ID,file)
+}
 fun Activity.tryOpenPathIntent(path: String, forceChooser: Boolean, openAsType: Int = OPEN_AS_DEFAULT, finishActivity: Boolean = false) {
     if (!forceChooser && path.endsWith(".apk", true)) {
         val uri = FileProvider.getUriForFile(
@@ -60,6 +66,9 @@ private fun getMimeType(type: Int) = when (type) {
 
 fun Activity.setAs(path: String) {
     setAsIntent(path, BuildConfig.APPLICATION_ID)
+}
+fun Activity.setAsNetworkPath(path: String,file: File) {
+    setAsNetworkIntent(path, BuildConfig.APPLICATION_ID,file)
 }
 
 fun BaseSimpleActivity.toggleItemVisibility(oldPath: String, hide: Boolean, callback: ((newPath: String) -> Unit)? = null) {
