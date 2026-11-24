@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_launcher_name">檔案管理器</string>
-    <string name="press_back_again">再按一次返回以離開</string>
+    <string name="press_back_again">再按一次「返回」即可離開</string>
     <string name="go_to_home_folder">前往主資料夾</string>
     <string name="set_as_home_folder">設為主資料夾</string>
-    <string name="home_folder_updated">主資料夾已更新</string>
-    <string name="copy_path">路徑複製到剪貼簿</string>
-    <string name="path_copied">路徑已複製</string>
-    <string name="select_audio_file">請選擇一個音訊檔案</string>
+    <string name="home_folder_updated">已更新主資料夾</string>
+    <string name="copy_path">複製路徑至剪貼簿</string>
+    <string name="path_copied">已複製路徑</string>
+    <string name="select_audio_file">請選擇音訊檔案</string>
     <string name="search_folder">搜尋資料夾</string>
-    <string name="rooted_device_only">這個操作只對已 root 的裝置有用</string>
-    <string name="invert_colors">顏色反轉</string>
-    <string name="open_as">開啟成</string>
+    <string name="rooted_device_only">此操作僅適用於已取得 root 權限的裝置</string>
+    <string name="invert_colors">反轉顏色</string>
+    <string name="open_as">開啟為</string>
     <string name="text_file">文字檔案</string>
     <string name="image_file">圖片檔案</string>
-    <string name="audio_file">音源檔案</string>
+    <string name="audio_file">音訊檔案</string>
     <string name="video_file">影片檔案</string>
     <string name="other_file">其他檔案</string>
     <string name="compress">壓縮</string>
@@ -28,7 +28,7 @@
     <string name="decompressing_failed">解壓縮失敗</string>
     <string name="manage_favorites">管理我的最愛</string>
     <string name="go_to_favorite">前往我的最愛</string>
-    <string name="favorites_activity_placeholder">你可以將經常使用的資料夾加入我的最愛，方便從任何地方開啟。</string>
+    <string name="favorites_activity_placeholder">您可以將常用的資料夾加入我的最愛，方便從任何位置快速開啟。</string>
     <string name="file_editor">檔案編輯器</string>
     <string name="storage_analysis">儲存空間分析</string>
     <string name="images">圖片</string>
@@ -36,12 +36,12 @@
     <string name="others">其他</string>
     <string name="total_storage">總儲存空間：%s</string>
     <string name="enable_root_access">啟用 root 權限</string>
-    <string name="press_back_twice">需按兩次返回鍵才能離開 app</string>
+    <string name="press_back_twice">需按兩次「返回」鍵才離開應用程式</string>
     <string name="audio">音訊</string>
     <string name="downloads">下載</string>
-    <string name="archives">封存</string>
-    <string name="recents">最近造訪</string>
-    <string name="show_recents">顯示最近造訪</string>
+    <string name="archives">壓縮檔</string>
+    <string name="recents">最近項目</string>
+    <string name="show_recents">顯示最近項目</string>
     <string name="documents">文件</string>
     <string name="storage_free">可用空間</string>
 </resources>

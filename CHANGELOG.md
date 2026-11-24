@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Ability to select columns to be shown on folder item ([#321])
 
+## [1.6.5] - 2026-11-18
+### Changed
+- Updated translations
+
+## [1.6.4] - 2026-11-03
+### Changed
+- Updated translations
+
 ## [1.6.3] - 2026-10-20
 ### Changed
 - Updated translations
@@ -149,7 +157,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#267]: https://github.com/FossifyOrg/File-Manager/issues/267
 [#321]: https://github.com/FossifyOrg/File-Manager/issues/321
 
-[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.6.3...HEAD
+[Unreleased]: https://github.com/FossifyOrg/File-Manager/compare/1.6.5...HEAD
+[1.6.5]: https://github.com/FossifyOrg/File-Manager/compare/1.6.4...1.6.5
+[1.6.4]: https://github.com/FossifyOrg/File-Manager/compare/1.6.3...1.6.4
 [1.6.3]: https://github.com/FossifyOrg/File-Manager/compare/1.6.2...1.6.3
 [1.6.2]: https://github.com/FossifyOrg/File-Manager/compare/1.6.1...1.6.2
 [1.6.1]: https://github.com/FossifyOrg/File-Manager/compare/1.6.0...1.6.1
